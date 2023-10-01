@@ -1,0 +1,12 @@
+.accordion-button::after {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.accordion-item:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.accordion-collapse {
+    background-color: $gray-100;
+}

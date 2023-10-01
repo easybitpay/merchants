@@ -1,0 +1,202 @@
+<script setup>
+// Vue
+import { ref } from 'vue'
+
+// Hooks
+import useForm from '@/hooks/useForm.js'
+
+// Vuelidate
+import useVuelidate from '@vuelidate/core'
+import { helpers, required, email } from '@vuelidate/validators'
+
+// Components
+import VOtpInput from 'vue3-otp-input'
+import CountDown from '../../components/globals/CountDown.vue'
+
+// ----- START ----- //
+const emit = defineEmits(['changeBG'])
+
+const { showFeedBacks } = useForm()
+
+const step = ref(1)
+
+const otpInputValue = ref('')
+
+const showPass = ref(false)
+
+const form = ref({
+  email: null,
+  password: null
+})
+
+const rules = {
+  email: {
+    required: helpers.withMessage('Email is required', required),
+    email: helpers.withMessage("Email isn't valid", email)
+  },
+  password: {
+    required: helpers.withMessage('Password is required', required)
+  }
+}
+
+const v$ = useVuelidate(rules, form)
+
+const login = async () => {
+  const result = await v$.value.$validate()
+  if (result) {
+    step.value = 2
+  } else {
+    showFeedBacks()
+    emit('changeBG')
+  }
+}
+</script>
+
+<template>
+  <div class="card mw-448px w-100 min-h-560px">
+    <div class="card-body d-flex flex-column justify-content-between">
+      <!-- begin::Step 1 - Get User Info -->
+      <template v-if="step === 1">
+        <div>
+          <!-- begin::Icon -->
+          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <!-- end::Icon -->
+
+          <!-- begin::Text -->
+          <h4 class="my-6 text-dark">Login</h4>
+
+          <p class="text-gray-700 mb-12 ls-base">
+            By signing up, you confirm that you’ve read
+            <br />
+            and accepted our User Notice and
+            <a href="" class="text-primary"> Privacy Policy.</a>
+          </p>
+          <!-- end::Text -->
+        </div>
+
+        <!-- begin::Form -->
+        <form @submit.prevent="login">
+          <!-- begin::Email & Phone -->
+          <div class="mb-6 position-relative">
+            <input
+              type="text"
+              :class="[{ 'form-control': true }, { 'is-valid': !v$.email.$invalid }]"
+              placeholder="Your Email or Phone No."
+              v-model="form.email"
+            />
+
+            <div class="invalid-feedback form-control" v-if="v$.email.$errors.length">
+              <span> {{ v$.email.$errors[0].$message }}</span>
+            </div>
+          </div>
+          <!-- end::Email & Phone -->
+
+          <!-- begin::Password -->
+          <div class="mb-12 position-relative d-flex align-items-center">
+            <input
+              :type="showPass ? 'text' : 'password'"
+              class="form-control"
+              placeholder="Password"
+              v-model="form.password"
+            />
+            <div class="invalid-feedback form-control" v-if="v$.password.$errors.length">
+              <span> {{ v$.password.$errors[0].$message }}</span>
+            </div>
+
+            <!-- begin::Icon -->
+            <inline-svg
+              @click="showPass = !showPass"
+              src="media/icons/icons/webcam.svg"
+              :class="[
+                { 'position-absolute end-16px cursor-pointer z-2': true },
+                { 'svg-icon-gray-700': !showPass }
+              ]"
+            ></inline-svg>
+            <!-- end::Icon -->
+          </div>
+          <!-- end::Password -->
+
+          <!-- begin::Submit -->
+          <button type="submit" class="btn btn-primary w-100">
+            Login
+            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+          </button>
+          <!-- end::Submit -->
+
+          <p class="my-6 text-center ls-base">or</p>
+
+          <!-- begin::Google Login -->
+          <button type="button" class="btn btn-light w-100 fw-medium">
+            <inline-svg src="media/icons/companies/google-logo.svg"></inline-svg>
+
+            Connect to Google
+          </button>
+          <!-- end::Google Login -->
+        </form>
+        <!-- end::Form -->
+      </template>
+      <!-- end::Step 1 - Get User Info -->
+
+      <!-- begin::Step 2 - Get OTP Code -->
+      <template v-else>
+        <div>
+          <!-- begin::Icon -->
+          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <!-- end::Icon -->
+
+          <!-- begin::Text -->
+          <h4 class="my-6 text-dark">Validate number</h4>
+
+          <p class="text-gray-700 mb-12 ls-base">
+            A 6-digit confirmation code has been sent
+            <br />
+            to 810-089-5940 via SMS.
+            <span href="" class="text-primary"> <CountDown /></span>
+          </p>
+          <!-- end::Text -->
+
+          <!-- begin::OTP -->
+          <div class="otp-input">
+            <VOtpInput
+              ref="otpInput"
+              v-model:value="otpInputValue"
+              input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
+              separator=""
+              :num-inputs="6"
+              :should-auto-focus="true"
+              input-type="numeric"
+            />
+          </div>
+          <!-- end::OTP -->
+        </div>
+
+        <!-- begin::Actions -->
+        <div class="d-flex gap-4">
+          <!-- begin::Back Action -->
+          <div>
+            <button class="btn btn-light p-0 w-40px" @click="step = 1">
+              <inline-svg
+                src="media/icons/icons/arrow-left.svg"
+                class="svg-icon-primary"
+              ></inline-svg>
+            </button>
+          </div>
+          <!-- end::Back Action -->
+
+          <!-- begin::Submit Action -->
+          <button type="submit" class="btn btn-primary w-100">
+            Continue
+            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+          </button>
+          <!-- end::Submit Action -->
+        </div>
+        <!-- end::Actions -->
+      </template>
+      <!-- end::Step 2 - Get OTP Code -->
+    </div>
+  </div>
+
+  <RouterLink v-if="step === 1" :to="{ name: 'register' }" class="text-white mt-6 ls-base">
+    Can’t login, Sign up for new user?
+  </RouterLink>
+</template>

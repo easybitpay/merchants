@@ -1,0 +1,17 @@
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .625rem;
+    height: 2.5rem;
+    // color: $white !important;
+
+}
+
+.btn-sm {
+    height: 2.063rem;
+}
+
+.btn-light {
+    color: $primary !important;
+}

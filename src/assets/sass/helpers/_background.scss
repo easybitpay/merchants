@@ -1,0 +1,28 @@
+//
+// Custom background helpers
+//
+// Background theme light colors
+@each $name,
+$color in $theme-text-colors {
+
+    // Base
+    .bg-#{$name} {
+        background-color: $color !important;
+    }
+
+    // Hover
+    .bg-hover-#{$name} {
+        cursor: pointer;
+
+        &:hover {
+            background-color: $color !important;
+        }
+    }
+
+    // Active 
+    .bg-active-#{$name} {
+		&.active {
+			background-color: $color !important;
+		}
+	}
+}

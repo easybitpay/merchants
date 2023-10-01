@@ -1,0 +1,46 @@
+.form-control {
+    letter-spacing: -.02rem;
+    height: 2.5rem;
+    box-shadow: none !important;
+}
+
+.was-validated :invalid~.invalid-feedback,
+.was-validated :invalid~.invalid-tooltip,
+.is-invalid~.invalid-feedback,
+.is-invalid~.invalid-tooltip {
+    display: none;
+}
+
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus, .was-validated .form-control:valid, .form-control.is-valid {
+    border-color: $input-border-color;
+}
+
+.invalid-feedback {
+    display: none;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    cursor: text;
+    border-color: red;
+    z-index: 1;
+    margin: 0;
+    font-size: $input-font-size;
+}
+
+.was-validated .form-control:valid, .form-control.is-valid {
+    padding-right: 3rem;
+    background-position: right 1rem center;
+    background-size: 1.5rem 1.5rem;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    background-image: none;
+}
+
+// OTP Input
+.otp-input {
+    >div {
+        display: flex;
+        justify-content: space-between;
+    }
+}
