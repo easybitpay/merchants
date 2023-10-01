@@ -11,8 +11,8 @@ export default function useForm() {
   const awaitForClick = () => {
     feedBacks.value.forEach((item) => {
       item.classList.add('d-flex')
-      item.addEventListener('click', () => {
-        const parent = item.parentElement;
+      const parent = item.parentElement;
+      parent.addEventListener('click', () => {
         parent.querySelector('input').focus();
         item.classList.remove('d-flex')
       })
