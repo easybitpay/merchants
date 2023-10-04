@@ -35,7 +35,6 @@
     font-weight: 900;
 }
 
-
 // Neue Machina Font
 @font-face {
     font-family: "Neue Machina";
@@ -54,7 +53,6 @@
     src: url(../fonts/neue-machina/NeueMachina-Ultrabold.otf);
     font-weight: 900;
 }
-
 
 html,
 body {
@@ -75,14 +73,350 @@ body {
     font-family: "Neue Machina";
 }
 
+.object-cover {
+    object-fit: cover;
+}
 
 .auth-bg {
     background-position: top;
     background-size: cover;
-
     filter: grayscale(0);
     transition: filter linear 0.5s;
+
     &.error {
         filter: grayscale(1);
+    }
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    padding: 1.5rem;
+    position: relative;
+    overflow: auto;
+
+    .sidebar-click-box {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #e5e9ecbd;
+        cursor: pointer;
+        display: none;
+    }
+
+    #sidebar {
+        position: fixed;
+        height: calc(100vh - 1.5rem - 1.5rem);
+        width: 264px;
+        overflow: auto;
+        padding: 1.25rem 0 1.5rem;
+        border-radius: $border-radius-xxl;
+        background: $white;
+        border: 1px solid $gray-200;
+        display: flex;
+        flex-flow: column;
+        overflow-x: hidden;
+        transition: all linear .3s;
+        gap: 2.5rem;
+
+        .logo {
+            margin-bottom: 2.75rem;
+        }
+
+        .logo-collapse {
+            display: none;
+            margin: auto;
+            margin-bottom: 3.125rem;
+        }
+
+        .two-side-space {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            transition: all linear .3s;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            input {
+                transition: all linear .3s;
+            }
+
+            svg {
+                right: 1rem;
+            }
+        }
+
+        .right-side-space {
+            padding-right: 1.5rem;
+        }
+
+        .links {
+            font-family: "Neue Machina";
+            font-weight: 300;
+            display: flex;
+            flex-flow: column;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .link-box {
+                display: flex;
+                flex-flow: column;
+                gap: 1rem;
+            }
+
+            .collapse-link {
+                padding-right: 1.5rem;
+                display: flex;
+                justify-content: space-between;
+
+                svg:not(.icon) {
+                    transition: all linear .3s;
+                    cursor: pointer;
+                }
+
+                svg[aria-expanded="true"] {
+                    transform: rotateX(180deg);
+
+                    path {
+                        stroke: $primary;
+                    }
+                }
+            }
+
+            .collapse-box {
+                .box {
+                    margin-top: 1rem;
+                    padding-right: 1.5rem;
+                    display: flex;
+                    flex-flow: column;
+                    gap: 0.5rem;
+
+                    .item {
+                        color: $gray-800;
+                        font-size: 1rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        height: 24px;
+                        padding-left: 2rem;
+                        border-radius: 0 .5rem .5rem 0;
+                        transition: all linear .3s;
+                        min-width: max-content;
+
+                        span {
+                            transition: all linear .3s;
+                        }
+
+                        &.router-link-exact-active {
+                            background-color: $gray-200;
+                        }
+                    }
+                }
+            }
+
+            .link {
+                width: 100%;
+                padding: 0 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                color: $gray-800;
+                position: relative;
+                min-width: max-content;
+                cursor: pointer;
+                transition: all linear .3s;
+
+                span {
+                    transition: all linear .3s;
+                }
+
+                &.router-link-exact-active {
+                    color: $primary !important;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        display: flex;
+                        bottom: 0;
+                        top: 0;
+                        left: 0;
+                        width: .5rem;
+                        border-radius: 0.313rem;
+                        background-color: $primary;
+                    }
+
+                    .icon {
+                        path {
+                            stroke: $primary;
+                        }
+                    }
+                }
+            }
+
+            .collapse-btn {
+                svg {
+                    transition: all linear .3s;
+                }
+            }
+
+            .seprator-line {
+                padding: 1.5rem;
+
+                span {
+                    height: 1px;
+                    width: 100%;
+                    background: $gray-200;
+                    display: block;
+                    transition: all linear .3s;
+                }
+            }
+        }
+
+        .user {
+            display: flex;
+            gap: .5rem;
+            padding: .5rem 1rem .5rem .5rem;
+            border-radius: $border-radius-pill;
+            border: 1px solid $gray-200;
+            transition: all linear .3s;
+
+            .bullet {
+                right: 0;
+                top: 0;
+                transition: all linear .3s;
+            }
+
+            .name,
+            .balance {
+                min-width: max-content;
+                transition: all linear .3s;
+            }
+        }
+
+        &.collapsed {
+            width: 72px;
+            padding: 1.625rem 0 1rem;
+
+            .logo {
+                display: none;
+            }
+
+            .logo-collapse {
+                display: block;
+            }
+
+            .two-side-space {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .search-box {
+                justify-content: center;
+
+                input {
+                    opacity: 0;
+                }
+
+                svg {
+                    right: initial;
+                }
+            }
+
+            .links {
+                .collapse-box {
+                    .box {
+                        .item {
+                            gap: 2rem;
+
+                            span {
+                                opacity: 0;
+                            }
+                        }
+                    }
+                }
+
+                .link {
+                    gap: 1.5rem;
+                    span {
+                        opacity: 0;
+                    }
+                }
+            }
+
+            .user {
+                padding: 0;
+                border-width: 0;
+                gap: 1rem;
+
+                .bullet {
+                    top: -8px;
+                }
+
+                .name, .balance {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
+    #main {
+        max-width: 1224px;
+        width: 100%;
+        margin-left: calc(264px + 24px);
+        overflow: auto;
+        transition: all linear .3s;
+        padding: 1.5rem 0;
+    }
+
+    &.sidebar-close {
+        #sidebar {
+            .links {
+                .collapse-btn {
+                    svg {
+                        transform: rotateY(180deg);
+                    }
+                }
+
+                .seprator-line {
+                    span {
+                        height: 2px;
+
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width: 992px) {
+        &.sidebar-close {
+            #main {
+                margin-left: calc(72px + 24px);
+            }
+        }
+        
+    }
+
+    @media (max-width: 992px) {
+        padding: 1rem;
+
+        &.sidebar-open {
+            .sidebar-click-box {
+                display: block;
+            }
+        }
+
+        #sidebar {
+            height: calc(100vh - 1rem - 1rem);
+        }
+
+        #main {
+            margin-left: calc(72px + 16px);
+        }
     }
 }

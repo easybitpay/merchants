@@ -5,6 +5,21 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     /**
+     * Main Routes
+     */
+    {
+      path: "/",
+      redirect: '/dashboard',
+      component: () => import('@/layouts/Main.vue'),
+      children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/app/Dashboard.vue')
+        }
+      ]
+    },
+    /**
      * Auth Routes
      */
     {
@@ -12,18 +27,18 @@ const router = createRouter({
       component: () => import('@/layouts/Auth.vue'),
       children: [
         {
-          name: 'login',
           path: '/login',
+          name: 'login',
           component: () => import('@/views/auth/Login.vue')
         },
         {
-          name: 'register',
           path: '/register',
+          name: 'register',
           component: () => import('@/views/auth/Register.vue')
         },
         {
-          name: 'reset-password',
           path: '/forget-password',
+          name: 'reset-password',
           component: () => import('@/views/auth/ResetPassword.vue')
         }
       ]

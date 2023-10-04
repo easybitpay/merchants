@@ -2,6 +2,10 @@
     letter-spacing: -.02rem;
     height: 2.5rem;
     box-shadow: none !important;
+
+    &.form-control-sm {
+        height: 2rem;
+    }
 }
 
 .was-validated :invalid~.invalid-feedback,
