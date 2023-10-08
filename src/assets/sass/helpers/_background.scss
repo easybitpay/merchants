@@ -21,8 +21,13 @@ $color in $theme-text-colors {
 
     // Active 
     .bg-active-#{$name} {
-		&.active {
-			background-color: $color !important;
-		}
-	}
+        &.active {
+            background-color: $color !important;
+        }
+    }
+}
+
+.gradient-image-box {
+    background: linear-gradient(90deg, #FFF 35.33%, rgba(255, 255, 255, 0.00) 89.34%), var(--background), lightgray 50% / cover no-repeat;
+    background-position: center;
 }

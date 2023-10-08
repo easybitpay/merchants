@@ -65,3 +65,12 @@ a {
 .cursor-move {
     cursor: move;
 }
+
+// Text Ellipsis
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: var(--ellipsis-width);
+    display: block;
+    overflow: hidden;
+}

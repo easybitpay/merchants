@@ -484,6 +484,7 @@ $spacers: (
 // scss-docs-start position-map
 $position-values: (
   0: 0,
+  8px: 8px,
   16px: 16px,
   50: 50%,
   100: 100%
@@ -707,7 +708,8 @@ $font-sizes: (
   3: $h3-font-size,
   4: $h4-font-size,
   5: $h5-font-size,
-  6: $h6-font-size
+  6: $h6-font-size,
+  7: 1rem
 ) !default;
 // scss-docs-end font-sizes
 
@@ -886,7 +888,7 @@ $btn-line-height:             $input-btn-line-height !default;
 $btn-white-space:             null !default; // Set to `nowrap` to prevent text wrapping
 
 $btn-padding-y-sm:            0 !default;
-$btn-padding-x-sm:            .75rem !default;
+$btn-padding-x-sm:            1rem !default;
 $btn-font-size-sm:            $input-btn-font-size-sm !default;
 
 $btn-padding-y-lg:            $input-btn-padding-y-lg !default;
@@ -1008,12 +1010,12 @@ $form-check-transition:                   null !default;
 
 $form-check-input-active-filter:          brightness(90%) !default;
 
-$form-check-input-bg:                     $input-bg !default;
-$form-check-input-border:                 var(--#{$prefix}border-width) solid var(--#{$prefix}border-color) !default;
+$form-check-input-bg:                     var(--#{$prefix}gray-500) !default;
+$form-check-input-border:                 none !default;
 $form-check-input-border-radius:          .25em !default;
 $form-check-radio-border-radius:          50% !default;
-$form-check-input-focus-border:           $input-focus-border-color !default;
-$form-check-input-focus-box-shadow:       $focus-ring-box-shadow !default;
+$form-check-input-focus-border:           none !default;
+$form-check-input-focus-box-shadow:       none !default;
 
 $form-check-input-checked-color:          $component-active-color !default;
 $form-check-input-checked-bg-color:       $component-active-bg !default;
@@ -1035,14 +1037,14 @@ $form-check-inline-margin-end:    1rem !default;
 
 // scss-docs-start form-switch-variables
 $form-switch-color:               rgba($black, .25) !default;
-$form-switch-width:               2em !default;
-$form-switch-padding-start:       $form-switch-width + .5em !default;
-$form-switch-bg-image:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color}'/></svg>") !default;
+$form-switch-width:               2rem !default;
+$form-switch-padding-start:       $form-switch-width + .5rem !default;
+$form-switch-bg-image:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#fff'/></svg>") !default;
 $form-switch-border-radius:       $form-switch-width !default;
 $form-switch-transition:          background-position .15s ease-in-out !default;
 
 $form-switch-focus-color:         $input-focus-border-color !default;
-$form-switch-focus-bg-image:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-focus-color}'/></svg>") !default;
+$form-switch-focus-bg-image:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#fff'/></svg>") !default;
 
 $form-switch-checked-color:       $component-active-color !default;
 $form-switch-checked-bg-image:    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-checked-color}'/></svg>") !default;
@@ -1072,9 +1074,9 @@ $form-select-disabled-color:        null !default;
 $form-select-disabled-bg:           $input-disabled-bg !default;
 $form-select-disabled-border-color: $input-disabled-border-color !default;
 $form-select-bg-position:           right $form-select-padding-x center !default;
-$form-select-bg-size:               16px 12px !default; // In pixels because image dimensions
+$form-select-bg-size:               1.5rem 1.5rem !default; // In pixels because image dimensions
 $form-select-indicator-color:       $gray-800 !default;
-$form-select-indicator:             url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>") !default;
+$form-select-indicator:             url(media/icons/icons/chevron-down.svg) !default;
 
 $form-select-feedback-icon-padding-end: $form-select-padding-x * 2.5 + $form-select-indicator-padding !default;
 $form-select-feedback-icon-position:    center right $form-select-indicator-padding !default;
@@ -1221,14 +1223,17 @@ $custom-sizes: (
   	10px: 10px,
   	15px: 15px,
   	20px: 20px,
+  	24px: 24px,
   	25px: 25px,
   	30px: 30px,
+  	33px: 33px,
   	35px: 35px,
   	40px: 40px,
   	45px: 45px,
   	48px: 48px,
   	50px: 50px,
   	55px: 55px,
+  	56px: 56px,
   	60px: 60px,
   	65px: 65px,
   	70px: 70px,
@@ -1238,17 +1243,22 @@ $custom-sizes: (
   	90px: 90px,
   	95px: 95px,
   	100px: 100px,
+  	104px: 104px,
   	125px: 125px,
+  	144px: 144px,
   	150px: 150px,
   	160px: 160px,
 	  175px: 175px,
+	  192px: 192px,
   	200px: 200px,
+  	216px: 216px,
     225px: 225px,
   	250px: 250px,
     275px: 275px,
   	300px: 300px,
     325px: 325px,
   	350px: 350px,
+  	354px: 354px,
     375px: 375px,
   	400px: 400px,
     425px: 425px,
@@ -1263,6 +1273,7 @@ $custom-sizes: (
   	650px: 650px,
   	700px: 700px,
   	750px: 750px,
+  	792px: 792px,
   	800px: 800px,
   	850px: 850px,
   	900px: 900px,
@@ -1302,23 +1313,23 @@ $zindex-levels: (
 // Navs
 
 // scss-docs-start nav-variables
-$nav-link-padding-y:                .5rem !default;
-$nav-link-padding-x:                1rem !default;
-$nav-link-font-size:                null !default;
-$nav-link-font-weight:              null !default;
-$nav-link-color:                    var(--#{$prefix}link-color) !default;
-$nav-link-hover-color:              var(--#{$prefix}link-hover-color) !default;
+$nav-link-padding-y:                0 !default;
+$nav-link-padding-x:                0 !default;
+$nav-link-font-size:                $h2-font-size !default;
+$nav-link-font-weight:              $font-weight-normal !default;
+$nav-link-color:                    $gray-500 !default;
+$nav-link-hover-color:              $primary !default;
 $nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
-$nav-link-disabled-color:           var(--#{$prefix}secondary-color) !default;
-$nav-link-focus-box-shadow:         $focus-ring-box-shadow !default;
+$nav-link-disabled-color:           $gray-300 !default;
+$nav-link-focus-box-shadow:         null !default;
 
-$nav-tabs-border-color:             var(--#{$prefix}border-color) !default;
-$nav-tabs-border-width:             var(--#{$prefix}border-width) !default;
-$nav-tabs-border-radius:            var(--#{$prefix}border-radius) !default;
-$nav-tabs-link-hover-border-color:  var(--#{$prefix}secondary-bg) var(--#{$prefix}secondary-bg) $nav-tabs-border-color !default;
-$nav-tabs-link-active-color:        var(--#{$prefix}emphasis-color) !default;
-$nav-tabs-link-active-bg:           var(--#{$prefix}body-bg) !default;
-$nav-tabs-link-active-border-color: var(--#{$prefix}border-color) var(--#{$prefix}border-color) $nav-tabs-link-active-bg !default;
+$nav-tabs-border-color:             null !default;
+$nav-tabs-border-width:             0 !default;
+$nav-tabs-border-radius:            0 !default;
+$nav-tabs-link-hover-border-color:  null !default;
+$nav-tabs-link-active-color:        $primary !default;
+$nav-tabs-link-active-bg:           null !default;
+$nav-tabs-link-active-border-color: null !default;
 
 $nav-pills-border-radius:           var(--#{$prefix}border-radius) !default;
 $nav-pills-link-active-color:       $component-active-color !default;
@@ -1385,10 +1396,10 @@ $dropdown-min-width:                10rem !default;
 $dropdown-padding-x:                0 !default;
 $dropdown-padding-y:                .5rem !default;
 $dropdown-spacer:                   .125rem !default;
-$dropdown-font-size:                $font-size-base !default;
+$dropdown-font-size:                $font-size-sm !default;
 $dropdown-color:                    var(--#{$prefix}body-color) !default;
 $dropdown-bg:                       var(--#{$prefix}body-bg) !default;
-$dropdown-border-color:             var(--#{$prefix}border-color-translucent) !default;
+$dropdown-border-color:             var(--#{$prefix}gray-200) !default;
 $dropdown-border-radius:            var(--#{$prefix}border-radius) !default;
 $dropdown-border-width:             var(--#{$prefix}border-width) !default;
 $dropdown-inner-border-radius:      calc(#{$dropdown-border-radius} - #{$dropdown-border-width}) !default; // stylelint-disable-line function-disallowed-list
@@ -1400,8 +1411,8 @@ $dropdown-link-color:               var(--#{$prefix}body-color) !default;
 $dropdown-link-hover-color:         $dropdown-link-color !default;
 $dropdown-link-hover-bg:            var(--#{$prefix}tertiary-bg) !default;
 
-$dropdown-link-active-color:        $component-active-color !default;
-$dropdown-link-active-bg:           $component-active-bg !default;
+$dropdown-link-active-color:        var(--#{$prefix}gray-900) !default;
+$dropdown-link-active-bg:           var(--#{$prefix}body-bg) !default;
 
 $dropdown-link-disabled-color:      var(--#{$prefix}tertiary-color) !default;
 
@@ -1863,19 +1874,19 @@ $btn-close-white-filter:     invert(1) grayscale(100%) brightness(200%) !default
 // Offcanvas
 
 // scss-docs-start offcanvas-variables
-$offcanvas-padding-y:               $modal-inner-padding !default;
-$offcanvas-padding-x:               $modal-inner-padding !default;
-$offcanvas-horizontal-width:        400px !default;
-$offcanvas-vertical-height:         30vh !default;
+$offcanvas-padding-y:               0 !default;
+$offcanvas-padding-x:               0 !default;
+$offcanvas-horizontal-width:        792px !default;
+$offcanvas-vertical-height:         none !default;
 $offcanvas-transition-duration:     .3s !default;
-$offcanvas-border-color:            $modal-content-border-color !default;
-$offcanvas-border-width:            $modal-content-border-width !default;
-$offcanvas-title-line-height:       $modal-title-line-height !default;
-$offcanvas-bg-color:                var(--#{$prefix}body-bg) !default;
+$offcanvas-border-color:            none !default;
+$offcanvas-border-width:            0 !default;
+$offcanvas-title-line-height:       null !default;
+$offcanvas-bg-color:                none !default;
 $offcanvas-color:                   var(--#{$prefix}body-color) !default;
-$offcanvas-box-shadow:              $modal-content-box-shadow-xs !default;
+$offcanvas-box-shadow:              none !default;
 $offcanvas-backdrop-bg:             $modal-backdrop-bg !default;
-$offcanvas-backdrop-opacity:        $modal-backdrop-opacity !default;
+$offcanvas-backdrop-opacity:        1 !default;
 // scss-docs-end offcanvas-variables
 
 // Code

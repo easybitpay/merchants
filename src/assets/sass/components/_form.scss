@@ -1,9 +1,26 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .form-control {
     letter-spacing: -.02rem;
     height: 2.5rem;
     box-shadow: none !important;
-
     &.form-control-sm {
+        height: 2rem;
+    }
+}
+
+.form-select {
+    letter-spacing: -.02rem;
+    height: 2.5rem;
+    box-shadow: none !important;
+    &.form-select-sm {
         height: 2rem;
     }
 }
@@ -15,7 +32,10 @@
     display: none;
 }
 
-.was-validated .form-control:valid:focus, .form-control.is-valid:focus, .was-validated .form-control:valid, .form-control.is-valid {
+.was-validated .form-control:valid:focus,
+.form-control.is-valid:focus,
+.was-validated .form-control:valid,
+.form-control.is-valid {
     border-color: $input-border-color;
 }
 
@@ -31,13 +51,15 @@
     font-size: $input-font-size;
 }
 
-.was-validated .form-control:valid, .form-control.is-valid {
+.was-validated .form-control:valid,
+.form-control.is-valid {
     padding-right: 3rem;
     background-position: right 1rem center;
     background-size: 1.5rem 1.5rem;
 }
 
-.was-validated .form-control:invalid, .form-control.is-invalid {
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
     background-image: none;
 }
 

@@ -153,7 +153,7 @@ checkInnerWidth()
       <!-- begin::Link Box -->
       <div class="link-box">
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'login' }" class="link">
+        <RouterLink :to="{ name: 'settings' }" class="link">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
