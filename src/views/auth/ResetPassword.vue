@@ -95,7 +95,9 @@ const submitPassword = async () => {
 }
 
 const changePass = () => {
-  console.log('finish')
+  if (otpInputValue.value.length == 6) {
+    step.value = 4
+  }
 }
 </script>
 
@@ -240,7 +242,7 @@ const changePass = () => {
         <div class="d-flex gap-4">
           <!-- begin::Back Action -->
           <div>
-            <button class="btn btn-light p-0 w-40px" @click="step = 1">
+            <button type="button" class="btn btn-light p-0 w-40px" @click="step = 1">
               <inline-svg
                 src="media/icons/icons/arrow-left.svg"
                 class="svg-icon-primary"
@@ -301,7 +303,7 @@ const changePass = () => {
         <div class="d-flex gap-4">
           <!-- begin::Back Action -->
           <div>
-            <button class="btn btn-light p-0 w-40px" @click="step = 2">
+            <button type="button" class="btn btn-light p-0 w-40px" @click="step = 2">
               <inline-svg
                 src="media/icons/icons/arrow-left.svg"
                 class="svg-icon-primary"
@@ -317,9 +319,34 @@ const changePass = () => {
         <!-- end::Actions -->
       </form>
       <!-- end::Step 3 - Get OTP -->
+
+      <!-- begin::Step 4 - Get OTP -->
+      <div v-if="step === 4" class="d-flex flex-column justify-content-between min-h-560px">
+        <div>
+          <!-- begin::Icon -->
+          <inline-svg src="media/icons/shapes/star.svg"></inline-svg>
+          <!-- end::Icon -->
+
+          <!-- begin::Text -->
+          <h4 class="my-6 text-dark">Congratulations</h4>
+
+          <p class="text-gray-700 mb-12 ls-base">
+            Your new password is changed. A 6-digit
+            <br />
+            confirmation code has been sent
+          </p>
+          <!-- end::Text -->
+
+          <inline-svg src="media/icons/shapes/star-lock-group.svg" class="d-block m-auto"></inline-svg>
+        </div>
+
+        <!-- begin::Go Login -->
+        <RouterLink :to="{ name: 'login' }" class="btn btn-primary w-100"> Login </RouterLink>
+        <!-- end::Go Login -->
+      </div>
+      <!-- end::Step 4 - Get OTP -->
     </div>
   </div>
-
 
   <RouterLink v-if="step === 1" :to="{ name: 'register' }" class="text-white mt-6 ls-base">
     Can’t login, Sign up for new user?
