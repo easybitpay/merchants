@@ -73,7 +73,11 @@ watch(step, () => {
 const submitEmail = async () => {
   const result = await v1$.value.$validate()
   if (result) {
-    step.value = 2
+    if (step.value === 1) {
+      step.value = 2
+    } else {
+      console.log('safeye akhare')
+    }
   } else {
     showFeedBacks()
     emit('changeBG')
@@ -83,11 +87,15 @@ const submitEmail = async () => {
 const submitPassword = async () => {
   const result = await v2$.value.$validate()
   if (result) {
-    console.log('submit')
+    step.value = 3
   } else {
     showFeedBacks()
     emit('changeBG')
   }
+}
+
+const changePass = () => {
+  console.log('finish')
 }
 </script>
 
@@ -102,7 +110,7 @@ const submitPassword = async () => {
       >
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -121,7 +129,7 @@ const submitPassword = async () => {
             <input
               type="text"
               :class="[{ 'form-control': true }, { 'is-valid': !v1$.email.$invalid }]"
-              placeholder="Your Email"
+              placeholder="Email Address"
               v-model="stepOneForm.email"
             />
 
@@ -134,52 +142,38 @@ const submitPassword = async () => {
 
         <!-- begin::Submit -->
         <button type="submit" class="btn btn-primary w-100">
-          Submit
+          Send Reset Link
           <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
         </button>
         <!-- end::Submit -->
       </form>
       <!-- end::Step 1 - Get User Email -->
 
-      <!-- begin::Step 2 - Get OTP & Password -->
+      <!-- begin::Step 2 - Password -->
       <form
-        v-else
+        v-if="step === 2"
         @submit.prevent="submitPassword"
         class="d-flex flex-column justify-content-between min-h-560px"
       >
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
           <h4 class="my-6 text-dark">Reset Password</h4>
 
           <p class="text-gray-700 mb-12 ls-base">
-            A 6-digit confirmation code has been sent
+            By signing up, you confirm that you’ve read
             <br />
-            to {{ stepOneForm.email }} via Email.
-            <span href="" class="text-primary"> <CountDown /></span>
+            and accepted our User Notice and
+            <a href="" class="text-primary"> Privacy Policy.</a>
           </p>
           <!-- end::Text -->
 
-          <!-- begin::OTP -->
-          <div class="otp-input mb-6">
-            <VOtpInput
-              ref="otpInput"
-              v-model:value="otpInputValue"
-              input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
-              separator=""
-              :num-inputs="6"
-              :should-auto-focus="true"
-              input-type="numeric"
-            />
-          </div>
-          <!-- end::OTP -->
-
           <div data-password-meter="true">
             <!-- begin::Password -->
-            <div class="mb-6 position-relative d-flex align-items-center">
+            <div class="mb-3 position-relative d-flex align-items-center">
               <input
                 :type="showPass1 ? 'text' : 'password'"
                 class="form-control"
@@ -202,6 +196,18 @@ const submitPassword = async () => {
               <!-- end::Icon -->
             </div>
             <!-- end::Password -->
+
+            <!--begin::Meter-->
+            <div
+              class="d-flex align-items-center gap-7 px-2 mb-6"
+              data-password-meter-control="highlight"
+            >
+              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+            </div>
+            <!--end::Meter-->
 
             <!-- begin::Confirm Password -->
             <div class="mb-4 position-relative d-flex align-items-center">
@@ -227,18 +233,6 @@ const submitPassword = async () => {
               <!-- end::Icon -->
             </div>
             <!-- end::Confirm Password -->
-
-            <!--begin::Meter-->
-            <div
-              class="d-flex align-items-center gap-7 px-2 mb-14"
-              data-password-meter-control="highlight"
-            >
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-            </div>
-            <!--end::Meter-->
           </div>
         </div>
 
@@ -257,18 +251,81 @@ const submitPassword = async () => {
 
           <!-- begin::Submit Action -->
           <button type="submit" class="btn btn-primary w-100">
-            Continue
+            Reset Password
             <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
           </button>
           <!-- end::Submit Action -->
         </div>
         <!-- end::Actions -->
       </form>
-      <!-- end::Step 2 - Get OTP & Password -->
+      <!-- end::Step 2 - Password -->
+
+      <!-- begin::Step 3 - Get OTP -->
+      <form
+        v-if="step === 3"
+        @submit.prevent="changePass"
+        class="d-flex flex-column justify-content-between min-h-560px"
+      >
+        <div>
+          <!-- begin::Icon -->
+          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
+          <!-- end::Icon -->
+
+          <!-- begin::Text -->
+          <h4 class="my-6 text-dark">Reset Password</h4>
+
+          <p class="text-gray-700 mb-12 ls-base">
+            A 6-digit confirmation code has been sent
+            <br />
+            to {{ stepOneForm.email }} via Email.
+            <span class="text-primary"> <CountDown /></span>
+          </p>
+          <!-- end::Text -->
+
+          <!-- begin::OTP -->
+          <div class="otp-input">
+            <VOtpInput
+              ref="otpInput"
+              v-model:value="otpInputValue"
+              input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
+              separator=""
+              :num-inputs="6"
+              :should-auto-focus="true"
+              input-type="numeric"
+            />
+          </div>
+          <!-- end::OTP -->
+        </div>
+
+        <!-- begin::Actions -->
+        <div class="d-flex gap-4">
+          <!-- begin::Back Action -->
+          <div>
+            <button class="btn btn-light p-0 w-40px" @click="step = 2">
+              <inline-svg
+                src="media/icons/icons/arrow-left.svg"
+                class="svg-icon-primary"
+              ></inline-svg>
+            </button>
+          </div>
+          <!-- end::Back Action -->
+
+          <!-- begin::Submit Action -->
+          <button type="submit" class="btn btn-primary w-100">Finalize New Password</button>
+          <!-- end::Submit Action -->
+        </div>
+        <!-- end::Actions -->
+      </form>
+      <!-- end::Step 3 - Get OTP -->
     </div>
   </div>
 
+
   <RouterLink v-if="step === 1" :to="{ name: 'register' }" class="text-white mt-6 ls-base">
     Can’t login, Sign up for new user?
+  </RouterLink>
+
+  <RouterLink v-if="step === 2" :to="{ name: 'login' }" class="text-white mt-6 ls-base">
+    Already have an Square account? Log in
   </RouterLink>
 </template>

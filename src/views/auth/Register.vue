@@ -67,7 +67,7 @@ const register = async () => {
     <div class="card-body d-flex flex-column justify-content-between">
       <div>
         <!-- begin::Icon -->
-        <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+        <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
         <!-- end::Icon -->
 
         <!-- begin::Text -->

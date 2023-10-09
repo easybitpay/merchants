@@ -59,7 +59,7 @@ const login = async () => {
       <template v-if="step === 1">
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -116,12 +116,18 @@ const login = async () => {
           </div>
           <!-- end::Password -->
 
-          <!-- begin::Submit -->
-          <button type="submit" class="btn btn-primary w-100">
-            Login
-            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
-          </button>
-          <!-- end::Submit -->
+          <div class="d-flex flex-column flex-sm-row gap-4">
+            <RouterLink :to="{ name: 'reset-password' }" class="btn btn-white text-primary w-100">
+              Forget Password
+            </RouterLink>
+
+            <!-- begin::Submit -->
+            <button type="submit" class="btn btn-primary w-100">
+              Login
+              <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+            </button>
+            <!-- end::Submit -->
+          </div>
 
           <p class="my-6 text-center ls-base">or</p>
 
