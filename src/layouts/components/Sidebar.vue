@@ -177,7 +177,7 @@ checkInnerWidth()
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'login' }" class="link">
+        <RouterLink :to="{ name: 'help' }" class="link">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/compass.svg" class="icon"></inline-svg>

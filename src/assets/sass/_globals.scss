@@ -136,6 +136,7 @@ body {
         background: #e5e9ecbd;
         cursor: pointer;
         display: none;
+        z-index: 9;
     }
 
     #sidebar {
@@ -447,11 +448,38 @@ body {
         #sidebar {
             height: calc(100vh - 1rem - 1rem);
             left: 1rem;
+            z-index: 10;
         }
 
         #main {
             padding: 1rem;
             margin-left: calc(72px + 16px);
         }
+    }
+}
+
+.transition-all {
+    transition: all linear .3s;
+} 
+
+.both-side-line-title {
+    align-items: center;
+    display: flex;
+
+    span {
+        min-width: max-content;
+        padding: 0 2rem;
+        gap: 2rem;
+        font-size: 1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    &::before, &::after {
+        content: "";
+        background-color: $black;
+        height: 1px;
+        width: 100%;
     }
 }

@@ -7,7 +7,7 @@ import useForm from '@/hooks/useForm.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
-import { helpers, required, email } from '@vuelidate/validators'
+import { helpers, required } from '@vuelidate/validators'
 
 // Components
 import Dropzone from '../globals/Dropzone.vue'
@@ -27,17 +27,12 @@ const removeFiles = (file) => {
 
 const form = ref({
   type: null,
-  email: null
 })
 
 const rules = {
   type: {
     required: helpers.withMessage('Type is required', required)
   },
-  email: {
-    required: helpers.withMessage('Email is required', required),
-    email: helpers.withMessage("Email isn't valid", email)
-  }
 }
 
 const v$ = useVuelidate(rules, form)

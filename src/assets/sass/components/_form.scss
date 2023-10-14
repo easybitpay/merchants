@@ -70,3 +70,8 @@ input[type="number"] {
         justify-content: space-between;
     }
 }
+
+textarea {
+    resize: none;
+    line-height: 28px;
+}

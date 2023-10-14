@@ -1245,9 +1245,11 @@ $custom-sizes: (
   	100px: 100px,
   	104px: 104px,
   	125px: 125px,
+  	136px: 136px,
   	144px: 144px,
   	150px: 150px,
   	160px: 160px,
+  	168px: 168px,
 	  175px: 175px,
 	  192px: 192px,
   	200px: 200px,
@@ -1256,6 +1258,7 @@ $custom-sizes: (
   	250px: 250px,
     275px: 275px,
   	300px: 300px,
+  	310px: 310px,
     325px: 325px,
   	350px: 350px,
   	354px: 354px,
@@ -1521,15 +1524,15 @@ $card-group-margin:                 $grid-gutter-width * .5 !default;
 
 // scss-docs-start accordion-variables
 $accordion-padding-y:                     1rem !default;
-$accordion-padding-x:                     1.25rem !default;
-$accordion-color:                         var(--#{$prefix}body-color) !default;
-$accordion-bg:                            var(--#{$prefix}body-bg) !default;
+$accordion-padding-x:                     1.5rem !default;
+$accordion-color:                         var(--#{$prefix}gray-800) !default;
+$accordion-bg:                            var(--#{$prefix}white) !default;
 $accordion-border-width:                  var(--#{$prefix}border-width) !default;
-$accordion-border-color:                  var(--#{$prefix}border-color) !default;
-$accordion-border-radius:                 var(--#{$prefix}border-radius) !default;
+$accordion-border-color:                  var(--#{$prefix}gray-200) !default;
+$accordion-border-radius:                 1.25rem !default;
 $accordion-inner-border-radius:           subtract($accordion-border-radius, $accordion-border-width) !default;
 
-$accordion-body-padding-y:                $accordion-padding-y !default;
+$accordion-body-padding-y:                $accordion-padding-x !default;
 $accordion-body-padding-x:                $accordion-padding-x !default;
 
 $accordion-button-padding-y:              $accordion-padding-y !default;
@@ -1537,20 +1540,20 @@ $accordion-button-padding-x:              $accordion-padding-x !default;
 $accordion-button-color:                  var(--#{$prefix}body-color) !default;
 $accordion-button-bg:                     var(--#{$prefix}accordion-bg) !default;
 $accordion-transition:                    $btn-transition, border-radius .15s ease !default;
-$accordion-button-active-bg:              var(--#{$prefix}primary-bg-subtle) !default;
-$accordion-button-active-color:           var(--#{$prefix}primary-text-emphasis) !default;
+$accordion-button-active-bg:              var(--#{$prefix}accordion-bg) !default;
+$accordion-button-active-color:           var(--#{$prefix}primary) !default;
 
-$accordion-button-focus-border-color:     $input-focus-border-color !default;
-$accordion-button-focus-box-shadow:       $btn-focus-box-shadow !default;
+$accordion-button-focus-border-color:     var(--#{$prefix}primary) !default;
+$accordion-button-focus-box-shadow:       none !default;
 
-$accordion-icon-width:                    1.25rem !default;
+$accordion-icon-width:                    1.5rem !default;
 $accordion-icon-color:                    $body-color !default;
 $accordion-icon-active-color:             $primary-text-emphasis !default;
 $accordion-icon-transition:               transform .2s ease-in-out !default;
 $accordion-icon-transform:                rotate(-180deg) !default;
 
-$accordion-button-icon:         url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !default;
-$accordion-button-active-icon:  url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$accordion-icon-active-color}'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !default;
+$accordion-button-icon:         url(media/icons/icons/chevron-down.svg) !default;
+$accordion-button-active-icon:  url(media/icons/icons/chevron-up.svg) !default;
 // scss-docs-end accordion-variables
 
 // Tooltips

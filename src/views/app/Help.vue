@@ -1,48 +1,47 @@
 <script setup>
 import Basic from '../../components/settings/Basic.vue'
-import Privacy from '../../components/settings/Privacy.vue'
-import Customize from '../../components/settings/Customize.vue'
+import FAQ from '../../components/help/FAQ.vue'
+import Ticket from '../../components/help/Ticket.vue'
 </script>
-
 <template>
   <!-- begin::Nav -->
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <button
         class="nav-link active"
-        id="nav-basic-tab"
+        id="nav-knowledge-tab"
         data-bs-toggle="tab"
-        data-bs-target="#nav-basic"
+        data-bs-target="#nav-knowledge"
         type="button"
         role="tab"
-        aria-controls="nav-basic"
+        aria-controls="nav-knowledge"
         aria-selected="true"
       >
-        Basic
+        Knowledge
       </button>
       <button
         class="nav-link"
-        id="nav-privacy-tab"
+        id="nav-faq-tab"
         data-bs-toggle="tab"
-        data-bs-target="#nav-privacy"
+        data-bs-target="#nav-faq"
         type="button"
         role="tab"
-        aria-controls="nav-privacy"
+        aria-controls="nav-faq"
         aria-selected="false"
       >
-        Privacy
+        FAQ
       </button>
       <button
         class="nav-link"
-        id="nav-customize-tab"
+        id="nav-ticket-tab"
         data-bs-toggle="tab"
-        data-bs-target="#nav-customize"
+        data-bs-target="#nav-ticket"
         type="button"
         role="tab"
-        aria-controls="nav-customize"
+        aria-controls="nav-ticket"
         aria-selected="false"
       >
-        Customize
+        Tickets
       </button>
     </div>
   </nav>
@@ -52,30 +51,24 @@ import Customize from '../../components/settings/Customize.vue'
   <div class="tab-content" id="nav-tabContent">
     <div
       class="tab-pane show active"
-      id="nav-basic"
+      id="nav-knowledge"
       role="tabpanel"
-      aria-labelledby="nav-basic-tab"
+      aria-labelledby="nav-knowledge-tab"
       tabindex="0"
     >
       <Basic />
     </div>
-    <div
-      class="tab-pane"
-      id="nav-privacy"
-      role="tabpanel"
-      aria-labelledby="nav-privacy-tab"
-      tabindex="0"
-    >
-      <Privacy />
+    <div class="tab-pane" id="nav-faq" role="tabpanel" aria-labelledby="nav-faq-tab" tabindex="0">
+      <FAQ />
     </div>
     <div
       class="tab-pane"
-      id="nav-customize"
+      id="nav-ticket"
       role="tabpanel"
-      aria-labelledby="nav-customize-tab"
+      aria-labelledby="nav-ticket-tab"
       tabindex="0"
     >
-      <Customize />
+      <Ticket />
     </div>
   </div>
   <!-- end::Content -->

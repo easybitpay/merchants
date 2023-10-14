@@ -28,6 +28,13 @@ $color in $theme-text-colors {
             }
         }
     }
+
+    // Active Parent
+    .active-box {
+        .active-parent-text-#{$name} {
+            color: $color;
+        }
+    }
 }
 
 // Letter Spacing
