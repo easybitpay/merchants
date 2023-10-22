@@ -31,4 +31,8 @@ $color in $theme-text-colors {
     background: linear-gradient(90deg, #FFF 35.33%, rgba(255, 255, 255, 0.00) 89.34%), var(--background), lightgray 50% / cover no-repeat;
     background-position: center;
     background-size: cover;
+
+    &.disabled {
+        background-blend-mode: luminosity;
+    }
 }

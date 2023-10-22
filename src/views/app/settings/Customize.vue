@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-import GatewayThemeOffcanvas from './GatewayThemeOffcanvas.vue'
+import GatewayThemeOffcanvas from '../../../components/settings/GatewayThemeOffcanvas.vue'
 
 const items = [1, 2, 3]
 const selected = ref(1)

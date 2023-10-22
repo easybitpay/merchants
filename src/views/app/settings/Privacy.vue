@@ -1,5 +1,5 @@
 <script setup>
-import NewKycOffcanvas from './NewKycOffcanvas.vue'
+import NewKycOffcanvas from '../../../components/settings/NewKycOffcanvas.vue'
 
 const convertStatusToColor = (status) => {
   const colors = {
@@ -121,7 +121,7 @@ const convertStatusToColor = (status) => {
     <!-- end::Content -->
 
     <!-- begin::View More -->
-    <button class="btn bg-gray-200 text-primary w-200px mt-6 fw-medium">View more</button>
+    <button class="btn bg-gray-200 text-primary w-200px mt-6">View more</button>
     <!-- end::View More -->
   </div>
   <!-- end::Last Sign in -->
@@ -184,7 +184,7 @@ const convertStatusToColor = (status) => {
             style="--background: url(media/images/banner/auth-bg.jpg)"
             class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
           >
-            ID Card
+            <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">ID Card</p>
 
             <inline-svg
               src="media/icons/icons/trash.svg"
@@ -255,7 +255,7 @@ const convertStatusToColor = (status) => {
 
     <!-- begin::Attach -->
     <button
-      class="btn btn-primary w-144px mt-6 fw-medium"
+      class="btn btn-primary w-144px mt-6"
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#newKyc_offcanvas"

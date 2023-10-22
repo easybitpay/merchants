@@ -173,7 +173,7 @@ const register = async () => {
         <p class="my-6 text-center ls-base">or</p>
 
         <!-- begin::Action -->
-        <button type="button" class="btn btn-light w-100 fw-medium">
+        <button type="button" class="btn btn-light w-100">
           <inline-svg src="media/icons/companies/google-logo.svg"></inline-svg>
 
           Connect to Google

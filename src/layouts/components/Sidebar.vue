@@ -62,13 +62,13 @@ checkInnerWidth()
     <!-- end::Logo & Search -->
 
     <!-- begin::Links -->
-    <div class="links w-100">
+    <div class="links w-100 custom-scroll">
       <!-- begin::Link Box -->
       <div class="link-box mb-12">
         <!-- begin::Collapse Link -->
         <div class="collapse-box">
           <div class="collapse-link">
-            <RouterLink :to="{ name: 'login' }" class="link pe-0">
+            <RouterLink :to="{ name: 'applications' }" class="link pe-0">
               <!-- begin::icon -->
               <div>
                 <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>

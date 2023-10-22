@@ -1,5 +1,5 @@
 <script setup>
-import BasicInfoOffcanvas from './BasicInfoOffcanvas.vue'
+import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.vue'
 </script>
 
 <template>

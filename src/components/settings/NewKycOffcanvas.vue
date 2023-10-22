@@ -144,7 +144,7 @@ const updateBasicInfo = async () => {
               <div class="d-flex gap-4 w-100 w-sm-initial">
                 <button
                   type="button"
-                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base"
+                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
                 >
@@ -153,7 +153,7 @@ const updateBasicInfo = async () => {
 
                 <button
                   type="submit"
-                  class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base"
+                  class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
                 >
                   Save
                 </button>

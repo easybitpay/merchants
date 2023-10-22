@@ -1,6 +1,10 @@
-.dropdown-toggle::after {
-    background: url(media/icons/icons/chevron-down.svg);
-    border: none;
-    width: 1.5rem;
-    height: 1.5rem;
+.dropdown-toggle {
+    font-weight: $font-weight-normal;
+
+    &::after {
+        background: url(media/icons/icons/chevron-down.svg);
+        border: none;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
 }

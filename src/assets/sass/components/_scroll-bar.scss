@@ -1,21 +1,24 @@
-/* width */
-::-webkit-scrollbar {
-    width: .5rem;
-}
+.custom-scroll {
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: $white;
-    border-radius: $border-radius;
-}
+    /* width */
+    &::-webkit-scrollbar {
+        width: .5rem;
+    }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: $gray-200;
-    border-radius: $border-radius;
-}
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: $white;
+        border-radius: $border-radius;
+    }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: $gray-300;
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: $gray-200;
+        border-radius: $border-radius;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: $gray-300;
+    }
 }

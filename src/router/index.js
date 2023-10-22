@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +8,7 @@ const router = createRouter({
      * Main Routes
      */
     {
-      path: "/",
+      path: '/',
       redirect: '/dashboard',
       component: () => import('@/layouts/Main.vue'),
       children: [
@@ -18,15 +18,58 @@ const router = createRouter({
           component: () => import('@/views/app/Dashboard.vue')
         },
         {
+          path: '/applications',
+          name: 'applications',
+          component: () => import('@/views/app/Applications.vue')
+        },
+        {
           path: '/settings',
           name: 'settings',
-          component: () => import('@/views/app/Settings.vue')
+          redirect: '/settings/basic',
+          component: () => import('@/layouts/Settings.vue'),
+
+          children: [
+            {
+              path: 'basic',
+              name: 'settings-basic',
+              component: () => import('@/views/app/settings/Basic.vue')
+            },
+            {
+              path: 'privacy',
+              name: 'settings-privacy',
+              component: () => import('@/views/app/settings/Privacy.vue')
+            },
+            {
+              path: 'customize',
+              name: 'settings-customize',
+              component: () => import('@/views/app/settings/Customize.vue')
+            }
+          ]
         },
         {
           path: '/help',
           name: 'help',
-          component: () => import('@/views/app/help.vue')
-        }
+          redirect: '/help/knowledge',
+          component: () => import('@/layouts/Help.vue'),
+
+          children: [
+            {
+              path: 'knowledge',
+              name: 'help-knowledge',
+              component: () => import('@/views/app/help/Knowledge.vue')
+            },
+            {
+              path: 'faq',
+              name: 'help-faq',
+              component: () => import('@/views/app/help/FAQ.vue')
+            },
+            {
+              path: 'ticket',
+              name: 'help-ticket',
+              component: () => import('@/views/app/help/Ticket.vue')
+            }
+          ]
+        },
       ]
     },
     /**
@@ -54,6 +97,13 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+router.beforeEach(() => {
+  // Scroll page to top on every route change
+  setTimeout(() => {
+    window.scrollTo(0, 0)
+  }, 100)
 })
 
 export default router

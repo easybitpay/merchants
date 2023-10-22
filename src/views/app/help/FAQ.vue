@@ -234,7 +234,7 @@ onMounted(() => {
 
             <!-- begin::Need Edit -->
             <div>
-              <button class="btn btn-sm btn-light fw-medium w-136px h-24px">Need to Edit</button>
+              <button class="btn btn-sm btn-light w-136px h-24px">Need to Edit</button>
             </div>
             <!-- end::Need Edit -->
           </div>

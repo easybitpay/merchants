@@ -105,6 +105,10 @@ body {
     font-family: "Neue Machina";
 }
 
+.roboto-mono {
+    font-family: "Roboto Mono";
+}
+
 .object-cover {
     object-fit: cover;
 }
@@ -125,7 +129,9 @@ body {
     flex: 1;
     padding: 1.5rem 0;
     position: relative;
-    overflow: auto;
+    padding-left: calc(264px + 24px);
+    transition: all linear .3s;
+    // overflow: auto;
 
     .sidebar-click-box {
         position: fixed;
@@ -377,6 +383,7 @@ body {
 
                 .link {
                     gap: 1.5rem;
+
                     span {
                         opacity: 0;
                     }
@@ -392,7 +399,8 @@ body {
                     top: -8px;
                 }
 
-                .name, .balance {
+                .name,
+                .balance {
                     opacity: 0;
                 }
             }
@@ -402,10 +410,27 @@ body {
     #main {
         max-width: 1272px;
         width: 100%;
-        margin-left: calc(264px + 24px);
-        overflow: auto;
+        // margin-left: calc(264px + 24px);
+        // overflow: auto;
         transition: all linear .3s;
         padding: 1.5rem;
+
+        #navbar-layout {
+            header {
+                a {
+                    color: $gray-500;
+                    font-size: $h2-font-size;
+                    font-family: 'Roboto Mono';
+
+                    &:hover,
+                    &.router-link-exact-active {
+                        color: $primary;
+                    }
+                }
+            }
+
+
+        }
     }
 
     &.sidebar-close {
@@ -429,15 +454,17 @@ body {
 
     @media (min-width: 992px) {
         &.sidebar-close {
+            padding-left: calc(72px + 24px);
             #main {
-                margin-left: calc(72px + 24px);
+                // margin-left: calc(72px + 24px);
             }
         }
-        
+
     }
 
     @media (max-width: 992px) {
         padding: 1rem 0;
+        padding-left: calc(72px + 16px);
 
         &.sidebar-open {
             .sidebar-click-box {
@@ -453,14 +480,20 @@ body {
 
         #main {
             padding: 1rem;
-            margin-left: calc(72px + 16px);
+            // margin-left: calc(72px + 16px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        #main {
+            // overflow: auto;
         }
     }
 }
 
 .transition-all {
     transition: all linear .3s;
-} 
+}
 
 .both-side-line-title {
     align-items: center;
@@ -476,10 +509,136 @@ body {
         align-items: center;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
         content: "";
         background-color: $black;
         height: 1px;
         width: 100%;
+    }
+}
+
+.application-card {
+    transition: box-shadow linear .3s;
+    .type {
+        display: flex;
+        align-items: center;
+        height: 1.5rem;
+        background-color: $gray-500;
+        color: $white;
+        border-radius: $border-radius;
+        font-weight: 500;
+        padding: 0 1.25rem;
+    }
+
+    .partners {
+        display: none;
+        align-items: center;
+
+        .item {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            padding: 1px;
+            border-radius: $border-radius-xl;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: inherit;
+            }
+        }
+    }
+
+    &.have-partners:hover {
+        .type {
+            display: none;
+        }
+
+        .partners {
+            display: flex;
+        }
+    }
+
+    .name {
+        display: flex;
+        align-items: center;
+        line-height: 2rem;
+        margin-bottom: 0;
+        svg {
+            display: none;
+        }
+    }
+
+    &.disabled {
+        .name {
+            color: $danger !important;
+            svg {
+                display: block;
+            }
+        }
+
+        .infos {
+            .item {
+                .value {
+                    color: $gray-700;
+                }
+            }
+        }
+    }
+
+    .infos {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        overflow: auto;
+
+        .item {
+            padding: 0 1.5rem;
+            border-left: 1px solid $gray-500;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+
+            .value {
+                font-size: $font-size-lg;
+                margin-bottom: .5rem;
+                color: $gray-800;
+                font-family: 'neue machina';
+            }
+
+            .title {
+                color: $gray-500;
+                letter-spacing: .006rem;
+                font-size: $font-size-sm;
+                margin-bottom: 0;
+                line-height: 1rem;
+                min-width: 96px;
+                text-align: center;
+            }
+
+            &:first-child {
+                padding-left: 0;
+                border: none;
+            }
+        }
+    }
+
+    &:hover {
+        box-shadow: 0px 38px 30px -39px $gray-400;
+    }
+
+    @media (min-width: 992px) {
+        .enter-btn {
+            opacity: 0;
+            transition: all linear .3s;
+        }
+
+        &:hover {
+            .enter-btn {
+                opacity: 1;
+            }
+        }
     }
 }

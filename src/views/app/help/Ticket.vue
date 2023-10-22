@@ -282,11 +282,11 @@ onMounted(() => {
           <div class="p-6 border-top border-primary" v-if="false">
             <!-- begin::Create Message -->
             <div class="d-flex gap-6">
-              <button type="button" class="btn btn-primary w-100 w-sm-168px fw-medium">
+              <button type="button" class="btn btn-primary w-100 w-sm-168px">
                 <span class="d-block d-sm-none">New</span>
                 <span class="d-none d-sm-block">New Message</span>
               </button>
-              <button type="button" class="btn btn-light w-100 w-sm-200px fw-medium">
+              <button type="button" class="btn btn-light w-100 w-sm-200px">
                 <span class="d-block d-sm-none">Close</span>
                 <span class="d-none d-sm-block">Close Chat</span>
               </button>
