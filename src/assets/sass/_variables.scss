@@ -608,7 +608,7 @@ $border-color-translucent:    rgba($black, .175) !default;
 $border-radius:               1rem !default;
 $border-radius-sm:            .75rem !default;
 $border-radius-lg:            1.5rem !default;
-$border-radius-xl:            2rem !default;
+$border-radius-xl:            1.875rem !default;
 $border-radius-xxl:           2.5rem !default;
 $border-radius-pill:          50rem !default;
 // scss-docs-end border-radius-variables
@@ -1245,9 +1245,11 @@ $custom-sizes: (
   	100px: 100px,
   	104px: 104px,
   	125px: 125px,
+  	132px: 132px,
   	136px: 136px,
   	144px: 144px,
   	150px: 150px,
+  	155px: 155px,
   	160px: 160px,
   	168px: 168px,
 	  175px: 175px,
@@ -1268,6 +1270,7 @@ $custom-sizes: (
     448px: 448px,
   	450px: 450px,
     475px: 475px,
+    481px: 481px,
   	500px: 500px,
   	550px: 550px,
   	560px: 560px,

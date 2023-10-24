@@ -30,7 +30,6 @@ onMounted(() => {
   scrollSpy.refresh()
 
   // This initializes Prism.js to highlight code
-  console.log({ Prism })
   Prism.highlightAll()
 })
 </script>

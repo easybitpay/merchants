@@ -23,6 +23,19 @@ const router = createRouter({
           component: () => import('@/views/app/Applications.vue')
         },
         {
+          path: '/application',
+          name: 'application',
+          component: () => import('@/layouts/Application.vue'),
+          
+          children: [
+            {
+              path: 'overview',
+              name: 'application-overview',
+              component: () => import('@/views/app/application/Overview.vue')
+            }
+          ]
+        },
+        {
           path: '/settings',
           name: 'settings',
           redirect: '/settings/basic',

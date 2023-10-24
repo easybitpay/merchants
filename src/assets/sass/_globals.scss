@@ -420,7 +420,7 @@ body {
                 a {
                     color: $gray-500;
                     font-size: $h2-font-size;
-                    font-family: 'Roboto Mono';
+                    font-family: 'Neue Machina';
 
                     &:hover,
                     &.router-link-exact-active {
@@ -456,7 +456,7 @@ body {
         &.sidebar-close {
             padding-left: calc(72px + 24px);
             #main {
-                // margin-left: calc(72px + 24px);
+                max-width: calc(1272px + 192px);
             }
         }
 

@@ -240,7 +240,7 @@ onMounted(() => {
       </h2>
       <div id="ticketOne" class="accordion-collapse collapse" data-bs-parent="#ticketAccordion">
         <div class="accordion-body p-0">
-          <div class="ticket-messages">
+          <div class="ticket-messages custom-scroll">
             <!-- begin::Ticket Messages -->
             <div
               :class="`item-box-holder ${item === 1 ? 'user' : 'admin'}`"
