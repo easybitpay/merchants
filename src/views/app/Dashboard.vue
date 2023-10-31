@@ -1,11 +1,39 @@
+<script setup>
+// Component
+import TwoFaBox from '../../components/dashboard/TwoFaBox.vue'
+import ValueCard from '../../components/dashboard/ValueCard.vue'
+import TrasactionHistory from '../../components/dashboard/TransactionHistory.vue'
+import AppCard from '../../components/dashboard/AppCard.vue'
+</script>
+
 <template>
-  <div v-for="(item, index) in 10" :key="index">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ea voluptas ipsum pariatur
-    placeat molestias accusamus sequi, doloribus non. Vero at, tempora repellat soluta sit suscipit
-    nihil consequuntur tenetur nemo.
+  <TwoFaBox />
+
+  <div class="row gy-5 mb-6">
+    <div class="col-sm-6 col-xl-3">
+      <ValueCard image="blue-image" title="Total Earning" value="16.259" />
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <ValueCard image="warning-image" title="Withdrawn" value="16.259" />
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <ValueCard image="purple-image" title="Earned in July" value="16.259" />
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <ValueCard image="success-image" title="Available" value="16.259" />
+    </div>
+  </div>
+
+  <div class="row gy-5">
+    <div class="col-xl-7 col-xxl-9">
+      <TrasactionHistory />
+    </div>
+
+    <div class="col-xl-5 col-xxl-3">
+      <AppCard />
+    </div>
   </div>
 </template>
-
-<script>
-export default {}
-</script>

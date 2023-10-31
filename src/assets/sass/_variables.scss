@@ -51,7 +51,7 @@ $grays-text: (
 // scss-docs-start color-variables
 $blue:    #1F75FF !default;
 $indigo:  #2B388F !default;
-$purple:  #6f42c1 !default;
+$purple:  #9575CD !default;
 $pink:    #d63384 !default;
 $red:     #E0264B !default;
 $orange:  #fd7e14 !default;
@@ -343,7 +343,7 @@ $theme-colors: (
   }
   @return $collection;
 }
-$theme-text-colors: map-collect($theme-colors, $blues, $indigos, $cyans, $reds, $yellows, $grays-text);
+$theme-text-colors: map-collect($theme-colors, $blues, $indigos, $purples, $cyans, $reds, $yellows, $grays-text);
 
 // scss-docs-start theme-text-variables
 $primary-text-emphasis:   shade-color($primary, 60%) !default;
@@ -505,7 +505,7 @@ $body-secondary-bg:         $gray-200 !default;
 $body-tertiary-color:       rgba($body-color, .5) !default;
 $body-tertiary-bg:          $gray-100 !default;
 
-$body-emphasis-color:       $black !default;
+$body-emphasis-color:       $white !default;
 
 // Links
 //
@@ -703,6 +703,7 @@ $h6-font-size:                $font-size-base !default;
 
 // scss-docs-start font-sizesF
 $font-sizes: (
+  'extra': 2rem,
   1: $h1-font-size,
   2: $h2-font-size,
   3: $h3-font-size,
@@ -792,18 +793,18 @@ $mark-bg:                     $yellow-100 !default;
 // Customizes the `.table` component with basic values, each used across all table variations.
 
 // scss-docs-start table-variables
-$table-cell-padding-y:        .5rem !default;
-$table-cell-padding-x:        .5rem !default;
+$table-cell-padding-y:        1rem !default;
+$table-cell-padding-x:        1.5rem !default;
 $table-cell-padding-y-sm:     .25rem !default;
 $table-cell-padding-x-sm:     .25rem !default;
 
 $table-cell-vertical-align:   top !default;
 
-$table-color:                 var(--#{$prefix}emphasis-color) !default;
-$table-bg:                    var(--#{$prefix}body-bg) !default;
+$table-color:                 var(--#{$prefix}gray-800) !default;
+$table-bg:                    var(--#{$prefix}white) !default;
 $table-accent-bg:             transparent !default;
 
-$table-th-font-weight:        null !default;
+$table-th-font-weight:        $font-weight-normal !default;
 
 $table-striped-color:         $table-color !default;
 $table-striped-bg-factor:     .05 !default;
@@ -818,7 +819,7 @@ $table-hover-bg-factor:       .075 !default;
 $table-hover-bg:              rgba(var(--#{$prefix}emphasis-color-rgb), $table-hover-bg-factor) !default;
 
 $table-border-factor:         .2 !default;
-$table-border-width:          var(--#{$prefix}border-width) !default;
+$table-border-width:          0 !default;
 $table-border-color:          var(--#{$prefix}border-color) !default;
 
 $table-striped-order:         odd !default;
@@ -1244,6 +1245,7 @@ $custom-sizes: (
   	95px: 95px,
   	100px: 100px,
   	104px: 104px,
+  	120px: 120px,
   	125px: 125px,
   	132px: 132px,
   	136px: 136px,
@@ -1252,12 +1254,14 @@ $custom-sizes: (
   	155px: 155px,
   	160px: 160px,
   	168px: 168px,
+	  170px: 170px,
 	  175px: 175px,
 	  192px: 192px,
   	200px: 200px,
   	216px: 216px,
     225px: 225px,
   	250px: 250px,
+  	264px: 264px,
     275px: 275px,
   	300px: 300px,
   	310px: 310px,
@@ -1418,7 +1422,7 @@ $dropdown-link-hover-color:         $dropdown-link-color !default;
 $dropdown-link-hover-bg:            var(--#{$prefix}tertiary-bg) !default;
 
 $dropdown-link-active-color:        var(--#{$prefix}gray-900) !default;
-$dropdown-link-active-bg:           var(--#{$prefix}body-bg) !default;
+$dropdown-link-active-bg:           var(--#{$prefix}emphasis-color) !default;
 
 $dropdown-link-disabled-color:      var(--#{$prefix}tertiary-color) !default;
 
@@ -1563,17 +1567,17 @@ $accordion-button-active-icon:  url(media/icons/icons/chevron-up.svg) !default;
 
 // scss-docs-start tooltip-variables
 $tooltip-font-size:                 $font-size-sm !default;
-$tooltip-max-width:                 200px !default;
+$tooltip-max-width:                 216px !default;
 $tooltip-color:                     var(--#{$prefix}body-bg) !default;
 $tooltip-bg:                        var(--#{$prefix}emphasis-color) !default;
-$tooltip-border-radius:             var(--#{$prefix}border-radius) !default;
-$tooltip-opacity:                   .9 !default;
-$tooltip-padding-y:                 $spacer * .25 !default;
-$tooltip-padding-x:                 $spacer * .5 !default;
+$tooltip-border-radius:             1.25rem !default;
+$tooltip-opacity:                   1 !default;
+$tooltip-padding-y:                 $spacer * 1.5 !default;
+$tooltip-padding-x:                 $spacer * 1.5 !default;
 $tooltip-margin:                    null !default; // TODO: remove this in v6
 
-$tooltip-arrow-width:               .8rem !default;
-$tooltip-arrow-height:              .4rem !default;
+$tooltip-arrow-width:               1.75rem !default;
+$tooltip-arrow-height:              1.75rem !default;
 // fusv-disable
 $tooltip-arrow-color:               null !default; // Deprecated in Bootstrap 5.2.0 for CSS variables
 // fusv-enable

@@ -113,6 +113,10 @@ body {
     object-fit: cover;
 }
 
+.max-content {
+    min-width: max-content;
+}
+
 .auth-bg {
     background-position: top;
     background-size: cover;
@@ -121,6 +125,16 @@ body {
 
     &.error {
         filter: grayscale(1);
+    }
+}
+
+.small-coin-icon {
+    width: 24px;
+}
+
+.multiple-coin {
+    &:not(:first-child) {
+        margin-left: -8px;
     }
 }
 
@@ -518,6 +532,86 @@ body {
     }
 }
 
+.partners {
+    display: flex;
+    align-items: center;
+    .item {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        padding: 1px;
+        border-radius: $border-radius-xl;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+    }
+}
+
+.value-infos {
+    display: flex;
+    align-items: center;
+
+    .item {
+        padding: 0 1.5rem;
+        border-left: 1px solid $gray-500;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        width: 100%;
+
+        .value {
+            font-size: $font-size-lg;
+            margin-bottom: .5rem;
+            font-family: 'neue machina';
+        }
+
+        .title {
+            color: $gray-500;
+            letter-spacing: .006rem;
+            font-size: $font-size-sm;
+            margin-bottom: 0;
+            line-height: 1rem;
+            text-align: center;
+        }
+
+        &:not(.active) {
+            .value {
+                color: $gray-800 !important;
+            }
+        }
+
+        &:first-child {
+            padding-left: 0;
+            border: none;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    @media (max-width: 400px) {
+        flex-flow: column;
+        .item {
+            padding: 0;
+            border-left: none;
+            border-top: 1px solid $gray-500;
+            padding-top: .75rem;
+            margin-top: .75rem;
+            &:first-child {
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+        }
+    }
+}
+
 .application-card {
     transition: box-shadow linear .3s;
     .type {
@@ -533,22 +627,6 @@ body {
 
     .partners {
         display: none;
-        align-items: center;
-
-        .item {
-            width: 1.5rem;
-            height: 1.5rem;
-            display: flex;
-            padding: 1px;
-            border-radius: $border-radius-xl;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: inherit;
-            }
-        }
     }
 
     &.have-partners:hover {

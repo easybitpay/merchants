@@ -32,6 +32,21 @@ const router = createRouter({
               path: 'overview',
               name: 'application-overview',
               component: () => import('@/views/app/application/Overview.vue')
+            },
+            {
+              path: 'transaction',
+              name: 'application-transaction',
+              component: () => import('@/views/app/application/Transaction.vue')
+            },
+            {
+              path: 'setting',
+              name: 'application-setting',
+              component: () => import('@/views/app/application/Setting.vue')
+            },
+            {
+              path: 'notification',
+              name: 'application-notification',
+              component: () => import('@/views/app/application/Notification.vue')
             }
           ]
         },

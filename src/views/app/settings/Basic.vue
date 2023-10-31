@@ -1,5 +1,6 @@
 <script setup>
 import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.vue'
+import TextColumn from '../../../components/globals/TextColumn.vue'
 </script>
 
 <template>
@@ -16,51 +17,15 @@ import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Name</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent lh-24px"
-        >
-          Mohamad reza moradi
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
-          ></inline-svg>
-        </div>
-      </div>
+      <TextColumn title="Name" content="Mohamad reza moradi" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Birthday</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent lh-24px"
-        >
-          20.10.1990
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
-          ></inline-svg>
-        </div>
-      </div>
+      <TextColumn title="Birthday" content="20.10.1990" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Gender</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent lh-24px"
-        >
-          Rather not say
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
-          ></inline-svg>
-        </div>
-      </div>
+      <TextColumn title="Gender" content="Rather not say" />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
@@ -80,61 +45,33 @@ import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Phone</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent lh-24px"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#basicInfo_offcanvas"
-          aria-controls="basicInfo_offcanvas"
-        >
-          +98 912 260 46 54
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
-          ></inline-svg>
-        </div>
-      </div>
+      <TextColumn title="Phone" content="+98 912 260 46 54" canvasId="basicInfo_offcanvas" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Email</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between text-hover-primary hover-sm-show-parent lh-24px"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#basicInfo_offcanvas"
-          aria-controls="basicInfo_offcanvas"
-        >
-          Plusstudio2007@gmail.com
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none"
-          ></inline-svg>
-        </div>
-      </div>
+      <TextColumn title="Email" content="Plusstudio2007@gmail.com" canvasId="basicInfo_offcanvas" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
       <div class="row ls-base">
         <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Country</div>
-        <div
-          class="col-sm-7 col-md-6 col-lg-5 col-xl-4 d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent lh-24px"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#basicInfo_offcanvas"
-          aria-controls="basicInfo_offcanvas"
-        >
-          <span class="d-flex gap-4">
-            <span class="fi fi-us"></span>
-            United State
-          </span>
+        <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
+          <div
+            class="w-100 w-lg-initial d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#basicInfo_offcanvas"
+            aria-controls="basicInfo_offcanvas"
+          >
+            <span class="d-flex gap-4">
+              <span class="fi fi-us"></span>
+              United State
+            </span>
 
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
-          ></inline-svg>
+            <inline-svg
+              src="media/icons/icons/arrow-right.svg"
+              class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
+            ></inline-svg>
+          </div>
         </div>
       </div>
       <!-- end::Item -->
