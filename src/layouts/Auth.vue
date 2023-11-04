@@ -20,9 +20,9 @@ const changeBG = () => {
 <template>
   <!-- begin::Main Box -->
   <div class="d-flex flex-column flex-root z-2">
-    <div class="d-flex flex-column flex-root">
+    <div class="d-flex flex-column flex-root justify-content-center">
       <!-- begin::Container -->
-      <div class="container d-flex flex-column align-items-center pb-8 pt-15 pt-md-15 pt-lg-20">
+      <div class="container d-flex flex-column align-items-center pb-8 pt-8">
         <!-- begin::Logo -->
         <inline-svg src="media/images/logo/Logo.svg" class="mb-6"></inline-svg>
         <!-- end::Logo -->

@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 // Components
 import Sidebar from './components/Sidebar.vue'
+import LockScreen from './LockScreen.vue'
 
 // ----- START ----- //
 const sidebarStatus = ref(true)
@@ -21,4 +22,6 @@ const changeSidebarStatus = () => {
       <RouterView />
     </main>
   </div>
+
+  <LockScreen />
 </template>

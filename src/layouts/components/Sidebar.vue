@@ -3,8 +3,10 @@ import { Collapse } from 'bootstrap'
 
 // Vue
 import { onMounted, ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
 // ----- START ----- //
+const store = useAuthStore()
 const emit = defineEmits(['changeSidebarStatus'])
 
 const props = defineProps({
@@ -29,6 +31,10 @@ const checkInnerWidth = () => {
 }
 
 checkInnerWidth()
+
+const showLockScreen = () => {
+  store.changeLockScreenStatus(true)
+}
 </script>
 
 <template>
@@ -189,7 +195,7 @@ checkInnerWidth()
         <!-- end::Link -->
 
         <!-- begin::Lock -->
-        <div class="link">
+        <div class="link" @click="showLockScreen">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/lock-unlocked.svg" class="icon"></inline-svg>

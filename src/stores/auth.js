@@ -2,8 +2,18 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', () => {
-  // States
+  // ----- States -----
   const user = ref({})
+  const lockScreen = ref('')
+
+  const lockScreenStatus = computed(() => {
+    const storage = localStorage.getItem('lockScreenStatus')
+
+    if (lockScreen.value) return true
+    if (storage) return true
+
+    return false
+  })
 
   const tokens = [
     {
@@ -814,13 +824,26 @@ export const useAuthStore = defineStore('auth', () => {
     }
   ]
 
-  // Getters
+  // ----- Function -----
+  function changeLockScreenStatus(status) {
+    if (status) {
+      lockScreen.value = 'active'
+      localStorage.setItem('lockScreenStatus', 'active')
 
-  // Function
+      document.body.classList.add('overflow-hidden')
+    } else {
+      lockScreen.value = ''
+      localStorage.removeItem('lockScreenStatus')
+
+      document.body.classList.remove('overflow-hidden')
+    }
+  }
+
+
   const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { doubleCount, increment, tokens, networks }
+  return { lockScreenStatus, changeLockScreenStatus, doubleCount, increment, tokens, networks }
 })
