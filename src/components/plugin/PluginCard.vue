@@ -16,7 +16,7 @@
         <!-- end::Type -->
 
         <!-- begin::Name -->
-        <h2 class="text-purple-500">Wordpress</h2>
+        <h2 class="text-purple-500 mb-0">Wordpress</h2>
         <!-- end::Name -->
 
         <!-- begin::Info -->
