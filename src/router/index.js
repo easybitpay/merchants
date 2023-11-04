@@ -18,6 +18,11 @@ const router = createRouter({
           component: () => import('@/views/app/Dashboard.vue')
         },
         {
+          path: '/plugin',
+          name: 'plugin',
+          component: () => import('@/views/app/Plugins.vue')
+        },
+        {
           path: '/applications',
           name: 'applications',
           component: () => import('@/views/app/Applications.vue')

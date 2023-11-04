@@ -137,7 +137,7 @@ checkInnerWidth()
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'login' }" class="link">
+        <RouterLink :to="{ name: 'plugin' }" class="link">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/commandline.svg" class="icon"></inline-svg>
