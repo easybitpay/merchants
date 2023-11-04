@@ -1,11 +1,12 @@
 <script setup>
 // Vue
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
 import SelectCoinDropdown from '../../../components/globals/SelectCoinDropdown.vue'
+import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
 
 // ----- START ----- //
 import { useAuthStore } from '@/stores/auth'
@@ -22,6 +23,32 @@ const available_tokens = ref([])
 const toggleAvialableToken = (tokens) => {
   available_tokens.value = tokens
 }
+
+onMounted(() => {
+  var range = document.querySelector('.range')
+
+  var thumb = document.querySelector('.range-thumb')
+  var max = parseInt(range.max, 10)
+  var thumbWidth = 101 // Thumb width. See CSS
+
+  range.addEventListener('input', function () {
+    var width = range.offsetWidth
+    var value = parseInt(range.value, 10)
+    var text = value >= max ? '100' : value
+    var positionInPX = (value * (width - thumbWidth)) / max
+
+    thumb.style.left = positionInPX + 'px'
+    thumb.querySelector('.merchant').innerHTML = text
+    thumb.querySelector('.user').innerHTML = 100 - text
+  })
+
+  window.addEventListener('resize', function () {
+    range.dispatchEvent(new Event('input'))
+  })
+
+  // Calculate on load
+  range.dispatchEvent(new Event('input'))
+})
 </script>
 
 <template>
@@ -136,7 +163,9 @@ const toggleAvialableToken = (tokens) => {
     <div class="d-flex flex-column gap-4 mb-10">
       <!-- begin::Item -->
       <div class="row row-gap-2 ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 lh-24px text-gray-900">Firest Custom Coin</div>
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 lh-24px text-gray-900">
+          Firest Custom Coin
+        </div>
 
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div
@@ -157,7 +186,9 @@ const toggleAvialableToken = (tokens) => {
 
       <!-- begin::Item -->
       <div class="row row-gap-2 ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 lh-24px text-gray-900">Secend Custom Coin</div>
+        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 lh-24px text-gray-900">
+          Secend Custom Coin
+        </div>
 
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div
@@ -195,12 +226,48 @@ const toggleAvialableToken = (tokens) => {
     <!-- end::Title -->
 
     <!-- begin::Content -->
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A omnis officia nostrum magni
-      voluptatem nihil unde totam eligendi quae autem, natus dolorum magnam quisquam vero illo ut
-      iure? Culpa, maiores!
+    <div class="d-flex flex-column align-items-start">
+      <div>
+        <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
+          <!-- begin::Top -->
+          <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+
+          <div class="range-div w-384px">
+            <input type="range" name="" class="range" min="0" max="100" step="1" value="20" />
+            <span class="range-thumb">
+              <span class="merchant"></span>
+              <span class="text-dark mx-2">|</span>
+              <span class="user"></span>
+            </span>
+          </div>
+
+          <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+          <!-- end::Top -->
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between text-gray-800 ls-base">
+          <p class="mb-0">Merchant</p>
+          <p class="mb-0">User</p>
+        </div>
+      </div>
     </div>
     <!-- end::Content -->
   </div>
   <!-- end::Customer Fee Share -->
+
+    <!-- begin::Gateway Theme -->
+    <div class="mb-12 mt-10">
+    <!-- begin::Title -->
+    <h4 class="mb-2 lh-1 text-gray-900">Gateway Theme</h4>
+
+    <p class="mb-6 text-gray-800">
+      Some info may be visible to other people using Google services.
+    </p>
+    <!-- end::Title -->
+
+    <!-- begin::Content -->
+    <GatewayThemes/>
+    <!-- end::Content -->
+  </div>
+  <!-- end::Gateway Theme -->
 </template>

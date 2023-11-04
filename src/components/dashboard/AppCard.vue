@@ -59,7 +59,7 @@
         <!-- end::Balance Infos -->
 
         <!-- begin::Link -->
-        <RouterLink to="/" class="btn btn-primary w-100">
+        <RouterLink :to="{ name: 'application-overview' }" class="btn btn-primary w-100">
           Full View
           <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
         </RouterLink>
