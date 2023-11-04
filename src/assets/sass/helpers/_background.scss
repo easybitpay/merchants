@@ -25,6 +25,11 @@ $color in $theme-text-colors {
             background-color: $color !important;
         }
     }
+
+    // Light
+    .bg-light-#{$name} {
+        background-color: lighten($color: $color, $amount: 10);
+    }
 }
 
 .gradient-image-box {

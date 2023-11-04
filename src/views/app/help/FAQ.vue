@@ -8,30 +8,14 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 // Import Swiper styles
 import 'swiper/css'
 
+// Hook
+import useAccordion from '@/hooks/useAccordion'
+
 // ----- START ----- //
-const checkActiveAccordion = () => {
-  const accordion = document.querySelector('#faqAccordion')
-
-  const accordionItems = accordion.querySelectorAll('.accordion-item')
-
-  accordionItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('accordion-active')
-
-      removeClass(index)
-    })
-  })
-  const removeClass = (clickedIndex) => {
-    accordionItems.forEach((item, index) => {
-      if (clickedIndex !== index) {
-        item.classList.remove('accordion-active')
-      }
-    })
-  }
-}
+const { checkActiveAccordion } = useAccordion()
 
 onMounted(() => {
-  checkActiveAccordion()
+  checkActiveAccordion('faqAccordion')
 })
 </script>
 <template>

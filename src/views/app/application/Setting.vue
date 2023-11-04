@@ -3,7 +3,7 @@
 import { computed, onMounted, ref } from 'vue'
 
 // Component
-import ApplicationCard from '../../../components/application/ApplicationCard.vue'
+import AppSetting from '../../../components/application/AppSetting.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
 import SelectCoinDropdown from '../../../components/globals/SelectCoinDropdown.vue'
 import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
@@ -52,7 +52,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ApplicationCard action="status" />
+  <AppSetting />
 
   <!-- begin::App Info -->
   <div class="mb-12 mt-10">
@@ -227,12 +227,12 @@ onMounted(() => {
 
     <!-- begin::Content -->
     <div class="d-flex flex-column align-items-start">
-      <div>
+      <div class="w-100 w-lg-initial">
         <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
           <!-- begin::Top -->
-          <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
 
-          <div class="range-div w-384px">
+          <div class="range-div w-100 w-lg-384px">
             <input type="range" name="" class="range" min="0" max="100" step="1" value="20" />
             <span class="range-thumb">
               <span class="merchant"></span>
@@ -241,7 +241,7 @@ onMounted(() => {
             </span>
           </div>
 
-          <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
           <!-- end::Top -->
         </div>
 

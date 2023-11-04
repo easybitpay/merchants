@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
+import useAccordion from '@/hooks/useAccordion'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
@@ -17,27 +18,7 @@ import 'swiper/css'
 
 // ----- START ----- //
 const { showFeedBacks } = useForm()
-
-const checkActiveAccordion = () => {
-  const accordion = document.querySelector('#ticketAccordion')
-
-  const accordionItems = accordion.querySelectorAll('.accordion-item')
-
-  accordionItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('accordion-active')
-
-      removeClass(index)
-    })
-  })
-  const removeClass = (clickedIndex) => {
-    accordionItems.forEach((item, index) => {
-      if (clickedIndex !== index) {
-        item.classList.remove('accordion-active')
-      }
-    })
-  }
-}
+const { checkActiveAccordion } = useAccordion()
 
 const form = ref({
   subject: null
@@ -84,7 +65,7 @@ const showPreview = (file) => {
 }
 
 onMounted(() => {
-  checkActiveAccordion()
+  checkActiveAccordion('ticketAccordion')
 })
 </script>
 <template>
