@@ -19,7 +19,7 @@ const editPartner = () => {
       <!-- begin::Header -->
       <div class="pb-12 d-flex align-items-center justify-content-between flex-wrap gap-4">
         <h4 class="roboto-mono mb-0 text-gray-900 d-flex gap-5 fw-normal">
-          <inline-svg src="media/icons/shapes/chess.svg"></inline-svg>
+          <inline-svg src="/media/icons/shapes/chess.svg"></inline-svg>
 
           Plusstudio Team
         </h4>
@@ -43,7 +43,7 @@ const editPartner = () => {
             <!-- begin::Image Box -->
             <div class="w-40px h-40px">
               <img
-                src="media/images/banner/theme.png"
+                src="/media/images/banner/theme.png"
                 alt="user"
                 class="w-100 h-100 object-cover rounded-circle"
               />
@@ -74,7 +74,7 @@ const editPartner = () => {
             <!-- begin::Image Box -->
             <div class="w-40px h-40px">
               <img
-                src="media/images/banner/theme.png"
+                src="/media/images/banner/theme.png"
                 alt="user"
                 class="w-100 h-100 object-cover rounded-circle"
               />

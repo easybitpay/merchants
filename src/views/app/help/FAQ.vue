@@ -224,9 +224,9 @@ onMounted(() => {
 
               <!-- begin::Emojies -->
               <div class="d-flex gap-4 ms-0 ms-sm-8">
-                <img src="media/icons/emoji/happy.png" class="cursor-pointer" />
-                <img src="media/icons/emoji/sad.png" class="cursor-pointer" />
-                <img src="media/icons/emoji/neutral.png" class="cursor-pointer" />
+                <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
+                <img src="/media/icons/emoji/sad.png" class="cursor-pointer" />
+                <img src="/media/icons/emoji/neutral.png" class="cursor-pointer" />
               </div>
               <!-- end::Emojies -->
             </div>

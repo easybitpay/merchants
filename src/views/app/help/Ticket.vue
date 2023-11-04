@@ -117,7 +117,7 @@ onMounted(() => {
         <div class="card border-gray-200 cursor-pointer">
           <div class="card-body p-4 text-gray-800">
             <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/wallet.svg" height="33"></inline-svg>
+            <inline-svg src="/media/icons/shapes/wallet.svg" height="33"></inline-svg>
             <!-- end::Icon -->
 
             <!-- begin::Title -->
@@ -138,7 +138,7 @@ onMounted(() => {
         <div class="card border-primary cursor-pointer transition-all active-box active-tab-shadow">
           <div class="card-body p-4 text-gray-800">
             <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/coin.svg" height="33"></inline-svg>
+            <inline-svg src="/media/icons/shapes/coin.svg" height="33"></inline-svg>
             <!-- end::Icon -->
 
             <!-- begin::Title -->
@@ -166,7 +166,7 @@ onMounted(() => {
         <div class="card border-gray-200 cursor-pointer">
           <div class="card-body p-4 text-gray-800">
             <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/person.svg" height="33"></inline-svg>
+            <inline-svg src="/media/icons/shapes/person.svg" height="33"></inline-svg>
             <!-- end::Icon -->
 
             <!-- begin::Title -->
@@ -218,7 +218,7 @@ onMounted(() => {
   <!-- begin::No Ticket Image -->
   <inline-svg
     v-if="false"
-    src="media/icons/shapes/no-ticket.svg"
+    src="/media/icons/shapes/no-ticket.svg"
     class="d-block mx-auto mt-16"
   ></inline-svg>
   <!-- end::No Ticket Image -->
@@ -255,13 +255,13 @@ onMounted(() => {
 
               <div class="medias">
                 <a href="" class="item">
-                  <img src="media/images/banner/auth-bg.jpg" alt="item" />
+                  <img src="/media/images/banner/auth-bg.jpg" alt="item" />
                 </a>
                 <a href="" class="item">
-                  <img src="media/images/banner/theme.png" alt="item" />
+                  <img src="/media/images/banner/theme.png" alt="item" />
                 </a>
                 <a href="" class="item">
-                  <img src="media/images/banner/theme.png" alt="item" />
+                  <img src="/media/images/banner/theme.png" alt="item" />
                 </a>
               </div>
             </div>
@@ -272,7 +272,7 @@ onMounted(() => {
               <span>
                 Finished At 16.10.2023 - 07:28
 
-                <img src="media/icons/emoji/happy.png" class="cursor-pointer" />
+                <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
               </span>
             </div>
             <!-- end::Finish Box -->
@@ -313,7 +313,7 @@ onMounted(() => {
 
                   <inline-svg
                     @click="removeFiles(file)"
-                    src="media/icons/icons/trash.svg"
+                    src="/media/icons/icons/trash.svg"
                     height="24"
                     class="svg-icon-danger bg-white cursor-pointer"
                     style="border-radius: 3px"
@@ -339,7 +339,7 @@ onMounted(() => {
                   @click="inputClick"
                   class="btn btn-light border-0 w-40px h-40px p-0 align-items-center"
                 >
-                  <inline-svg src="media/icons/icons/attach.svg"></inline-svg>
+                  <inline-svg src="/media/icons/icons/attach.svg"></inline-svg>
                 </button>
                 <!-- end::Attach -->
               </div>
@@ -360,9 +360,9 @@ onMounted(() => {
 
             <!-- begin::Emojies -->
             <div class="d-flex gap-4 ms-0 ms-sm-8">
-              <img src="media/icons/emoji/happy.png" class="cursor-pointer" />
-              <img src="media/icons/emoji/sad.png" class="cursor-pointer" />
-              <img src="media/icons/emoji/neutral.png" class="cursor-pointer" />
+              <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
+              <img src="/media/icons/emoji/sad.png" class="cursor-pointer" />
+              <img src="/media/icons/emoji/neutral.png" class="cursor-pointer" />
             </div>
             <!-- end::Emojies -->
           </div>

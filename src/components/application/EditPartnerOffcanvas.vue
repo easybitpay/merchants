@@ -44,7 +44,7 @@ const editPartner = async () => {
   >
     <div class="offcanvas-body">
       <inline-svg
-        src="media/icons/icons/close.svg"
+        src="/media/icons/icons/close.svg"
         data-bs-dismiss="offcanvas"
         aria-label="Close"
         class="d-block mx-auto mb-4 cursor-pointer"
@@ -59,7 +59,7 @@ const editPartner = async () => {
               <div>
                 <div class="w-48px h-48px">
                   <img
-                    src="media/images/banner/theme.png"
+                    src="/media/images/banner/theme.png"
                     alt="partner"
                     class="w-100 h-100 object-cover rounded-circle"
                   />
@@ -177,7 +177,7 @@ const editPartner = async () => {
             <div
               class="w-56px h-56px d-flex align-items-center justify-content-center rounded bg-white"
             >
-              <inline-svg src="media/icons/shapes/bookmark.svg"></inline-svg>
+              <inline-svg src="/media/icons/shapes/bookmark.svg"></inline-svg>
             </div>
           </div>
 

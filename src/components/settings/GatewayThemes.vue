@@ -22,7 +22,7 @@ const selected = ref(1)
         aria-controls="gatewayTheme_offcanvas"
       >
         <img
-          src="media/images/banner/auth-bg.jpg"
+          src="/media/images/banner/auth-bg.jpg"
           alt="banner"
           class="w-100 h-100 rounded-3 object-cover"
         />

@@ -32,7 +32,7 @@ const modules = [Navigation, Pagination]
           <!-- begin::Header -->
           <div class="d-flex gap-4">
             <div>
-              <inline-svg src="media/icons/shapes/store.svg"></inline-svg>
+              <inline-svg src="/media/icons/shapes/store.svg"></inline-svg>
             </div>
 
             <div class="mb-6">
@@ -55,26 +55,26 @@ const modules = [Navigation, Pagination]
               class="mySwiper"
             >
               <SwiperSlide>
-                <img src="media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
+                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
+                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
+                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
+                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
               <SwiperSlide>
                 <img
-                  src="media/images/banner/auth-bg.jpg"
+                  src="/media/images/banner/auth-bg.jpg"
                   alt="theme"
                   class="img-fluid rounded-1"
                 />
               </SwiperSlide>
               <SwiperSlide>
-                <img src="media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
+                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -89,7 +89,7 @@ const modules = [Navigation, Pagination]
           <div
             class="w-56px h-56px d-flex align-items-center justify-content-center rounded bg-white"
           >
-            <inline-svg src="media/icons/shapes/bookmark.svg"></inline-svg>
+            <inline-svg src="/media/icons/shapes/bookmark.svg"></inline-svg>
           </div>
         </div>
         <div class="card border-0 mb-6 w-100">
