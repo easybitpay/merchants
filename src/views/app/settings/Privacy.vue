@@ -144,7 +144,7 @@ const convertStatusToColor = (status) => {
       <div class="row align-items-center gy-3">
         <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
           <div
-            style="--background: url(media/images/banner/auth-bg.jpg)"
+            style="--background: url(/media/images/banner/auth-bg.jpg)"
             class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
           >
             ID Card
@@ -181,7 +181,7 @@ const convertStatusToColor = (status) => {
       <div class="row align-items-center gy-3">
         <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
           <div
-            style="--background: url(media/images/banner/auth-bg.jpg)"
+            style="--background: url(/media/images/banner/auth-bg.jpg)"
             class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
           >
             <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">ID Card</p>
@@ -218,7 +218,7 @@ const convertStatusToColor = (status) => {
       <div class="row align-items-center gy-3">
         <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
           <div
-            style="--background: url(media/images/banner/auth-bg.jpg)"
+            style="--background: url(/media/images/banner/auth-bg.jpg)"
             class="gradient-image-box hover-shadow h-40px border border-danger rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-danger hover-show-parent"
           >
             ID Card

@@ -10,7 +10,7 @@ const props = defineProps({
 <template>
   <div
     class="card gradient-image-box application-card have-partners disabled"
-    style="--background: url(media/images/banner/auth-bg.jpg)"
+    style="--background: url(/media/images/banner/auth-bg.jpg)"
   >
     <div
       class="card-body d-flex flex-column flex-lg-row align-items-start align-items-lg-end gap-4"

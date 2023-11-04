@@ -2,7 +2,7 @@
 <template>
   <div
     class="card border-purple-500 rounded h-100 min-h-481px gradient-image-box"
-    style="--background: url(media/images/banner/auth-bg.jpg)"
+    style="--background: url(/media/images/banner/auth-bg.jpg)"
   >
     <div class="card-body d-flex flex-column justify-content-between">
       <!-- begin::Top -->
