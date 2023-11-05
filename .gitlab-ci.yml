@@ -5,6 +5,7 @@ deploy-job:
   stage: deploy
   before_script: 
     - echo "$SSH_KEY" > ~/.ssh/ssh_key_138
+    - chmod 600 ~/.ssh/ssh_key_138
   script:
     - >
       ssh -o StrictHostKeyChecking=no -i ~/.ssh/ssh_key_138 -p 3031 easybitpay@138.201.35.101 "
