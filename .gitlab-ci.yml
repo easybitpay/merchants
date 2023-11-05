@@ -10,4 +10,5 @@ deploy-job:
       ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY -p 3031 easybitpay@138.201.35.101 "
       cd /home/easybitpay/v4/front_test/ &&
       git pull origin main &&
+      npm install &&
       bash /home/easybitpay/v4/front_test/build.sh"
