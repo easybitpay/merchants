@@ -47,13 +47,24 @@ $color in $theme-text-colors {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+
     .card-body {
         backdrop-filter: grayscale(1);
+
         .title {
             font-size: 2rem;
         }
+
         .info {
             max-width: 824px;
         }
     }
+}
+
+.card-linear-background {
+    background-image: var(--background);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply, normal;
 }

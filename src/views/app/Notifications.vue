@@ -56,7 +56,7 @@ onMounted(() => {
 </script>
 <template>
   <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 roboto-mono">Notifications</h2>
+  <h2 class="text-primary fw-normal mb-12 neue-machina">Notifications</h2>
   <!-- end::Header -->
 
   <!-- begin::text -->

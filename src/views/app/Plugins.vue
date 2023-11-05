@@ -4,7 +4,7 @@ import PluginCard from '../../components/plugin/PluginCard.vue'
 </script>
 <template>
   <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 roboto-mono">Plugin</h2>
+  <h2 class="text-primary fw-normal mb-12 neue-machina">Plugin</h2>
   <!-- end::Header -->
 
   <!-- begin::text -->

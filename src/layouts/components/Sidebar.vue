@@ -119,7 +119,7 @@ const showLockScreen = () => {
         <!-- end::Collapse Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'login' }" class="link">
+        <RouterLink :to="{ name: 'exchange' }" class="link">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/settings-alt.svg" class="icon"></inline-svg>

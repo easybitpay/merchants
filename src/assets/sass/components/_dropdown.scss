@@ -13,8 +13,24 @@
     .dropdown-toggle {
         justify-content: space-between;
     }
+
     .dropdown-menu {
         max-height: 300px;
         overflow: auto;
+        min-width: 254px;
+    }
+}
+
+.select-coin-dropdown {
+    .dropdown-toggle {
+        &::after {
+            display: none;
+        }
+    }
+
+    .dropdown-menu {
+        max-height: 300px;
+        overflow: auto;
+        min-width: 254px;
     }
 }

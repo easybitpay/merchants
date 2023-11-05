@@ -28,6 +28,11 @@ const router = createRouter({
           component: () => import('@/views/app/Notifications.vue')
         },
         {
+          path: '/exchange',
+          name: 'exchange',
+          component: () => import('@/views/app/Exchange.vue')
+        },
+        {
           path: '/applications',
           name: 'applications',
           component: () => import('@/views/app/Applications.vue')
