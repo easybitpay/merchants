@@ -4,7 +4,7 @@ stages:
 deploy-job:
   stage: deploy
   before_script:
-    - cat $SSH_PRIVATE_KEY
+    - cat ${SSH_PRIVATE_KEY}
   #   - chmod 600 $SSH_PRIVATE_KEY
   script:
     - >
