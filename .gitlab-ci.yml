@@ -1,13 +1,16 @@
+variable:
+  SSH_KEY
 stages:
   - deploy
 
 deploy-job:
   stage: deploy
-  before_script:
-    - chmod -R 400 $SSH_KEY
+  before_script: 
+    - echo "$SSH_KEY" > ./ssh_key_138
+    - chmod 400 ./ssh_key
   script:
     - >
-      ssh -o StrictHostKeyChecking=no -i $SSH_KEY -p 3031 easybitpay@138.201.35.101 "
+      ssh -o StrictHostKeyChecking=no -i ./ssh_key_138 -p 3031 easybitpay@138.201.35.101 "
       cd /home/easybitpay/v4/front_test/ &&
       git pull origin main &&
       bash /home/easybitpay/v4/front_test/build.sh"
