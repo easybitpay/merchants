@@ -43,11 +43,13 @@ const showLockScreen = () => {
     <!-- begin::Logo & Search -->
     <div class="two-side-space w-100">
       <!-- begin::Logo -->
-      <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
-      <inline-svg
-        src="media/images/logo/sidebar-collapse-logo.svg"
-        class="logo-collapse"
-      ></inline-svg>
+      <RouterLink :to="{ name: 'dashboard' }">
+        <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
+        <inline-svg
+          src="media/images/logo/sidebar-collapse-logo.svg"
+          class="logo-collapse"
+        ></inline-svg>
+      </RouterLink>
       <!-- end::Logo -->
 
       <!-- begin::Search -->
