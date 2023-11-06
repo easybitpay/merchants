@@ -4,6 +4,7 @@ import TwoFaBox from '../../components/dashboard/TwoFaBox.vue'
 import ValueCard from '../../components/dashboard/ValueCard.vue'
 import TrasactionHistory from '../../components/dashboard/TransactionHistory.vue'
 import AppCard from '../../components/dashboard/AppCard.vue'
+import LastTransactions from '../../components/dashboard/LastTransactions.vue'
 </script>
 
 <template>
@@ -27,7 +28,7 @@ import AppCard from '../../components/dashboard/AppCard.vue'
     </div>
   </div>
 
-  <div class="row gy-5">
+  <div class="row gy-5 mb-6">
     <div class="col-xl-7 col-xxl-9">
       <TrasactionHistory />
     </div>
@@ -36,4 +37,6 @@ import AppCard from '../../components/dashboard/AppCard.vue'
       <AppCard />
     </div>
   </div>
+
+  <LastTransactions />
 </template>
