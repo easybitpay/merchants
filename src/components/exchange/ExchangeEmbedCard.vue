@@ -3,7 +3,7 @@
 <template>
   <div class="card border-gray-200 mt-6">
     <div
-      class="card-body p-4 d-flex flex-wrap row-gap-4 align-items-center justify-content-between cursor-pointer"
+      class="card-body p-4 d-flex flex-wrap row-gap-4 align-items-center justify-content-between"
     >
       <!-- begin::Title -->
       <div class="d-flex align-items-center gap-4">
