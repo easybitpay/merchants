@@ -213,3 +213,53 @@
         min-width: 254px;
     }
 }
+
+#birthdateDropdown {
+    .dropdown-menu {
+        .input-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .item {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                border: 1px solid $gray-300;
+                border-radius: 12.5px;
+
+                &:focus,
+                &:active,
+                &:hover,
+                &:focus-within {
+                    border-color: $primary;
+
+                    .form-control {
+                        border-color: $primary;
+                    }
+                }
+
+                .svg-box {
+                    width: 2rem;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .form-control {
+                    border-radius: 0;
+                    border-top: 0;
+                    border-bottom: 0;
+                    text-align: center;
+                    caret-color: $primary;
+                    border-color: $gray-300;
+                }
+            }
+            
+            @media (max-width: 576px) {
+                flex-flow: column;
+            }
+        }
+    }
+}

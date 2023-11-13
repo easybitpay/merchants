@@ -28,6 +28,59 @@ const emit = defineEmits(['change'])
 // ----- Start -----
 const toggleTextMode = ref('selecting')
 
+const limits = {
+  year: {
+    min: 1900,
+    max: 2000
+  },
+  month: {
+    min: 1,
+    max: 12
+  },
+  day: {
+    min: 1,
+    max: 31
+  }
+}
+
+const date = ref({
+  year: '',
+  month: '',
+  day: ''
+})
+
+const updateNumber = (key, action) => {
+  if (action === 'increase') {
+    if (date.value[key]) {
+      if (+date.value[key] < limits[key].max) {
+        date.value[key] = +date.value[key] + 1
+      }
+    } else {
+      date.value[key] = limits[key].min
+    }
+  } else {
+    if (date.value[key]) {
+      if (+date.value[key] > limits[key].min) {
+        date.value[key] = +date.value[key] - 1
+      }
+    } else {
+      date.value[key] = limits[key].min
+    }
+  }
+}
+
+const numberCurrector = (key) => {
+  if (date.value[key]) {
+    if (date.value[key] > limits[key].max) {
+      date.value[key] = limits[key].max
+    }
+
+    if (date.value[key] < limits[key].min) {
+      date.value[key] = limits[key].min
+    }
+  }
+}
+
 onMounted(() => {
   const myDropdown = document.getElementById('birthdateDropdown')
 
@@ -88,9 +141,85 @@ onMounted(() => {
 
     <!-- begin::Dropdown Menu -->
     <ul :class="`dropdown-menu gap-0 ${btnSize}-triangle w-100`" aria-labelledby="dropdownMenuLink">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic, doloribus velit omnis quia nemo
-      dolores cupiditate unde ullam repudiandae? Laborum, autem tempore suscipit optio voluptatum
-      quod fuga eligendi consectetur officia?
+      <div class="input-box">
+        <!-- begin::Year -->
+        <div class="item">
+          <div class="cursor-pointer" @click="updateNumber('year', 'decrease')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            :min="limits.year.min"
+            :max="limits.year.max"
+            step="1"
+            v-model="date.year"
+            @change="numberCurrector('year')"
+          />
+
+          <div class="cursor-pointer" @click="updateNumber('year', 'increase')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+        </div>
+        <!-- end::Year -->
+
+        <!-- begin::Month -->
+        <div class="item">
+          <div class="cursor-pointer" @click="updateNumber('month', 'decrease')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            :min="limits.month.min"
+            :max="limits.month.max"
+            step="1"
+            v-model="date.month"
+            @change="numberCurrector('month')"
+          />
+
+          <div class="cursor-pointer" @click="updateNumber('month', 'increase')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+        </div>
+        <!-- end::Month -->
+
+        <!-- begin::Day -->
+        <div class="item">
+          <div class="cursor-pointer" @click="updateNumber('day', 'decrease')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            :min="limits.day.min"
+            :max="limits.day.max"
+            step="1"
+            v-model="date.day"
+            @change="numberCurrector('day')"
+          />
+
+          <div class="cursor-pointer" @click="updateNumber('day', 'increase')">
+            <div class="svg-box">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+            </div>
+          </div>
+        </div>
+        <!-- end::Day -->
+      </div>
     </ul>
     <!-- end::Dropdown Menu -->
   </div>

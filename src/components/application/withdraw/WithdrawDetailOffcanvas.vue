@@ -48,7 +48,7 @@ const confirmWithdraw = async () => {
         aria-label="Close"
         class="d-block mx-auto mb-4 cursor-pointer"
       ></inline-svg>
-      
+
       <form @submit.prevent="confirmWithdraw">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4">
@@ -69,9 +69,12 @@ const confirmWithdraw = async () => {
 
             <!-- begin::Content -->
             <div>
-              <!-- begin::Wallet -->
-              <p class="text-gray-800 ls-base mb-0">Wallet: TKNieFAvov3wCg8YGtyGrbhkzG6vmfGmca</p>
-              <!-- end::Wallet -->
+              <!-- begin::Wallet Address -->
+              <div class="fs-7 ls-sm">
+                <p class="text-gray-600 mb-2">Wallet</p>
+                <p class="text-gray-800 mb-0">TKNieFAvov3wCg8YGtyGrbhkzG6vmfGmca</p>
+              </div>
+              <!-- end::Wallet Address -->
 
               <!-- begin::Spacer -->
               <div class="border-bottom border-gray-400 w-100 my-4"></div>
