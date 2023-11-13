@@ -62,7 +62,12 @@ const router = createRouter({
               path: 'notification',
               name: 'application-notification',
               component: () => import('@/views/app/application/Notification.vue')
-            }
+            },
+            {
+              path: 'withdraw',
+              name: 'application-withdraw',
+              component: () => import('@/views/app/application/Withdraw.vue')
+            },
           ]
         },
         {

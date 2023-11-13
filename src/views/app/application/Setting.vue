@@ -3,10 +3,12 @@
 import { computed, onMounted, ref } from 'vue'
 
 // Component
-import AppSetting from '../../../components/application/AppSetting.vue'
+import AppSettingCard from '../../../components/application/AppSettingCard.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
-import SelectCoinDropdown from '../../../components/globals/SelectCoinDropdown.vue'
+import SelectDropdown from '../../../components/globals/SelectDropdown.vue'
+import MultiSelectDropdown from '../../../components/globals/MultiSelectDropdown.vue'
 import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
+import AddCustomTokenOffcanvas from '../../../components/application/AddCustomTokenOffcanvas.vue'
 
 // ----- START ----- //
 import { useAuthStore } from '@/stores/auth'
@@ -52,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppSetting />
+  <AppSettingCard />
 
   <!-- begin::App Info -->
   <div class="mb-12 mt-10">
@@ -110,14 +112,15 @@ onMounted(() => {
 
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div class="w-100 w-lg-264px d-flex justify-content-between justify-content-lg-start">
-            <SelectCoinDropdown
-              text="Select Your Main Coin"
-              showImage
+            <SelectDropdown
+              placeholder="Select Your Main Coin"
               show="name"
-              check="id"
+              showImage
+              btnSize="sm"
+              showCoinNetwork
               :items="tokens"
               :selected="base_token"
-              @toggleSelect="toggleBaseToken"
+              @change="toggleBaseToken"
             />
           </div>
         </div>
@@ -130,15 +133,15 @@ onMounted(() => {
 
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div class="w-100 w-lg-264px d-flex justify-content-between justify-content-lg-start">
-            <SelectCoinDropdown
-              text="Select Your Main Coin"
-              showImage
+            <MultiSelectDropdown
+              placeholder="Select Your Main Coin"
               show="name"
-              check="id"
-              multiple
+              showImage
+              btnSize="sm"
+              showCoinNetwork
               :items="tokens"
               :selected="available_tokens"
-              @toggleSelect="toggleAvialableToken"
+              @change="toggleAvialableToken"
             />
           </div>
         </div>
@@ -210,7 +213,14 @@ onMounted(() => {
     <!-- end::Content -->
 
     <!-- begin::Add Coin -->
-    <button class="btn btn-primary px-5">Create Custom Coin</button>
+    <button
+      class="btn btn-primary px-5"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#addCustomToken_offcanvas"
+      aria-controls="addCustomToken_offcanvas"
+    >
+      Create Custom Coin
+    </button>
     <!-- end::Add Coin -->
   </div>
   <!-- end::Custom Coin -->
@@ -255,8 +265,8 @@ onMounted(() => {
   </div>
   <!-- end::Customer Fee Share -->
 
-    <!-- begin::Gateway Theme -->
-    <div class="mb-12 mt-10">
+  <!-- begin::Gateway Theme -->
+  <div class="mb-12 mt-10">
     <!-- begin::Title -->
     <h4 class="mb-2 lh-1 text-gray-900">Gateway Theme</h4>
 
@@ -266,8 +276,10 @@ onMounted(() => {
     <!-- end::Title -->
 
     <!-- begin::Content -->
-    <GatewayThemes/>
+    <GatewayThemes />
     <!-- end::Content -->
   </div>
   <!-- end::Gateway Theme -->
+
+  <AddCustomTokenOffcanvas />
 </template>

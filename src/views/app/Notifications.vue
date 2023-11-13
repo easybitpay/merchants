@@ -243,6 +243,6 @@ onMounted(() => {
   <!-- end::Accordion -->
 
   <!-- begin::Pagination -->
-  <PaginationCard />
+  <PaginationCard text="All October Notifications"/>
   <!-- end::Pagination -->
 </template>

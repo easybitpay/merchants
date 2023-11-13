@@ -18,7 +18,6 @@ const modules = [Navigation, Pagination]
 </script>
 
 <template>
-  <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
   <div
     class="offcanvas offcanvas-bottom w-100 mw-792px"
     tabindex="-1"
@@ -26,6 +25,13 @@ const modules = [Navigation, Pagination]
     aria-labelledby="offcanvasGatewayTheme"
   >
     <div class="offcanvas-body">
+      <inline-svg
+        src="media/icons/icons/close.svg"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+        class="d-block mx-auto mb-4 cursor-pointer"
+      ></inline-svg>
+
       <!-- begin::Content Card -->
       <div class="card border-0 mb-4">
         <div class="card-body">
@@ -111,7 +117,10 @@ const modules = [Navigation, Pagination]
                 Cancel
               </button>
 
-              <button type="submit" class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal">
+              <button
+                type="submit"
+                class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
+              >
                 Apply
               </button>
             </div>

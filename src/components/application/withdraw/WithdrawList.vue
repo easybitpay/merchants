@@ -8,14 +8,11 @@ import { Tooltip } from 'bootstrap'
 // Hook
 import useSortTable from '@/hooks/useSortTable'
 
-// Component
-import ApplicationCard from '../../../components/application/ApplicationCard.vue'
-
 // ----- START ----- //
 const { startCheckSort, selectedSort } = useSortTable()
 
 onMounted(() => {
-  startCheckSort('transaction')
+  startCheckSort('withdraw')
   new Tooltip(document.body, {
     selector: "[data-bs-html='true']"
   })
@@ -26,13 +23,11 @@ watch(selectedSort, () => {
 })
 </script>
 <template>
-  <ApplicationCard action="status"/>
-
-  <div class="accordion mt-10" id="transAccordion">
+  <div class="accordion" id="withdAccordion">
     <div class="table-responsive accordion-table">
       <table class="table pb-4">
         <thead>
-          <tr transaction-sortable sortable>
+          <tr withdraw-sortable sortable>
             <th sortKey="id">ID</th>
             <th sortKey="link">Invoice Link</th>
             <th sortKey="date">Date</th>
@@ -46,9 +41,9 @@ watch(selectedSort, () => {
           <tr
             class="collapsed"
             data-bs-toggle="collapse"
-            data-bs-target="#tranOne"
+            data-bs-target="#withdOne"
             aria-expanded="true"
-            aria-controls="tranOne"
+            aria-controls="withdOne"
           >
             <td>1</td>
             <td>jY0ODA2ODNhMjQwN</td>
@@ -70,7 +65,11 @@ watch(selectedSort, () => {
 
           <tr class="collapsed-row">
             <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div id="tranOne" class="accordion-collapse collapse" data-bs-parent="#transAccordion">
+              <div
+                id="withdOne"
+                class="accordion-collapse collapse"
+                data-bs-parent="#withdAccordion"
+              >
                 <div class="accordion-body">
                   <!-- begin::Transactions -->
                   <div class="d-flex flex-column gap-4">
@@ -264,9 +263,9 @@ watch(selectedSort, () => {
           <tr
             class="collapsed"
             data-bs-toggle="collapse"
-            data-bs-target="#tranTwo"
+            data-bs-target="#withdTwo"
             aria-expanded="true"
-            aria-controls="tranTwo"
+            aria-controls="withdTwo"
           >
             <td>1</td>
             <td>jY0ODA2ODNhMjQwN</td>
@@ -286,7 +285,11 @@ watch(selectedSort, () => {
 
           <tr class="collapsed-row">
             <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div id="tranTwo" class="accordion-collapse collapse" data-bs-parent="#transAccordion">
+              <div
+                id="withdTwo"
+                class="accordion-collapse collapse"
+                data-bs-parent="#withdAccordion"
+              >
                 <div class="accordion-body">
                   <!-- begin::Transactions -->
                   <div class="d-flex flex-column gap-4">
@@ -388,29 +391,6 @@ watch(selectedSort, () => {
               </div>
             </td>
           </tr>
-
-          <!-- begin::Show More -->
-          <tr class="collapsed show-more">
-            <td colspan="7">
-              <span class="first"></span>
-              <span class="last"></span>
-              <div class="d-flex align-items-center justify-content-between">
-                <!-- begin::Title -->
-                <div class="d-flex align-items-center gap-4">
-                  <inline-svg src="media/icons/icons/clock.svg" height="24"></inline-svg>
-                  <p class="mb-0 fs-7">Show All Transaction</p>
-                </div>
-                <!-- end::Title -->
-
-                <!-- begin::Count -->
-
-                <small class="lh-24px rounded bg-cyan-500 text-white px-2">+40</small>
-
-                <!-- end::Count -->
-              </div>
-            </td>
-          </tr>
-          <!-- end::Show More -->
         </tbody>
       </table>
     </div>

@@ -16,7 +16,7 @@ import { helpers, required } from '@vuelidate/validators'
 import WAValidator from 'multicoin-address-validator/dist/wallet-address-validator.js'
 
 // Component
-import CoinDropdownVue from '../../components/globals/CoinDropdown.vue'
+import CoinDropdown from '../../components/globals/CoinDropdown.vue'
 
 // ----- Start -----
 const { showFeedBacks } = useForm()
@@ -135,7 +135,7 @@ const exchange = async () => {
     <div class="card-body">
       <div class="row gy-5">
         <!-- begin::Form Box -->
-        <div class="col-md-6 col-lg-12 col-xl-5">
+        <div class="col-xl-5">
           <!-- begin::Icon -->
           <inline-svg src="media/icons/shapes/exchange.svg"></inline-svg>
           <!-- end::Icon -->
@@ -186,13 +186,13 @@ const exchange = async () => {
                 ></inline-svg>
                 <!-- end::Icon -->
 
-                <CoinDropdownVue
+                <CoinDropdown
                   class="position-absolute end-8px"
                   showImage
                   check="id"
                   :items="tokens"
                   :selected="sendToken"
-                  @toggleSelect="toggleSendToken"
+                  @change="toggleSendToken"
                 />
               </div>
               <!-- end::Input Box -->
@@ -205,14 +205,14 @@ const exchange = async () => {
             >
               <!-- begin::Label -->
               <div>
-                <label for="send" class="w-100 w-sm-104px text-gray-900"> You Recieve </label>
+                <label for="receive" class="w-100 w-sm-104px text-gray-900"> You Recieve </label>
               </div>
               <!-- end::Label -->
 
               <!-- begin::Input Box -->
               <div class="w-100 position-relative d-flex align-items-center">
                 <input
-                  id="send"
+                  id="receive"
                   type="number"
                   class="form-control px-9"
                   placeholder="Amount"
@@ -230,13 +230,13 @@ const exchange = async () => {
                 ></inline-svg>
                 <!-- end::Icon -->
 
-                <CoinDropdownVue
+                <CoinDropdown
                   class="position-absolute end-8px"
                   showImage
                   check="id"
                   :items="tokens"
                   :selected="receiveToken"
-                  @toggleSelect="toggleReceiveToken"
+                  @change="toggleReceiveToken"
                 />
               </div>
               <!-- end::Input Box -->
@@ -273,7 +273,7 @@ const exchange = async () => {
         </div>
         <!-- end::Form Box -->
 
-        <div class="col-md-6 col-lg-12 col-xl-7 min-h-300px">
+        <div class="col-xl-7 min-h-300px">
           <div
             class="card-linear-background rounded h-100 p-6 d-flex flex-column align-item-start justify-content-end text-white fs-7 ls-base"
             style="--background: url(/media/images/banner/auth-bg.jpg)"

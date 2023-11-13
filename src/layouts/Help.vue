@@ -9,7 +9,7 @@ onMounted(() => {
 </script>
 <template>
   <div id="navbar-layout" class="h-100 d-flex flex-column">
-    <header class="d-flex flex-wrap column-gap-8 row-gap-4 mb-12">
+    <header class="d-flex flex-nowrap column-gap-8 row-gap-4 mb-12">
       <RouterLink :to="{ name: 'help-knowledge' }"> Knowledge </RouterLink>
       <RouterLink :to="{ name: 'help-faq' }"> FAQ </RouterLink>
       <RouterLink :to="{ name: 'help-ticket' }"> Ticket </RouterLink>

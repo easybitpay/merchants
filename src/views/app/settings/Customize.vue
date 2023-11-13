@@ -20,10 +20,11 @@ import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
+          data-bs-offset="0,0"
         >
           Dark mode
         </button>
-        <ul class="dropdown-menu w-100">
+        <ul class="dropdown-menu sm-triangle w-100">
           <li><a class="dropdown-item">Dark mode</a></li>
           <li><a class="dropdown-item">Light mode</a></li>
         </ul>

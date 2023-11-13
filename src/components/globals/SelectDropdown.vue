@@ -14,6 +14,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  placeholder: {
+    type: String,
+    required: true
+  },
   items: {
     type: Array,
     required: true
@@ -37,6 +41,18 @@ const props = defineProps({
   check: {
     type: String,
     default: 'id'
+  },
+  btnSize: {
+    type: String,
+    default: 'md'
+  },
+  toggleClass: {
+    type: String,
+    required: false
+  },
+  svgIcon: {
+    type: String,
+    required: false
   }
 })
 
@@ -101,28 +117,63 @@ const filteredItems = () => {
 </script>
 
 <template>
-  <div class="dropdown select-coin-dropdown">
+  <div class="dropdown w-100">
     <a
-      class="dropdown-toggle"
+      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
       :disabled="disabled"
-      id="coinDropdownMenuLink"
+      id="dropdownMenuLink"
       data-bs-toggle="dropdown"
       aria-expanded="false"
-      data-bs-auto-close="true"
+      data-bs-auto-close="outside"
+      data-bs-offset="0,0"
     >
-      <div v-if="selected && Object.keys(selected).length">
+      <!-- begin::Icon -->
+      <div v-if="svgIcon">
+        <inline-svg :src="svgIcon" class="svg-icon-gray-500 me-1"></inline-svg>
+      </div>
+      <!-- end::Icon -->
+
+      <!-- begin::Show Selected -->
+      <div
+        :class="[
+          {
+            'd-flex align-items-center gap-2 text-gray-800 active select-dropdown-text-content': true
+          },
+          { 'with-svg': svgIcon }
+        ]"
+        v-if="selected && Object.keys(selected).length"
+      >
         <img
-          class="coin-icon"
+          v-if="showImage"
+          class="small-coin-icon"
           :src="selected.logo ? storageImage(selected.logo, 24) : iconImage(selected.symbol)"
           :alt="selected[show]"
         />
-      </div>
 
-      <img v-else :src="iconImage('btc')" alt="image" class="coin-icon" />
+        <span class="ellipsis text-start" style="--ellipsis-width: 100%">
+          {{ selected[show] }}
+          <span v-if="showCoinNetwork" class="fs-9 text-gray-600">
+            {{ selected.network?.name || showNetwork(selected.network_id) }}
+          </span>
+        </span>
+      </div>
+      <!-- end::Show Selected -->
+
+      <!-- begin::Show Placeholder -->
+      <div
+        v-else
+        :class="[{ 'select-dropdown-text-placeholder text-start': true }, { 'with-svg': svgIcon }]"
+      >
+        <span class="text-gray-600 ellipsis" style="--ellipsis-width: 100%">
+          {{ placeholder }}
+        </span>
+      </div>
+      <!-- end::Show Placeholder -->
     </a>
 
-    <ul class="dropdown-menu w-100" aria-labelledby="coinDropdownMenuLink">
+    <!-- begin::Dropdown Menu -->
+    <ul :class="`dropdown-menu gap-0 ${btnSize}-triangle w-100`" aria-labelledby="dropdownMenuLink">
       <!-- begin::Search Input -->
       <div class="position-relative d-flex align-items-center mb-6" v-if="items.length > 30">
         <input
@@ -164,5 +215,6 @@ const filteredItems = () => {
       </div>
       <!-- end::Items -->
     </ul>
+    <!-- end::Dropdown Menu -->
   </div>
 </template>

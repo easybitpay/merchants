@@ -116,7 +116,10 @@ const addNewPartner = async () => {
                   aria-expanded="false"
                 >
                   <div class="d-flex align-items-center gap-2">
-                    <inline-svg src="media/icons/icons/splite.svg"></inline-svg>
+                    <inline-svg
+                      class="svg-icon-primary"
+                      src="media/icons/icons/splite.svg"
+                    ></inline-svg>
                     Choose Position
                   </div>
                 </button>

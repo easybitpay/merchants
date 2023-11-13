@@ -47,7 +47,7 @@ const addCoverFile = (e) => {
         <!-- begin::Status Action -->
         <div class="d-flex flex-wrap gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button @click="iconInputClick" class="btn btn-light w-192px">Change Icon</button>
+          <button @click="iconInputClick" class="btn btn-light w-sm-192px">Change Icon</button>
 
           <input
             type="file"
@@ -55,7 +55,7 @@ const addCoverFile = (e) => {
             className="d-none"
             @change="addCoverFile"
           />
-          <button @click="coverInputClick" class="btn btn-primary w-192px">Change Cover</button>
+          <button @click="coverInputClick" class="btn btn-primary w-sm-192px">Change Cover</button>
         </div>
         <!-- end::Status Action -->
       </div>

@@ -129,6 +129,10 @@ body {
 }
 
 .small-coin-icon {
+    width: 20px;
+}
+
+.coin-icon {
     width: 24px;
 }
 
@@ -431,14 +435,22 @@ body {
 
         #navbar-layout {
             header {
+                overflow-x: auto;
+                overflow-y: hidden;
+
                 a {
                     color: $gray-500;
                     font-size: $h2-font-size;
                     font-family: 'Neue Machina';
+                    min-width: max-content;
 
                     &:hover,
                     &.router-link-exact-active {
                         color: $primary;
+                    }
+
+                    @media (max-width : 768px) {
+                        font-size: $h4-font-size;
                     }
                 }
             }
@@ -614,6 +626,46 @@ body {
 
         }
     }
+}
+
+.auto-infos {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    overflow: auto;
+
+    .item {
+        border-left: 1px solid $gray-400;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        flex-grow: 1;
+        min-width: max-content;
+        padding: 0 1rem;
+
+        .title {
+            font-size: 1rem;
+            margin-bottom: .5rem;
+            color: $gray-600;
+            text-align: center;
+        }
+
+        .value {
+            color: $gray-800;
+            letter-spacing: .006rem;
+            margin-bottom: 0;
+            text-align: center;
+            letter-spacing: -.02rem;
+            line-height: 28px;
+            min-width: max-content;
+        }
+
+        &:first-child {
+            padding-left: 0;
+            border: none;
+        }
+    }
+
 }
 
 .application-card {

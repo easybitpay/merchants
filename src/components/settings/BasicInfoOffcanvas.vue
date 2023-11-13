@@ -40,7 +40,6 @@ const updateBasicInfo = async () => {
 </script>
 
 <template>
-  <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
   <div
     class="offcanvas offcanvas-bottom w-100 mw-792px"
     tabindex="-1"
@@ -48,6 +47,13 @@ const updateBasicInfo = async () => {
     aria-labelledby="offcanvasBasicInfo"
   >
     <div class="offcanvas-body">
+      <inline-svg
+        src="media/icons/icons/close.svg"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+        class="d-block mx-auto mb-4 cursor-pointer"
+      ></inline-svg>
+
       <form @submit.prevent="updateBasicInfo">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4 min-h-354px">
@@ -175,7 +181,10 @@ const updateBasicInfo = async () => {
                 Cancel
               </button>
 
-              <button type="submit" class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal">
+              <button
+                type="submit"
+                class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
+              >
                 Save
               </button>
             </div>

@@ -26,13 +26,13 @@ const removeFiles = (file) => {
 }
 
 const form = ref({
-  type: null,
+  type: null
 })
 
 const rules = {
   type: {
     required: helpers.withMessage('Type is required', required)
-  },
+  }
 }
 
 const v$ = useVuelidate(rules, form)
@@ -48,7 +48,6 @@ const updateBasicInfo = async () => {
 </script>
 
 <template>
-  <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
   <div
     class="offcanvas offcanvas-bottom w-100 mw-792px"
     tabindex="-1"
@@ -56,6 +55,13 @@ const updateBasicInfo = async () => {
     aria-labelledby="offcanvasTopLabel"
   >
     <div class="offcanvas-body">
+      <inline-svg
+        src="media/icons/icons/close.svg"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+        class="d-block mx-auto mb-4 cursor-pointer"
+      ></inline-svg>
+
       <form @submit.prevent="updateBasicInfo">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4 min-h-354px">

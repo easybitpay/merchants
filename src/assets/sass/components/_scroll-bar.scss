@@ -2,23 +2,19 @@
 
     /* width */
     &::-webkit-scrollbar {
-        width: .5rem;
+        width: 4px;
     }
 
     /* Track */
     &::-webkit-scrollbar-track {
-        background: $white;
-        border-radius: $border-radius;
+        background: $gray-300;
+        width: 2px;
     }
 
     /* Handle */
     &::-webkit-scrollbar-thumb {
-        background: $gray-200;
+        background: $primary;
         border-radius: $border-radius;
-    }
-
-    /* Handle on hover */
-    &::-webkit-scrollbar-thumb:hover {
-        background: $gray-300;
+        width: 4px;
     }
 }

@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 
 // Component
 import VOtpInput from 'vue3-otp-input'
+import CountDown from '../components/globals/CountDown.vue';
 
 // ----- START ----- //
 const store = useAuthStore()

@@ -1,5 +1,6 @@
 <script setup>
 import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.vue'
+import ContactInfoOffcanvas from '../../../components/settings/ContactInfoOffcanvas.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
 </script>
 
@@ -17,15 +18,15 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <TextColumn title="Name" content="Mohamad reza moradi" />
+      <TextColumn title="Name" content="Mohamad reza moradi" canvasId="contactInfo_offcanvas" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <TextColumn title="Birthday" content="20.10.1990" />
+      <TextColumn title="Birthday" content="20.10.1990" canvasId="contactInfo_offcanvas" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <TextColumn title="Gender" content="Rather not say" />
+      <TextColumn title="Gender" content="Rather not say" canvasId="contactInfo_offcanvas" />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
@@ -144,10 +145,11 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
+          data-bs-offset="0,0"
         >
           English
         </button>
-        <ul class="dropdown-menu w-100">
+        <ul class="dropdown-menu sm-triangle w-100">
           <li><a class="dropdown-item">English</a></li>
           <li><a class="dropdown-item">English 2</a></li>
         </ul>
@@ -158,4 +160,5 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
   <!-- end::Languege -->
 
   <BasicInfoOffcanvas />
+  <ContactInfoOffcanvas />
 </template>

@@ -6,7 +6,7 @@ import { ref } from 'vue'
 import VOtpInput from 'vue3-otp-input'
 
 // ----- START ----- //
-const step = ref(2)
+const step = ref(1)
 
 const otpInputValue = ref('')
 
