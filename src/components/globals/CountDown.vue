@@ -8,6 +8,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['isRestarted'])
+
 const leftTime = ref(0)
 const interval = ref(null)
 
@@ -31,13 +33,18 @@ const startTimer = () => {
   }
 }
 
+const restartTimer = () => {
+  startTimer()
+  emit('isRestarted')
+}
+
 onMounted(() => {
   startTimer()
 })
 </script>
 
 <template>
-  <span @click="startTimer" :class="[{ 'cursor-pointer': leftTime === 0 }]">
+  <span @click="restartTimer" :class="[{ 'cursor-pointer': leftTime === 0 }]">
     Send Again <template v-if="leftTime != 0">in {{ minAndSec(leftTime) }}</template>
   </span>
 </template>
