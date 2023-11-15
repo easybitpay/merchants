@@ -1,6 +1,12 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+
+// Router
+import { useRouter } from 'vue-router'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -11,24 +17,35 @@ import { helpers, required, email } from '@vuelidate/validators'
 
 // Components
 import VOtpInput from 'vue3-otp-input'
-import CountDown from '../../components/globals/CountDown.vue'
+import GoogleLogin from '../../components/globals/GoogleLogin.vue'
 
 // ----- START ----- //
+
+// Generals
 const emit = defineEmits(['changeBG'])
-
 const { showFeedBacks } = useForm()
+const store = useAuthStore()
+const router = useRouter()
 
+// Refs
 const step = ref(1)
 
-const otpInputValue = ref('')
+const loadings = ref({
+  login: false,
+  google: false
+})
 
 const showPass = ref(false)
 
+// Computeds
+const currentUser = computed(() => store.currentUser)
+
+// Vuelidate
 const form = ref({
   email: null,
   password: null
 })
-
+PageTransitionEvent
 const rules = {
   email: {
     required: helpers.withMessage('Email is required', required),
@@ -41,13 +58,93 @@ const rules = {
 
 const v$ = useVuelidate(rules, form)
 
+// Functions
+
+/**
+ * Login User
+ */
 const login = async () => {
+  // Validate Form
   const result = await v$.value.$validate()
   if (result) {
-    step.value = 2
+    // Start loading
+    loadings.value.login = true
+
+    // Request
+    await store.loginUser(form.value).then((res) => {
+      if (res) {
+        checkForNextStep()
+      } else {
+        emit('changeBG')
+      }
+    })
+
+    // Stop Loading
+    loadings.value.login = false
   } else {
     showFeedBacks()
     emit('changeBG')
+  }
+}
+
+/**
+ * Verify User
+ * @param {validation code} code
+ */
+const verifyUser = async (code) => {
+  const info = {
+    code,
+    merchat_id: currentUser.value.merchant.id
+  }
+
+  // Start loading
+  loadings.value.login = true
+
+  // Request
+  await store.vefiryLogin(info).then((res) => {
+    if (res) {
+      router.push({ name: 'dashboard' })
+    } else {
+      emit('changeBG')
+    }
+  })
+
+  // Stop Loading
+  loadings.value.login = false
+}
+
+/**
+ * Success Google Popup
+ * @param {google auth code} auth_code
+ */
+const successGoogleLogin = async (auth_code) => {
+  // Start loading
+  loadings.value.google = true
+
+  // Request
+  await store.googleLogin({ auth_code }).then((res) => {
+    if (res) {
+      checkForNextStep()
+    } else {
+      emit('changeBG')
+    }
+  })
+
+  // Stop loading
+  loadings.value.google = false
+}
+
+/**
+ * Check For Next Step
+ * if user has two-fa, show step 2 otherwise go to dashboard
+ */
+const checkForNextStep = () => {
+  const two_factor = currentUser.value.merchant.two_factor_enabled
+
+  if (two_factor) {
+    step.value = 2
+  } else {
+    router.push({ name: 'dashboard' })
   }
 }
 </script>
@@ -106,11 +203,8 @@ const login = async () => {
             <!-- begin::Icon -->
             <inline-svg
               @click="showPass = !showPass"
-              src="media/icons/icons/webcam.svg"
-              :class="[
-                { 'position-absolute end-16px cursor-pointer z-2': true },
-                { 'svg-icon-gray-700': !showPass }
-              ]"
+              :src="`media/icons/icons/${showPass ? 'hide' : 'show'}.svg`"
+              class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
             ></inline-svg>
             <!-- end::Icon -->
           </div>
@@ -122,9 +216,13 @@ const login = async () => {
             </RouterLink>
 
             <!-- begin::Submit -->
-            <button type="submit" class="btn btn-primary w-100">
-              Login
-              <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+            <button type="submit" class="btn btn-primary w-100" :disabled="loadings.login">
+              <template v-if="!loadings.login">
+                Login
+                <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+              </template>
+
+              <span v-else>Loading...</span>
             </button>
             <!-- end::Submit -->
           </div>
@@ -132,11 +230,7 @@ const login = async () => {
           <p class="my-6 text-center ls-base">or</p>
 
           <!-- begin::Google Login -->
-          <button type="button" class="btn btn-light w-100">
-            <inline-svg src="media/icons/companies/google-logo.svg"></inline-svg>
-
-            Connect to Google
-          </button>
+          <GoogleLogin :loading="loadings.google" @success="successGoogleLogin" />
           <!-- end::Google Login -->
         </form>
         <!-- end::Form -->
@@ -147,30 +241,25 @@ const login = async () => {
       <template v-else>
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/colored/auth.svg"></inline-svg>
+          <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
           <h4 class="my-6 text-dark">Validate number</h4>
 
-          <p class="text-gray-700 mb-12 ls-base">
-            A 6-digit confirmation code has been sent
-            <br />
-            to 810-089-5940 via SMS.
-            <span href="" class="text-primary"> <CountDown /></span>
-          </p>
+          <p class="text-gray-700 mb-12 ls-base">Fill inputs with your authenticator</p>
           <!-- end::Text -->
 
           <!-- begin::OTP -->
           <div class="otp-input">
             <VOtpInput
               ref="otpInput"
-              v-model:value="otpInputValue"
               input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
               separator=""
               :num-inputs="6"
               :should-auto-focus="true"
               input-type="numeric"
+              @on-complete="verifyUser"
             />
           </div>
           <!-- end::OTP -->
@@ -190,9 +279,18 @@ const login = async () => {
           <!-- end::Back Action -->
 
           <!-- begin::Submit Action -->
-          <button type="submit" class="btn btn-primary w-100">
-            Continue
-            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+          <button
+            type="submit"
+            class="btn btn-primary w-100"
+            @click="verifyUser"
+            :disabled="loadings.login"
+          >
+            <template v-if="!loadings.login">
+              Continue
+              <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+            </template>
+
+            <span v-else>Loading...</span>
           </button>
           <!-- end::Submit Action -->
         </div>

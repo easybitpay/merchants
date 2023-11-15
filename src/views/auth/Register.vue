@@ -1,6 +1,12 @@
 <script setup>
 // Vue
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+// Router
+import { useRouter } from 'vue-router'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -9,17 +15,32 @@ import useForm from '@/hooks/useForm.js'
 import useVuelidate from '@vuelidate/core'
 import { helpers, required, email, sameAs } from '@vuelidate/validators'
 
-//
+// Password Mettwr
 import { PasswordMeterComponent } from '@/assets/js/PasswordMeter'
 
-// ----- START ----- //
-const emit = defineEmits(['changeBG'])
+// Components
+import GoogleLogin from '../../components/globals/GoogleLogin.vue'
 
+// ----- START ----- //
+
+// Generals
+const emit = defineEmits(['changeBG'])
 const { showFeedBacks } = useForm()
+const store = useAuthStore()
+const router = useRouter()
+
+// Refs
+const passwordMeter = ref(null)
 
 const showPass1 = ref(false)
 const showPass2 = ref(false)
 
+const loadings = ref({
+  register: false,
+  google: false
+})
+
+// Vuelidate
 const form = ref({
   email: null,
   password: null,
@@ -44,22 +65,59 @@ const rules = {
 
 const v$ = useVuelidate(rules, form)
 
-const passwordMeter = ref(null)
+// Functions
 
-onMounted(() => {
-  passwordMeter.value = new PasswordMeterComponent({})
-})
-
+/**
+ * Register User
+ */
 const register = async () => {
-  console.log(passwordMeter.value.getScore())
+  // Validate Form
   const result = await v$.value.$validate()
   if (result) {
-    console.log('login')
+    // Start loading
+    loadings.value.register = true
+
+    // Request
+    await store.registerUser(form.value).then((res) => {
+      if (res) {
+        router.push({ name: 'dashboard' })
+      } else {
+        emit('changeBG')
+      }
+    })
+
+    // Stop Loading
+    loadings.value.register = false
   } else {
     showFeedBacks()
     emit('changeBG')
   }
 }
+
+/**
+ * Success Google Popup
+ * @param {google auth code} auth_code
+ */
+const successGoogleLogin = async (auth_code) => {
+  // Start loading
+  loadings.value.google = true
+
+  // Request
+  await store.googleLogin({ auth_code }).then((res) => {
+    if (res) {
+      router.push({ name: 'dashboard' })
+    } else {
+      emit('changeBG')
+    }
+  })
+
+  // Stop loading
+  loadings.value.google = false
+}
+
+onMounted(() => {
+  passwordMeter.value = new PasswordMeterComponent({})
+})
 </script>
 
 <template>
@@ -115,11 +173,8 @@ const register = async () => {
             <!-- begin::Icon -->
             <inline-svg
               @click="showPass1 = !showPass1"
-              src="media/icons/icons/webcam.svg"
-              :class="[
-                { 'position-absolute end-16px cursor-pointer z-2': true },
-                { 'svg-icon-gray-700': !showPass1 }
-              ]"
+              :src="`media/icons/icons/${showPass1 ? 'hide' : 'show'}.svg`"
+              class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
             ></inline-svg>
             <!-- end::Icon -->
           </div>
@@ -140,11 +195,8 @@ const register = async () => {
             <!-- begin::Icon -->
             <inline-svg
               @click="showPass2 = !showPass2"
-              src="media/icons/icons/webcam.svg"
-              :class="[
-                { 'position-absolute end-16px cursor-pointer z-2': true },
-                { 'svg-icon-gray-700': !showPass2 }
-              ]"
+              :src="`media/icons/icons/${showPass2 ? 'hide' : 'show'}.svg`"
+              class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
             ></inline-svg>
             <!-- end::Icon -->
           </div>
@@ -164,20 +216,20 @@ const register = async () => {
         </div>
 
         <!-- begin::Action -->
-        <button type="submit" class="btn btn-primary w-100">
-          Register
-          <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+        <button type="submit" class="btn btn-primary w-100" :disabled="loadings.register">
+          <template v-if="!loadings.register">
+            Register
+            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+          </template>
+
+          <span v-else>Loading...</span>
         </button>
         <!-- end::Action -->
 
         <p class="my-6 text-center ls-base">or</p>
 
         <!-- begin::Action -->
-        <button type="button" class="btn btn-light w-100">
-          <inline-svg src="media/icons/companies/google-logo.svg"></inline-svg>
-
-          Connect to Google
-        </button>
+        <GoogleLogin :loading="loadings.google" @success="successGoogleLogin" />
         <!-- end::Action -->
       </form>
       <!-- end::Form -->

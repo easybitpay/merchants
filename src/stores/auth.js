@@ -1,10 +1,22 @@
+// Axios
+import api from '@/core/services/api'
+
+// Vue
 import { ref, computed } from 'vue'
+
+// Pinia
 import { defineStore } from 'pinia'
 
+// Store
 export const useAuthStore = defineStore('auth', () => {
   // ----- States -----
   const user = ref({})
   const lockScreen = ref('')
+
+  // Computeds
+  const currentUser = computed(() =>
+    Object.keys(user.value).length ? user.value : JSON.parse(localStorage.getItem('user') || '{}')
+  )
 
   const lockScreenStatus = computed(() => {
     const storage = localStorage.getItem('lockScreenStatus')
@@ -839,11 +851,94 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Set User Info
+   */
+  function setUserInfo(userInfo) {
+    // Set User Info
+    user.value = userInfo
+    localStorage.setItem('user', JSON.stringify(userInfo))
 
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+    // Set Token
+    if (userInfo.auth_token) {
+      localStorage.setItem('token', userInfo.auth_token)
+    }
   }
 
-  return { lockScreenStatus, changeLockScreenStatus, doubleCount, increment, tokens, networks }
+  /**
+   * Login User
+   * @param {user form} payload
+   */
+  async function loginUser(payload) {
+    try {
+      const { data } = await api.post('auth/login', payload)
+
+      setUserInfo(data)
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Verify Login
+   * @param {code, user id} payload
+   */
+  async function vefiryLogin(payload) {
+    try {
+      const { data } = await api.post('auth/login-two', payload)
+
+      setUserInfo(data)
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Google Login
+   * @param {auth_code} payload
+   */
+  async function googleLogin(payload) {
+    try {
+      const { data } = await api.post('auth/google/login', payload)
+
+      setUserInfo(data)
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Register User
+   * @param {user form} payload
+   */
+  async function registerUser(payload) {
+    try {
+      const { data } = await api.post('merchants/register', payload)
+
+      setUserInfo(data)
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  return {
+    currentUser,
+    lockScreenStatus,
+    tokens,
+    networks,
+
+    loginUser,
+    vefiryLogin,
+    googleLogin,
+    registerUser,
+    changeLockScreenStatus
+  }
 })
