@@ -248,8 +248,12 @@ onMounted(() => {
             <a class="dropdown-item active">
               <div class="d-flex align-items-center gap-2">
                 <!-- begin::Radio Box -->
-                <div class="radio-box">
-                  <span class="bullet"></span>
+                <div class="form-check p-0">
+                  <input
+                    class="form-check-input form-check-input-sm m-0 border-2"
+                    type="radio"
+                    :checked="true"
+                  />
                 </div>
                 <!-- end::Radio Box -->
 
@@ -275,8 +279,12 @@ onMounted(() => {
           <a :class="[{ 'dropdown-item': true }, { active: checkActive(item) }]">
             <div class="d-flex align-items-center gap-2">
               <!-- begin::Radio Box -->
-              <div class="radio-box">
-                <span class="bullet"></span>
+              <div class="form-check p-0">
+                <input
+                  class="form-check-input form-check-input-sm m-0 border-2"
+                  type="radio"
+                  :checked="checkActive(item)"
+                />
               </div>
               <!-- end::Radio Box -->
 

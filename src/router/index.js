@@ -33,6 +33,11 @@ const router = createRouter({
           component: () => import('@/views/app/Exchange.vue')
         },
         {
+          path: '/add-application',
+          name: 'add-application',
+          component: () => import('@/views/app/AddApplication.vue')
+        },
+        {
           path: '/applications',
           name: 'applications',
           component: () => import('@/views/app/Applications.vue')

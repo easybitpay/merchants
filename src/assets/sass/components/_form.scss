@@ -11,6 +11,7 @@ input[type="number"] {
     letter-spacing: -.02rem;
     height: 2.5rem;
     box-shadow: none !important;
+
     &.form-control-sm {
         height: 2rem;
     }
@@ -20,6 +21,7 @@ input[type="number"] {
     letter-spacing: -.02rem;
     height: 2.5rem;
     box-shadow: none !important;
+
     &.form-select-sm {
         height: 2rem;
     }
@@ -74,4 +76,34 @@ input[type="number"] {
 textarea {
     resize: none;
     line-height: 28px;
+}
+
+// Radio 
+.form-check-input[type="radio"] {
+    width: 24px;
+    height: 24px;
+    background-size: 7.5px;
+    background-position: center;
+
+    &:not(:checked) {
+        background-image: url(/media/icons/icons/radio-deactive.svg) !important;
+    }
+
+    &.form-check-input-sm {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.form-check {
+    padding-left: 2.5rem;
+
+    .form-check-input {
+        margin-left: -2.5rem;
+        margin-top: 0;
+
+        &:checked~.form-check-label {
+            color: $primary;
+        }
+    }
 }

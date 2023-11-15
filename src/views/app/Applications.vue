@@ -14,7 +14,7 @@ import ApplicationCard from '../../components/application/ApplicationCard.vue'
   </div>
 
   <!-- begin::Add New App -->
-  <RouterLink :to="{ name: 'dashboard' }" class="btn btn-primary w-200px mt-6">
+  <RouterLink :to="{ name: 'add-application' }" class="btn btn-primary w-200px mt-6">
     Add new Service
   </RouterLink>
   <!-- end::Add New App -->
