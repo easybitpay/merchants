@@ -929,6 +929,37 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Send Forget Password Email
+   * @param {user email} paylaod 
+   */
+  async function sendForgetPasswordEmail(paylaod) {
+    try {
+      await api.post("auth/recovery", paylaod);
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Reset Password
+   * @param {code, passwords} paylaod 
+   */
+  async function resetPassword(paylaod) {
+    try {
+      await api.patch(`auth/recovery/${paylaod.code}`, {
+        password: paylaod.password,
+        password_confirmation: paylaod.password_confirmation,
+      });
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   return {
     currentUser,
     lockScreenStatus,
@@ -939,6 +970,8 @@ export const useAuthStore = defineStore('auth', () => {
     vefiryLogin,
     googleLogin,
     registerUser,
+    sendForgetPasswordEmail,
+    resetPassword,
     changeLockScreenStatus
   }
 })

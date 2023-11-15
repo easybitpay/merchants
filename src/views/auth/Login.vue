@@ -30,6 +30,7 @@ const router = useRouter()
 // Refs
 const step = ref(1)
 
+const otpInputValue = ref('')
 const loadings = ref({
   login: false,
   google: false
@@ -45,7 +46,7 @@ const form = ref({
   email: null,
   password: null
 })
-PageTransitionEvent
+
 const rules = {
   email: {
     required: helpers.withMessage('Email is required', required),
@@ -91,26 +92,28 @@ const login = async () => {
  * Verify User
  * @param {validation code} code
  */
-const verifyUser = async (code) => {
-  const info = {
-    code,
-    merchat_id: currentUser.value.merchant.id
-  }
-
-  // Start loading
-  loadings.value.login = true
-
-  // Request
-  await store.vefiryLogin(info).then((res) => {
-    if (res) {
-      router.push({ name: 'dashboard' })
-    } else {
-      emit('changeBG')
+const verifyUser = async () => {
+  if (otpInputValue.value.length == 6) {
+    const info = {
+      code: otpInputValue.value,
+      merchat_id: currentUser.value.merchant.id
     }
-  })
 
-  // Stop Loading
-  loadings.value.login = false
+    // Start loading
+    loadings.value.login = true
+
+    // Request
+    await store.vefiryLogin(info).then((res) => {
+      if (res) {
+        router.push({ name: 'dashboard' })
+      } else {
+        emit('changeBG')
+      }
+    })
+
+    // Stop Loading
+    loadings.value.login = false
+  }
 }
 
 /**
@@ -259,6 +262,7 @@ const checkForNextStep = () => {
               :num-inputs="6"
               :should-auto-focus="true"
               input-type="numeric"
+              v-model:value="otpInputValue"
               @on-complete="verifyUser"
             />
           </div>

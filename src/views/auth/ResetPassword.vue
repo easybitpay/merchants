@@ -2,6 +2,9 @@
 // Vue
 import { ref, computed, watch } from 'vue'
 
+// Store
+import { useAuthStore } from '@/stores/auth'
+
 // Hooks
 import useForm from '@/hooks/useForm.js'
 
@@ -17,12 +20,16 @@ import CountDown from '../../components/globals/CountDown.vue'
 import { PasswordMeterComponent } from '@/assets/js/PasswordMeter'
 
 // ----- START ----- //
+
+// Generals
 const emit = defineEmits(['changeBG'])
-
 const { showFeedBacks } = useForm()
+const store = useAuthStore()
 
+// Refs
 const step = ref(1)
 
+const loading = ref(false)
 const otpInputValue = ref('')
 
 const showPass1 = ref(false)
@@ -30,14 +37,14 @@ const showPass2 = ref(false)
 
 const passwordMeter = ref(null)
 
+// Vuelidate
 const stepOneForm = ref({
-  email: null,
-  password: null
+  email: null
 })
 
 const stepTwoForm = ref({
   password: null,
-  confirmPassword: null
+  password_confirmation: null
 })
 
 const passwordComputed = computed(() => stepTwoForm.value.password)
@@ -53,7 +60,7 @@ const stepTwoRules = {
   password: {
     required: helpers.withMessage('Password is required', required)
   },
-  confirmPassword: {
+  password_confirmation: {
     required: helpers.withMessage('rePassword is required', required),
     sameAsPassword: helpers.withMessage('Password not matching ', sameAs(passwordComputed))
   }
@@ -70,23 +77,45 @@ watch(step, () => {
   }
 })
 
-const submitEmail = async () => {
+// Functions
+
+/**
+ * Send Forget Password Email
+ */
+const sendEmail = async () => {
+  // Validate Form
   const result = await v1$.value.$validate()
   if (result) {
-    if (step.value === 1) {
-      step.value = 2
-    } else {
-      console.log('safeye akhare')
-    }
+    // Start loading
+    loading.value = true
+
+    // Request
+    await store.sendForgetPasswordEmail(stepOneForm.value).then((res) => {
+      if (res) {
+        if (step.value === 1) {
+          step.value = 2
+        }
+      } else {
+        emit('changeBG')
+      }
+    })
+
+    // Stop Loading
+    loading.value = false
   } else {
     showFeedBacks()
     emit('changeBG')
   }
 }
 
+/**
+ * Get New Passwords Of User
+ */
 const submitPassword = async () => {
+  // Validate Form
   const result = await v2$.value.$validate()
   if (result) {
+    // Change Step
     step.value = 3
   } else {
     showFeedBacks()
@@ -94,9 +123,28 @@ const submitPassword = async () => {
   }
 }
 
-const changePass = () => {
+/**
+ * Change User Password
+ * send password with code to api
+ */
+const changePass = async () => {
+  // Validate Size Of Code
   if (otpInputValue.value.length == 6) {
-    step.value = 4
+    let content = { ...stepTwoForm.value }
+    content.code = otpInputValue.value
+
+    // Start loading
+    loading.value = true
+
+    // Request
+    await store.resetPassword(content).then((res) => {
+      if (res) {
+        step.value = 4
+      }
+    })
+
+    // Stop loading
+    loading.value = false
   }
 }
 </script>
@@ -107,7 +155,7 @@ const changePass = () => {
       <!-- begin::Step 1 - Get User Email -->
       <form
         v-if="step === 1"
-        @submit.prevent="submitEmail"
+        @submit.prevent="sendEmail"
         class="d-flex flex-column justify-content-between min-h-560px"
       >
         <div>
@@ -143,9 +191,12 @@ const changePass = () => {
         </div>
 
         <!-- begin::Submit -->
-        <button type="submit" class="btn btn-primary w-100">
-          Send Reset Link
-          <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+        <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+          <template v-if="!loading">
+            Send Reset Link
+            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+          </template>
+          <span v-else>Loading...</span>
         </button>
         <!-- end::Submit -->
       </form>
@@ -189,11 +240,8 @@ const changePass = () => {
               <!-- begin::Icon -->
               <inline-svg
                 @click="showPass1 = !showPass1"
-                src="media/icons/icons/webcam.svg"
-                :class="[
-                  { 'position-absolute end-16px cursor-pointer z-2': true },
-                  { 'svg-icon-gray-700': !showPass1 }
-                ]"
+                :src="`media/icons/icons/${showPass1 ? 'hide' : 'show'}.svg`"
+                class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
               ></inline-svg>
               <!-- end::Icon -->
             </div>
@@ -217,20 +265,20 @@ const changePass = () => {
                 :type="showPass2 ? 'text' : 'password'"
                 class="form-control"
                 placeholder="rePassword"
-                v-model="stepTwoForm.confirmPassword"
+                v-model="stepTwoForm.password_confirmation"
               />
-              <div class="invalid-feedback form-control" v-if="v2$.confirmPassword.$errors.length">
-                <span> {{ v2$.confirmPassword.$errors[0].$message }} </span>
+              <div
+                class="invalid-feedback form-control"
+                v-if="v2$.password_confirmation.$errors.length"
+              >
+                <span> {{ v2$.password_confirmation.$errors[0].$message }} </span>
               </div>
 
               <!-- begin::Icon -->
               <inline-svg
                 @click="showPass2 = !showPass2"
-                src="media/icons/icons/webcam.svg"
-                :class="[
-                  { 'position-absolute end-16px cursor-pointer z-2': true },
-                  { 'svg-icon-gray-700': !showPass2 }
-                ]"
+                :src="`media/icons/icons/${showPass2 ? 'hide' : 'show'}.svg`"
+                class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
               ></inline-svg>
               <!-- end::Icon -->
             </div>
@@ -263,11 +311,7 @@ const changePass = () => {
       <!-- end::Step 2 - Password -->
 
       <!-- begin::Step 3 - Get OTP -->
-      <form
-        v-if="step === 3"
-        @submit.prevent="changePass"
-        class="d-flex flex-column justify-content-between min-h-560px"
-      >
+      <div v-if="step === 3" class="d-flex flex-column justify-content-between min-h-560px">
         <div>
           <!-- begin::Icon -->
           <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
@@ -280,7 +324,7 @@ const changePass = () => {
             A 6-digit confirmation code has been sent
             <br />
             to {{ stepOneForm.email }} via Email.
-            <span class="text-primary"> <CountDown /></span>
+            <span class="text-primary"> <CountDown @isRestarted="sendEmail" /></span>
           </p>
           <!-- end::Text -->
 
@@ -288,12 +332,13 @@ const changePass = () => {
           <div class="otp-input">
             <VOtpInput
               ref="otpInput"
-              v-model:value="otpInputValue"
               input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
               separator=""
               :num-inputs="6"
               :should-auto-focus="true"
               input-type="numeric"
+              v-model:value="otpInputValue"
+              @on-complete="changePass"
             />
           </div>
           <!-- end::OTP -->
@@ -313,11 +358,18 @@ const changePass = () => {
           <!-- end::Back Action -->
 
           <!-- begin::Submit Action -->
-          <button type="submit" class="btn btn-primary w-100">Finalize New Password</button>
+          <button
+            type="submit"
+            class="btn btn-primary w-100"
+            @click="changePass"
+            :disabled="loading"
+          >
+            {{ loading ? 'Loading...' : 'Finalize New Password' }}
+          </button>
           <!-- end::Submit Action -->
         </div>
         <!-- end::Actions -->
-      </form>
+      </div>
       <!-- end::Step 3 - Get OTP -->
 
       <!-- begin::Step 4 - Get OTP -->
@@ -337,7 +389,10 @@ const changePass = () => {
           </p>
           <!-- end::Text -->
 
-          <inline-svg src="media/icons/shapes/star-lock-group.svg" class="d-block m-auto"></inline-svg>
+          <inline-svg
+            src="media/icons/shapes/star-lock-group.svg"
+            class="d-block m-auto"
+          ></inline-svg>
         </div>
 
         <!-- begin::Go Login -->
