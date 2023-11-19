@@ -68,7 +68,7 @@ const convartAppType = (type) => {
 
         <!-- begin::Name -->
         <h2 class="name text-indigo-400 neue-machina">
-          <inline-svg src="media/icons/icons/stop.svg" height="32"></inline-svg>
+          <img src="/media/icons/icons/stop.png" alt="stop">
           {{ app.name }}
         </h2>
         <!-- end::Name -->

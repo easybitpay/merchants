@@ -10,7 +10,7 @@ import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
 // Components
-import Dropzone from '../globals/Dropzone.vue'
+import Dropzone from '../../globals/Dropzone.vue'
 
 // ----- START ----- //
 const { showFeedBacks } = useForm()

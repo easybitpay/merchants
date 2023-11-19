@@ -713,11 +713,12 @@ body {
 
     .name {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         line-height: 2rem;
         margin-bottom: 0;
+        gap: 0.25rem;
 
-        svg {
+        img {
             display: none;
         }
     }
@@ -726,7 +727,7 @@ body {
         .name {
             color: $danger !important;
 
-            svg {
+            img {
                 display: block;
             }
         }

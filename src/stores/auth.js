@@ -43,11 +43,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
-    user.value = {};
+    user.value = {}
 
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("sandbox");
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    localStorage.removeItem('sandbox')
   }
 
   /**
@@ -62,6 +62,14 @@ export const useAuthStore = defineStore('auth', () => {
     if (userInfo.auth_token) {
       localStorage.setItem('token', userInfo.auth_token)
     }
+  }
+
+  /**
+   * Change 2FA Status
+   */
+  function changeMerchant2FA(status) {
+    user.value.merchant.two_factor_enabled = status
+    localStorage.setItem('user', JSON.stringify(user.value))
   }
 
   /**
@@ -130,32 +138,32 @@ export const useAuthStore = defineStore('auth', () => {
 
   /**
    * Send Forget Password Email
-   * @param {user email} paylaod 
+   * @param {user email} paylaod
    */
   async function sendForgetPasswordEmail(paylaod) {
     try {
-      await api.post("auth/recovery", paylaod);
+      await api.post('auth/recovery', paylaod)
 
-      return true;
+      return true
     } catch (error) {
-      return false;
+      return false
     }
   }
 
   /**
    * Reset Password
-   * @param {code, passwords} paylaod 
+   * @param {code, passwords} paylaod
    */
   async function resetPassword(paylaod) {
     try {
       await api.patch(`auth/recovery/${paylaod.code}`, {
         password: paylaod.password,
-        password_confirmation: paylaod.password_confirmation,
-      });
+        password_confirmation: paylaod.password_confirmation
+      })
 
-      return true;
+      return true
     } catch (error) {
-      return false;
+      return false
     }
   }
 
@@ -164,15 +172,65 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function getProfile() {
     try {
-      const { data } = await api.post("auth/info");
+      const { data } = await api.post('auth/info')
 
       //
       setUserInfo(data)
 
       //
-      return true;
+      return true
     } catch (error) {
-      return false;
+      return false
+    }
+  }
+
+  /**
+   * Get 2FA Info
+   */
+  async function get2FAInfo() {
+    try {
+      const { data } = await api.get('merchants/enable-2fa')
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Disable 2FA
+   * @param {form} payload
+   */
+  async function disable2FA(payload) {
+    try {
+      await api.post('merchants/disable-2fa', payload)
+
+      //
+      changeMerchant2FA(0)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Enable 2FA
+   * @param {form} payload
+   */
+  async function enable2FA(payload) {
+    try {
+      await api.post('merchants/enable-2fa-verify', payload)
+
+      //
+      changeMerchant2FA(1)
+
+      //
+      return true
+    } catch (error) {
+      return false
     }
   }
 
@@ -189,5 +247,8 @@ export const useAuthStore = defineStore('auth', () => {
     resetPassword,
     getProfile,
     changeLockScreenStatus,
+    get2FAInfo,
+    disable2FA,
+    enable2FA
   }
 })
