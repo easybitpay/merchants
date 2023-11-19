@@ -1,7 +1,21 @@
-<script setup></script>
+<script setup>
+// Vue
+import { computed } from 'vue'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
+
+// ----- Start -----
+
+// Generals
+const authStore = useAuthStore()
+
+// Computeds
+const currentUser = computed(() => authStore.currentUser)
+</script>
 
 <template>
-  <div class="card border-0 two-fa-card mb-6">
+  <div class="card border-0 two-fa-card mb-6" v-if="!currentUser.merchant.two_factor_enabled">
     <div class="card-body pe-md-8">
       <h1 class="title mt-lg-18 mb-6 text-cyan-500 lh-1">2F Vertification</h1>
 
@@ -12,7 +26,7 @@
         </p>
 
         <div>
-          <RouterLink :to="{name: 'settings-privacy'}" class="btn btn-primary w-168px">
+          <RouterLink :to="{ name: 'settings-privacy' }" class="btn btn-primary w-168px">
             Active
             <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
           </RouterLink>
