@@ -1,15 +1,33 @@
 <script setup>
+// Props
 const props = defineProps({
   action: {
     type: String,
     default: 'enter'
+  },
+  app: {
+    type: Object,
+    required: true
   }
 })
+
+// ----- Start -----
+/**
+ * Gateway List Status Converter
+ */
+const convartAppType = (type) => {
+  if (type == '1') return 'API'
+  if (type == '2') return 'Custom'
+  if (type == '3') return 'Donate'
+}
 </script>
 
 <template>
   <div
-    class="card gradient-image-box application-card have-partners disabled"
+    :class="[
+      { 'card gradient-image-box application-card have-partners': true },
+      { disabled: app.type != 1 }
+    ]"
     style="--background: url(/media/images/banner/auth-bg.jpg)"
   >
     <div
@@ -18,7 +36,7 @@ const props = defineProps({
       <div class="d-flex flex-column align-items-start w-100 overflow-auto">
         <div class="mb-4">
           <!-- begin::Type -->
-          <span class="type"> API </span>
+          <span class="type"> {{ convartAppType(app.type) }} </span>
           <!-- end::Type -->
 
           <!-- begin::Partners -->
@@ -45,13 +63,13 @@ const props = defineProps({
         </div>
 
         <!-- begin::Share Type -->
-        <p class="mb-0 fs-7 ls-base text-gray-600">as Partner</p>
+        <p class="mb-0 fs-7 ls-base text-gray-600">as {{ $filters.capitalize(app.share_type) }}</p>
         <!-- end::Share Type -->
 
         <!-- begin::Name -->
         <h2 class="name text-indigo-400 neue-machina">
           <inline-svg src="media/icons/icons/stop.svg" height="32"></inline-svg>
-          Mini Games
+          {{ app.name }}
         </h2>
         <!-- end::Name -->
 
@@ -90,7 +108,10 @@ const props = defineProps({
       <!-- begin::Enter Action -->
       <div class="enter-btn" v-if="action === 'enter'">
         <div class="w-200px">
-          <RouterLink :to="{ name: 'application-overview' }" class="btn btn-primary w-100">
+          <RouterLink
+            :to="{ name: 'application-overview', params: { id: 2 } }"
+            class="btn btn-primary w-100"
+          >
             Enter
 
             <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>

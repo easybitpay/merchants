@@ -271,7 +271,7 @@ body {
                             transition: all linear .3s;
                         }
 
-                        &.router-link-exact-active {
+                        &.active {
                             background-color: $gray-200;
                         }
                     }

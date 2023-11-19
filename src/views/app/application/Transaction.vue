@@ -1,6 +1,9 @@
 <script setup>
 // Vue
-import { onMounted, watch } from 'vue'
+import { onMounted, watch, computed } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
 
 // Bootstrap
 import { Tooltip } from 'bootstrap'
@@ -14,6 +17,9 @@ import ApplicationCard from '../../../components/application/ApplicationCard.vue
 // ----- START ----- //
 const { startCheckSort, selectedSort } = useSortTable()
 
+const store = useAppStore()
+const selectedApp = computed(() => store.selectedApp)
+
 onMounted(() => {
   startCheckSort('transaction')
   new Tooltip(document.body, {
@@ -26,7 +32,7 @@ watch(selectedSort, () => {
 })
 </script>
 <template>
-  <ApplicationCard action="status"/>
+  <ApplicationCard action="status" :app="selectedApp" />
 
   <div class="accordion mt-10" id="transAccordion">
     <div class="table-responsive accordion-table">
@@ -70,7 +76,11 @@ watch(selectedSort, () => {
 
           <tr class="collapsed-row">
             <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div id="tranOne" class="accordion-collapse collapse" data-bs-parent="#transAccordion">
+              <div
+                id="tranOne"
+                class="accordion-collapse collapse"
+                data-bs-parent="#transAccordion"
+              >
                 <div class="accordion-body">
                   <!-- begin::Transactions -->
                   <div class="d-flex flex-column gap-4">
@@ -286,7 +296,11 @@ watch(selectedSort, () => {
 
           <tr class="collapsed-row">
             <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div id="tranTwo" class="accordion-collapse collapse" data-bs-parent="#transAccordion">
+              <div
+                id="tranTwo"
+                class="accordion-collapse collapse"
+                data-bs-parent="#transAccordion"
+              >
                 <div class="accordion-body">
                   <!-- begin::Transactions -->
                   <div class="d-flex flex-column gap-4">

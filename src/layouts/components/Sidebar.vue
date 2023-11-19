@@ -2,11 +2,15 @@
 import { Collapse } from 'bootstrap'
 
 // Vue
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+// Store
 import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 
 // ----- START ----- //
-const store = useAuthStore()
+const authStore = useAuthStore()
+const appStore = useAppStore()
 const emit = defineEmits(['changeSidebarStatus'])
 
 const props = defineProps({
@@ -17,6 +21,8 @@ const props = defineProps({
 })
 
 const search = ref('')
+
+const appList = computed(() => appStore.appList)
 
 const changeSidebar = () => {
   emit('changeSidebarStatus')
@@ -33,7 +39,7 @@ const checkInnerWidth = () => {
 checkInnerWidth()
 
 const showLockScreen = () => {
-  store.changeLockScreenStatus(true)
+  authStore.changeLockScreenStatus(true)
 }
 </script>
 
@@ -88,31 +94,29 @@ const showLockScreen = () => {
 
             <!-- begin::icon -->
             <inline-svg
+              v-if="appList.length"
               src="media/icons/icons/chevron-down.svg"
               data-bs-toggle="collapse"
-              data-bs-target="#collapseExample"
+              data-bs-target="#appListCollapse"
               aria-expanded="false"
-              aria-controls="collapseExample"
+              aria-controls="appListCollapse"
             ></inline-svg>
             <!-- end::icon -->
           </div>
 
-          <div class="collapse collapse-box" id="collapseExample">
+          <div class="collapse collapse-box" id="appListCollapse">
             <div class="box">
-              <RouterLink :to="{ name: 'login' }" class="item">
+              <RouterLink
+                :to="{ name: 'application-overview', params: { id: app.id } }"
+                class="item"
+                v-for="app in appList"
+                :key="app.id"
+              >
                 <div>
                   <div class="w-8px h-8px rounded-circle bg-success"></div>
                 </div>
 
-                <span>mini game</span>
-              </RouterLink>
-
-              <RouterLink :to="{ name: 'login' }" class="item">
-                <div>
-                  <div class="w-8px h-8px rounded-circle bg-success"></div>
-                </div>
-
-                <span>Plusstudio</span>
+                <span>{{ app.name }}</span>
               </RouterLink>
             </div>
           </div>

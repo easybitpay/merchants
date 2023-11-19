@@ -49,27 +49,27 @@ const router = createRouter({
           
           children: [
             {
-              path: 'overview',
+              path: 'overview/:id',
               name: 'application-overview',
               component: () => import('@/views/app/application/Overview.vue')
             },
             {
-              path: 'transaction',
+              path: 'transaction/:id',
               name: 'application-transaction',
               component: () => import('@/views/app/application/Transaction.vue')
             },
             {
-              path: 'setting',
+              path: 'setting/:id',
               name: 'application-setting',
               component: () => import('@/views/app/application/Setting.vue')
             },
             {
-              path: 'notification',
+              path: 'notification/:id',
               name: 'application-notification',
               component: () => import('@/views/app/application/Notification.vue')
             },
             {
-              path: 'withdraw',
+              path: 'withdraw/:id',
               name: 'application-withdraw',
               component: () => import('@/views/app/application/Withdraw.vue')
             },

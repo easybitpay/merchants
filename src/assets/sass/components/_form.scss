@@ -84,9 +84,11 @@ textarea {
     height: 24px;
     background-size: 7.5px;
     background-position: center;
+    border: 1px solid $primary;
 
     &:not(:checked) {
         background-image: url(/media/icons/icons/radio-deactive.svg) !important;
+        background-color: $gray-100;
     }
 
     &.form-check-input-sm {

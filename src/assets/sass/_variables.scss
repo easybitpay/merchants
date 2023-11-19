@@ -1011,10 +1011,10 @@ $form-check-label-color:                  null !default;
 $form-check-label-cursor:                 null !default;
 $form-check-transition:                   null !default;
 
-$form-check-input-active-filter:          brightness(100%) !default;
+$form-check-input-active-filter:          brightness(90%) !default;
 
-$form-check-input-bg:                     var(--#{$prefix}gray-100) !default;
-$form-check-input-border:                 1px solid $primary !default;
+$form-check-input-bg:                     var(--#{$prefix}gray-500) !default;
+$form-check-input-border:                 none !default;
 $form-check-input-border-radius:          .25em !default;
 $form-check-radio-border-radius:          7.5px !default;
 $form-check-input-focus-border:           none !default;

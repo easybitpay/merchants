@@ -2,6 +2,9 @@
 // Vue
 import { computed, onMounted, ref } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
 // Component
 import AppSettingCard from '../../../components/application/AppSettingCard.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
@@ -11,9 +14,7 @@ import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
 import AddCustomTokenOffcanvas from '../../../components/application/AddCustomTokenOffcanvas.vue'
 
 // ----- START ----- //
-import { useAuthStore } from '@/stores/auth'
-
-const store = useAuthStore()
+const store = useAppStore()
 
 const tokens = computed(() => store.tokens)
 const base_token = ref({})

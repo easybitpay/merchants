@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <div class="card border-gray-200 rounded">
     <div class="card-body p-2">
-      <img :src="`media/images/dashboard/${image}.png`" :alt="title" />
+      <img :src="`/media/images/dashboard/${image}.png`" :alt="title" />
 
       <p class="mt-5 mb-2 fs-extra neue-machina text-gray-800 lh-1">
         {{ valuePrifix }}{{ value }}

@@ -1,7 +1,7 @@
 <script setup>
 // Vue
 import { computed, onMounted, ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 import { useRouter } from 'vue-router'
 
 // Component
@@ -9,7 +9,7 @@ import VOtpInput from 'vue3-otp-input'
 import CountDown from '../components/globals/CountDown.vue';
 
 // ----- START ----- //
-const store = useAuthStore()
+const store = useAppStore()
 const router = useRouter()
 
 const errorStatus = ref(false)

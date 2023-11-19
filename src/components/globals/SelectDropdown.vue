@@ -6,7 +6,7 @@ import { computed, ref } from 'vue'
 import useIconImage from '@/hooks/useIconImage'
 
 // Store
-import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 
 // Props
 const props = defineProps({
@@ -60,7 +60,7 @@ const props = defineProps({
 const emit = defineEmits(['change'])
 
 // ----- Start -----
-const store = useAuthStore()
+const store = useAppStore()
 
 const { iconImage, storageImage } = useIconImage()
 

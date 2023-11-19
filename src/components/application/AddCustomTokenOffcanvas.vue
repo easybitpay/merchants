@@ -14,9 +14,9 @@ import SelectDropdown from '../globals/SelectDropdown.vue'
 import Dropzone from '../globals/Dropzone.vue'
 
 // ----- START ----- //
-import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 
-const store = useAuthStore()
+const store = useAppStore()
 
 const networks = computed(() => store.networks)
 

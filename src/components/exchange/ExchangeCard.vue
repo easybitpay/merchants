@@ -3,7 +3,7 @@
 import { computed, ref } from 'vue'
 
 // Store
-import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -21,7 +21,7 @@ import CoinDropdown from '../../components/globals/CoinDropdown.vue'
 // ----- Start -----
 const { showFeedBacks } = useForm()
 
-const store = useAuthStore()
+const store = useAppStore()
 
 const tokens = computed(() => store.tokens)
 

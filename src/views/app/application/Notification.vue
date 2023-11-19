@@ -1,16 +1,22 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
 
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 
 // ----- START ----- //
+const store = useAppStore()
+const selectedApp = computed(() => store.selectedApp)
+
 const telegram = ref(true)
 </script>
 
 <template>
-  <ApplicationCard action="status"/>
+  <ApplicationCard action="status" :app="selectedApp" />
 
   <div class="table-responsive mt-6">
     <table class="table notification-table">

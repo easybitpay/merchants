@@ -1,5 +1,19 @@
 <script setup>
+// Vue
+
+// Store
+import { useAppStore } from '@/stores/app'
+import { computed } from 'vue'
+
+// Components
 import ApplicationCard from '../../components/application/ApplicationCard.vue'
+import ApplicationCardLoading from '../../components/loadings/ApplicationCardLoading.vue'
+
+// ----- Start -----
+const store = useAppStore()
+
+const appList = computed(() => store.appList)
+const appLoading = computed(() => store.appLoading)
 </script>
 <template>
   <!-- begin::Header -->
@@ -7,10 +21,10 @@ import ApplicationCard from '../../components/application/ApplicationCard.vue'
   <!-- end::Header -->
 
   <div class="d-flex flex-column gap-6">
+    <ApplicationCardLoading v-if="appLoading" />
     <!-- begin::Item -->
-    <ApplicationCard />
+    <ApplicationCard v-for="app in appList" :key="app.id" :app="app" />
     <!-- end::Item -->
-    <ApplicationCard />
   </div>
 
   <!-- begin::Add New App -->
