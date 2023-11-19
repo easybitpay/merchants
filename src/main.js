@@ -36,6 +36,9 @@ app.config.globalProperties.$filters = {
 import InlineSvg from 'vue-inline-svg'
 app.component('inline-svg', InlineSvg)
 
+import BoxLoading from '@/components/globals/BoxLoading.vue'
+app.component("BoxLoading", BoxLoading);
+
 import 'vue-skeletor/dist/vue-skeletor.css'
 import { Skeletor } from 'vue-skeletor'
 app.component('Skeletor', Skeletor)
