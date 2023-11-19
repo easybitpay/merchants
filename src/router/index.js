@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import authRequired from "@/core/router-guards/authRequired";
+import loginCheck from "@/core/router-guards/loginCheck";
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +12,7 @@ const router = createRouter({
     {
       path: '/',
       redirect: '/dashboard',
+      beforeEnter: authRequired,
       component: () => import('@/layouts/Main.vue'),
       children: [
         {
@@ -130,6 +133,7 @@ const router = createRouter({
      */
     {
       path: '/',
+      beforeEnter: loginCheck,
       component: () => import('@/layouts/Auth.vue'),
       children: [
         {
