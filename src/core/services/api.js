@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notification'
+
 const { origin, href } = window.location
 
 const envSandBoxURL = import.meta.env.VITE_APP_SANDBOX_URL
@@ -51,6 +54,27 @@ api.interceptors.response.use(
     return Promise.resolve(response)
   },
   (error) => {
+    // Store
+    const authStore = useAuthStore()
+    const notificationStore = useNotificationStore()
+
+    // General
+    const status = error.response.status
+
+    switch (status) {
+      case 401:
+        authStore.logout()
+        if (sandbox) {
+          window.location.reload()
+        } else {
+          notificationStore.changePage('login')
+        }
+        break
+
+      default:
+        break
+    }
+
     return Promise.reject(error)
   }
 )

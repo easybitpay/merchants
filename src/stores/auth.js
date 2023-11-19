@@ -42,6 +42,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  function logout() {
+    user.value = {};
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("sandbox");
+  }
+
   /**
    * Set User Info
    */
@@ -172,6 +180,7 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser,
     lockScreenStatus,
 
+    logout,
     loginUser,
     vefiryLogin,
     googleLogin,
