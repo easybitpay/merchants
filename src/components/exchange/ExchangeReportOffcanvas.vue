@@ -105,7 +105,7 @@ onMounted(() => {
             <div class="fs-7 ls-sm">
               <p class="text-gray-600 mb-2">Receive Address</p>
               <p class="text-gray-800 mb-0">
-                <Skeletor v-if="loading" />
+                <Skeletor v-if="loading" class="rounded-0" />
                 {{ reciep.receive_address }}
               </p>
             </div>
@@ -121,7 +121,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Status</p>
                 <p :class="`value text-${convertStatusToColor(reciep.status)}`">
-                  <Skeletor width="80px" v-if="loading" />
+                  <Skeletor width="80px" v-if="loading" class="rounded-0" />
 
                   {{ $filters.capitalize(reciep.status) }}
                 </p>
@@ -132,7 +132,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Send Token</p>
                 <p class="value">
-                  <Skeletor width="150px" v-if="loading" />
+                  <Skeletor width="150px" v-if="loading" class="rounded-0" />
                   <template v-else>
                     {{ reciep?.send_token?.name }}
                     <small>({{ reciep?.send_token?.network?.name }})</small>
@@ -146,7 +146,7 @@ onMounted(() => {
                 <p class="title">Receive Token</p>
 
                 <p class="value">
-                  <Skeletor width="150px" v-if="loading" />
+                  <Skeletor width="150px" v-if="loading" class="rounded-0" />
                   <template v-else>
                     {{ reciep?.receive_token?.name }}
                     <small>({{ reciep?.receive_token?.network?.name }})</small>
@@ -167,7 +167,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Order ID</p>
                 <p class="value">
-                  <Skeletor width="50px" v-if="loading" />
+                  <Skeletor width="50px" v-if="loading" class="rounded-0" />
                   {{ reciep.id }}
                 </p>
               </div>
@@ -177,7 +177,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Exchange Rate</p>
                 <p class="value">
-                  <Skeletor width="50px" v-if="loading" />
+                  <Skeletor width="50px" v-if="loading" class="rounded-0" />
                   {{ reciep.exchange_rate }}
                 </p>
               </div>
@@ -187,7 +187,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Fee</p>
                 <p class="value">
-                  <Skeletor width="50px" v-if="loading" />
+                  <Skeletor width="50px" v-if="loading" class="rounded-0" />
                   {{ reciep.fee }}
                 </p>
               </div>
@@ -197,7 +197,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Send Amount</p>
                 <p class="value">
-                  <Skeletor width="50px" v-if="loading" />
+                  <Skeletor width="50px" v-if="loading" class="rounded-0" />
                   {{ reciep.send_amount }}
                 </p>
               </div>
@@ -207,7 +207,7 @@ onMounted(() => {
               <div class="item">
                 <p class="title">Receive Amount</p>
                 <p class="value">
-                  <Skeletor width="50px" v-if="loading" />
+                  <Skeletor width="50px" v-if="loading" class="rounded-0" />
                   {{ reciep.receive_amount }}
                 </p>
               </div>

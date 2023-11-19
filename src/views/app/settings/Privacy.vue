@@ -1,19 +1,9 @@
 <script setup>
 // Componets
-import NewKycOffcanvas from '../../../components/settings/privacy/NewKycOffcanvas.vue'
 import TwoFa from '../../../components/settings/privacy/TwoFa.vue'
+import KYC from '../../../components/settings/privacy/KYC.vue'
 
 // ----- Start -----
-
-const convertStatusToColor = (status) => {
-  const colors = {
-    checking: 'cyan',
-    verify: 'blue',
-    error: 'red'
-  }
-
-  return colors[status] || 'blue'
-}
 </script>
 
 <template>
@@ -97,146 +87,7 @@ const convertStatusToColor = (status) => {
   </div>
   <!-- end::Last Sign in -->
 
-  <!-- begin::KYC -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">KYC</h4>
-
-    <p class="mb-6 text-gray-800">
-      KYC process includes ID card verification, face verification, document verification such as
-      utility bills as proof of address, and biometric verification. Banks must comply with KYC
-      regulations and anti-money laundering regulations to limit fraud.
-    </p>
-    <!-- end::Title -->
-
-    <!-- begin::Content -->
-    <div class="d-flex flex-column gap-6">
-      <!-- begin::Item -->
-      <div class="row align-items-center gy-3">
-        <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
-          <div
-            style="--background: url(/media/images/banner/auth-bg.jpg)"
-            class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
-          >
-            ID Card
-
-            <inline-svg
-              src="media/icons/icons/trash.svg"
-              height="24"
-              class="svg-icon-danger hover-show-target bg-white"
-              style="border-radius: 3px"
-            ></inline-svg>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm d-flex">
-          <div
-            :class="`h-33px d-flex align-items-center ps-2 pe-4 rounded-2 border gap-2 
-            border-${convertStatusToColor('checking')}-500 fs-7 ls-base 
-            bg-${convertStatusToColor('checking')}-100
-            text-${convertStatusToColor('checking')}-500`"
-          >
-            <inline-svg
-              src="media/icons/icons/re.svg"
-              height="24"
-              :class="`svg-icon-${convertStatusToColor('checking')}-500`"
-            ></inline-svg>
-
-            Checking 23:17:26
-          </div>
-        </div>
-      </div>
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <div class="row align-items-center gy-3">
-        <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
-          <div
-            style="--background: url(/media/images/banner/auth-bg.jpg)"
-            class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
-          >
-            <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">ID Card</p>
-
-            <inline-svg
-              src="media/icons/icons/trash.svg"
-              height="24"
-              class="svg-icon-danger hover-show-target bg-white"
-              style="border-radius: 3px"
-            ></inline-svg>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm d-flex">
-          <div
-            :class="`h-33px d-flex align-items-center ps-2 pe-4 rounded-2 border gap-2 
-            border-${convertStatusToColor('verify')}-500 fs-7 ls-base 
-            bg-${convertStatusToColor('verify')}-100
-            text-${convertStatusToColor('verify')}-500`"
-          >
-            <inline-svg
-              src="media/icons/icons/read.svg"
-              height="24"
-              :class="`svg-icon-${convertStatusToColor('verify')}-500`"
-            ></inline-svg>
-
-            Verified
-          </div>
-        </div>
-      </div>
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <div class="row align-items-center gy-3">
-        <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
-          <div
-            style="--background: url(/media/images/banner/auth-bg.jpg)"
-            class="gradient-image-box hover-shadow h-40px border border-danger rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-danger hover-show-parent"
-          >
-            ID Card
-
-            <inline-svg
-              src="media/icons/icons/trash.svg"
-              height="24"
-              class="svg-icon-danger hover-show-target bg-white"
-              style="border-radius: 3px"
-            ></inline-svg>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm d-flex">
-          <div
-            :class="`h-33px d-flex align-items-center ps-2 pe-4 rounded-2 border gap-2 
-            border-${convertStatusToColor('error')}-500 fs-7 ls-base 
-            bg-${convertStatusToColor('error')}-100
-            text-${convertStatusToColor('error')}-500`"
-          >
-            <inline-svg
-              src="media/icons/icons/error.svg"
-              height="24"
-              :class="`svg-icon-${convertStatusToColor('error')}-500`"
-            ></inline-svg>
-
-            Error
-          </div>
-        </div>
-      </div>
-      <!-- end::Item -->
-    </div>
-    <!-- end::Content -->
-
-    <!-- begin::Attach -->
-    <button
-      class="btn btn-primary w-144px mt-6"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#newKyc_offcanvas"
-      aria-controls="newKyc_offcanvas"
-    >
-      Attach
-    </button>
-    <!-- end::Attach -->
-  </div>
-  <!-- end::KYC -->
+  <KYC />
 
   <!-- begin::Lock Screen -->
   <div>
@@ -276,6 +127,4 @@ const convertStatusToColor = (status) => {
     <!-- end::Content -->
   </div>
   <!-- end::Lock Screen -->
-
-  <NewKycOffcanvas />
 </template>

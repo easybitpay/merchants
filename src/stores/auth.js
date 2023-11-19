@@ -234,6 +234,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * KYC Document List
+   */
+  async function KYCList() {
+    try {
+      const { data } = await api.get('merchant-documents')
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     currentUser,
     lockScreenStatus,
@@ -249,6 +263,7 @@ export const useAuthStore = defineStore('auth', () => {
     changeLockScreenStatus,
     get2FAInfo,
     disable2FA,
-    enable2FA
+    enable2FA,
+    KYCList
   }
 })

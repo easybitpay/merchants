@@ -260,9 +260,9 @@ onMounted(() => {
           </div>
 
           <!-- begin::Actions -->
-          <div class="p-6 border-top border-primary" v-if="false">
+          <div class="p-6 border-top border-primary" v-if="true">
             <!-- begin::Create Message -->
-            <div class="d-flex gap-6">
+            <div class="d-flex gap-6" v-if="false">
               <button type="button" class="btn btn-primary w-100 w-sm-168px">
                 <span class="d-block d-sm-none">New</span>
                 <span class="d-none d-sm-block">New Message</span>
@@ -275,7 +275,7 @@ onMounted(() => {
             <!-- end::Create Message -->
 
             <!-- begin::Form -->
-            <form @submit.prevent="sendReply" v-if="false">
+            <form @submit.prevent="sendReply" v-if="true">
               <!-- begin::Textarea -->
               <textarea
                 class="form-control p-0 rounded-0 border-0 bg-transparent min-h-48px"
@@ -331,8 +331,8 @@ onMounted(() => {
           <!-- end::Actions -->
 
           <!-- begin::User Reaction -->
-
           <div
+            v-if="false"
             class="p-6 pt-20 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between justify-content-md-start w-100 row-gap-3"
           >
             <!-- begin::Question -->
