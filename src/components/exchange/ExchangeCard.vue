@@ -1,9 +1,9 @@
 <script setup>
 // Vue
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 
 // Store
-import { useAppStore } from '@/stores/app'
+import { useExchangeStore } from '@/stores/exchange'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -19,12 +19,33 @@ import WAValidator from 'multicoin-address-validator/dist/wallet-address-validat
 import CoinDropdown from '../../components/globals/CoinDropdown.vue'
 
 // ----- Start -----
+
+// Generals
+const store = useExchangeStore()
 const { showFeedBacks } = useForm()
 
-const store = useAppStore()
+// Refs
+const sendTokens = ref([])
+const receiveTokens = ref([])
+const exchangeRate = ref(0)
 
-const tokens = computed(() => store.tokens)
+const selectedSendToken = ref({})
+const selectedReceiveToken = ref({})
 
+const loadings = ref({
+  box: false,
+  submit: false
+})
+
+// Computeds
+const receiveAmount = computed(() => {
+  const amount = +form.value.sendAmount
+  const rate = +exchangeRate.value
+
+  return amount * rate
+})
+
+// Vuelidate
 const form = ref({
   sendAmount: null,
   sendTokenId: null,
@@ -32,22 +53,6 @@ const form = ref({
   receiveTokenId: null
 })
 
-const sendToken = ref({})
-const toggleSendToken = (token) => {
-  sendToken.value = token
-  form.value.sendTokenId = token.id
-}
-
-const receiveToken = ref({})
-const toggleReceiveToken = (token) => {
-  receiveToken.value = token
-  form.value.receiveTokenId = token.id
-  validateAddress()
-}
-
-/**
- * Validation Rules
- */
 const rules = {
   sendAmount: {
     required: helpers.withMessage('Send amount is required', required)
@@ -65,6 +70,29 @@ const rules = {
 
 const v$ = useVuelidate(rules, form)
 
+// Functions
+
+/**
+ * Toggle Send Token
+ * @param {token} token
+ */
+const toggleSendToken = (token) => {
+  selectedSendToken.value = token
+  form.value.sendTokenId = token.id
+  getExchangeRate()
+}
+
+/**
+ * Toggle Receive Token
+ * @param {token} token
+ */
+const toggleReceiveToken = (token) => {
+  selectedReceiveToken.value = token
+  form.value.receiveTokenId = token.id
+  validateAddress()
+  getExchangeRate()
+}
+
 /**
  * Validate Wallet Address
  */
@@ -75,7 +103,7 @@ const validateAddress = async () => {
 
   const valid = WAValidator.validate(
     `${form.value.receiveAddress}`,
-    `${receiveToken.value.network.chain_type.toUpperCase()}`
+    `${selectedReceiveToken.value.network.chain_type.toUpperCase()}`
   )
 
   if (valid) validAddress.value = true
@@ -111,18 +139,78 @@ const receiveAddressError = computed(() => {
 })
 
 /**
+ * Get Send And Receive Tokens
+ */
+const getTokens = async () => {
+  // Start Loading
+  loadings.value.box = true
+
+  // Request
+  await store.getExchangeTokens().then((res) => {
+    if (res) {
+      sendTokens.value = res.sendTokens
+      receiveTokens.value = res.receiveTokens
+    }
+  })
+
+  // Stop Loading
+  loadings.value.box = false
+}
+
+/**
+ * Get Exchange Rate
+ */
+const getExchangeRate = async () => {
+  if (form.value.sendTokenId && form.value.receiveTokenId) {
+    // start loading
+    loadings.value.box = true
+
+    // set variable
+    let params = new URLSearchParams()
+    params.set('sendTokenId', form.value.sendTokenId)
+    params.set('receiveTokenId', form.value.receiveTokenId)
+
+    // request
+    await store.getExchangeRate(params).then((res) => {
+      if (res) {
+        exchangeRate.value = res
+      }
+    })
+
+    // stop loading
+    loadings.value.box = false
+  }
+}
+
+/**
  * Exchange Function
  */
 const exchange = async () => {
+  // Validate Form
   const result = await v$.value.$validate()
   const valid_address = validAddress.value
 
   if (result && valid_address) {
-    console.log('scas')
+    // Start loading
+    loadings.value.submit = true
+
+    // Request
+    await store.getExchangeLink(form.value).then((res) => {
+      if (res) {
+        window.location = res
+      }
+    })
+
+    // Stop loading
+    loadings.value.submit = false
   } else {
     showFeedBacks()
   }
 }
+
+onMounted(() => {
+  getTokens()
+})
 </script>
 <template>
   <!-- begin::Content -->
@@ -184,9 +272,10 @@ const exchange = async () => {
                 <CoinDropdown
                   class="position-absolute end-8px"
                   showImage
+                  showCoinNetwork
                   check="id"
-                  :items="tokens"
-                  :selected="sendToken"
+                  :items="sendTokens"
+                  :selected="selectedSendToken"
                   @change="toggleSendToken"
                 />
               </div>
@@ -211,6 +300,7 @@ const exchange = async () => {
                   type="number"
                   class="form-control px-9"
                   placeholder="Amount"
+                  :value="receiveAmount"
                   readonly
                 />
 
@@ -228,9 +318,10 @@ const exchange = async () => {
                 <CoinDropdown
                   class="position-absolute end-8px"
                   showImage
+                  showCoinNetwork
                   check="id"
-                  :items="tokens"
-                  :selected="receiveToken"
+                  :items="receiveTokens"
+                  :selected="selectedReceiveToken"
                   @change="toggleReceiveToken"
                 />
               </div>
@@ -259,8 +350,12 @@ const exchange = async () => {
             <!-- end::Receive Address -->
 
             <!-- begin::Submit -->
-            <button type="submit" class="btn btn-primary w-100 neue-machina fs-4 fw-normal mt-10">
-              Submit
+            <button
+              type="submit"
+              :disabled="loadings.submit"
+              class="btn btn-primary w-100 neue-machina fs-4 fw-normal mt-10"
+            >
+              {{ loadings.submit ? 'Loading...' : 'Submit' }}
             </button>
             <!-- end::Submit -->
           </form>
@@ -273,12 +368,22 @@ const exchange = async () => {
             class="card-linear-background rounded h-100 p-6 d-flex flex-column align-item-start justify-content-end text-white fs-7 ls-base"
             style="--background: url(/media/images/banner/auth-bg.jpg)"
           >
-            <p class="mb-0">You will send 1 of USDT in Tron network</p>
-            <p class="mb-0">and will get 20 of ALN in Polygon network</p>
+            <template v-if="selectedSendToken.symbol && selectedReceiveToken.symbol">
+              <p class="mb-0">
+                You will send {{ form.sendAmount || 0 }} of {{ selectedSendToken.symbol }} in
+                {{ selectedSendToken?.network?.name }} network
+              </p>
+              <p class="mb-0">
+                and will get {{ receiveAmount || 0 }} of {{ selectedReceiveToken.symbol }} in
+                {{ selectedReceiveToken?.network?.name }} network
+              </p>
+            </template>
           </div>
         </div>
       </div>
     </div>
+
+    <BoxLoading v-if="loadings.box" />
   </div>
   <!-- end::Content -->
 </template>

@@ -1,4 +1,71 @@
-<script setup></script>
+<script setup>
+// Vue
+import { computed, ref, onMounted } from 'vue'
+
+// Store
+import { useExchangeStore } from '@/stores/exchange'
+
+// Route
+import { useRoute } from 'vue-router'
+
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
+
+// ----- Start -----
+
+// Generals
+const route = useRoute()
+const store = useExchangeStore()
+
+// Refs
+const loading = ref(false)
+const reciep = ref({})
+
+// Computeds
+const orderId = computed(() => route.query.orderId)
+
+// Functions
+
+const convertStatusToColor = (status) => {
+  if (status === 'pending') return 'warning'
+  if (status === 'success') return 'success'
+  if (status === 'expired' || status === 'canceled') return 'danger'
+}
+
+/**
+ * Show Canvas
+ */
+const showCanvas = () => {
+  const bsOffcanvas = new Offcanvas('#exchangeReport_offcanvas')
+  bsOffcanvas.show()
+}
+
+/**
+ * Get Reciep Info
+ */
+const getReciepInfo = async () => {
+  // Start Loading
+  loading.value = true
+
+  // Request
+  await store.getExchangeReciep(orderId.value).then((res) => {
+    if (res) {
+      reciep.value = res
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
+}
+
+onMounted(() => {
+  if (orderId.value) {
+    showCanvas()
+
+    getReciepInfo()
+  }
+})
+</script>
 
 <template>
   <div
@@ -37,7 +104,10 @@
             <!-- begin::Receive Address -->
             <div class="fs-7 ls-sm">
               <p class="text-gray-600 mb-2">Receive Address</p>
-              <p class="text-gray-800 mb-0">TFGH12F41NHCVBCFG4RTUYFV616DGF71X312XCX3C1VXV1X3SEF</p>
+              <p class="text-gray-800 mb-0">
+                <Skeletor v-if="loading" />
+                {{ reciep.receive_address }}
+              </p>
             </div>
             <!-- end::Receive Address -->
 
@@ -50,21 +120,38 @@
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Status</p>
-                <p class="value text-warning">Pending</p>
+                <p :class="`value text-${convertStatusToColor(reciep.status)}`">
+                  <Skeletor width="80px" v-if="loading" />
+
+                  {{ $filters.capitalize(reciep.status) }}
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Send Token</p>
-                <p class="value">USD Coin <small>(Ethereum)</small></p>
+                <p class="value">
+                  <Skeletor width="150px" v-if="loading" />
+                  <template v-else>
+                    {{ reciep?.send_token?.name }}
+                    <small>({{ reciep?.send_token?.network?.name }})</small>
+                  </template>
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Receive Token</p>
-                <p class="value">ECS Gold <small>(polygon mumbai)</small></p>
+
+                <p class="value">
+                  <Skeletor width="150px" v-if="loading" />
+                  <template v-else>
+                    {{ reciep?.receive_token?.name }}
+                    <small>({{ reciep?.receive_token?.network?.name }})</small>
+                  </template>
+                </p>
               </div>
               <!-- end::Item -->
             </div>
@@ -79,35 +166,50 @@
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Order ID</p>
-                <p class="value">35</p>
+                <p class="value">
+                  <Skeletor width="50px" v-if="loading" />
+                  {{ reciep.id }}
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Exchange Rate</p>
-                <p class="value">20</p>
+                <p class="value">
+                  <Skeletor width="50px" v-if="loading" />
+                  {{ reciep.exchange_rate }}
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Fee</p>
-                <p class="value">0</p>
+                <p class="value">
+                  <Skeletor width="50px" v-if="loading" />
+                  {{ reciep.fee }}
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Send Amount</p>
-                <p class="value">10</p>
+                <p class="value">
+                  <Skeletor width="50px" v-if="loading" />
+                  {{ reciep.send_amount }}
+                </p>
               </div>
               <!-- end::Item -->
 
               <!-- begin::Item -->
               <div class="item">
                 <p class="title">Receive Amount</p>
-                <p class="value">200</p>
+                <p class="value">
+                  <Skeletor width="50px" v-if="loading" />
+                  {{ reciep.receive_amount }}
+                </p>
               </div>
               <!-- end::Item -->
             </div>

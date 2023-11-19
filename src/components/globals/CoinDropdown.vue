@@ -119,10 +119,10 @@ const filteredItems = () => {
         />
       </div>
 
-      <img v-else :src="iconImage('btc')" alt="image" class="coin-icon" />
+      <inline-svg src="media/icons/shapes/coin.svg" height="24" width="24"></inline-svg>
     </a>
 
-    <ul class="dropdown-menu w-100" aria-labelledby="coinDropdownMenuLink">
+    <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="coinDropdownMenuLink">
       <!-- begin::Search Input -->
       <div class="position-relative d-flex align-items-center mb-6" v-if="items.length > 30">
         <input
