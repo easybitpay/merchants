@@ -44,16 +44,47 @@ const getKYCList = async () => {
 }
 
 /**
+ * Delete KYC Document
+ * @param {item id} id
+ */
+const deleteDocument = async (id) => {
+  // Request
+  await store.deleteKYC(id).then((res) => {
+    if (res) {
+      // Remove From List
+      list.value = list.value.filter((item) => item.id != id)
+    }
+  })
+}
+
+/**
  * Convert Status To Color
+ * @param {status} status
  */
 const convertStatusToColor = (status) => {
-  const colors = {
-    checking: 'cyan',
-    verify: 'blue',
-    error: 'red'
-  }
+  if (status == 0) return 'cyan'
+  if (status == 9) return 'red'
+  if (status == 10) return 'blue'
+}
 
-  return colors[status] || 'blue'
+/**
+ * Convert Status To Icon
+ * @param {status} status
+ */
+const convertStatusToIcon = (status) => {
+  if (status == 0) return 're'
+  if (status == 9) return 'error'
+  if (status == 10) return 'read'
+}
+
+/**
+ * Convert Status To Text
+ * @param {status} status
+ */
+const convertStatusToText = (status) => {
+  if (status == 0) return 'Checking'
+  if (status == 9) return 'Error'
+  if (status == 10) return 'Verified'
 }
 
 onMounted(() => {
@@ -84,30 +115,38 @@ onMounted(() => {
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row align-items-center gy-3" v-for="item in list" :key="item.id">
-        <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
-          <LongImageCard :text="item.type" :background="storageImage(item.file)" />
-        </div>
+      <template v-else>
+        <div class="row align-items-center gy-3" v-for="item in list" :key="item.id">
+          <div class="col-12 col-sm-6 col-md-8 col-lg-6 col-xl-4">
+            <LongImageCard
+              :text="`${$filters.capitalize(item.type)}`"
+              :background="storageImage(item.file)"
+              :error="item.status == 9"
+              deleteAction
+              @onDelete="deleteDocument(item.id)"
+            />
+          </div>
 
-        <div class="col-12 col-sm d-flex">
-          <div
-            :class="`h-33px d-flex align-items-center ps-2 pe-4 rounded-2 border gap-2 
-            border-${convertStatusToColor('checking')}-500 fs-7 ls-base 
-            bg-${convertStatusToColor('checking')}-100
-            text-${convertStatusToColor('checking')}-500`"
-          >
-            <div>
-              <inline-svg
-                src="media/icons/icons/re.svg"
-                height="24"
-                :class="`svg-icon-${convertStatusToColor('checking')}-500`"
-              ></inline-svg>
+          <div class="col-12 col-sm d-flex">
+            <div
+              :class="`h-33px d-flex align-items-center ps-2 pe-4 rounded-2 border gap-2 
+              border-${convertStatusToColor(item.status)}-500 fs-7 ls-base 
+              bg-${convertStatusToColor(item.status)}-100
+              text-${convertStatusToColor(item.status)}-500`"
+            >
+              <div>
+                <inline-svg
+                  :src="`media/icons/icons/${convertStatusToIcon(item.status)}.svg`"
+                  height="24"
+                  :class="`svg-icon-${convertStatusToColor(item.status)}-500`"
+                ></inline-svg>
+              </div>
+
+              {{ convertStatusToText(item.status) }}
             </div>
-
-            Checking 23:17:26
           </div>
         </div>
-      </div>
+      </template>
       <!-- end::Item -->
     </div>
     <!-- end::Content -->

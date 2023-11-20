@@ -298,6 +298,22 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+    /**
+   * Delete KYC Document
+   * @param {id} payload
+   */
+
+    async function deleteKYC(payload) {
+      try {
+        await api.delete(`merchant-documents/${payload}`)
+  
+        //
+        return true
+      } catch (error) {
+        return false
+      }
+    }
+
   return {
     currentUser,
     lockScreenStatus,
@@ -316,6 +332,7 @@ export const useAuthStore = defineStore('auth', () => {
     disable2FA,
     enable2FA,
     KYCList,
-    uploadKYC
+    uploadKYC,
+    deleteKYC
   }
 })
