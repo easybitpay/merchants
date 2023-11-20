@@ -1,6 +1,9 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -9,42 +12,142 @@ import useForm from '@/hooks/useForm.js'
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
+
 // Components
 import Dropzone from '../../globals/Dropzone.vue'
+import LongImageCard from '../../globals/LongImageCard.vue'
+import SelectDropdown from '../../globals/SelectDropdown.vue'
 
+// Emit
+const emit = defineEmits(['refresh'])
+
+const kycTypes = [
+  {
+    name: 'Passport',
+    value: 'passport'
+  },
+  {
+    name: 'Address',
+    value: 'address'
+  },
+  {
+    name: 'Other',
+    value: 'other'
+  }
+]
 // ----- START ----- //
+
+// Generals
+const store = useAuthStore()
 const { showFeedBacks } = useForm()
 
+// Refs
 const documents = ref([])
+const loading = ref(false)
 
+// Dropzone
 const setFile = (files) => {
   documents.value = files
+  if (files.length) {
+    form.value.document = 'true'
+  }
 }
 
 const removeFiles = (file) => {
   documents.value = documents.value.filter((item) => item !== file)
+  form.value.document = null
 }
 
+// Select Dropdown
+const selectedType = ref({})
+const toggleSelectType = (type) => {
+  selectedType.value = type
+  form.value.type = type.value
+}
+
+// Vuelidate
 const form = ref({
-  type: null
+  type: null,
+  document: null
 })
 
 const rules = {
   type: {
     required: helpers.withMessage('Type is required', required)
+  },
+  document: {
+    required: helpers.withMessage('Document is required', required)
   }
 }
 
 const v$ = useVuelidate(rules, form)
 
-const updateBasicInfo = async () => {
+// Functions
+
+/**
+ * Reset Form
+ */
+const resetForm = () => {
+  selectedType.value = {}
+  form.value = {
+    type: null,
+    document: null
+  }
+  documents.value = []
+  v$.value.$reset()
+}
+
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('newKyc_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
+
+/**
+ * Add New KYC
+ */
+const addNewKYC = async () => {
+  // Validation Form
   const result = await v$.value.$validate()
   if (result) {
-    console.log('scas')
+    // Start Loading
+    loading.value = true
+
+    // Set Variables
+    let fd = new FormData()
+    fd.append('type', form.value.type)
+    fd.append('file', documents.value[0])
+
+    // Request
+    await store.uploadKYC(fd).then((res) => {
+      if (res) {
+        resetForm()
+        closeOffcanvas()
+        emit('refresh')
+      }
+    })
+
+    // Stop Loading
+    loading.value = false
   } else {
     showFeedBacks()
   }
 }
+
+onMounted(() => {
+  const myOffcanvas = document.getElementById('newKyc_offcanvas')
+
+  /**
+   * Offcanvas Fire On Hide
+   */
+  myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+    resetForm()
+  })
+})
 </script>
 
 <template>
@@ -62,7 +165,7 @@ const updateBasicInfo = async () => {
         class="d-block mx-auto mb-4 cursor-pointer"
       ></inline-svg>
 
-      <form @submit.prevent="updateBasicInfo">
+      <form @submit.prevent="addNewKYC">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4 min-h-354px">
           <div class="card-body">
@@ -86,12 +189,14 @@ const updateBasicInfo = async () => {
             <div>
               <!-- begin::Type -->
               <div class="mb-10 position-relative d-flex align-items-center">
-                <select class="form-select" aria-label="Large select example" v-model="form.type">
-                  <option value="">Select...</option>
-                  <option value="1">Passport</option>
-                  <option value="2">Address</option>
-                  <option value="3">Other</option>
-                </select>
+                <SelectDropdown
+                  placeholder="Type"
+                  show="name"
+                  check="value"
+                  :items="kycTypes"
+                  :selected="selectedType"
+                  @change="toggleSelectType"
+                />
 
                 <div class="invalid-feedback form-control" v-if="v$.type.$errors.length">
                   <span> {{ v$.type.$errors[0].$message }}</span>
@@ -101,25 +206,23 @@ const updateBasicInfo = async () => {
 
               <!-- begin::Dropzone -->
               <div>
-                <Dropzone :files="documents" @set-files="setFile" />
+                <div class="position-relative">
+                  <Dropzone :files="documents" @set-files="setFile" />
+
+                  <div class="invalid-feedback dropzone" v-if="v$.document.$errors.length">
+                    <span> {{ v$.document.$errors[0].$message }}</span>
+                  </div>
+                </div>
 
                 <div class="mt-4" v-if="documents.length">
-                  <div
+                  <LongImageCard
                     v-for="(file, index) in documents"
                     :key="index"
-                    :style="`--background: url(${file.preview})`"
-                    class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
-                  >
-                    <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">{{ file.name }}</p>
-
-                    <inline-svg
-                      @click="removeFiles(file)"
-                      src="media/icons/icons/trash.svg"
-                      height="24"
-                      class="svg-icon-danger hover-show-target bg-white"
-                      style="border-radius: 3px"
-                    ></inline-svg>
-                  </div>
+                    :text="file.name"
+                    :background="file.preview"
+                    deleteAction
+                    @onDelete="removeFiles(file)"
+                  />
                 </div>
               </div>
               <!-- end::Dropzone -->
@@ -159,9 +262,10 @@ const updateBasicInfo = async () => {
 
                 <button
                   type="submit"
+                  :disabled="loading"
                   class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
                 >
-                  Save
+                  {{ loading ? 'Loading...' : 'Save' }}
                 </button>
               </div>
               <!-- end::Actions -->

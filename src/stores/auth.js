@@ -248,6 +248,26 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Send New KYC Document
+   * @param {type, file} payload
+   */
+
+  async function uploadKYC(payload) {
+    try {
+      await api.post('merchant-documents', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     currentUser,
     lockScreenStatus,
@@ -264,6 +284,7 @@ export const useAuthStore = defineStore('auth', () => {
     get2FAInfo,
     disable2FA,
     enable2FA,
-    KYCList
+    KYCList,
+    uploadKYC
   }
 })

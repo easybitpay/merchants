@@ -126,5 +126,5 @@ onMounted(() => {
   </div>
   <!-- end::KYC -->
 
-  <NewKycOffcanvas />
+  <NewKycOffcanvas @refresh="getKYCList" />
 </template>
