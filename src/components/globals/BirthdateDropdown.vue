@@ -2,6 +2,9 @@
 // Vue
 import { onMounted, ref } from 'vue'
 
+// Hooks
+import useConvertDate from '@/hooks/useConvertDate.js'
+
 // Props
 const props = defineProps({
   disabled: {
@@ -26,7 +29,7 @@ const props = defineProps({
 const emit = defineEmits(['change'])
 
 // ----- Start -----
-const toggleTextMode = ref('selecting')
+const toggleTextMode = ref('selected')
 
 const limits = {
   year: {
@@ -44,6 +47,12 @@ const limits = {
 }
 
 const date = ref({
+  year: '',
+  month: '',
+  day: ''
+})
+
+const selectedBefore = ref({
   year: '',
   month: '',
   day: ''
@@ -81,6 +90,36 @@ const numberCurrector = (key) => {
   }
 }
 
+const setSelectedDate = () => {
+  if (props.selected) {
+    let splited = props.selected.split('.')
+    date.value = {
+      year: splited[2],
+      month: splited[1],
+      day: splited[0]
+    }
+
+    selectedBefore.value = {
+      year: splited[2],
+      month: splited[1],
+      day: splited[0]
+    }
+  }
+}
+
+const convertDate = (key) => {
+  if (props.selected) {
+    let splited = props.selected.split('.')
+    const dateObject = {
+      year: splited[2],
+      month: splited[1],
+      day: splited[0]
+    }
+
+    return dateObject[key]
+  }
+}
+
 onMounted(() => {
   const myDropdown = document.getElementById('birthdateDropdown')
 
@@ -89,6 +128,7 @@ onMounted(() => {
    */
   myDropdown.addEventListener('show.bs.dropdown', () => {
     toggleTextMode.value = 'selecting'
+    setSelectedDate()
   })
 
   /**
@@ -96,6 +136,12 @@ onMounted(() => {
    */
   myDropdown.addEventListener('hide.bs.dropdown', () => {
     toggleTextMode.value = 'selected'
+
+    const { year, month, day } = date.value
+
+    if (year && month && day) {
+      emit('change', `${day}.${month}.${year}`)
+    }
   })
 })
 </script>
@@ -124,7 +170,9 @@ onMounted(() => {
           ]"
         >
           <span class="ellipsis" style="--ellipsis-width: 100%">
-            <template v-if="toggleTextMode === 'selected'"> 1995 10 20 </template>
+            <template v-if="toggleTextMode === 'selected'">
+              {{ convertDate('year') }} {{ convertDate('month') }} {{ convertDate('day') }}
+            </template>
 
             <template v-else> Enter Your Birthday </template>
           </span>
@@ -157,12 +205,13 @@ onMounted(() => {
             :max="limits.year.max"
             step="1"
             v-model="date.year"
+            :placeholder="selectedBefore.year ? selectedBefore.year : limits.year.max"
             @change="numberCurrector('year')"
           />
 
           <div class="cursor-pointer" @click="updateNumber('year', 'increase')">
             <div class="svg-box">
-              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+              <inline-svg src="media/icons/icons/chevron-right.svg"></inline-svg>
             </div>
           </div>
         </div>
@@ -183,12 +232,13 @@ onMounted(() => {
             :max="limits.month.max"
             step="1"
             v-model="date.month"
+            :placeholder="selectedBefore.month ? selectedBefore.month : limits.month.max"
             @change="numberCurrector('month')"
           />
 
           <div class="cursor-pointer" @click="updateNumber('month', 'increase')">
             <div class="svg-box">
-              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+              <inline-svg src="media/icons/icons/chevron-right.svg"></inline-svg>
             </div>
           </div>
         </div>
@@ -209,12 +259,13 @@ onMounted(() => {
             :max="limits.day.max"
             step="1"
             v-model="date.day"
+            :placeholder="selectedBefore.day ? selectedBefore.day : limits.day.max"
             @change="numberCurrector('day')"
           />
 
           <div class="cursor-pointer" @click="updateNumber('day', 'increase')">
             <div class="svg-box">
-              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+              <inline-svg src="media/icons/icons/chevron-right.svg"></inline-svg>
             </div>
           </div>
         </div>

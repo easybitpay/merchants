@@ -1,37 +1,11 @@
 <script setup>
-import BasicInfoOffcanvas from '../../../components/settings/BasicInfoOffcanvas.vue'
-import ContactInfoOffcanvas from '../../../components/settings/ContactInfoOffcanvas.vue'
+import BasicInfoOffcanvas from '../../../components/settings/basic/BasicInfoOffcanvas.vue'
+import ContactInfo from '../../../components/settings/basic/ContactInfo.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
 </script>
 
 <template>
-  <!-- begin::Contact Info -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Contact info</h4>
-
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
-
-    <!-- begin::Content -->
-    <div class="d-flex flex-column gap-4">
-      <!-- begin::Item -->
-      <TextColumn title="Name" content="Mohamad reza moradi" canvasId="contactInfo_offcanvas" />
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <TextColumn title="Birthday" content="20.10.1990" canvasId="contactInfo_offcanvas" />
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <TextColumn title="Gender" content="Rather not say" canvasId="contactInfo_offcanvas" />
-      <!-- end::Item -->
-    </div>
-    <!-- end::Content -->
-  </div>
-  <!-- end::Contact Info -->
+  <ContactInfo />
 
   <!-- begin::Contact Info -->
   <div class="mb-12">
@@ -160,5 +134,4 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
   <!-- end::Languege -->
 
   <BasicInfoOffcanvas />
-  <ContactInfoOffcanvas />
 </template>

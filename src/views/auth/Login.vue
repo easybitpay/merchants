@@ -96,7 +96,7 @@ const verifyUser = async () => {
   if (otpInputValue.value.length == 6) {
     const info = {
       code: otpInputValue.value,
-      merchat_id: currentUser.value.merchant.id
+      merchant_id: currentUser.value.merchant.id
     }
 
     // Start loading

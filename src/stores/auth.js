@@ -65,6 +65,14 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Update User Info
+   */
+  function setMerchantInfo(userInfo) {
+    user.value.merchant = userInfo
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
+  /**
    * Change 2FA Status
    */
   function changeMerchant2FA(status) {
@@ -185,6 +193,28 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Update Profile
+   * @param {profile form} payload
+   */
+  async function updateProfile(payload) {
+    try {
+      const { data } = await api.post('merchants', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      setMerchantInfo(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get 2FA Info
    */
   async function get2FAInfo() {
@@ -280,6 +310,7 @@ export const useAuthStore = defineStore('auth', () => {
     sendForgetPasswordEmail,
     resetPassword,
     getProfile,
+    updateProfile,
     changeLockScreenStatus,
     get2FAInfo,
     disable2FA,

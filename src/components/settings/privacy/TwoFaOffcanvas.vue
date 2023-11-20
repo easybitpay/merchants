@@ -123,7 +123,6 @@ const changeTwoFaStatus = async () => {
 
     // Stop Loading
     loadings.value.login = false
-    resetForm()
   } else {
     showFeedBacks()
   }
