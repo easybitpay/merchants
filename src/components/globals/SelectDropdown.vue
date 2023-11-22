@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Hook
 import useIconImage from '@/hooks/useIconImage'
@@ -48,7 +48,8 @@ const props = defineProps({
   },
   toggleClass: {
     type: String,
-    required: false
+    required: false,
+    default: ''
   },
   svgIcon: {
     type: String,
@@ -57,7 +58,7 @@ const props = defineProps({
 })
 
 // Emit
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change', 'update'])
 
 // ----- Start -----
 const store = useAppStore()
@@ -114,10 +115,21 @@ const filteredItems = () => {
 
   return all
 }
+
+onMounted(() => {
+  const myDropdown = document.getElementById('selectDropdown')
+
+  /**
+   * Dropdown Fire On Hide
+   */
+  myDropdown.addEventListener('hide.bs.dropdown', () => {
+    emit('update')
+  })
+})
 </script>
 
 <template>
-  <div class="dropdown w-100">
+  <div class="dropdown w-100" id="selectDropdown">
     <a
       :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"

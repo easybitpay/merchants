@@ -121,6 +121,11 @@ body {
     min-width: max-content;
 }
 
+[disabled="true"] {
+    cursor: not-allowed;
+}
+
+
 .auth-bg {
     background-position: top;
     background-size: cover;

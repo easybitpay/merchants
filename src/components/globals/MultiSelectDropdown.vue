@@ -49,7 +49,7 @@ const props = defineProps({
 })
 
 // Emit
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change', 'update'])
 
 // ----- Start -----
 const store = useAppStore()
@@ -166,6 +166,7 @@ onMounted(() => {
    */
   myDropdown.addEventListener('hide.bs.dropdown', () => {
     toggleTextMode.value = 'selected'
+    emit('update')
   })
 })
 </script>

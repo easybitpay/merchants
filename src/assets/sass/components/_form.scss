@@ -51,6 +51,14 @@ input[type="number"] {
     z-index: 1;
     margin: 0;
     font-size: $input-font-size;
+
+    span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        display: block;
+        overflow: hidden;
+    }
 }
 
 .was-validated .form-control:valid,

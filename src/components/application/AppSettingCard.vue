@@ -91,7 +91,7 @@ const addCoverFile = async (e) => {
       <!-- begin::Logo -->
       <img
         :src="storageImage(selectedApp.logo, 48)"
-        alt="wordpress"
+        :alt="selectedApp.name"
         class="img-fluid mb-10 mb-lg-16"
         width="48"
       />
@@ -108,11 +108,7 @@ const addCoverFile = async (e) => {
         <!-- begin::Status Action -->
         <div class="d-flex flex-wrap gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button
-            :disabled="loadings.icon"
-            @click="iconInputClick"
-            class="btn btn-light w-sm-192px"
-          >
+          <button :disabled="true" @click="iconInputClick" class="btn btn-light w-sm-192px">
             {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
           </button>
 

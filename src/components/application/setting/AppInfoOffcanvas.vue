@@ -96,7 +96,7 @@ const closeOffcanvas = () => {
 }
 
 /**
- * Update Profile
+ * Update App Info
  */
 const updateAppInfo = async () => {
   // Validion Form

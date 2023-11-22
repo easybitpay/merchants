@@ -1,4 +1,7 @@
 <script setup>
+// Hook
+import useIconImage from '@/hooks/useIconImage'
+
 // Props
 const props = defineProps({
   action: {
@@ -12,6 +15,8 @@ const props = defineProps({
 })
 
 // ----- Start -----
+const { storageImage } = useIconImage()
+
 /**
  * Gateway List Status Converter
  */
@@ -28,7 +33,9 @@ const convartAppType = (type) => {
       { 'card gradient-image-box application-card have-partners': true },
       { disabled: app.type != 1 }
     ]"
-    style="--background: url(/media/images/banner/auth-bg.jpg)"
+    :style="`--background: url(${
+      app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
+    })`"
   >
     <div
       class="card-body d-flex flex-column flex-lg-row align-items-start align-items-lg-end gap-4"
@@ -68,7 +75,7 @@ const convartAppType = (type) => {
 
         <!-- begin::Name -->
         <h2 class="name text-indigo-400 neue-machina">
-          <img src="/media/icons/icons/stop.png" alt="stop">
+          <img src="/media/icons/icons/stop.png" alt="stop" />
           {{ app.name }}
         </h2>
         <!-- end::Name -->
