@@ -18,7 +18,7 @@ import WAValidator from 'multicoin-address-validator/dist/wallet-address-validat
 // Component
 import CoinDropdown from '../../components/globals/CoinDropdown.vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useExchangeStore()

@@ -9,7 +9,7 @@ import ContactInfoOffcanvas from './ContactInfoOffcanvas.vue'
 import TextColumn from '../../globals/TextColumn.vue'
 import { computed } from 'vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAuthStore()

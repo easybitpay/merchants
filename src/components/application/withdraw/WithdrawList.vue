@@ -8,8 +8,13 @@ import { Tooltip } from 'bootstrap'
 // Hook
 import useSortTable from '@/hooks/useSortTable'
 
+// Components
+import PaginationCard from '../../globals/PaginationCard.vue'
+
 // ----- START ----- //
 const { startCheckSort, selectedSort } = useSortTable()
+
+const showList = ref(false)
 
 onMounted(() => {
   startCheckSort('withdraw')
@@ -23,7 +28,15 @@ watch(selectedSort, () => {
 })
 </script>
 <template>
-  <div class="accordion" id="withdAccordion">
+  <PaginationCard
+    :text="`${showList ? 'Hide' : 'Show'} Transaction`"
+    :bold="false"
+    :shadows="!showList"
+    gap="4"
+    @clicked="showList = !showList"
+  />
+
+  <div class="accordion" id="withdAccordion" v-if="showList">
     <div class="table-responsive accordion-table">
       <table class="table pb-4">
         <thead>

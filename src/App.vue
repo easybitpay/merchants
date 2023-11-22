@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 // Store
 import { useNotificationStore } from '@/stores/notification'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const notificationStore = useNotificationStore()

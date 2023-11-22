@@ -8,7 +8,7 @@ import { useAppStore } from '@/stores/app'
 // Hook
 import useIconImage from '@/hooks/useIconImage'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAppStore()

@@ -9,7 +9,7 @@ import { computed } from 'vue'
 import ApplicationCard from '../../components/application/ApplicationCard.vue'
 import ApplicationCardLoading from '../../components/loadings/ApplicationCardLoading.vue'
 
-// ----- Start -----
+// ----- START ----- //
 const store = useAppStore()
 
 const appList = computed(() => store.appList)

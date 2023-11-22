@@ -28,7 +28,7 @@ const props = defineProps({
 // Emit
 const emit = defineEmits(['change'])
 
-// ----- Start -----
+// ----- START ----- //
 const toggleTextMode = ref('selected')
 
 const limits = {

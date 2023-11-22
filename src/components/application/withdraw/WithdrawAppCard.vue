@@ -1,19 +1,35 @@
 <script setup>
+// Vue
+import { computed, ref } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hook
+import useIconImage from '@/hooks/useIconImage'
+
+// ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { storageImage } = useIconImage()
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
 </script>
 
 <template>
   <div
     class="card gradient-image-box application-card mb-10"
-    style="--background: url(/media/images/banner/auth-bg.jpg)"
+    :style="`--background: url(${
+      selectedApp.banner ? storageImage(selectedApp.banner) : '/media/images/banner/auth-bg.jpg'
+    })`"
   >
     <div class="card-body d-flex flex-column align-items-start w-100 overflow-auto">
-        <p class="fs-7 text-gray-600 ls-base mb-0">Available in</p>
+      <p class="fs-7 text-gray-600 ls-base mb-0">Available in</p>
 
       <!-- begin::Name -->
-      <h2 class="name text-success neue-machina">
-        Plusstudio
-      </h2>
+      <h2 class="name text-success neue-machina">{{ selectedApp.name }}</h2>
       <!-- end::Name -->
 
       <!-- begin::Info -->

@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import TextColumn from '../../globals/TextColumn.vue'
 import AppInfoOffcanvas from './AppInfoOffcanvas.vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAppStore()

@@ -13,7 +13,7 @@ const props = defineProps({
 // Emit
 const emit = defineEmits(['success'])
 
-// ----- Start -----
+// ----- START ----- //
 const clientId = computed(() => import.meta.env.VITE_APP_GOOGLE_LOGIN)
 
 onMounted(() => {

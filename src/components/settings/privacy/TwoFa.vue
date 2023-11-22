@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/auth'
 // Componets
 import TwoFaOffcanvas from './TwoFaOffcanvas.vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAuthStore()

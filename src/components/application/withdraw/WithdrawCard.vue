@@ -21,7 +21,7 @@ import { Offcanvas } from 'bootstrap'
 // Component
 import CoinDropdown from '../../../components/globals/CoinDropdown.vue'
 
-// ----- Start -----
+// ----- START ----- //
 const { showFeedBacks } = useForm()
 
 const store = useAppStore()

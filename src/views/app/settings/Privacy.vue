@@ -3,7 +3,7 @@
 import TwoFa from '../../../components/settings/privacy/TwoFa.vue'
 import KYC from '../../../components/settings/privacy/KYC.vue'
 
-// ----- Start -----
+// ----- START ----- //
 </script>
 
 <template>

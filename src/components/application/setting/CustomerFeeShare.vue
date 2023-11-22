@@ -11,12 +11,45 @@ import { useAppStore } from '@/stores/app'
 const store = useAppStore()
 
 // Refs
+const loading = ref(false)
 const feeShare = ref(0)
 
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
 
 // Functions
+
+/**
+ * Check Range Update
+ */
+const checkRangeUpdate = () => {
+  const defaultPercent = selectedApp.value.customer_fee_percent
+  const newPercent = feeShare.value
+
+  if (defaultPercent != newPercent) {
+    updateAppInfo()
+  }
+}
+
+/**
+ * Update App Info
+ */
+const updateAppInfo = async () => {
+  // Start Loading
+  loading.value = true
+
+  // Set Variables
+  const id = selectedApp.value.id
+  let fd = new FormData()
+
+  fd.append('customer_fee_percent', feeShare.value)
+
+  // Request
+  await store.updateApp({ id, fd })
+
+  // Stop Loading
+  loading.value = false
+}
 
 onMounted(() => {
   feeShare.value = selectedApp.value.customer_fee_percent
@@ -53,7 +86,10 @@ onMounted(() => {
   <!-- begin::Customer Fee Share -->
   <div class="mb-12">
     <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Customer Fee Share</h4>
+    <h4 class="mb-2 lh-1 text-gray-900 d-flex align-items-center gap-3">
+      Customer Fee Share
+      <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+    </h4>
 
     <p class="mb-6 text-gray-800">
       Some info may be visible to other people using Google services.
@@ -69,7 +105,7 @@ onMounted(() => {
 
           <div class="range-div w-100 w-lg-384px">
             <input
-              :key="key"
+              :disabled="loading"
               type="range"
               name=""
               class="range"
@@ -77,7 +113,7 @@ onMounted(() => {
               max="100"
               step="5"
               v-model="feeShare"
-              @change="(e) => console.log(e)"
+              @change="checkRangeUpdate"
             />
             <span class="range-thumb">
               <span class="merchant"></span>

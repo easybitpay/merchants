@@ -11,7 +11,7 @@ import Charts from '../../../components/application/Charts.vue'
 import Partners from '../../../components/application/Partners.vue'
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAppStore()

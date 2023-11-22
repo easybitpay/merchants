@@ -11,7 +11,7 @@ import { useRoute } from 'vue-router'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const route = useRoute()

@@ -1,5 +1,5 @@
 <script setup>
-// ----- Start -----
+// ----- START ----- //
 const types = [
   {
     type: 1,

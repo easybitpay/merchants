@@ -5,7 +5,7 @@ import { computed } from 'vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const authStore = useAuthStore()

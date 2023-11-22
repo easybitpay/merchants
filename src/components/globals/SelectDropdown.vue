@@ -60,7 +60,7 @@ const props = defineProps({
 // Emit
 const emit = defineEmits(['change', 'update'])
 
-// ----- Start -----
+// ----- START ----- //
 const store = useAppStore()
 
 const { iconImage, storageImage } = useIconImage()

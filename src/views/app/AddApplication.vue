@@ -11,7 +11,7 @@ import Pro from '../../components/add-application/Pro.vue'
 import Verify from '../../components/add-application/Verify.vue'
 import Finish from '../../components/add-application/Finish.vue'
 
-// ----- Start -----
+// ----- START ----- //
 const steps = [
   {
     title: 'Start',

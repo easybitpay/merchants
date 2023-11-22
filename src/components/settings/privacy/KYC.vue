@@ -13,7 +13,7 @@ import NewKycOffcanvas from './NewKycOffcanvas.vue'
 import LongImageCard from '../../globals/LongImageCard.vue'
 import LongImageCardLoading from '../../loadings/LongImageCardLoading.vue'
 
-// ----- Start -----
+// ----- START ----- //
 
 // Generals
 const store = useAuthStore()

@@ -8,7 +8,7 @@ import { useAppStore } from '@/stores/app'
 // Component
 import RevokeSecretOffcavnas from './RevokeSecretOffcavnas.vue'
 
-// ----- Start -----
+// ----- START ----- //
 const store = useAppStore()
 const selectedApp = computed(() => store.selectedApp)
 </script>

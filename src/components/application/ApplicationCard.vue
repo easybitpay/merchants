@@ -14,7 +14,7 @@ const props = defineProps({
   }
 })
 
-// ----- Start -----
+// ----- START ----- //
 const { storageImage } = useIconImage()
 
 /**
