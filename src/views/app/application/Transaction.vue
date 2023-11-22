@@ -14,6 +14,7 @@ import useSortTable from '@/hooks/useSortTable'
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 import TransactionItem from '../../../components/application/transaction/TransactionItem.vue'
+import TransactionItemLoading from '../../../components/application/transaction/TransactionItemLoading.vue'
 import PaginationCard from '../../../components/globals/PaginationCard.vue'
 
 // ----- START ----- //
@@ -96,30 +97,39 @@ watch(selectedSort, () => {
         <thead>
           <tr transaction-sortable sortable>
             <th sortKey="id">ID</th>
-            <th sortKey="code">Invoice Link</th>
+            <th sortKey="code">
+              <div class="max-content">Invoice Link</div>
+            </th>
             <th sortKey="created_at">Date</th>
-            <th sortKey="client_order_identifier">Customer No.</th>
+            <th sortKey="client_order_identifier">
+              <div class="max-content">Customer No.</div>
+            </th>
             <th sortKey="amount">Amount</th>
             <th sortKey="status">Status</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <TransactionItem v-for="item in history" :key="item.id" :item="item" />
+          <template v-if="loadings.list">
+            <TransactionItemLoading v-for="(item, index) in 2" :key="index" />
+          </template>
+          <template v-else>
+            <TransactionItem v-for="item in history" :key="item.id" :item="item" />
 
-          <!-- begin::Show More -->
-          <tr class="collapsed show-more" v-if="lastPage > currentPage">
-            <td colspan="7">
-              <PaginationCard
-                :bold="false"
-                text="Show More Transaction"
-                count="15"
-                :loading="loadings.pagination"
-                @clicked="get_app_invoices(currentPage + 1)"
-              />
-            </td>
-          </tr>
-          <!-- end::Show More -->
+            <!-- begin::Show More -->
+            <tr class="collapsed show-more" v-if="lastPage > currentPage">
+              <td colspan="7">
+                <PaginationCard
+                  :bold="false"
+                  text="Show More Transaction"
+                  count="15"
+                  :loading="loadings.pagination"
+                  @clicked="get_app_invoices(currentPage + 1)"
+                />
+              </td>
+            </tr>
+            <!-- end::Show More -->
+          </template>
         </tbody>
       </table>
     </div>
