@@ -1,23 +1,38 @@
 <script setup>
 // Vue
-import { ref } from "vue"
+import { computed, ref } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hook
+import useIconImage from '@/hooks/useIconImage'
 
 // ----- Start -----
+
+// Generals
+const store = useAppStore()
+const { storageImage } = useIconImage()
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+
+// Update Icon
 const hiddenChangeIconInput = ref(null)
 const iconInputClick = () => {
   hiddenChangeIconInput.value.click()
 }
 const addIconFile = (e) => {
-  console.log('icon',e.target.files[0])
+  console.log('icon', e.target.files[0])
 }
 
+// Update Banner
 const hiddenChangeCoverInput = ref(null)
 const coverInputClick = () => {
   hiddenChangeCoverInput.value.click()
 }
 const addCoverFile = (e) => {
-  console.log('cover',e.target.files[0])
+  console.log('cover', e.target.files[0])
 }
 </script>
 
@@ -29,7 +44,7 @@ const addCoverFile = (e) => {
     <div class="card-body d-flex flex-column">
       <!-- begin::Logo -->
       <img
-        src="/media/icons/companies/wordpress.png"
+        :src="storageImage(selectedApp.logo, 48)"
         alt="wordpress"
         class="img-fluid mb-10 mb-lg-16"
         width="48"
@@ -39,8 +54,8 @@ const addCoverFile = (e) => {
       <div class="d-flex flex-wrap gap-4 align-items-end justify-content-between">
         <!-- begin::Type & Name -->
         <div>
-          <p class="mb-2">as Reporter</p>
-          <h2 class="mb-0 text-success lh-1">Plusstudio</h2>
+          <p class="mb-2">as {{ $filters.capitalize(selectedApp.share_type) }}</p>
+          <h2 class="mb-0 text-success lh-1">{{ selectedApp.name }}</h2>
         </div>
         <!-- end::Type & Name -->
 

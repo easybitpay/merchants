@@ -12,7 +12,11 @@ import Partners from '../../../components/application/Partners.vue'
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 
 // ----- Start -----
+
+// Generals
 const store = useAppStore()
+
+// Computeds
 const selectedApp = computed(() => store.selectedApp)
 </script>
 

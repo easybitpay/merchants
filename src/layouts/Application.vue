@@ -38,7 +38,7 @@ onMounted(() => {
     </header>
 
     <div class="d-flex flex-column flex-root">
-      <RouterView />
+      <RouterView v-if="selectedApp.name"/>
     </div>
   </div>
 </template>

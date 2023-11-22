@@ -113,6 +113,10 @@ body {
     object-fit: cover;
 }
 
+.object-contain {
+    object-fit: contain;
+}
+
 .max-content {
     min-width: max-content;
 }

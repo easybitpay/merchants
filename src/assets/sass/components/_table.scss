@@ -115,28 +115,9 @@
             }
 
             &.show-more {
-                position: relative;
-
-                .first {
-                    position: absolute;
-                    height: 57px;
-                    left: 3rem;
-                    right: 3rem;
-                    top: 7px;
-                    background: $gray-200;
-                    z-index: -1;
-                    border-radius: 1.25rem;
-                }
-
-                .last {
-                    position: absolute;
-                    height: 64px;
-                    left: 6.125rem;
-                    right: 6.125rem;
-                    top: 8px;
-                    background: $gray-300;
-                    z-index: -2;
-                    border-radius: 1.25rem;
+                td {
+                    padding: 0;
+                    border: 0;
                 }
             }
         }

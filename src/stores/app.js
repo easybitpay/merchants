@@ -96,6 +96,27 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  /**
+   * Get App Invoices
+   * @param {app id & search params} payload
+   */
+  async function getAppInvoices(payload) {
+    try {
+      const { data } = await api.get(`apps/${payload.id}/invoices`, {
+        params: payload.params
+      })
+
+      //
+      const list = data.list
+      const lastPage = data.totalPages
+
+      //
+      return { list, lastPage }
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     appList,
     appLoading,
@@ -109,6 +130,7 @@ export const useAppStore = defineStore('app', () => {
     getAppTokens,
     getNetworks,
     getAppList,
-    setSelectedApp
+    setSelectedApp,
+    getAppInvoices
   }
 })

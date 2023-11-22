@@ -10,8 +10,8 @@ import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
 // Component
-import SelectDropdown from '../globals/SelectDropdown.vue'
-import Dropzone from '../globals/Dropzone.vue'
+import SelectDropdown from '../../globals/SelectDropdown.vue'
+import Dropzone from '../../globals/Dropzone.vue'
 
 // ----- START ----- //
 import { useAppStore } from '@/stores/app'
