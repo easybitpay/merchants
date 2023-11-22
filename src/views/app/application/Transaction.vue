@@ -114,6 +114,7 @@ watch(selectedSort, () => {
                 :bold="false"
                 text="Show More Transaction"
                 count="15"
+                :loading="loadings.pagination"
                 @clicked="get_app_invoices(currentPage + 1)"
               />
             </td>
