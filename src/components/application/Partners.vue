@@ -3,7 +3,6 @@
 import { Offcanvas } from 'bootstrap'
 
 // Components
-import AddPartnerOffcanvas from './AddPartnerOffcanvas.vue'
 import EditPartnerOffcanvas from './EditPartnerOffcanvas.vue'
 
 // ----- START ----- //
@@ -101,7 +100,5 @@ const editPartner = () => {
       <!-- end::Partners -->
     </div>
   </div>
-
-  <AddPartnerOffcanvas />
   <EditPartnerOffcanvas />
 </template>

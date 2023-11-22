@@ -6,6 +6,9 @@ import { useRoute } from 'vue-router'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Componenets
+import AddPartnerOffcanvas from '../components/application/AddPartnerOffcanvas.vue';
+
 // ----- START ----- //
 const route = useRoute()
 const store = useAppStore()
@@ -41,4 +44,6 @@ onMounted(() => {
       <RouterView v-if="selectedApp.name"/>
     </div>
   </div>
+
+  <AddPartnerOffcanvas />
 </template>
