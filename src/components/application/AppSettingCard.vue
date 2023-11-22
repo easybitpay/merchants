@@ -14,6 +14,12 @@ import useIconImage from '@/hooks/useIconImage'
 const store = useAppStore()
 const { storageImage } = useIconImage()
 
+// Refs
+const loadings = ref({
+  icon: false,
+  banner: false
+})
+
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
 
@@ -22,8 +28,27 @@ const hiddenChangeIconInput = ref(null)
 const iconInputClick = () => {
   hiddenChangeIconInput.value.click()
 }
-const addIconFile = (e) => {
-  console.log('icon', e.target.files[0])
+
+/**
+ * Change App Icon
+ * @param {event} e
+ */
+const addIconFile = async (e) => {
+  // Start Loading
+  loadings.value.icon = true
+
+  // Set Variable
+  let logo = e.target.files[0]
+  const id = selectedApp.value.id
+
+  let fd = new FormData()
+  fd.append('logo', logo)
+
+  // Request
+  await store.updateApp({ id, fd })
+
+  // Stop Loading
+  loadings.value.icon = false
 }
 
 // Update Banner
@@ -31,15 +56,36 @@ const hiddenChangeCoverInput = ref(null)
 const coverInputClick = () => {
   hiddenChangeCoverInput.value.click()
 }
-const addCoverFile = (e) => {
-  console.log('cover', e.target.files[0])
+
+/**
+ * Change App Banner
+ * @param {event} e
+ */
+const addCoverFile = async (e) => {
+  // Start Loading
+  loadings.value.banner = true
+
+  // Set Variable
+  let banner = e.target.files[0]
+  const id = selectedApp.value.id
+
+  let fd = new FormData()
+  fd.append('banner', banner)
+
+  // Request
+  await store.updateApp({ id, fd })
+
+  // Stop Loading
+  loadings.value.banner = false
 }
 </script>
 
 <template>
   <div
     class="card gradient-image-box border-purple-500"
-    style="--background: url(/media/images/banner/auth-bg.jpg)"
+    :style="`--background: url(${
+      selectedApp.banner ? storageImage(selectedApp.banner) : '/media/images/banner/auth-bg.jpg'
+    })`"
   >
     <div class="card-body d-flex flex-column">
       <!-- begin::Logo -->
@@ -62,7 +108,13 @@ const addCoverFile = (e) => {
         <!-- begin::Status Action -->
         <div class="d-flex flex-wrap gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button @click="iconInputClick" class="btn btn-light w-sm-192px">Change Icon</button>
+          <button
+            :disabled="loadings.icon"
+            @click="iconInputClick"
+            class="btn btn-light w-sm-192px"
+          >
+            {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
+          </button>
 
           <input
             type="file"
@@ -70,7 +122,13 @@ const addCoverFile = (e) => {
             className="d-none"
             @change="addCoverFile"
           />
-          <button @click="coverInputClick" class="btn btn-primary w-sm-192px">Change Cover</button>
+          <button
+            :disabled="loadings.banner"
+            @click="coverInputClick"
+            class="btn btn-primary w-sm-192px"
+          >
+            {{ loadings.banner ? 'Loading...' : 'Change Cover' }}
+          </button>
         </div>
         <!-- end::Status Action -->
       </div>
