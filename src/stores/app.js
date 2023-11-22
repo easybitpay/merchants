@@ -10,6 +10,8 @@ import { defineStore } from 'pinia'
 // Store
 export const useAppStore = defineStore('app', () => {
   // ----- States -----
+  const shareAppStatus = ref([])
+
   const appList = ref([])
   const appLoading = ref(false)
 
@@ -18,13 +20,35 @@ export const useAppStore = defineStore('app', () => {
   const tokens = ref([])
   const distinctTokens = ref([])
   const networks = ref([])
-  const shareAppStatus = ref([])
 
   // ----- Function -----
 
   function setSelectedApp(appId) {
     const filteredApp = appList.value.filter((item) => item.id == appId)
     selectedApp.value = filteredApp[0]
+  }
+
+  function updataAppInfo(appInfo) {
+    const elementPos = appList.value.map(function(x) {return x.id; }).indexOf(appInfo.id);
+    appList.value[elementPos] = appInfo;
+
+    setSelectedApp(appInfo.id)
+  }
+
+  /**
+   * Get Share App Status
+   */
+  async function getShareAppStatuses() {
+    try {
+      const { data } = await api.get('app/get-share-available-stats')
+
+      //
+      shareAppStatus.value = data
+
+      return true
+    } catch (error) {
+      return false
+    }
   }
 
   /**
@@ -97,6 +121,28 @@ export const useAppStore = defineStore('app', () => {
   }
 
   /**
+   * Update App
+   * @param {id, fd} payload
+   */
+  async function updateApp(payload) {
+    try {
+      const {data} = await api.post(`apps/${payload.id}`, payload.fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      updataAppInfo(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get App Invoices
    * @param {app id & search params} payload
    */
@@ -126,11 +172,13 @@ export const useAppStore = defineStore('app', () => {
     networks,
     shareAppStatus,
 
+    getShareAppStatuses,
     getTokens,
     getAppTokens,
     getNetworks,
     getAppList,
     setSelectedApp,
+    updateApp,
     getAppInvoices
   }
 })

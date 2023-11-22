@@ -26,6 +26,7 @@ onMounted(async () => {
   loading.value = true
 
   await authStore.getProfile()
+  await appStore.getShareAppStatuses()
   await appStore.getTokens()
   await appStore.getNetworks()
   await appStore.getAppList()
