@@ -14,7 +14,7 @@ import useSortTable from '@/hooks/useSortTable'
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
 import TransactionItem from '../../../components/application/transaction/TransactionItem.vue'
-import TransactionItemLoading from '../../../components/application/transaction/TransactionItemLoading.vue'
+import TransactionItemLoading from '../../../components/loadings/TransactionItemLoading.vue'
 import PaginationCard from '../../../components/globals/PaginationCard.vue'
 
 // ----- START ----- //

@@ -7,6 +7,7 @@ import { useAppStore } from '@/stores/app'
 
 // Components
 import TextColumn from '../../globals/TextColumn.vue'
+import AppInfoOffcanvas from './AppInfoOffcanvas.vue'
 
 // ----- Start -----
 
@@ -31,17 +32,22 @@ const selectedApp = computed(() => store.selectedApp)
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <TextColumn title="App Name" :content="selectedApp.name" />
+      <TextColumn title="App Name" :content="selectedApp.name" canvasId="appInfo_offcanvas" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <TextColumn title="Site Url" :content="selectedApp.site_url || 'Not Set'" />
+      <TextColumn
+        title="Site Url"
+        :content="selectedApp.site_url || 'Not Set'"
+        canvasId="appInfo_offcanvas"
+      />
       <!-- end::Item -->
 
       <!-- begin::Item -->
       <TextColumn
         title="Callback URL"
         :content="selectedApp.callback_url || 'Not Set'"
+        canvasId="appInfo_offcanvas"
       />
       <!-- end::Item -->
 
@@ -49,10 +55,13 @@ const selectedApp = computed(() => store.selectedApp)
       <TextColumn
         title="Redirect URL"
         :content="selectedApp.redirect_url || 'Not Set'"
+        canvasId="appInfo_offcanvas"
       />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
   </div>
   <!-- end::App Info -->
+
+  <AppInfoOffcanvas />
 </template>
