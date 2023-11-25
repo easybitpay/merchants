@@ -5,6 +5,14 @@ const props = defineProps({
   timer: {
     type: Number,
     default: 90
+  },
+  emidiate: {
+    type: Boolean,
+    default: true
+  },
+  showText: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -39,12 +47,15 @@ const restartTimer = () => {
 }
 
 onMounted(() => {
-  startTimer()
+  if (props.emidiate) {
+    startTimer()
+  }
 })
 </script>
 
 <template>
   <span @click="restartTimer" :class="[{ 'cursor-pointer': leftTime === 0 }]">
-    Send Again <template v-if="leftTime != 0">in {{ minAndSec(leftTime) }}</template>
+    {{ showText ? 'Send Again' : leftTime == 0 ? 'Send Again' : '' }}
+    <template v-if="leftTime != 0">{{ showText ? 'in' : '' }} {{ minAndSec(leftTime) }}</template>
   </span>
 </template>

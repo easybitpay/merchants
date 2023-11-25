@@ -8,6 +8,21 @@ import { useAppStore } from '@/stores/app'
 // Hook
 import useIconImage from '@/hooks/useIconImage'
 
+// Props
+const props = defineProps({
+  balances: {
+    type: Array,
+    required: true
+  },
+  mainLoading: {
+    type: Boolean,
+    required: true
+  }
+})
+
+// Emit
+const emit = defineEmits(['onSelectBalance'])
+
 // ----- START ----- //
 
 // Generals
@@ -16,6 +31,16 @@ const { storageImage } = useIconImage()
 
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
+
+// Functions
+
+/**
+ * Emit Select Balance
+ * @param {balance item} balance
+ */
+const selectBalance = (balance) => {
+  emit('onSelectBalance', balance)
+}
 </script>
 
 <template>
@@ -34,33 +59,45 @@ const selectedApp = computed(() => store.selectedApp)
 
       <!-- begin::Info -->
       <div class="infos mt-6">
-        <!-- begin::Item -->
-        <div class="item">
-          <p class="value">$135.00</p>
-          <p class="title">Available</p>
-        </div>
-        <!-- end::Item -->
+        <template v-if="mainLoading">
+          <div class="item" v-for="item in 2" :key="item">
+            <p class="value">
+              <Skeletor width="80px" class="rounded-0" />
+            </p>
+            <p class="title">
+              <Skeletor class="rounded-0" />
+            </p>
+          </div>
+        </template>
 
-        <!-- begin::Item -->
-        <div class="item">
-          <p class="value">0.0107</p>
-          <p class="title">BTC</p>
-        </div>
-        <!-- end::Item -->
+        <template v-else>
+          <template v-if="balances.length">
+            <!-- begin::Item -->
+            <div
+              class="item cursor-pointer"
+              v-for="(item, index) in balances"
+              :key="index"
+              @click="selectBalance(item)"
+            >
+              <p class="value">
+                {{
+                  Number(item.balance)
+                    .toFixed(item.decimals)
+                    .replace(/\.?0+$/, '')
+                }}
+              </p>
+              <p class="title cursor-pointer">{{ item.symbol }} ({{ item.network.name }})</p>
+            </div>
+            <!-- end::Item -->
+          </template>
 
-        <!-- begin::Item -->
-        <div class="item">
-          <p class="value">128.50</p>
-          <p class="title">USDT</p>
-        </div>
-        <!-- end::Item -->
-
-        <!-- begin::Item -->
-        <div class="item">
-          <p class="value">1.728</p>
-          <p class="title">ETH</p>
-        </div>
-        <!-- end::Item -->
+          <template v-else>
+            <div class="item cursor-pointer">
+              <p class="value">$0</p>
+              <p class="title cursor-pointer">Available</p>
+            </div>
+          </template>
+        </template>
       </div>
       <!-- end::Info -->
     </div>

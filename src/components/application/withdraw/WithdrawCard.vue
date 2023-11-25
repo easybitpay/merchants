@@ -1,9 +1,13 @@
 <script setup>
 // Vue
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+
+// Router
+import { useRouter } from 'vue-router'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -21,29 +25,61 @@ import { Offcanvas } from 'bootstrap'
 // Component
 import CoinDropdown from '../../../components/globals/CoinDropdown.vue'
 
-// ----- START ----- //
-const { showFeedBacks } = useForm()
-
-const store = useAppStore()
-
-const tokens = computed(() => store.tokens)
-
-const form = ref({
-  amount: '10',
-  withdrawTokenId: null,
-  receiveAddress: 'TKNieFAvov3wCg8YGtyGrbhkzG6vmfGmca'
+// Props
+const props = defineProps({
+  balances: {
+    type: Array,
+    required: true
+  },
+  mainLoading: {
+    type: Boolean,
+    required: true
+  },
+  selectedBalance: {
+    type: Object,
+    required: true
+  }
 })
 
-const withdrawToken = ref({})
-const toggleWithdrawToken = (token) => {
-  withdrawToken.value = token
-  form.value.withdrawTokenId = token.id
-  validateAddress()
-}
+// ----- START ----- //
 
-/**
- * Validation Rules
- */
+// Generals
+const { showFeedBacks } = useForm()
+const router = useRouter()
+const appStore = useAppStore()
+const authStore = useAuthStore()
+
+// Refs
+const withdrawToken = ref({})
+const minimumWithdrawAmount = ref(0)
+const addressValidFlag = ref(false)
+const validAddress = ref(false)
+const loading = ref(false)
+
+// Computeds
+const currentUser = computed(() => authStore.currentUser)
+const selectedApp = computed(() => appStore.selectedApp)
+
+const btnText = computed(() => {
+  if (!currentUser.value.merchant.two_factor_enabled) return 'Enable 2FA'
+  if (+form.value.amount < +minimumWithdrawAmount.value)
+    return `Balance is less than minimum (${minimumWithdrawAmount.value})`
+
+  return 'Transfer'
+})
+
+const disableConfirm = computed(() => {
+  if (loading.value || +form.value.amount < +minimumWithdrawAmount.value) return true
+  return false
+})
+
+// Vuelidate
+const form = ref({
+  amount: null,
+  withdrawTokenId: null,
+  receiveAddress: null
+})
+
 const rules = {
   amount: {
     required: helpers.withMessage('Amount is required', required)
@@ -58,11 +94,37 @@ const rules = {
 
 const v$ = useVuelidate(rules, form)
 
+// Functions
+
+/**
+ * Toggle Withdraw Token
+ * @param {token} token
+ */
+const toggleWithdrawToken = (token) => {
+  withdrawToken.value = token
+
+  form.value.withdrawTokenId = token.id
+  form.value.amount = token.balance
+
+  getMinimumWithdrawAmount()
+
+  validateAddress()
+}
+
+/**
+ * Get Minimum Withdraw Amount
+ */
+const getMinimumWithdrawAmount = () => {
+  appStore.getMinimumWithdrawAmount(form.value.withdrawTokenId).then((res) => {
+    if (res) {
+      minimumWithdrawAmount.value = res
+    }
+  })
+}
+
 /**
  * Validate Wallet Address
  */
-const addressValidFlag = ref(false)
-const validAddress = ref(false)
 const validateAddress = async () => {
   addressValidFlag.value = true
 
@@ -104,19 +166,57 @@ const receiveAddressError = computed(() => {
 })
 
 /**
- * Exchange Function
+ * Withdraw Function
  */
-const exchange = async () => {
+const withdraw = async () => {
+  // Check 2FA
+  const twoFA = currentUser.value.merchant.two_factor_enabled
+
+  if (!twoFA) {
+    router.push({ name: 'settings-privacy' })
+    return
+  }
+
+  // Validion Form
   const result = await v$.value.$validate()
   const valid_address = validAddress.value
 
   if (result && valid_address) {
-    const bsOffcanvas = new Offcanvas('#withdrawDetail_offcanvas')
-    bsOffcanvas.show()
+    // Start Loading
+    loading.value = true
+
+    // Set Variables
+    const content = {
+      wallet_address: form.value.receiveAddress
+    }
+    let params = new URLSearchParams()
+    params.set('appId', selectedApp.value.id)
+    params.set('tokenId', form.value.withdrawTokenId)
+
+    // Request
+    await appStore.requestWithdraw({ content, params }).then((res) => {
+      if (res) {
+        // Open Offcavas
+        const bsOffcanvas = new Offcanvas('#withdrawDetail_offcanvas')
+        bsOffcanvas.show()
+      }
+    })
+
+    // Stop Loading
+    loading.value = false
   } else {
     showFeedBacks()
   }
 }
+
+watch(
+  () => props.selectedBalance,
+  () => {
+    if (props.selectedBalance.id) {
+      toggleWithdrawToken(props.selectedBalance)
+    }
+  }
+)
 </script>
 
 <template>
@@ -143,7 +243,7 @@ const exchange = async () => {
 
           <!-- begin::Form -->
           <form
-            @submit.prevent="exchange"
+            @submit.prevent="withdraw"
             class="d-flex flex-column justify-content-between flex-root"
           >
             <div>
@@ -165,6 +265,7 @@ const exchange = async () => {
                     class="form-control px-9"
                     placeholder="Amount"
                     v-model="form.amount"
+                    readonly
                   />
 
                   <div
@@ -183,15 +284,19 @@ const exchange = async () => {
                   ></inline-svg>
                   <!-- end::Icon -->
 
-                  <CoinDropdown
-                    class="position-absolute end-8px"
-                    showImage
-                    showCoinNetwork
-                    check="id"
-                    :items="tokens"
-                    :selected="withdrawToken"
-                    @change="toggleWithdrawToken"
-                  />
+                  <div class="position-absolute end-8px">
+                    <Skeletor size="24px" circle v-if="mainLoading" />
+
+                    <CoinDropdown
+                      v-if="!mainLoading && balances.length"
+                      showImage
+                      showCoinNetwork
+                      check="id"
+                      :items="balances"
+                      :selected="withdrawToken"
+                      @change="toggleWithdrawToken"
+                    />
+                  </div>
                 </div>
                 <!-- end::Input Box -->
               </div>
@@ -238,7 +343,9 @@ const exchange = async () => {
             </div>
 
             <!-- begin::Submit -->
-            <button type="submit" class="btn btn-primary w-100">Transfer</button>
+            <button type="submit" class="btn btn-primary w-100" :disabled="disableConfirm">
+              {{ loading ? 'Loading...' : btnText }}
+            </button>
             <!-- end::Submit -->
           </form>
           <!-- end::Form -->

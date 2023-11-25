@@ -2,17 +2,13 @@
 import { Collapse } from 'bootstrap'
 
 // Vue
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 
-// ----- START ----- //
-const authStore = useAuthStore()
-const appStore = useAppStore()
-const emit = defineEmits(['changeSidebarStatus'])
-
+// Props
 const props = defineProps({
   collapsed: {
     type: Boolean,
@@ -20,10 +16,25 @@ const props = defineProps({
   }
 })
 
+// Emit
+const emit = defineEmits(['changeSidebarStatus'])
+
+// ----- START ----- //
+
+// Generals
+const authStore = useAuthStore()
+const appStore = useAppStore()
+
+const sandBoxStatus = computed(() => appStore.sandBoxStatus)
+const sandbox = ref(sandBoxStatus.value)
+
+// Refs
 const search = ref('')
 
+// Computeds
 const appList = computed(() => appStore.appList)
 
+// Functions
 const changeSidebar = () => {
   emit('changeSidebarStatus')
 }
@@ -41,6 +52,10 @@ checkInnerWidth()
 const showLockScreen = () => {
   authStore.changeLockScreenStatus(true)
 }
+
+watch(sandbox, () => {
+  appStore.setSandBoxStatus(sandbox.value)
+})
 </script>
 
 <template>
@@ -213,14 +228,28 @@ const showLockScreen = () => {
         <!-- end::Lock -->
 
         <!-- begin::SandBox -->
-        <div class="link">
+        <div class="link form-check form-switch">
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/archive-full.svg" class="icon"></inline-svg>
           </div>
           <!-- end::icon -->
 
-          <span>SandBox</span>
+          <span class="d-flex align-items-center justify-content-between w-100">
+            <div>
+              <label class="form-check-label" for="sandbox"> SandBox </label>
+            </div>
+
+            <div>
+              <input
+                class="form-check-input m-0"
+                type="checkbox"
+                role="switch"
+                id="sandbox"
+                v-model="sandbox"
+              />
+            </div>
+          </span>
         </div>
         <!-- end::SandBox -->
       </div>

@@ -124,11 +124,13 @@ const updateAppInfo = async () => {
       }
     }
 
-    if (selectedApp.type == 2) setting.amount = amountForm.value.amount
+    if (selectedApp.value.type == 2) setting.amount = amountForm.value.amount
 
     if (!setting.need_email) setting.need_email = false
 
     if (!setting.need_name) setting.need_name = false
+
+    if (!setting.amount) setting.amount = ""
 
     fd.append("settings", JSON.stringify(setting));
     

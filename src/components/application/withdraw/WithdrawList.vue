@@ -1,6 +1,9 @@
 <script setup>
 // Vue
-import { onMounted, watch } from 'vue'
+import { onMounted, watch, ref, computed } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
 
 // Bootstrap
 import { Tooltip } from 'bootstrap'
@@ -10,13 +13,71 @@ import useSortTable from '@/hooks/useSortTable'
 
 // Components
 import PaginationCard from '../../globals/PaginationCard.vue'
+import WithdrawItemVue from './WithdrawItem.vue'
+import WithdrawItemLoading from '../../loadings/WithdrawItemLoading.vue'
 
 // ----- START ----- //
+
+// Generals
+const store = useAppStore()
 const { startCheckSort, selectedSort } = useSortTable()
 
+// Refs
 const showList = ref(false)
+const loadings = ref({
+  list: false,
+  pagination: false
+})
+const history = ref([])
+const lastPage = ref(1)
+const currentPage = ref(1)
 
-onMounted(() => {
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+
+// Functions
+
+/**
+ * Get App Withdraws
+ */
+const get_app_withdraws = async (page) => {
+  // Start Loading
+  if (page === 1) {
+    loadings.value.list = true
+  } else {
+    loadings.value.pagination = true
+  }
+
+  // Set Variables
+  let params = new URLSearchParams()
+  params.set('appId', selectedApp.value.id)
+  params.set('page', `${page}`)
+  params.set('pageSize', '15')
+  params.set('column', selectedSort.value.column || 'updated_at')
+  params.set('direction', selectedSort.value.direction || 'desc')
+
+  // Request
+  await store.getAppWithdraws(params).then((res) => {
+    if (res) {
+      console.log(res)
+      if (page === 1) {
+        history.value = res.list
+      } else {
+        history.value = [...history.value, ...res.list]
+      }
+      currentPage.value = page
+      lastPage.value = res.lastPage
+    }
+  })
+
+  // Stop Loading
+  loadings.value.list = false
+  loadings.value.pagination = false
+}
+
+onMounted(async () => {
+  await get_app_withdraws(1)
+
   startCheckSort('withdraw')
   new Tooltip(document.body, {
     selector: "[data-bs-html='true']"
@@ -24,386 +85,57 @@ onMounted(() => {
 })
 
 watch(selectedSort, () => {
-  console.log(selectedSort.value)
+  get_app_withdraws(1)
 })
 </script>
 <template>
   <PaginationCard
-    :text="`${showList ? 'Hide' : 'Show'} Transaction`"
+    v-if="history.length"
+    :text="`${showList ? 'Hide' : 'Show'} Withdraws`"
     :bold="false"
     :shadows="!showList"
     gap="4"
+    :count="history.length"
     @clicked="showList = !showList"
   />
 
-  <div class="accordion" id="withdAccordion" v-if="showList">
+  <div class="accordion" id="withdAccordion" v-show="showList">
     <div class="table-responsive accordion-table">
       <table class="table pb-4">
         <thead>
           <tr withdraw-sortable sortable>
             <th sortKey="id">ID</th>
-            <th sortKey="link">Invoice Link</th>
-            <th sortKey="date">Date</th>
-            <th sortKey="customer">Customer No.</th>
+            <th sortKey="created_at">Date</th>
+            <th sortKey="wallet_address">Wallet Address</th>
             <th sortKey="amount">Amount</th>
+            <th sortKey="token">Token</th>
+            <th sortKey="fee">Fee</th>
             <th sortKey="status">Status</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            class="collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#withdOne"
-            aria-expanded="true"
-            aria-controls="withdOne"
-          >
-            <td>1</td>
-            <td>jY0ODA2ODNhMjQwN</td>
-            <td>
-              <div class="max-content">30.Nov.2023 - 14:43</div>
-            </td>
-            <td>34</td>
-            <td>
-              <div class="max-content">1000 BTC</div>
-            </td>
-            <td>Paid</td>
-            <td class="text-end">
-              <inline-svg
-                src="media/icons/icons/chevron-down.svg"
-                class="collapse-icon"
-              ></inline-svg>
-            </td>
-          </tr>
+          <template v-if="loadings.list">
+            <WithdrawItemLoading v-for="(item, index) in 2" :key="index" />
+          </template>
 
-          <tr class="collapsed-row">
-            <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div
-                id="withdOne"
-                class="accordion-collapse collapse"
-                data-bs-parent="#withdAccordion"
-              >
-                <div class="accordion-body">
-                  <!-- begin::Transactions -->
-                  <div class="d-flex flex-column gap-4">
-                    <!-- begin::Item -->
-                    <div class="transaction-item">
-                      <div class="infos mb-2">
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">USDT</p>
-                          <p class="title">Token</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">10</p>
-                          <p class="title">Must Pay</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">0</p>
-                          <p class="title">Paid</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div
-                          class="item cursor-pointer"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div class='d-flex flex-column justify-content-center'>
-                              <div class='d-flex amount-columns'>
-                                <div class='item h-168px bg-success'>
-                                  <span class='d-none d-sm-block'>46%</span>
-                                </div>
-                                <div class='item h-168px bg-warning'>
-                                  <span class='d-none d-sm-block'>54%</span>
-                                </div>
-                              </div>
+          <template v-else>
+            <WithdrawItemVue v-for="item in history" :key="item.id" :item="item" />
 
-                              <div class='mt-10 d-flex align-items-center justify-content-center gap-2'>
-                                <img src='https://panel.easybitpay.com/icons/32/color/usdt.png' height='24' width='24' alt='usdt' />
-
-                                <h2 class='neue-machina mb-0 lh-24px text-gray-800'>$1.000</h2>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value text-warning">46%</p>
-                          <p class="title">Progress</p>
-                        </div>
-                        <!-- end::Item -->
-
-                        <!-- begin::Item -->
-                        <div
-                          class="item wallet"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div>
-                              <div class='w-168px h-168px'>
-                                <img src='media/qr-code.png'/>
-                              </div>
-
-                              <div>
-                                <a class='btn btn-primary w-100 mt-6 p-0'>
-                                  Copy wallet Add.
-                                </a>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value ellipsis" style="--ellipsis-width: 100%">
-                            DDDZPxJpNHgKj9bszZRu8DAGBU5G6Mi9GQ
-                          </p>
-                          <p class="title">Wallet</p>
-                        </div>
-                        <!-- end::Item -->
-                      </div>
-
-                      <div class="track-action">
-                        <button class="btn btn-sm btn-primary w-104px h-24px ls-base">Track</button>
-                      </div>
-                    </div>
-                    <!-- end::Item -->
-
-                    <!-- begin::Item -->
-                    <div class="transaction-item">
-                      <div class="infos mb-2">
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">USDT</p>
-                          <p class="title">Token</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">10</p>
-                          <p class="title">Must Pay</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">0</p>
-                          <p class="title">Paid</p>
-                        </div>
-                        <!-- end::Item -->
-
-                        <!-- begin::Item -->
-                        <div
-                          class="item cursor-pointer"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div class='d-flex flex-column justify-content-center'>
-                              <div class='d-flex amount-columns'>
-                                <div class='item h-168px bg-success'>
-                                  <span class='d-none d-sm-block'>46%</span>
-                                </div>
-                                <div class='item h-168px bg-warning'>
-                                  <span class='d-none d-sm-block'>54%</span>
-                                </div>
-                              </div>
-
-                              <div class='mt-10 d-flex align-items-center justify-content-center gap-2'>
-                                <img src='https://panel.easybitpay.com/icons/32/color/usdt.png' height='24' width='24' alt='usdt' />
-
-                                <h2 class='neue-machina mb-0 lh-24px text-gray-800'>$1.000</h2>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value text-warning">46%</p>
-                          <p class="title">Progress</p>
-                        </div>
-                        <!-- end::Item -->
-
-                        <!-- begin::Item -->
-                        <div
-                          class="item wallet"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div>
-                              <div class='w-168px h-168px'>
-                                <img src='media/qr-code.png'/>
-                              </div>
-
-                              <div>
-                                <a class='btn btn-primary w-100 mt-6 p-0'>
-                                  Copy wallet Add.
-                                </a>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value ellipsis" style="--ellipsis-width: 100%">
-                            DDDZPxJpNHgKj9bszZRu8DAGBU5G6Mi9GQ
-                          </p>
-                          <p class="title">Wallet</p>
-                        </div>
-                        <!-- end::Item -->
-                      </div>
-
-                      <div class="track-action">
-                        <button class="btn btn-sm btn-primary w-104px h-24px ls-base">Track</button>
-                      </div>
-                    </div>
-                    <!-- end::Item -->
-                  </div>
-                  <!-- end::Transactions -->
-
-                  <!-- begin::Action -->
-                  <div class="mt-4 mt-xl-8 d-flex justify-content-start justify-content-xl-end">
-                    <button class="btn btn-primary w-120px">Share</button>
-                  </div>
-                  <!-- end::Action -->
-                </div>
-              </div>
-            </td>
-          </tr>
-
-          <tr
-            class="collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#withdTwo"
-            aria-expanded="true"
-            aria-controls="withdTwo"
-          >
-            <td>1</td>
-            <td>jY0ODA2ODNhMjQwN</td>
-            <td>
-              <div class="max-content">30.Nov.2023 - 14:43</div>
-            </td>
-            <td>34</td>
-            <td>0.1 BTC</td>
-            <td>Paid</td>
-            <td class="text-end">
-              <inline-svg
-                src="media/icons/icons/chevron-down.svg"
-                class="collapse-icon"
-              ></inline-svg>
-            </td>
-          </tr>
-
-          <tr class="collapsed-row">
-            <td colspan="7" class="px-0 pt-0 bg-transparent">
-              <div
-                id="withdTwo"
-                class="accordion-collapse collapse"
-                data-bs-parent="#withdAccordion"
-              >
-                <div class="accordion-body">
-                  <!-- begin::Transactions -->
-                  <div class="d-flex flex-column gap-4">
-                    <!-- begin::Item -->
-                    <div class="transaction-item">
-                      <div class="infos mb-2">
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">USDT</p>
-                          <p class="title">Token</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">10</p>
-                          <p class="title">Must Pay</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div class="item">
-                          <p class="value">0</p>
-                          <p class="title">Paid</p>
-                        </div>
-                        <!-- end::Item -->
-                        <!-- begin::Item -->
-                        <div
-                          class="item cursor-pointer"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div class='d-flex flex-column justify-content-center'>
-                              <div class='d-flex amount-columns'>
-                                <div class='item h-168px bg-success'>
-                                  <span class='d-none d-sm-block'>46%</span>
-                                </div>
-                                <div class='item h-168px bg-warning'>
-                                  <span class='d-none d-sm-block'>54%</span>
-                                </div>
-                              </div>
-
-                              <div class='mt-10 d-flex align-items-center justify-content-center gap-2'>
-                                <img src='https://panel.easybitpay.com/icons/32/color/usdt.png' height='24' width='24' alt='usdt' />
-
-                                <h2 class='neue-machina mb-0 lh-24px text-gray-800'>$1.000</h2>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value text-warning">46%</p>
-                          <p class="title">Progress</p>
-                        </div>
-                        <!-- end::Item -->
-
-                        <!-- begin::Item -->
-                        <div
-                          class="item wallet"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          data-bs-html="true"
-                          data-bs-offset="0,20"
-                          :data-bs-title="`
-                            <div>
-                              <div class='w-168px h-168px'>
-                                <img src='media/qr-code.png'/>
-                              </div>
-
-                              <div>
-                                <a class='btn btn-primary w-100 mt-6 p-0'>
-                                  Copy wallet Add.
-                                </a>
-                              </div>
-                            </div>
-                          `"
-                        >
-                          <p class="value ellipsis" style="--ellipsis-width: 100%">
-                            DDDZPxJpNHgKj9bszZRu8DAGBU5G6Mi9GQ
-                          </p>
-                          <p class="title">Wallet</p>
-                        </div>
-                        <!-- end::Item -->
-                      </div>
-
-                      <div class="track-action">
-                        <button class="btn btn-sm btn-primary w-104px h-24px ls-base">Track</button>
-                      </div>
-                    </div>
-                    <!-- end::Item -->
-                  </div>
-                  <!-- end::Transactions -->
-
-                  <!-- begin::Action -->
-                  <div class="mt-4 mt-xl-8 d-flex justify-content-start justify-content-xl-end">
-                    <button class="btn btn-primary w-120px">Share</button>
-                  </div>
-                  <!-- end::Action -->
-                </div>
-              </div>
-            </td>
-          </tr>
+            <!-- begin::Show More -->
+            <tr class="collapsed show-more" v-if="lastPage > currentPage">
+              <td colspan="7">
+                <PaginationCard
+                  :bold="false"
+                  text="Show More Withdraws"
+                  count="15"
+                  :loading="loadings.pagination"
+                  @clicked="get_app_withdraws(currentPage + 1)"
+                />
+              </td>
+            </tr>
+            <!-- end::Show More -->
+          </template>
         </tbody>
       </table>
     </div>

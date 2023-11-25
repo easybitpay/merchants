@@ -108,7 +108,7 @@ const addCoverFile = async (e) => {
         <!-- begin::Status Action -->
         <div class="d-flex flex-wrap gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button :disabled="true" @click="iconInputClick" class="btn btn-light w-sm-192px">
+          <button @click="iconInputClick" class="btn btn-light w-sm-192px">
             {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
           </button>
 

@@ -2,7 +2,10 @@
 import api from '@/core/services/api'
 
 // Vue
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+
+// Router
+import router from '../router/index'
 
 // Pinia
 import { defineStore } from 'pinia'
@@ -21,6 +24,10 @@ export const useAppStore = defineStore('app', () => {
   const distinctTokens = ref([])
   const networks = ref([])
 
+  const selectedWithdrawItem = ref({})
+
+  const sandBoxStatus = computed(() => JSON.parse(localStorage.getItem('sandbox') || 'false'))
+
   // ----- Function -----
 
   function setSelectedApp(appId) {
@@ -29,10 +36,27 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function updataAppInfo(appInfo) {
-    const elementPos = appList.value.map(function(x) {return x.id; }).indexOf(appInfo.id);
-    appList.value[elementPos] = appInfo;
+    const elementPos = appList.value
+      .map(function (x) {
+        return x.id
+      })
+      .indexOf(appInfo.id)
+    appList.value[elementPos] = appInfo
 
     setSelectedApp(appInfo.id)
+  }
+
+  function setSandBoxStatus(data) {
+    localStorage.setItem('sandbox', JSON.stringify(data))
+
+    router.push({ name: 'dashboard' })
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
+  }
+
+  function setSelectedWithdrawItem(withdrawItem) {
+    selectedWithdrawItem.value = withdrawItem
   }
 
   /**
@@ -126,7 +150,7 @@ export const useAppStore = defineStore('app', () => {
    */
   async function updateApp(payload) {
     try {
-      const {data} = await api.post(`apps/${payload.id}`, payload.fd, {
+      const { data } = await api.post(`apps/${payload.id}`, payload.fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -163,6 +187,107 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  /**
+   * Get Balance List
+   * @param {app id} payload
+   */
+  async function getAppTokenBalance(payload) {
+    try {
+      const { data } = await api.get(`apps-balances/${payload}`)
+      //
+
+      return data.tokens
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Minimum Withdraw Amount
+   * @param {token id} payload
+   */
+  async function getMinimumWithdrawAmount(payload) {
+    try {
+      const { data } = await api.get(`withdrawals/${payload}/min`)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Withdraw Request
+   * @param {content: {wallet_address} , params: {appId, tokenId}} payload
+   */
+  async function requestWithdraw(payload) {
+    try {
+      const { data } = await api.post('withdraws/create', payload.content, {
+        params: payload.params
+      })
+
+      //
+      setSelectedWithdrawItem(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Withdraw Resend Email
+   * @param {id} payload
+   */
+  async function withdrawResendEmail(payload) {
+    try {
+      await api.get(`withdrawals/${payload}/resend-confirmation`)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Confirm Withdarw
+   * @param {id , content: {email_code , two_factor_code}} payload
+   */
+  async function confirmWithdraw(payload) {
+    try {
+      await api.post(`withdrawals/${payload.id}/confirm`, payload.content)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Withdraw List
+   * @param {page} payload
+   */
+  async function getAppWithdraws(payload) {
+    try {
+      const { data } = await api.get('withdraws/index', {
+        params: payload
+      })
+
+      //
+      const list = data.list
+      const lastPage = data.totalPages
+
+      //
+      return { list, lastPage }
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     appList,
     appLoading,
@@ -171,6 +296,8 @@ export const useAppStore = defineStore('app', () => {
     distinctTokens,
     networks,
     shareAppStatus,
+    sandBoxStatus,
+    selectedWithdrawItem,
 
     getShareAppStatuses,
     getTokens,
@@ -179,6 +306,14 @@ export const useAppStore = defineStore('app', () => {
     getAppList,
     setSelectedApp,
     updateApp,
-    getAppInvoices
+    getAppInvoices,
+    getAppTokenBalance,
+    setSandBoxStatus,
+    getMinimumWithdrawAmount,
+    requestWithdraw,
+    setSelectedWithdrawItem,
+    withdrawResendEmail,
+    confirmWithdraw,
+    getAppWithdraws
   }
 })

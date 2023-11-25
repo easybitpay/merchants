@@ -1,37 +1,139 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
-// ----- START ----- //
-const { showFeedBacks } = useForm()
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
 
+// Components
+import CountDown from '../../globals/CountDown.vue'
+
+// Emit
+const emit = defineEmits(['updateWithdrawList'])
+
+// ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { showFeedBacks } = useForm()
+const { convertDate } = useConvertDate()
+
+// Refs
+const loadings = ref({
+  accept: false,
+  cancel: false
+})
+
+// Computeds
+const selectedWithdrawItem = computed(() => store.selectedWithdrawItem)
+
+// Vuelidate
 const form = ref({
-  emailCode: null
+  email_code: null,
+  two_factor_code: null
 })
 
 const rules = {
-  emailCode: {
+  email_code: {
     required: helpers.withMessage('Email code is required', required)
+  },
+  two_factor_code: {
+    required: helpers.withMessage('2FA code is required', required)
   }
 }
 
 const v$ = useVuelidate(rules, form)
 
+// Functions
+
+/**
+ * Convert Status Code To Color
+ */
+const convertStatusToColor = (status) => {
+  if (status === 'requested' || status === 'pending' || status === 'processing') return 'warning'
+  if (status === 'accepted' || status === 'check' || status === 'done') return 'success'
+  if (status === 'rejected') return 'danger'
+}
+
+/**
+ * Reset Form
+ */
+const resetForm = () => {
+  store.setSelectedWithdrawItem({})
+  form.value = {
+    email_code: null,
+    two_factor_code: null
+  }
+  v$.value.$reset()
+}
+
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('withdrawDetail_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
+
+/**
+ * Send Withdraw Confirmation Email Code
+ */
+const sendEmail = () => {
+  const id = selectedWithdrawItem.value.id
+  store.withdrawResendEmail(id)
+}
+
+/**
+ * Confirm Withdraw
+ */
 const confirmWithdraw = async () => {
+  // Validation Form
   const result = await v$.value.$validate()
   if (result) {
-    console.log('scas')
+    // Start loading
+    loadings.value.accept = true
+
+    // Set Variables
+    const id = selectedWithdrawItem.value.id
+    const content = { ...form.value }
+
+    // Request
+    await store.confirmWithdraw({ id, content }).then((res) => {
+      if (res) {
+        resetForm()
+        closeOffcanvas()
+        emit('updateWithdrawList')
+      }
+    })
+
+    // Stop Loading
+    loadings.value.accept = false
   } else {
     showFeedBacks()
   }
 }
+
+onMounted(() => {
+  const myOffcanvas = document.getElementById('withdrawDetail_offcanvas')
+
+  /**
+   * Offcanvas Fire On Hide
+   */
+  myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+    resetForm()
+  })
+})
 </script>
 
 <template>
@@ -72,7 +174,7 @@ const confirmWithdraw = async () => {
               <!-- begin::Wallet Address -->
               <div class="fs-7 ls-sm">
                 <p class="text-gray-600 mb-2">Wallet</p>
-                <p class="text-gray-800 mb-0">TKNieFAvov3wCg8YGtyGrbhkzG6vmfGmca</p>
+                <p class="text-gray-800 mb-0">{{ selectedWithdrawItem.wallet_address }}</p>
               </div>
               <!-- end::Wallet Address -->
 
@@ -85,14 +187,17 @@ const confirmWithdraw = async () => {
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Amount</p>
-                  <p class="value">0.000145 BTC</p>
+                  <p class="value">
+                    {{ selectedWithdrawItem.requested_amount }}
+                    {{ selectedWithdrawItem?.token?.symbol }}
+                  </p>
                 </div>
                 <!-- end::Item -->
 
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Network</p>
-                  <p class="value">Troooon</p>
+                  <p class="value">{{ selectedWithdrawItem?.token?.network?.name || '-' }}</p>
                 </div>
                 <!-- end::Item -->
               </div>
@@ -107,28 +212,34 @@ const confirmWithdraw = async () => {
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">ID</p>
-                  <p class="value">0019</p>
+                  <p class="value">{{ selectedWithdrawItem.id }}</p>
                 </div>
                 <!-- end::Item -->
 
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Date</p>
-                  <p class="value">20.10.2024</p>
+                  <p class="value">
+                    {{ convertDate(selectedWithdrawItem.created_at, 'DD.MM.YYYY') }}
+                  </p>
                 </div>
                 <!-- end::Item -->
 
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Time</p>
-                  <p class="value">07:28:30</p>
+                  <p class="value">
+                    {{ convertDate(selectedWithdrawItem.created_at, 'hh:mm:ss') }}
+                  </p>
                 </div>
                 <!-- end::Item -->
 
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Status</p>
-                  <p class="value text-cyan-500">Pending 00:57</p>
+                  <p :class="`value text-${convertStatusToColor(selectedWithdrawItem.status)}`">
+                    {{ $filters.capitalize(selectedWithdrawItem.status) }}
+                  </p>
                 </div>
                 <!-- end::Item -->
               </div>
@@ -139,16 +250,16 @@ const confirmWithdraw = async () => {
               <!-- end::Spacer -->
 
               <!-- begin::Email Code -->
-              <div class="w-100 position-relative d-flex align-items-center">
+              <div class="w-100 position-relative d-flex align-items-center mb-4">
                 <input
                   type="text"
                   class="form-control ps-9 placeholder-gray-500"
                   placeholder="Inter confirmation code From Your Email"
-                  v-model="form.emailCode"
+                  v-model="form.email_code"
                 />
 
-                <div class="invalid-feedback form-control" v-if="v$.emailCode.$errors.length">
-                  <span> {{ v$.emailCode.$errors[0].$message }}</span>
+                <div class="invalid-feedback form-control" v-if="v$.email_code.$errors.length">
+                  <span> {{ v$.email_code.$errors[0].$message }}</span>
                 </div>
 
                 <!-- begin::Icon -->
@@ -163,11 +274,38 @@ const confirmWithdraw = async () => {
                   type="button"
                   class="btn btn-sm btn-primary h-24px ls-base position-absolute end-8px"
                 >
-                  Send Again
+                  <CountDown
+                    :key="selectedWithdrawItem.id"
+                    :showText="false"
+                    :emidiate="false"
+                    @isRestarted="sendEmail"
+                  />
                 </button>
                 <!-- end::Send Again -->
               </div>
               <!-- end::Email Code -->
+
+              <!-- begin::2FA Code -->
+              <div class="w-100 position-relative d-flex align-items-center mb-4">
+                <input
+                  type="text"
+                  class="form-control ps-9 placeholder-gray-500"
+                  placeholder="Inter confirmation code From Your Authenticator"
+                  v-model="form.two_factor_code"
+                />
+
+                <div class="invalid-feedback form-control" v-if="v$.two_factor_code.$errors.length">
+                  <span> {{ v$.two_factor_code.$errors[0].$message }}</span>
+                </div>
+
+                <!-- begin::Icon -->
+                <inline-svg
+                  src="media/icons/icons/lock.svg"
+                  class="position-absolute start-8px svg-icon-primary"
+                ></inline-svg>
+                <!-- end::Icon -->
+              </div>
+              <!-- end::2FA Code -->
             </div>
             <!-- end::Content -->
           </div>
@@ -204,9 +342,10 @@ const confirmWithdraw = async () => {
 
                 <button
                   type="submit"
+                  :disabled="loadings.accept"
                   class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
                 >
-                  Transfer
+                  {{ loadings.accept ? 'Loading...' : 'Transfer' }}
                 </button>
               </div>
               <!-- end::Actions -->
