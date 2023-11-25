@@ -1,6 +1,12 @@
 <script setup>
 // Vue
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hook
+import useAccordion from '@/hooks/useAccordion'
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -8,13 +14,42 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 // Import Swiper styles
 import 'swiper/css'
 
-// Hook
-import useAccordion from '@/hooks/useAccordion'
+// Components
+import FAQItem from '../../../components/help/faq/FAQItem.vue'
+import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
 
 // ----- START ----- //
+
+// Generals
+const store = useAppStore()
 const { checkActiveAccordion } = useAccordion()
 
-onMounted(() => {
+// Refs
+const loading = ref(false)
+const list = ref([])
+
+// Functions
+
+/**
+ * Get FAQ List
+ */
+const getFAQList = async () => {
+  // Start Loading
+  loading.value = true
+
+  // Request
+  await store.getFAQList().then((res) => {
+    if (res) {
+      list.value = res
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
+}
+
+onMounted(async () => {
+  await getFAQList()
   checkActiveAccordion('faqAccordion')
 })
 </script>
@@ -173,105 +208,11 @@ onMounted(() => {
   </div>
   <!-- end::Categories -->
 
+  <AccordionItemLoading v-if="loading" />
+
   <!-- begin::Accordion -->
   <div class="accordion" id="faqAccordion">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#faqOne"
-          aria-expanded="true"
-          aria-controls="faqOne"
-        >
-          How do I deal with Bitcoin’sprice volatility?
-        </button>
-      </h2>
-      <div id="faqOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-        <div class="accordion-body">
-          If you are a risk-averse business, you can accept bitcoin payments without ever worrying
-          about the price volatility that comes with it. The automatic conversion and split
-          settlement features let businesses choose to have their bitcoin payments automatically
-          converted to our supported currencies, either in full or as a percentage, at the time of a
-          transaction.
-
-          <!-- begin::User Reaction -->
-          <div class="d-flex flex-column flex-md-row justify-content-between gap-4 mt-24">
-            <!-- begin::Question Box -->
-            <div
-              class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between justify-content-md-start w-100 row-gap-3"
-            >
-              <!-- begin::Question -->
-              <p class="mb-0 text-gray-600">Did this answer your question?</p>
-              <!-- end::Question -->
-
-              <!-- begin::Emojies -->
-              <div class="d-flex gap-4 ms-0 ms-sm-8">
-                <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
-                <img src="/media/icons/emoji/sad.png" class="cursor-pointer" />
-                <img src="/media/icons/emoji/neutral.png" class="cursor-pointer" />
-              </div>
-              <!-- end::Emojies -->
-            </div>
-            <!-- end::Question Box -->
-
-            <!-- begin::Need Edit -->
-            <div>
-              <button class="btn btn-sm btn-light w-136px h-24px">Need to Edit</button>
-            </div>
-            <!-- end::Need Edit -->
-          </div>
-          <!-- end::User Reaction -->
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#faqTwo"
-          aria-expanded="false"
-          aria-controls="faqTwo"
-        >
-          What is lightning network (LN)?
-        </button>
-      </h2>
-      <div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-        <div class="accordion-body">
-          If you are a risk-averse business, you can accept bitcoin payments without ever worrying
-          about the price volatility that comes with it. The automatic conversion and split
-          settlement features let businesses choose to have their bitcoin payments automatically
-          converted to our supported currencies, either in full or as a percentage, at the time of a
-          transaction.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#faqThree"
-          aria-expanded="false"
-          aria-controls="faqThree"
-        >
-          Accordion Item #3
-        </button>
-      </h2>
-      <div id="faqThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-        <div class="accordion-body">
-          If you are a risk-averse business, you can accept bitcoin payments without ever worrying
-          about the price volatility that comes with it. The automatic conversion and split
-          settlement features let businesses choose to have their bitcoin payments automatically
-          converted to our supported currencies, either in full or as a percentage, at the time of a
-          transaction.
-        </div>
-      </div>
-    </div>
+    <FAQItem v-for="(item, index) in list" :key="index" :item="item" />
   </div>
   <!-- end::Accordion -->
 </template>

@@ -288,6 +288,20 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  /**
+   * Get FAQ List
+   */
+  async function getFAQList() {
+    try {
+      const { data } = await api.get('faq/list')
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     appList,
     appLoading,
@@ -314,6 +328,7 @@ export const useAppStore = defineStore('app', () => {
     setSelectedWithdrawItem,
     withdrawResendEmail,
     confirmWithdraw,
-    getAppWithdraws
+    getAppWithdraws,
+    getFAQList
   }
 })
