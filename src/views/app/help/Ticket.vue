@@ -2,6 +2,9 @@
 // Vue
 import { onMounted, ref } from 'vue'
 
+// Store
+import { useTicketStore } from '@/stores/ticket'
+
 // Hooks
 import useForm from '@/hooks/useForm.js'
 import useAccordion from '@/hooks/useAccordion'
@@ -16,10 +19,27 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 // Import Swiper styles
 import 'swiper/css'
 
+// Components
+import TicketItem from '../../../components/help/ticket/TicketItem.vue'
+import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
+import PaginationCard from '../../../components/globals/PaginationCard.vue'
+
 // ----- START ----- //
+const store = useTicketStore()
 const { showFeedBacks } = useForm()
 const { checkActiveAccordion } = useAccordion()
 
+// Refs
+const loadings = ref({
+  list: false,
+  pagination: false
+})
+const list = ref([])
+const lastPage = ref(1)
+const currentPage = ref(1)
+const totals = ref(0)
+
+// Vuelidate
 const form = ref({
   subject: null
 })
@@ -32,25 +52,48 @@ const rules = {
 
 const v$ = useVuelidate(rules, form)
 
-const medias = ref([])
-const addFile = (e) => {
-  for (let i = 0; i < e.target.files.length; i++) {
-    const element = e.target.files[i]
+// Functions
 
-    //
-    medias.value.push(element)
+/**
+ * Get Ticket List
+ */
+const getTicketList = async (page) => {
+  // Start Loading
+  if (page === 1) {
+    loadings.value.list = true
+  } else {
+    loadings.value.pagination = true
   }
+
+  // Set Variables
+  let params = new URLSearchParams()
+  params.set('page', `${page}`)
+  params.set('pageSize', '15')
+  params.set('column', 'updated_at')
+  params.set('direction', 'desc')
+
+  // Request
+  await store.getTicketList(params).then((res) => {
+    if (res) {
+      if (page === 1) {
+        list.value = res.list
+      } else {
+        list.value = [...list.value, ...res.list]
+      }
+      currentPage.value = page
+      lastPage.value = res.lastPage
+      totals.value = res.total
+    }
+  })
+
+  // Stop Loading
+  loadings.value.list = false
+  loadings.value.pagination = false
 }
 
-const removeFiles = (file) => {
-  medias.value = medias.value.filter((item) => item !== file)
-}
-
-const hiddenFileInput = ref(null)
-const inputClick = () => {
-  hiddenFileInput.value.click()
-}
-
+/**
+ * Create Ticket
+ */
 const createTicket = async () => {
   const result = await v$.value.$validate()
   if (result) {
@@ -60,11 +103,8 @@ const createTicket = async () => {
   }
 }
 
-const showPreview = (file) => {
-  return URL.createObjectURL(file)
-}
-
-onMounted(() => {
+onMounted(async () => {
+  await getTicketList(1)
   checkActiveAccordion('ticketAccordion')
 })
 </script>
@@ -168,7 +208,7 @@ onMounted(() => {
   <!-- end::Categories -->
 
   <!-- begin::Create Message -->
-  <div class="card rounded-4 border-gray-200">
+  <div class="card rounded-4 border-gray-200 mb-6">
     <div class="card-body">
       <form @submit.prevent="createTicket" class="d-flex flex-column flex-md-row gap-6">
         <!-- begin::Subject -->
@@ -196,210 +236,31 @@ onMounted(() => {
   </div>
   <!-- end::Create Message -->
 
-  <!-- begin::No Ticket Image -->
-  <inline-svg
-    v-if="false"
-    src="/media/icons/shapes/no-ticket.svg"
-    class="d-block mx-auto mt-16"
-  ></inline-svg>
-  <!-- end::No Ticket Image -->
+  <AccordionItemLoading v-if="loadings.list" />
 
-  <!-- begin::Accordion -->
-  <div class="accordion mt-6" id="ticketAccordion">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#ticketOne"
-          aria-expanded="true"
-          aria-controls="ticketOne"
-        >
-          Accordion Item #1
-        </button>
-      </h2>
-      <div id="ticketOne" class="accordion-collapse collapse" data-bs-parent="#ticketAccordion">
-        <div class="accordion-body p-0">
-          <div class="ticket-messages custom-scroll">
-            <!-- begin::Ticket Messages -->
-            <div
-              :class="`item-box-holder ${item === 1 ? 'user' : 'admin'}`"
-              v-for="item in 20"
-              :key="item"
-            >
-              <div class="item-box">
-                <div class="item">If you are a risk-averse business</div>
-
-                <small class="time lh-1">17:30</small>
-              </div>
-
-              <div class="medias">
-                <a href="" class="item">
-                  <img src="/media/images/banner/auth-bg.jpg" alt="item" />
-                </a>
-                <a href="" class="item">
-                  <img src="/media/images/banner/theme.png" alt="item" />
-                </a>
-                <a href="" class="item">
-                  <img src="/media/images/banner/theme.png" alt="item" />
-                </a>
-              </div>
-            </div>
-            <!-- end::Ticket Messages -->
-
-            <!-- begin::Finish Box -->
-            <div class="both-side-line-title mt-18">
-              <span>
-                Finished At 16.10.2023 - 07:28
-
-                <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
-              </span>
-            </div>
-            <!-- end::Finish Box -->
-          </div>
-
-          <!-- begin::Actions -->
-          <div class="p-6 border-top border-primary" v-if="true">
-            <!-- begin::Create Message -->
-            <div class="d-flex gap-6" v-if="false">
-              <button type="button" class="btn btn-primary w-100 w-sm-168px">
-                <span class="d-block d-sm-none">New</span>
-                <span class="d-none d-sm-block">New Message</span>
-              </button>
-              <button type="button" class="btn btn-light w-100 w-sm-200px">
-                <span class="d-block d-sm-none">Close</span>
-                <span class="d-none d-sm-block">Close Chat</span>
-              </button>
-            </div>
-            <!-- end::Create Message -->
-
-            <!-- begin::Form -->
-            <form @submit.prevent="sendReply" v-if="true">
-              <!-- begin::Textarea -->
-              <textarea
-                class="form-control p-0 rounded-0 border-0 bg-transparent min-h-48px"
-                placeholder="Your message..."
-              ></textarea>
-              <!-- end::Textarea -->
-
-              <div class="d-flex flex-wrap row-gap-4 column-gap-6 mt-4 mb-2" v-if="medias.length">
-                <div
-                  v-for="(file, index) in medias"
-                  :key="index"
-                  :style="`--background: url(${showPreview(file)})`"
-                  class="gradient-image-box h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 w-100 mw-310px"
-                >
-                  <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">{{ file.name }}</p>
-
-                  <inline-svg
-                    @click="removeFiles(file)"
-                    src="/media/icons/icons/trash.svg"
-                    height="24"
-                    class="svg-icon-danger bg-white cursor-pointer"
-                    style="border-radius: 3px"
-                  ></inline-svg>
-                </div>
-              </div>
-
-              <!-- begin::Action -->
-              <div class="d-flex gap-4 mt-8">
-                <input
-                  type="file"
-                  ref="hiddenFileInput"
-                  multiple
-                  className="d-none"
-                  @change="addFile"
-                />
-                <!-- begin::Submit -->
-                <button type="submit" class="btn btn-primary w-168px">Send</button>
-                <!-- end::Submit -->
-
-                <!-- begin::Attach -->
-                <button
-                  @click="inputClick"
-                  class="btn btn-light border-0 w-40px h-40px p-0 align-items-center"
-                >
-                  <inline-svg src="/media/icons/icons/attach.svg"></inline-svg>
-                </button>
-                <!-- end::Attach -->
-              </div>
-              <!-- end::Action -->
-            </form>
-            <!-- end::Form -->
-          </div>
-          <!-- end::Actions -->
-
-          <!-- begin::User Reaction -->
-          <div
-            v-if="false"
-            class="p-6 pt-20 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between justify-content-md-start w-100 row-gap-3"
-          >
-            <!-- begin::Question -->
-            <p class="mb-0 text-gray-600">Did this answer your question?</p>
-            <!-- end::Question -->
-
-            <!-- begin::Emojies -->
-            <div class="d-flex gap-4 ms-0 ms-sm-8">
-              <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
-              <img src="/media/icons/emoji/sad.png" class="cursor-pointer" />
-              <img src="/media/icons/emoji/neutral.png" class="cursor-pointer" />
-            </div>
-            <!-- end::Emojies -->
-          </div>
-
-          <!-- end::User Reaction -->
-        </div>
-      </div>
+  <template v-else>
+    <!-- begin::Accordion -->
+    <div class="accordion" id="ticketAccordion">
+      <TicketItem v-for="(item, index) in list" :key="index" :item="item" />
     </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#ticketTwo"
-          aria-expanded="false"
-          aria-controls="ticketTwo"
-        >
-          Accordion Item #2
-        </button>
-      </h2>
-      <div id="ticketTwo" class="accordion-collapse collapse" data-bs-parent="#ticketAccordion">
-        <div class="accordion-body">
-          <strong>This is the second item's accordion body.</strong> It is hidden by default, until
-          the collapse plugin adds the appropriate classes that we use to style each element. These
-          classes control the overall appearance, as well as the showing and hiding via CSS
-          transitions. You can modify any of this with custom CSS or overriding our default
-          variables. It's also worth noting that just about any HTML can go within the
-          <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#ticketThree"
-          aria-expanded="false"
-          aria-controls="ticketThree"
-        >
-          Accordion Item #3
-        </button>
-      </h2>
-      <div id="ticketThree" class="accordion-collapse collapse" data-bs-parent="#ticketAccordion">
-        <div class="accordion-body">
-          <strong>This is the third item's accordion body.</strong> It is hidden by default, until
-          the collapse plugin adds the appropriate classes that we use to style each element. These
-          classes control the overall appearance, as well as the showing and hiding via CSS
-          transitions. You can modify any of this with custom CSS or overriding our default
-          variables. It's also worth noting that just about any HTML can go within the
-          <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end::Accordion -->
+    <!-- end::Accordion -->
+
+    <PaginationCard
+      class="mt-4"
+      v-if="lastPage > currentPage"
+      :bold="false"
+      text="Show More Tickets"
+      :count="totals - list.length"
+      :loading="loadings.pagination"
+      @clicked="getTicketList(currentPage + 2)"
+    />
+
+    <!-- begin::No Ticket Image -->
+    <inline-svg
+      v-if="!list.length"
+      src="/media/icons/shapes/no-ticket.svg"
+      class="d-block mx-auto mt-10"
+    ></inline-svg>
+    <!-- end::No Ticket Image -->
+  </template>
 </template>

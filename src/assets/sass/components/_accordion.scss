@@ -19,6 +19,7 @@
             .title {
                 color: $primary !important;
             }
+
             .date {
                 display: none;
             }
@@ -32,6 +33,13 @@
     .accordion-button {
         border-radius: $accordion-border-radius;
         box-shadow: none;
+
+        &.loading {
+            justify-content: space-between;
+            &::after {
+                display: none;
+            }
+        }
     }
 
     .accordion-body {
