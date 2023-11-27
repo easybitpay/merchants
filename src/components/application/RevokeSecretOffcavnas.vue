@@ -1,22 +1,119 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-// Components
-import VOtpInput from 'vue3-otp-input'
+// Store
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+
+// Hooks
+import useForm from '@/hooks/useForm.js'
+
+// Vuelidate
+import useVuelidate from '@vuelidate/core'
+import { helpers, required } from '@vuelidate/validators'
+
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
 
 // ----- START ----- //
+
+// Generals
+const appStore = useAppStore()
+const authStore = useAuthStore()
+const { showFeedBacks } = useForm()
+
+// Refs
 const step = ref(1)
+const secret = ref('')
+const loading = ref(false)
 
-const otpInputValue = ref('')
+// Computeds
+const selectedApp = computed(() => appStore.selectedApp)
+const currentUser = computed(() => authStore.currentUser)
 
+// Vuelidate
+const form = ref({
+  code: null
+})
+
+const rules = {
+  code: {
+    required: helpers.withMessage('2FA code is required', required)
+  }
+}
+
+const v$ = useVuelidate(rules, form)
+
+// Functions
+
+/**
+ * Reset Form
+ */
+const resetForm = () => {
+  step.value = 1
+  secret.value = ''
+  form.value = {
+    code: null
+  }
+  v$.value.$reset()
+}
+
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('revokeSecret_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
+
+/**
+ * Get New Secret
+ */
 const getNewSecret = async () => {
-  console.log('12')
+  // Start Loading
+  loading.value = true
+
+  // Set Variables
+  let content = {}
+  const enable_2fa = currentUser.value.merchant.two_factor_enabled
+  let app_id = selectedApp.value.id
+
+  // Validation Form
+  if (enable_2fa) {
+    const result = await v$.value.$validate()
+    if (result) {
+      content.code = form.value.code
+    }
+  }
+
+  // Request
+  await appStore.revokeSecret({ app_id, content }).then((res) => {
+    if (res) {
+      secret.value = res
+      step.value = 2
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
 }
 
 const copyAndClose = () => {
-  console.log('1232')
+  navigator.clipboard.writeText(secret.value)
+  closeOffcanvas()
 }
+
+onMounted(() => {
+  const myOffcanvas = document.getElementById('revokeSecret_offcanvas')
+
+  /**
+   * Offcanvas Fire On Hide
+   */
+  myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+    resetForm()
+  })
+})
 </script>
 
 <template>
@@ -67,22 +164,31 @@ const copyAndClose = () => {
               </p>
 
               <!-- begin::OTP -->
-              <div class="mt-8 pt-8 border-top border-gray-200" v-if="step === 1">
-                <h4 class="mb-0 text-gray-900">Two factor code</h4>
-                <p class="fs-7 mb-6 text-gray-800 ls-base">
-                  Some info may be visible to other people using Google services.
-                </p>
-                <div class="otp-input">
-                  <VOtpInput
-                    ref="otpInput"
-                    v-model:value="otpInputValue"
-                    input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
-                    separator=""
-                    :num-inputs="6"
-                    :should-auto-focus="true"
-                    input-type="numeric"
+              <div
+                class="mt-8 pt-8 border-top border-gray-200"
+                v-if="step === 1 && currentUser?.merchant?.two_factor_enabled"
+              >
+                <!-- begin::2FA Code -->
+                <div class="w-100 position-relative d-flex align-items-center mb-4">
+                  <input
+                    type="text"
+                    class="form-control ps-9 placeholder-gray-500"
+                    placeholder="Inter confirmation code From Your Authenticator"
+                    v-model="form.code"
                   />
+
+                  <div class="invalid-feedback form-control" v-if="v$.code.$errors.length">
+                    <span> {{ v$.code.$errors[0].$message }}</span>
+                  </div>
+
+                  <!-- begin::Icon -->
+                  <inline-svg
+                    src="media/icons/icons/lock.svg"
+                    class="position-absolute start-8px svg-icon-primary"
+                  ></inline-svg>
+                  <!-- end::Icon -->
                 </div>
+                <!-- end::2FA Code -->
               </div>
               <!-- end::OTP -->
 
@@ -99,14 +205,19 @@ const copyAndClose = () => {
                     <!-- begin::Secret & Copy -->
                     <div class="d-flex align-items-center w-100">
                       <input
-                        type="email"
+                        type="text"
                         class="form-control px-0 border-0 bg-transparent text-gray-700"
-                        placeholder="Your Email"
-                        value="9d8eb567-9e2d-4752-94d2-77b7708e0872"
+                        :value="secret"
+                        readonly
                       />
 
                       <!-- begin::Icon -->
-                      <inline-svg src="media/icons/icons/copy.svg" height="40"></inline-svg>
+                      <inline-svg
+                        src="media/icons/icons/copy.svg"
+                        height="40"
+                        class="cursor-pointer"
+                        @click="copyAndClose"
+                      ></inline-svg>
                       <!-- end::Icon -->
                     </div>
                     <!-- end::Secret & Copy -->
@@ -151,10 +262,11 @@ const copyAndClose = () => {
 
                 <button
                   v-if="step === 1"
+                  :disabled="loading"
                   type="submit"
                   class="btn btn-sm btn-primary w-100 w-sm-initial h-24px ls-base fw-normal"
                 >
-                  Generate Revoke
+                  {{ loading ? 'Loading...' : 'Generate Revoke' }}
                 </button>
 
                 <button

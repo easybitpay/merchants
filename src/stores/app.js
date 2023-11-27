@@ -208,6 +208,24 @@ export const useAppStore = defineStore('app', () => {
   }
 
   /**
+   * Revoke Secret
+   * @param {app id , {code}} payload
+   */
+  async function revokeSecret(payload) {
+    try {
+      const { data } = await api.post(`apps/${payload.app_id}/revoke`, payload.content)
+
+      //
+      const private_key = data.private_key
+
+      //
+      return private_key
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get App Invoices
    * @param {app id & search params} payload
    */
@@ -363,6 +381,7 @@ export const useAppStore = defineStore('app', () => {
     updateApp,
     createApp,
     verifyAppDomain,
+    revokeSecret,
     getAppInvoices,
     getAppTokenBalance,
     setSandBoxStatus,

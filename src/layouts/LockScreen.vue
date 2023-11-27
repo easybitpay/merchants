@@ -1,21 +1,32 @@
 <script setup>
 // Vue
 import { computed, onMounted, ref } from 'vue'
-import { useAppStore } from '@/stores/app'
+
+// Router
 import { useRouter } from 'vue-router'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
 
 // Component
 import VOtpInput from 'vue3-otp-input'
-import CountDown from '../components/globals/CountDown.vue';
+import CountDown from '../components/globals/CountDown.vue'
 
 // ----- START ----- //
-const store = useAppStore()
+
+// Generals
+const store = useAuthStore()
 const router = useRouter()
 
-const errorStatus = ref(false)
+// Refs
 const timeout = ref(null)
-
+const errorStatus = ref(false)
 const otpInputValue = ref('')
+
+// Computeds
+const lockScreen = computed(() => store.lockScreenStatus)
+
+// Functions
 
 const changeBG = () => {
   clearTimeout(timeout)
@@ -36,15 +47,13 @@ const unlock = async () => {
   }
 }
 
-const lockScreen = computed(() => store.lockScreenStatus)
-
 const closeLockScreen = () => {
   store.changeLockScreenStatus(false)
 }
 
 const goLogin = () => {
   store.changeLockScreenStatus(false)
-  router.push({name: 'login'})
+  router.push({ name: 'login' })
 }
 
 onMounted(() => {
@@ -112,9 +121,7 @@ onMounted(() => {
             </div>
           </form>
 
-          <p @click="goLogin" class="text-white mt-3 mb-0 ls-base cursor-pointer">
-            Login again?
-          </p>
+          <p @click="goLogin" class="text-white mt-3 mb-0 ls-base cursor-pointer">Login again?</p>
           <!-- end::Card -->
         </div>
         <!-- end::Container -->

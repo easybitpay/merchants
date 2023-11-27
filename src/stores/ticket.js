@@ -7,6 +7,24 @@ import { defineStore } from 'pinia'
 // Store
 export const useTicketStore = defineStore('ticket', () => {
   // ----- Function -----
+
+  /**
+   * Get Ticket Departments
+   */
+  async function getTicketDepartments() {
+    try {
+      const { data } = await api.get('tickets/departments')
+
+      //
+      console.log(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   /**
    * Get Ticket List
    * @param {search params} payload
@@ -60,6 +78,7 @@ export const useTicketStore = defineStore('ticket', () => {
   }
 
   return {
+    getTicketDepartments,
     getTicketList,
     getTicketDetail,
     replyTicket

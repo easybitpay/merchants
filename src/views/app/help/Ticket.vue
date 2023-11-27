@@ -104,6 +104,7 @@ const createTicket = async () => {
 }
 
 onMounted(async () => {
+  await store.getTicketDepartments()
   await getTicketList(1)
   checkActiveAccordion('ticketAccordion')
 })
