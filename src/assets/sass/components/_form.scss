@@ -117,3 +117,70 @@ textarea {
         }
     }
 }
+
+.grouped-input {
+    display: flex;
+
+    label {
+        align-self: center;
+        width: 130px;
+        font-size: 1rem;
+        color: $gray-600;
+    }
+
+    input:not(.form-check-input) {
+        border: none !important;
+        outline: none !important;
+        background-color: inherit !important;
+        font-size: $font-size-lg;
+        font-family: 'Neue Machina';
+        color: $gray-800;
+        font-weight: 300;
+        flex-grow: 1;
+
+        &::placeholder {
+            font-size: 1rem;
+            color: $input-placeholder-color;
+        }
+    }
+
+    .dropdown {
+        width: calc(100% - 130px) !important;
+
+        .dropdown-toggle {
+            min-height: 100%;
+            border: 0;
+            padding: 0;
+        }
+
+        .dropdown-menu {
+            &::after {
+                display: none !important;
+            }
+
+            &::before {
+                display: none !important;
+            }
+
+
+        }
+    }
+
+    @media (min-width: 576px) {
+        input:not(.form-check-input) {
+            &::placeholder {
+                opacity: 0;
+            }
+        }
+    }
+
+    @media (max-width: 576px) {
+        label {
+            display: none;
+        }
+
+        .dropdown {
+            width: 100% !important;
+        }
+    }
+}

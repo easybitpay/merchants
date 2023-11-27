@@ -29,6 +29,12 @@ const iconInputClick = () => {
   hiddenChangeIconInput.value.click()
 }
 
+// Update Banner
+const hiddenChangeCoverInput = ref(null)
+const coverInputClick = () => {
+  hiddenChangeCoverInput.value.click()
+}
+
 /**
  * Change App Icon
  * @param {event} e
@@ -49,12 +55,6 @@ const addIconFile = async (e) => {
 
   // Stop Loading
   loadings.value.icon = false
-}
-
-// Update Banner
-const hiddenChangeCoverInput = ref(null)
-const coverInputClick = () => {
-  hiddenChangeCoverInput.value.click()
 }
 
 /**
@@ -108,7 +108,11 @@ const addCoverFile = async (e) => {
         <!-- begin::Status Action -->
         <div class="d-flex flex-wrap gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button @click="iconInputClick" class="btn btn-light w-sm-192px">
+          <button
+            :disabled="loadings.icon"
+            @click="iconInputClick"
+            class="btn btn-light w-sm-192px"
+          >
             {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
           </button>
 

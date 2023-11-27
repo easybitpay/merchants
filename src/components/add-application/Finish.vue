@@ -1,8 +1,14 @@
 <script setup></script>
 
 <template>
-  <h2>Finish</h2>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi explicabo deleniti ut neque aliquam
-  laboriosam maiores obcaecati, reiciendis architecto magnam, error tenetur, nostrum inventore ipsa
-  velit amet dignissimos nobis exercitationem.
+  <!-- begin::Title -->
+  <div class="mb-10">
+    <h4 class="text-primary mb-2 neue-machina fw-normal">Finish</h4>
+    <p class="mb-0 ls-base">Congratulations</p>
+  </div>
+  <!-- begin::Title -->
+
+  <div>
+    <img src="/media/images/banner/finish.png" alt="finish" class="img-fluid d-block m-auto">
+  </div>
 </template>

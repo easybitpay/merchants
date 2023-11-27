@@ -1,4 +1,36 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+
+// Emit
+const emit = defineEmits(['goNext'])
+
+// ----- START ----- //
+const term = ref(false)
+
+// Functions
+
+/**
+ * Submit Form
+ * send data to parent for store
+ */
+const submitForm = () => {
+  if (term.value) {
+    // Set Variable
+    const content = {
+      agree: term.value
+    }
+
+    // Emit
+    emit('goNext', content)
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('submitStep0', function () {
+    submitForm()
+  })
+})
+</script>
 
 <template>
   <div class="d-flex flex-column justify-content-between flex-root h-100">
@@ -31,8 +63,17 @@
     </div>
 
     <div class="form-check">
-      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" :checked="true" />
-      <label class="form-check-label fw-medium fs-5" for="flexRadioDefault1"> Aggre with Term & Conditions </label>
+      <input
+        class="form-check-input cursor-pointer"
+        type="radio"
+        name="flexRadioDefault"
+        id="createAppTerm"
+        :checked="term"
+        @click="term = !term"
+      />
+      <label class="form-check-label cursor-pointer fw-medium fs-5" for="createAppTerm">
+        Aggre with Term & Conditions
+      </label>
     </div>
   </div>
 </template>

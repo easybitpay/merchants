@@ -16,7 +16,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    required: true
+    required: false
   },
   items: {
     type: Array,
@@ -54,6 +54,10 @@ const props = defineProps({
   svgIcon: {
     type: String,
     required: false
+  },
+  width: {
+    Type: String,
+    default: '100'
   }
 })
 
@@ -129,7 +133,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="dropdown w-100" id="selectDropdown">
+  <div :class="`dropdown w-${width}`" id="selectDropdown">
     <a
       :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"

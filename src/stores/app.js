@@ -35,6 +35,10 @@ export const useAppStore = defineStore('app', () => {
     selectedApp.value = filteredApp[0]
   }
 
+  function addNewApp(appInfo) {
+    appList.value.push(appInfo)
+  }
+
   function updataAppInfo(appInfo) {
     const elementPos = appList.value
       .map(function (x) {
@@ -158,6 +162,43 @@ export const useAppStore = defineStore('app', () => {
 
       //
       updataAppInfo(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Create App
+   * @param {fd} payload
+   */
+  async function createApp(payload) {
+    try {
+      const { data } = await api.post('apps', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      addNewApp(data)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Verify App Domain
+   * @param {app merchant id} payload
+   */
+  async function verifyAppDomain(payload) {
+    try {
+      await api.get(`apps/${payload}/domain`)
 
       //
       return true
@@ -320,6 +361,8 @@ export const useAppStore = defineStore('app', () => {
     getAppList,
     setSelectedApp,
     updateApp,
+    createApp,
+    verifyAppDomain,
     getAppInvoices,
     getAppTokenBalance,
     setSandBoxStatus,

@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // Component
 import WizardItem from '../../components/globals/wizard/WizardItem.vue'
@@ -45,12 +45,55 @@ const steps = [
   }
 ]
 
+// Refs
 const activeStep = ref(0)
+const loading = ref(false)
+const appInfo = ref({})
+const createdAppInfo = ref({})
+
+// Computeds
+const nextButtonText = computed(() => {
+  if (appInfo.value.type && appInfo.value.type.type == 1) {
+    if (activeStep.value === 4) return 'Verify'
+
+    return 'Continue'
+  } else {
+    return 'Continue'
+  }
+})
+
+// Functions
+const changeLoadingStatus = (status) => {
+  loading.value = status
+}
 
 const next = () => {
   if (activeStep.value < steps.length - 1) {
     activeStep.value++
   }
+}
+
+const prev = () => {
+  if (activeStep.value > 0) {
+    activeStep.value--
+  }
+}
+
+const goNext = (info) => {
+  for (const [key, value] of Object.entries(info)) {
+    appInfo.value[key] = value
+  }
+
+  console.log(appInfo.value)
+  next()
+}
+
+const setCreatedAppInfo = (info) => {
+  createdAppInfo.value = info
+}
+
+const submitForm = () => {
+  document.dispatchEvent(new CustomEvent(`submitStep${activeStep.value}`))
 }
 </script>
 
@@ -69,14 +112,48 @@ const next = () => {
           :step="index"
           :info="item"
         >
-          <component :is="item.component" />
+          <component
+            :is="item.component"
+            @goNext="goNext"
+            @setCreatedAppInfo="setCreatedAppInfo"
+            @changeLoadingStatus="changeLoadingStatus"
+            :appInfo="appInfo"
+            :createdAppInfo="createdAppInfo"
+          />
         </WizardItem>
       </div>
     </div>
 
     <!-- begin::Actions -->
-    <div>
-      <button class="btn btn-primary" @click="next">Continue</button>
+    <div class="d-flex flex-wrap gap-4 mt-10">
+      <button type="button" @click="prev" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
+        <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
+      </button>
+
+      <button
+        :disabled="loading"
+        class="btn btn-primary w-184px"
+        @click="submitForm"
+        v-if="activeStep != 5"
+      >
+        {{ loading ? 'Loading...' : nextButtonText }}
+      </button>
+
+      <RouterLink
+        :to="{ name: 'application-overview', params: { id: createdAppInfo.id } }"
+        v-if="activeStep === 5"
+        class="btn btn-primary w-184px"
+      >
+        Go to App
+      </RouterLink>
+
+      <button
+        class="btn btn-primary w-184px"
+        @click="next"
+        v-if="appInfo?.type?.type == 1 && activeStep === 4"
+      >
+        Skip
+      </button>
     </div>
     <!-- end::Actions -->
   </div>

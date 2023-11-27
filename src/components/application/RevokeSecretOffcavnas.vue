@@ -13,6 +13,10 @@ const otpInputValue = ref('')
 const getNewSecret = async () => {
   console.log('12')
 }
+
+const copyAndClose = () => {
+  console.log('1232')
+}
 </script>
 
 <template>
@@ -155,6 +159,7 @@ const getNewSecret = async () => {
 
                 <button
                   v-else
+                  @click="copyAndClose"
                   type="button"
                   class="btn btn-sm btn-primary w-100 w-sm-initial h-24px ls-base"
                 >

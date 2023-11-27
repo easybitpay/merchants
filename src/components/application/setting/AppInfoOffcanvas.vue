@@ -32,7 +32,6 @@ const generalForm = ref({
   site_url: '',
   callback_url: '',
   redirect_url: '',
-  amount: '',
   need_name: false,
   need_email: false
 })
