@@ -1,4 +1,4 @@
-const sandbox = localStorage.getItem('sandbox')
+const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
 if (sandbox) {
   document.body.classList.add('sandbox')
 }

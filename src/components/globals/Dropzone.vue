@@ -33,7 +33,7 @@ export default {
     <input v-bind="getInputProps()" />
     <div class="dz-message needsclick d-flex align-items-center gap-2">
       <!--begin::Icon-->
-      <inline-svg src="media/icons/icons/photo.svg"></inline-svg>
+      <inline-svg src="media/icons/icons/photo.svg" class="svg-icon-cyan-500"></inline-svg>
       <!--end::Icon-->
       <!--begin::Info-->
       <p class="m-0 fs-7 text-cyan-500 ls-sm lh-1">Drag your File Here</p>

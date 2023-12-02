@@ -52,7 +52,7 @@ const clicked = () => {
     >
       <!-- begin::Title -->
       <div :class="`d-flex align-items-center gap-${gap}`">
-        <inline-svg src="media/icons/icons/clock.svg" height="24"></inline-svg>
+        <inline-svg src="media/icons/icons/clock.svg" height="24" class="svg-icon-cyan-500"></inline-svg>
         <p
           :class="[
             { 'mb-0 fs-7 text-gray-900 d-flex align-items-center gap-3': true },

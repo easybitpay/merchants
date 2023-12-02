@@ -166,7 +166,7 @@ onMounted(() => {
         src="media/icons/icons/close.svg"
         data-bs-dismiss="offcanvas"
         aria-label="Close"
-        class="d-block mx-auto mb-4 cursor-pointer"
+        class="d-block mx-auto mb-4 cursor-pointer svg-icon-primary"
       ></inline-svg>
 
       <form @submit.prevent="updateContactInfo">

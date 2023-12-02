@@ -2,7 +2,7 @@
 // Text
 //
 // Text colors
-[data-bs-theme='light'] {
+// [data-bs-theme='light'] {
 
     @each $name,
     $color in $theme-text-colors {
@@ -45,52 +45,52 @@
             }
         }
     }
-}
+// }
 
-[data-bs-theme='dark'] {
+// [data-bs-theme='dark'] {
 
-    @each $name,
-    $color in $theme-dark-text-colors {
+//     @each $name,
+//     $color in $theme-dark-text-colors {
 
-        // Base
-        .text-#{$name} {
-            color: $color !important;
-        }
+//         // Base
+//         .text-#{$name} {
+//             color: $color !important;
+//         }
 
-        // Hover
-        .text-hover-#{$name} {
-            cursor: pointer;
+//         // Hover
+//         .text-hover-#{$name} {
+//             cursor: pointer;
 
-            &:hover {
-                color: $color !important;
+//             &:hover {
+//                 color: $color !important;
 
-                i {
-                    color: $color !important;
-                }
+//                 i {
+//                     color: $color !important;
+//                 }
 
-                .svg-icon {
-                    path {
-                        stroke: $color;
-                    }
-                }
-            }
-        }
+//                 .svg-icon {
+//                     path {
+//                         stroke: $color;
+//                     }
+//                 }
+//             }
+//         }
 
-        // Active Parent
-        .active-box {
-            .active-parent-text-#{$name} {
-                color: $color;
-            }
-        }
+//         // Active Parent
+//         .active-box {
+//             .active-parent-text-#{$name} {
+//                 color: $color;
+//             }
+//         }
 
-        // Placeholder
-        .placeholder-#{$name} {
-            &::placeholder {
-                color: $color;
-            }
-        }
-    }
-}
+//         // Placeholder
+//         .placeholder-#{$name} {
+//             &::placeholder {
+//                 color: $color;
+//             }
+//         }
+//     }
+// }
 
 // Letter Spacing
 $letter-spacings: ("sm": -.02rem, "base": .006rem) !default;
