@@ -28,10 +28,26 @@ export default function useConvertDate() {
     return moment.unix(date).local().fromNow()
   }
 
+  /**
+   * Convert Unix To Date
+   */
+  const conevrtUnixToDate = (date, format) => {
+    return moment.unix(date).local().format(format)
+  }
+
+  /**
+   * Create Timestamp
+   */
+  const createTimestamp = () => {
+    return moment().unix();
+  }
+
   return {
     convertDate,
     convertAddDate,
     convertDateFromNow,
     convertUnixFromNow,
+    conevrtUnixToDate,
+    createTimestamp
   }
 }

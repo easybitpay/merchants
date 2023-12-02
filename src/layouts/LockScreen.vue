@@ -2,21 +2,20 @@
 // Vue
 import { computed, onMounted, ref } from 'vue'
 
-// Router
-import { useRouter } from 'vue-router'
-
 // Store
 import { useAuthStore } from '@/stores/auth'
 
+// Hooks
+import useCrypto from '@/hooks/useCrypto.js'
+
 // Component
 import VOtpInput from 'vue3-otp-input'
-import CountDown from '../components/globals/CountDown.vue'
 
 // ----- START ----- //
 
 // Generals
 const store = useAuthStore()
-const router = useRouter()
+const { decriptCrypto } = useCrypto()
 
 // Refs
 const timeout = ref(null)
@@ -39,9 +38,18 @@ const changeBG = () => {
 }
 
 const unlock = async () => {
-  if (otpInputValue.value.length == 6) {
-    closeLockScreen()
-    otpInputValue.value = ''
+  if (otpInputValue.value.length == 4) {
+    const status = localStorage.getItem('lockScreenInfo')
+    const parsedInfo = JSON.parse(status)
+
+    const decriptedPassword = decriptCrypto(parsedInfo.password, otpInputValue.value)
+
+    if (decriptedPassword) {
+      closeLockScreen()
+      otpInputValue.value = ''
+    } else {
+      changeBG()
+    }
   } else {
     changeBG()
   }
@@ -53,7 +61,8 @@ const closeLockScreen = () => {
 
 const goLogin = () => {
   store.changeLockScreenStatus(false)
-  router.push({ name: 'login' })
+  store.logout()
+  window.location.reload()
 }
 
 onMounted(() => {
@@ -75,8 +84,8 @@ onMounted(() => {
           <!-- end::Logo -->
 
           <!-- begin::Card -->
-          <form @submit.prevent="unlock">
-            <div class="card mw-448px w-100">
+          <form @submit.prevent="unlock" class="mw-448px w-100">
+            <div class="card">
               <div class="card-body">
                 <!-- begin::Icon -->
                 <inline-svg src="/media/icons/shapes/unlock.svg"></inline-svg>
@@ -86,24 +95,24 @@ onMounted(() => {
                 <h4 class="my-6 text-dark">Unlock</h4>
 
                 <p class="text-gray-700 mb-12 ls-base">
-                  A 6-digit confirmation code has been sent
-                  <br />
-                  to 810-089-5940 via SMS.
-                  <span href="" class="text-primary"> <CountDown /></span>
+                  Enter your 4 digits lock screen code to unlock
                 </p>
                 <!-- end::Text -->
 
                 <!-- begin::OTP -->
-                <div class="otp-input mb-16">
-                  <VOtpInput
-                    ref="otpInput"
-                    v-model:value="otpInputValue"
-                    input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
-                    separator=""
-                    :num-inputs="6"
-                    :should-auto-focus="true"
-                    input-type="numeric"
-                  />
+                <div class="d-flex align-items-center justify-content-center mb-16">
+                  <div class="otp-input otp-input-center">
+                    <VOtpInput
+                      ref="otpInput"
+                      input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
+                      separator=""
+                      :num-inputs="4"
+                      :should-auto-focus="true"
+                      input-type="numeric"
+                      v-model:value="otpInputValue"
+                      @on-complete="unlock"
+                    />
+                  </div>
                 </div>
                 <!-- end::OTP -->
 

@@ -1,3 +1,8 @@
+const sandbox = localStorage.getItem('sandbox')
+if (sandbox) {
+  document.body.classList.add('sandbox')
+}
+
 import './assets/sass/styles.scss'
 
 import { createApp } from 'vue'
@@ -37,7 +42,7 @@ import InlineSvg from 'vue-inline-svg'
 app.component('inline-svg', InlineSvg)
 
 import BoxLoading from '@/components/globals/BoxLoading.vue'
-app.component("BoxLoading", BoxLoading);
+app.component('BoxLoading', BoxLoading)
 
 import 'vue-skeletor/dist/vue-skeletor.css'
 import { Skeletor } from 'vue-skeletor'

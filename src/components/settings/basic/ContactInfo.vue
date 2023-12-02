@@ -1,5 +1,6 @@
 <script setup>
 // Vue
+import { computed } from 'vue'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
@@ -7,7 +8,6 @@ import { useAuthStore } from '@/stores/auth'
 // Components
 import ContactInfoOffcanvas from './ContactInfoOffcanvas.vue'
 import TextColumn from '../../globals/TextColumn.vue'
-import { computed } from 'vue'
 
 // ----- START ----- //
 

@@ -22,7 +22,12 @@ const props = defineProps({
 
     <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
       <div
-        class="w-100 w-lg-initial d-flex justify-content-between justify-content-lg-start text-hover-primary hover-sm-show-parent text-break"
+        :class="[
+          {
+            'w-100 w-lg-initial d-flex justify-content-between justify-content-lg-start text-break': true
+          },
+          { 'text-hover-primary hover-sm-show-parent': canvasId }
+        ]"
         :data-bs-toggle="canvasId ? 'offcanvas' : ''"
         :data-bs-target="canvasId ? `#${canvasId}` : ''"
         :aria-controls="canvasId ? `${canvasId}` : ''"
@@ -30,6 +35,7 @@ const props = defineProps({
         {{ content }}
 
         <inline-svg
+          v-if="canvasId"
           src="media/icons/icons/arrow-right.svg"
           class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
         ></inline-svg>

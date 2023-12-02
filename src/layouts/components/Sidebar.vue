@@ -1,8 +1,9 @@
 <script setup>
-import { Collapse } from 'bootstrap'
-
 // Vue
 import { computed, onMounted, ref, watch } from 'vue'
+
+// Router
+import { useRouter } from 'vue-router'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
@@ -22,6 +23,7 @@ const emit = defineEmits(['changeSidebarStatus'])
 // ----- START ----- //
 
 // Generals
+const router = useRouter()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
@@ -33,12 +35,20 @@ const search = ref('')
 
 // Computeds
 const appList = computed(() => appStore.appList)
+const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Lock')
 
 // Functions
+
+/**
+ * Change Sibedar
+ */
 const changeSidebar = () => {
   emit('changeSidebarStatus')
 }
 
+/**
+ * Check Inner Width For Change Sidebar
+ */
 const checkInnerWidth = () => {
   const innerWidth = window.innerWidth
 
@@ -49,8 +59,43 @@ const checkInnerWidth = () => {
 
 checkInnerWidth()
 
+const authActionClick = () => {
+  if (prevAuthAction.value === 'Lock') {
+    lockScreen()
+  } else {
+    signOut()
+  }
+}
+
+/**
+ * Show Lock Screen
+ */
 const showLockScreen = () => {
   authStore.changeLockScreenStatus(true)
+}
+
+/**
+ * Lock Screen Function
+ * check for show lock screen or go to privacy page to set
+ */
+const lockScreen = () => {
+  const lockScreenStatus = localStorage.getItem('lockScreenInfo')
+
+  if (lockScreenStatus) {
+    localStorage.setItem('prevAuthAction', 'Lock')
+    showLockScreen()
+  } else {
+    router.push({ name: 'settings-privacy' })
+  }
+}
+
+/**
+ * Sign Out User
+ */
+const signOut = () => {
+  localStorage.setItem('prevAuthAction', 'Sign out')
+  authStore.logout()
+  window.location.reload()
 }
 
 watch(sandbox, () => {
@@ -216,15 +261,52 @@ watch(sandbox, () => {
         <!-- end::Link -->
 
         <!-- begin::Lock -->
-        <div class="link" @click="showLockScreen">
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/lock-unlocked.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
+        <!-- begin::Collapse Link -->
+        <div class="collapse-box">
+          <div class="collapse-link">
+            <a class="link pe-0" @click="authActionClick">
+              <!-- begin::icon -->
+              <div>
+                <inline-svg src="media/icons/icons/lock-unlocked.svg" class="icon"></inline-svg>
+              </div>
+              <!-- end::icon -->
 
-          <span>Lock</span>
+              <span>{{ prevAuthAction }}</span>
+            </a>
+
+            <!-- begin::icon -->
+            <inline-svg
+              src="media/icons/icons/chevron-down.svg"
+              data-bs-toggle="collapse"
+              data-bs-target="#authActionsCollapse"
+              aria-expanded="false"
+              aria-controls="authActionsCollapse"
+            ></inline-svg>
+            <!-- end::icon -->
+          </div>
+
+          <div class="collapse collapse-box" id="authActionsCollapse">
+            <div class="box">
+              <a class="item cursor-pointer" @click="lockScreen">
+                <div>
+                  <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
+                </div>
+
+                <span class="fs-6">Lock</span>
+              </a>
+
+              <a class="item cursor-pointer" @click="signOut">
+                <div>
+                  <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
+                </div>
+
+                <span class="fs-6">Sign out</span>
+              </a>
+            </div>
+          </div>
         </div>
+
+        <!-- end::Collapse Link -->
         <!-- end::Lock -->
 
         <!-- begin::SandBox -->
