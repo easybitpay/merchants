@@ -1519,7 +1519,7 @@ $card-title-spacer-y:               $spacer * .5 !default;
 $card-title-color:                  null !default;
 $card-subtitle-color:               null !default;
 $card-border-width:                 var(--#{$prefix}border-width) !default;
-$card-border-color:                 var(--#{$prefix}border-color) !default;
+$card-border-color:                 var(--#{$prefix}gray-200) !default;
 $card-border-radius:                var(--#{$prefix}border-radius-lg) !default;
 $card-box-shadow:                   null !default;
 $card-inner-border-radius:          subtract($card-border-radius, $card-border-width) !default;

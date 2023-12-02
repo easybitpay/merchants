@@ -16,10 +16,7 @@ export const useTicketStore = defineStore('ticket', () => {
       const { data } = await api.get('tickets/departments')
 
       //
-      console.log(data)
-
-      //
-      return true
+      return data
     } catch (error) {
       return false
     }
@@ -68,7 +65,30 @@ export const useTicketStore = defineStore('ticket', () => {
    */
   async function replyTicket(payload) {
     try {
-      const { data } = await api.post(`tickets/${payload.id}/reply`, payload.fd)
+      const { data } = await api.post(`tickets/${payload.id}/reply`, payload.fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Create New Ticket
+   * @param {form} payload
+   */
+  async function createNewTicket(payload) {
+    try {
+      const { data } = await api.post('tickets', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
 
       //
       return data
@@ -81,6 +101,7 @@ export const useTicketStore = defineStore('ticket', () => {
     getTicketDepartments,
     getTicketList,
     getTicketDetail,
-    replyTicket
+    replyTicket,
+    createNewTicket
   }
 })

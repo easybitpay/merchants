@@ -18,7 +18,7 @@ const props = defineProps({
     default: '6'
   },
   count: {
-    type: String,
+    type: Number,
     required: true
   },
   loading: {

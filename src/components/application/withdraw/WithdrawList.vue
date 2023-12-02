@@ -128,7 +128,7 @@ watch(selectedSort, () => {
                 <PaginationCard
                   :bold="false"
                   text="Show More Withdraws"
-                  count="15"
+                  :count="15"
                   :loading="loadings.pagination"
                   @clicked="get_app_withdraws(currentPage + 1)"
                 />

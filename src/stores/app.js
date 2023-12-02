@@ -361,6 +361,79 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  /**
+   * Get Custom Tokens List
+   */
+  async function getCustomTokensList(payload) {
+    try {
+      const { data } = await api.get('tokens/list-custom', {
+        params: payload
+      })
+
+      //
+      const list = data.data
+      const lastPage = data.meta.last_page
+
+      //
+      return { list, lastPage }
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Contract Info
+   * @param {network_id, contract} payload
+   */
+  async function getContractInfo(payload) {
+    try {
+      const { data } = await api.post('tokens/fetch-custom', payload)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Create Custom Token
+   * @param {contract_address, network_id, price, logo} payload
+   */
+  async function createCustomToken(payload) {
+    try {
+      await api.post('tokens/create-custom', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Update Custom Token
+   * @param {id, fd} payload 
+   */
+  async function updateCustomToken(payload) {
+    try {
+      const { data } = await api.post(`tokens/${payload.id}`, payload.fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     appList,
     appLoading,
@@ -391,6 +464,10 @@ export const useAppStore = defineStore('app', () => {
     withdrawResendEmail,
     confirmWithdraw,
     getAppWithdraws,
-    getFAQList
+    getFAQList,
+    getCustomTokensList,
+    createCustomToken,
+    updateCustomToken,
+    getContractInfo
   }
 })

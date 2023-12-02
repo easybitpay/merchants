@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
@@ -16,7 +16,9 @@ import 'swiper/css'
 
 // Components
 import FAQItem from '../../../components/help/faq/FAQItem.vue'
+import CategoryItem from '../../../components/globals/CategoryItem.vue'
 import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
+import CategoryItemLoading from '../../../components/loadings/CategoryItemLoading.vue'
 
 // ----- START ----- //
 
@@ -27,6 +29,13 @@ const { checkActiveAccordion } = useAccordion()
 // Refs
 const loading = ref(false)
 const list = ref([])
+const categories = ref([])
+const selectedCategory = ref('')
+
+// Computeds
+const filteredList = computed(() => {
+  return list.value.filter((item) => item.category_id == selectedCategory.value)
+})
 
 // Functions
 
@@ -40,7 +49,9 @@ const getFAQList = async () => {
   // Request
   await store.getFAQList().then((res) => {
     if (res) {
-      list.value = res
+      categories.value = res.faq_categories
+      list.value = res.faqs
+      selectedCategory.value = categories.value[0].id
     }
   })
 
@@ -78,141 +89,41 @@ onMounted(async () => {
       }"
       class="mySwiper swiper-tab"
     >
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-gray-200 cursor-pointer">
-          <div class="card-body p-4 text-gray-800">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/wallet.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
+      <template v-if="loading">
+        <SwiperSlide v-for="item in 2" :key="item">
+          <CategoryItemLoading />
+        </SwiperSlide>
+      </template>
 
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Payments overview
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">19 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-primary cursor-pointer transition-all active-box active-tab-shadow">
-          <div class="card-body p-4 text-gray-800">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/coin.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
-
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Currency conversion
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">17 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-gray-200 cursor-pointer">
-          <div class="card-body p-4 text-gray-800">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/person.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
-
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Hosted checkout
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">17 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-gray-200 cursor-pointer">
-          <div class="card-body p-4 text-gray-800">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/trash.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
-
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Security & Protection
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">17 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-gray-200 cursor-pointer">
-          <div class="card-body p-4 text-gray-800">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/message.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
-
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Payment buttons
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">17 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
-      <SwiperSlide>
-        <!-- begin::Card -->
-        <div class="card border-gray-200 cursor-pointer">
-          <div class="card-body p-4">
-            <!-- begin::Icon -->
-            <inline-svg src="media/icons/shapes/transfer.svg" height="33"></inline-svg>
-            <!-- end::Icon -->
-
-            <!-- begin::Title -->
-            <h5 class="mt-5 mb-4 neue-machina h-48px active-parent-text-primary">
-              Settlement & Transfer
-            </h5>
-            <!-- end::Title -->
-
-            <!-- begin::Count -->
-            <small class="text-gray-500">17 FAQ</small>
-            <!-- end::Count -->
-          </div>
-        </div>
-        <!-- end::Card -->
-      </SwiperSlide>
+      <template v-else>
+        <SwiperSlide v-for="item in categories" :key="item.id" @click="selectedCategory = item.id">
+          <CategoryItem
+            :active="selectedCategory === item.id"
+            :title="item.title"
+            icon="wallet"
+            :subject="`${item.count} FAQ`"
+          />
+        </SwiperSlide>
+      </template>
     </Swiper>
   </div>
   <!-- end::Categories -->
 
   <AccordionItemLoading v-if="loading" />
 
-  <!-- begin::Accordion -->
-  <div class="accordion" id="faqAccordion">
-    <FAQItem v-for="(item, index) in list" :key="index" :item="item" />
-  </div>
-  <!-- end::Accordion -->
+  <template v-else>
+    <!-- begin::Accordion -->
+    <div class="accordion" id="faqAccordion">
+      <FAQItem v-for="(item, index) in filteredList" :key="index" :item="item" />
+    </div>
+    <!-- end::Accordion -->
+
+    <!-- begin::No FAQ Image -->
+    <inline-svg
+      v-if="!filteredList.length"
+      src="/media/icons/shapes/no-ticket.svg"
+      class="d-block mx-auto mt-10"
+    ></inline-svg>
+    <!-- end::No FAQ Image -->
+  </template>
 </template>

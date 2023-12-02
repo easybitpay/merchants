@@ -90,7 +90,7 @@ const addCoverFile = async (e) => {
     <div class="card-body d-flex flex-column">
       <!-- begin::Logo -->
       <img
-        :src="storageImage(selectedApp.logo, 48)"
+        :src="selectedApp.logo ? storageImage(selectedApp.logo, 48) : '/media/images/banner/default-app.png'"
         :alt="selectedApp.name"
         class="img-fluid mb-10 mb-lg-16"
         width="48"
