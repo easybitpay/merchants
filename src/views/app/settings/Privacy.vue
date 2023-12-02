@@ -1,6 +1,6 @@
 <script setup>
 // Componets
-import TwoFa from '../../../components/settings/privacy/TwoFa.vue'
+import TwoFa from '../../../components/settings/privacy/SignIn.vue'
 import KYC from '../../../components/settings/privacy/KYC.vue'
 
 // ----- START ----- //

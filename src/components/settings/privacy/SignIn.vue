@@ -7,6 +7,8 @@ import { useAuthStore } from '@/stores/auth'
 
 // Componets
 import TwoFaOffcanvas from './TwoFaOffcanvas.vue'
+import TextColumn from '../../globals/TextColumn.vue'
+import UpdatePasswordOffcanvas from './UpdatePasswordOffcanvas.vue'
 
 // ----- START ----- //
 
@@ -74,10 +76,15 @@ onMounted(() => {
         </div>
       </div>
       <!-- end::Item -->
+
+      <!-- begin::Item -->
+      <TextColumn title="Password" content="Change Password" canvasId="updatePassword_offcanvas" />
+      <!-- end::Item -->
     </div>
     <!-- end::Content -->
   </div>
   <!-- end::Sign -->
 
   <TwoFaOffcanvas @change2FaToggleStatus="change2FaToggleStatus" />
+  <UpdatePasswordOffcanvas />
 </template>

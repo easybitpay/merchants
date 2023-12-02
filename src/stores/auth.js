@@ -29,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // ----- Function -----
   function changeLockScreenStatus(status) {
-    console.log(status);
+    console.log(status)
     if (status) {
       lockScreen.value = 'active'
       localStorage.setItem('lockScreenStatus', 'active')
@@ -230,6 +230,25 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Update Password
+   * @param {form} payload
+   */
+  async function updatePassword(payload) {
+    try {
+      await api.post('merchants/password', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Disable 2FA
    * @param {form} payload
    */
@@ -299,21 +318,21 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-    /**
+  /**
    * Delete KYC Document
    * @param {id} payload
    */
 
-    async function deleteKYC(payload) {
-      try {
-        await api.delete(`merchant-documents/${payload}`)
-  
-        //
-        return true
-      } catch (error) {
-        return false
-      }
+  async function deleteKYC(payload) {
+    try {
+      await api.delete(`merchant-documents/${payload}`)
+
+      //
+      return true
+    } catch (error) {
+      return false
     }
+  }
 
   return {
     currentUser,
@@ -330,6 +349,7 @@ export const useAuthStore = defineStore('auth', () => {
     updateProfile,
     changeLockScreenStatus,
     get2FAInfo,
+    updatePassword,
     disable2FA,
     enable2FA,
     KYCList,
