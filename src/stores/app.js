@@ -24,32 +24,64 @@ export const useAppStore = defineStore('app', () => {
   const distinctTokens = ref([])
   const networks = ref([])
 
+  const partnerListKey = ref(0)
+
   const selectedWithdrawItem = ref({})
 
   const sandBoxStatus = computed(() => JSON.parse(localStorage.getItem('sandbox') || 'false'))
 
   // ----- Function -----
 
+  /**
+   * Set Selected App
+   */
   function setSelectedApp(appId) {
     const filteredApp = appList.value.filter((item) => item.id == appId)
     selectedApp.value = filteredApp[0]
   }
 
+  /**
+   * Add New App
+   */
   function addNewApp(appInfo) {
     appList.value.push(appInfo)
   }
 
+  /**
+   * Update App Info
+   */
   function updataAppInfo(appInfo) {
     const elementPos = appList.value
       .map(function (x) {
         return x.id
       })
       .indexOf(appInfo.id)
+
     appList.value[elementPos] = appInfo
 
     setSelectedApp(appInfo.id)
   }
 
+  /**
+   * Update App Sstatus
+   */
+  function updataAppStatus(appId) {
+    for (let i = 0; i < appList.value.length; i++) {
+      const element = appList.value[i]
+
+      if (element.id == appId) {
+        let currentStatus = appList.value[i].status
+        appList.value[i].status = currentStatus == 1 ? 0 : 1
+
+        selectedApp(appId)
+        break
+      }
+    }
+  }
+
+  /**
+   * Set Sandbox Status
+   */
   function setSandBoxStatus(data) {
     localStorage.setItem('sandbox', JSON.stringify(data))
 
@@ -59,8 +91,19 @@ export const useAppStore = defineStore('app', () => {
     }, 500)
   }
 
+  /**
+   * Set Selected Withdraw Item
+   */
   function setSelectedWithdrawItem(withdrawItem) {
     selectedWithdrawItem.value = withdrawItem
+  }
+
+  /**
+   * Change Partner refresh key
+   * for update partners list
+   */
+  function refreshPartnersList() {
+    partnerListKey.value++
   }
 
   /**
@@ -72,6 +115,55 @@ export const useAppStore = defineStore('app', () => {
 
       //
       shareAppStatus.value = data
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Shared App Holders
+   * @param {app id} payload
+   */
+  async function getAppShareHolders(payload) {
+    try {
+      const { data } = await api.get('app/get-app-share-holders', {
+        params: {
+          appId: payload
+        }
+      })
+
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Update Shared App
+   * @param {search params} payload
+   */
+  async function updateSharedApp(payload) {
+    try {
+      const { data } = await api.get('app/update-shared-app', {
+        params: payload
+      })
+
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Delete App Share Holder
+   */
+  async function deleteAppShareHolder(payload) {
+    try {
+      await api.get('app/delete-shared-app', {
+        params: payload
+      })
 
       return true
     } catch (error) {
@@ -162,6 +254,24 @@ export const useAppStore = defineStore('app', () => {
 
       //
       updataAppInfo(data)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Change Gateway Status
+   * @param {app id} payload
+   */
+  async function changeGatewayStatus(payload) {
+    try {
+      const { data } = await api.get(`apps/${payload}/toggle-status`)
+
+      //
+      updataAppStatus(data.app.id)
 
       //
       return true
@@ -417,7 +527,7 @@ export const useAppStore = defineStore('app', () => {
 
   /**
    * Update Custom Token
-   * @param {id, fd} payload 
+   * @param {id, fd} payload
    */
   async function updateCustomToken(payload) {
     try {
@@ -434,6 +544,56 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  /**
+   * Get App Themes
+   * @param {app id} payload
+   */
+  async function getAppThemes(payload) {
+    try {
+      const { data } = await api.get(`apps/${payload}/themes`)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Transactions History
+   * @param {from date, to date} payload
+   */
+  async function getTransactiosnHistory(payload) {
+    try {
+      const { data } = await api.post('charts/transactions-history', payload)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Invoices List
+   */
+  async function getInvoices(payload) {
+    try {
+      const { data } = await api.get('merchants/latest-invoices', {
+        params: payload
+      })
+      //
+
+      //
+      const list = data.data
+      const lastPage = data.meta.last_page
+
+      return { list, lastPage }
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     appList,
     appLoading,
@@ -444,14 +604,20 @@ export const useAppStore = defineStore('app', () => {
     shareAppStatus,
     sandBoxStatus,
     selectedWithdrawItem,
+    partnerListKey,
 
     getShareAppStatuses,
+    getAppShareHolders,
+    deleteAppShareHolder,
+    updateSharedApp,
+    refreshPartnersList,
     getTokens,
     getAppTokens,
     getNetworks,
     getAppList,
     setSelectedApp,
     updateApp,
+    changeGatewayStatus,
     createApp,
     verifyAppDomain,
     revokeSecret,
@@ -468,6 +634,9 @@ export const useAppStore = defineStore('app', () => {
     getCustomTokensList,
     createCustomToken,
     updateCustomToken,
-    getContractInfo
+    getContractInfo,
+    getAppThemes,
+    getTransactiosnHistory,
+    getInvoices
   }
 })
