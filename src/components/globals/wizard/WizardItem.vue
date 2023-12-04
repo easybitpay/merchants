@@ -14,7 +14,13 @@ const props = defineProps({
 </script>
 <template>
   <div :class="`col-12 ${step === activeStep ? 'col-xl-6' : 'col-xl'}`">
-    <div :class="[{ 'card wizard-item': true }, { 'wizard-active': step === activeStep }]">
+    <div
+      :class="[
+        { 'card wizard-item': true },
+        { 'wizard-prev': step < activeStep },
+        { 'wizard-active': step === activeStep }
+      ]"
+    >
       <div class="card-body p-0">
         <div class="wizard-data p-6" v-show="step === activeStep">
           <slot></slot>
@@ -29,7 +35,13 @@ const props = defineProps({
             <small class="text-gray-500 ls-base">{{ info.subject }}</small>
           </div>
 
-          <h5 class="mb-0 mb-xl-2 text-gray-500 neue-machina fw-normal text-center">0{{ step + 1 }}</h5>
+          <h5
+            :class="`mb-0 mb-xl-2 text-${
+              step < activeStep ? 'primary' : 'gray-500'
+            } neue-machina fw-normal text-center`"
+          >
+            0{{ step + 1 }}
+          </h5>
         </div>
         <!-- end::Info Show -->
       </div>
