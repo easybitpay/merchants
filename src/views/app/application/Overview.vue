@@ -21,11 +21,11 @@ const selectedApp = computed(() => store.selectedApp)
 </script>
 
 <template>
-  <ApplicationCard action="status" :app="selectedApp" />
+  <ApplicationCard action="action" :app="selectedApp" />
 
   <ApiKey />
 
   <Charts />
 
-  <Partners />
+  <Partners v-if="selectedApp.share_type === 'owner'" />
 </template>

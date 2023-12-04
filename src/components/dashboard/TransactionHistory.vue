@@ -1,6 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+// Vue
+import { onMounted, ref } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Moment
+import moment from 'moment'
+
+// Hooks
+import useConvertDate from '@/hooks/useConvertDate'
+
+// Chart Js
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -15,6 +26,21 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
+// ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { convertDate } = useConvertDate()
+
+// Refs
+const loading = ref(false)
+const chartKey = ref(0)
+
+// Chart
+
+/**
+ * Get Or Create Tooltip
+ */
 const getOrCreateTooltip = (chart) => {
   let tooltipEl = chart.canvas.parentNode.querySelector('.tooltipElement')
 
@@ -38,6 +64,9 @@ const getOrCreateTooltip = (chart) => {
   return tooltipEl
 }
 
+/**
+ * Tooltip Handler
+ */
 const externalTooltipHandler = (context) => {
   // Tooltip Element
   const { chart, tooltip } = context
@@ -99,80 +128,14 @@ const externalTooltipHandler = (context) => {
   tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px'
 }
 
-const getOrCreateLegendList = (chart, id) => {
-  const legendContainer = document.getElementById(id)
-  let listContainer = legendContainer.querySelector('ul')
-
-  if (!listContainer) {
-    listContainer = document.createElement('ul')
-
-    legendContainer.appendChild(listContainer)
-  }
-
-  return listContainer
-}
-
-const htmlLegendPlugin = {
-  id: 'htmlLegend',
-  afterUpdate(chart, args, options) {
-    const ul = getOrCreateLegendList(chart, options.containerID)
-
-    // Remove old legend items
-    while (ul.firstChild) {
-      ul.firstChild.remove()
-    }
-
-    // Reuse the built-in legendItems generator
-    const items = chart.options.plugins.legend.labels.generateLabels(chart)
-
-    items.forEach((item) => {
-      const li = document.createElement('li')
-
-      li.onclick = () => {
-        const { type } = chart.config
-        if (type === 'pie' || type === 'doughnut') {
-          // Pie and doughnut charts only have a single dataset and visibility is per item
-          chart.toggleDataVisibility(item.index)
-        } else {
-          chart.setDatasetVisibility(item.datasetIndex, !chart.isDatasetVisible(item.datasetIndex))
-        }
-        chart.update()
-      }
-
-      // Color box
-      const boxSpan = document.createElement('span')
-      boxSpan.style.background = item.fillStyle
-
-      // Text
-      const textContainer = document.createElement('p')
-      textContainer.style.textDecoration = item.hidden ? 'line-through' : ''
-
-      const text = document.createTextNode(item.text)
-      textContainer.appendChild(text)
-
-      li.appendChild(boxSpan)
-      li.appendChild(textContainer)
-      ul.appendChild(li)
-    })
-  }
-}
-
 const chartData = ref({
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  labels: [],
   datasets: [
     {
-      label: 'mini game',
-      data: [15, 12, 5, 6, 45, 45, 15],
+      label: 'Transactions',
+      data: [],
       borderColor: '#0062FF',
       backgroundColor: '#0062FF',
-      tension: 0.5,
-      pointStyle: 'circle'
-    },
-    {
-      label: 'kia',
-      data: [40, 39, 10, 2000, 39, 80, 40],
-      borderColor: '#3DD598',
-      backgroundColor: '#3DD598',
       tension: 0.5,
       pointStyle: 'circle'
     }
@@ -187,10 +150,6 @@ const chartOptions = ref({
       enabled: false,
       position: 'nearest',
       external: externalTooltipHandler
-    },
-    htmlLegend: {
-      // ID of the container to put the legend in
-      containerID: 'legend-container'
     },
     legend: {
       display: false
@@ -233,24 +192,59 @@ const chartOptions = ref({
     }
   }
 })
-const plugins = [htmlLegendPlugin]
+
+// Functions
+
+/**
+ * Get Transaction History
+ */
+const getTransactionHistory = async () => {
+  // Start Loading
+  loading.value = true
+
+  // Set Variable
+  const someDaysAgo = moment().subtract(15, 'day').toDate()
+  const toDay = moment().toDate()
+
+  let content = {
+    from_date: convertDate(someDaysAgo, 'YYYY-MM-DD'),
+    to_date: convertDate(toDay, 'YYYY-MM-DD')
+  }
+
+  // Request
+  await store.getTransactiosnHistory(content).then((res) => {
+    if (res) {
+      chartData.value.labels = res.labels
+      chartData.value.datasets[0].data = res.data
+
+      chartKey.value++
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
+}
+
+onMounted(() => {
+  getTransactionHistory()
+})
 </script>
 
 <template>
   <div class="card border-gray-200 rounded">
     <div class="card-body p-0">
       <!-- begin::Header -->
-      <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
-        <h4 class="neue-machina mb-0 text-gray-900 fw-normal">
+      <div class="p-6 pb-8">
+        <h4 class="neue-machina mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
           Transaction History
+          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
         </h4>
-        <div id="legend-container"></div>
       </div>
       <!-- end::Header -->
 
       <!-- begin::Chart -->
       <div class="h-400px">
-        <Line id="my-chart-id" :options="chartOptions" :data="chartData" :plugins="plugins" />
+        <Line :key="chartKey" id="my-chart-id" :options="chartOptions" :data="chartData" />
       </div>
       <!-- end::Chart -->
     </div>

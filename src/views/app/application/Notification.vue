@@ -16,7 +16,7 @@ const telegram = ref(true)
 </script>
 
 <template>
-  <ApplicationCard action="status" :app="selectedApp" />
+  <ApplicationCard action="action" :app="selectedApp" />
 
   <div class="table-responsive mt-6">
     <table class="table notification-table">

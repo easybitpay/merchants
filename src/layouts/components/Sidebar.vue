@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Router
 import { useRouter } from 'vue-router'
@@ -8,6 +8,9 @@ import { useRouter } from 'vue-router'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
+
+// Hook
+import useIconImage from '@/hooks/useIconImage'
 
 // Props
 const props = defineProps({
@@ -26,6 +29,7 @@ const emit = defineEmits(['changeSidebarStatus'])
 const router = useRouter()
 const authStore = useAuthStore()
 const appStore = useAppStore()
+const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
 const sandbox = ref(sandBoxStatus.value)
@@ -36,6 +40,7 @@ const search = ref('')
 // Computeds
 const appList = computed(() => appStore.appList)
 const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Lock')
+const currentUser = computed(() => authStore.currentUser)
 
 // Functions
 
@@ -361,24 +366,38 @@ watch(sandbox, () => {
     <div class="two-side-space w-100">
       <div class="user cursor-pointer">
         <div>
+          <!-- begin::Image Box -->
           <div class="w-40px h-40px position-relative">
-            <!-- begin::Image Box -->
-
+            <!-- begin::Image -->
             <img
-              src="/media/images/banner/auth-bg.jpg"
-              alt="user"
+              :src="
+                currentUser?.merchant?.avatar
+                  ? storageImage(currentUser.merchant.avatar)
+                  : '/media/images/banner/auth-bg.jpg'
+              "
+              :alt="currentUser?.merchant?.first_name"
               class="w-100 h-100 rounded-circle object-cover"
             />
+            <!-- end::Image -->
 
+            <!-- begin::Bullet -->
             <div class="w-8px h-8px rounded-circle bg-primary position-absolute bullet"></div>
-
-            <!-- end::Image Box -->
+            <!-- end::Bullet -->
           </div>
+          <!-- end::Image Box -->
         </div>
 
         <div>
-          <h6 class="neue-machina fw-light mb-0 lh-1 text-gray-800 name">Mohamad r.</h6>
-          <small class="mb-0 lh-1 text-gray-600 balance">145.25 $</small>
+          <h6 class="neue-machina fw-light mb-0 lh-1 text-gray-800 name">
+            {{
+              $filters.shortenText(
+                `${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`
+              )
+            }}
+          </h6>
+          <small class="mb-0 lh-1 text-gray-600 balance">
+            {{ currentUser?.total_balance_usd?.toFixed(2) }} $
+          </small>
         </div>
       </div>
     </div>

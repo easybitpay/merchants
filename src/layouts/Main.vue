@@ -9,6 +9,7 @@ import { useAppStore } from '@/stores/app'
 // Components
 import Sidebar from './components/Sidebar.vue'
 import LockScreen from './LockScreen.vue'
+import MainLoading from '../components/globals/MainLoading.vue'
 
 // ----- START ----- //
 const authStore = useAuthStore()
@@ -36,6 +37,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <MainLoading v-if="loading"/>
   <div :class="`main-container sidebar-${sidebarStatus ? 'open' : 'close'}`">
     <Sidebar @changeSidebarStatus="changeSidebarStatus" :collapsed="!sidebarStatus" />
 

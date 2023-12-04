@@ -1,40 +1,82 @@
-<script setup></script>
+<script setup>
+// Vue
+import { onMounted, ref } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hook
+import useIconImage from '@/hooks/useIconImage'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+
+// Props
+const props = defineProps({
+  app: {
+    type: Object,
+    required: true
+  }
+})
+
+// ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { storageImage } = useIconImage()
+const { actionShareAllowed } = useActionShareAllowed()
+
+// Refs
+const holders = ref([])
+
+// Functions
+
+/**
+ * Get Share App Holders
+ */
+const getAppShareHolders = async () => {
+  if (actionShareAllowed(props.app.share_type, 'get_share')) {
+    await store.getAppShareHolders(props.app.id).then((res) => {
+      if (res) {
+        holders.value = res
+      }
+    })
+  }
+}
+
+onMounted(() => {
+  getAppShareHolders()
+})
+</script>
 <template>
   <div
     class="card border-purple-500 rounded h-100 min-h-481px gradient-image-box"
-    style="--background: url(/media/images/banner/auth-bg.jpg)"
+    :style="`--background: url(${
+      app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
+    })`"
   >
     <div class="card-body d-flex flex-column justify-content-between">
       <!-- begin::Top -->
       <div>
         <!-- begin::Partners -->
-        <div class="partners mb-6">
+        <div class="partners mb-6" v-if="holders.length">
           <!-- begin::Item -->
-          <span class="item">
-            <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
-          </span>
-          <!-- end::Item -->
-
-          <!-- begin::Item -->
-          <span class="item">
-            <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
-          </span>
-          <!-- end::Item -->
-
-          <!-- begin::Item -->
-          <span class="item">
-            <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
+          <span class="item" v-for="item in holders" :key="item.id">
+            <img
+              :src="
+                item.avatar ? storageImage(item.avatar, 40) : `/media/images/banner/auth-bg.jpg`
+              "
+              :alt="item.first_name"
+            />
           </span>
           <!-- end::Item -->
         </div>
         <!-- end::Partners -->
 
         <!-- begin::Type -->
-        <p class="mb-2">Reporter</p>
+        <p class="mb-2">{{ $filters.capitalize(app.share_type) }}</p>
         <!-- end::Type -->
 
         <!-- begin::Name -->
-        <h2 class="mb-0 text-purple-500">Mini Games</h2>
+        <h2 class="mb-0 text-purple-500">{{ app.name }}</h2>
         <!-- end::Name -->
       </div>
       <!-- end::Top -->
@@ -45,13 +87,13 @@
         <div class="value-infos mb-8">
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$135.00</p>
+            <p class="value">${{ app?.summary?.total_income }}</p>
             <p class="title">Total Earning</p>
           </div>
           <!-- end::Item -->
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$42.00</p>
+            <p class="value">${{ app?.summary?.total_withdraws }}</p>
             <p class="title">Withdrawn</p>
           </div>
           <!-- end::Item -->
@@ -60,7 +102,7 @@
 
         <!-- begin::Link -->
         <RouterLink
-          :to="{ name: 'application-overview', params: { id: 2 } }"
+          :to="{ name: 'application-overview', params: { id: app.id } }"
           class="btn btn-primary w-100"
         >
           Full View

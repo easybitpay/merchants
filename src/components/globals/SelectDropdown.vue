@@ -55,6 +55,10 @@ const props = defineProps({
     type: String,
     required: false
   },
+  svgIconColor: {
+    type: String,
+    required: false
+  },
   width: {
     Type: String,
     default: '100'
@@ -146,7 +150,10 @@ onMounted(() => {
     >
       <!-- begin::Icon -->
       <div v-if="svgIcon">
-        <inline-svg :src="svgIcon" class="svg-icon-gray-500 me-1"></inline-svg>
+        <inline-svg
+          :src="svgIcon"
+          :class="`me-1 ${svgIconColor ? `svg-icon-${svgIconColor}` : ''}`"
+        ></inline-svg>
       </div>
       <!-- end::Icon -->
 

@@ -96,6 +96,11 @@ const router = createRouter({
               component: () => import('@/views/app/settings/Privacy.vue')
             },
             {
+              path: 'notification',
+              name: 'settings-notification',
+              component: () => import('@/views/app/settings/Notification.vue')
+            },
+            {
               path: 'customize',
               name: 'settings-customize',
               component: () => import('@/views/app/settings/Customize.vue')

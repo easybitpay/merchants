@@ -43,10 +43,20 @@ const totals = ref(0)
 
 // Computeds
 const filteredList = computed(() => {
-  return list.value.filter((item) => item)
+  return list.value.filter((item) => item.department_id == selectedDepartment.value)
 })
 
 // Functions
+
+const checkMessageCount = (departmentId) => {
+  const filtered = list.value.filter((item) => item.department_id == departmentId)
+
+  return filtered.length
+}
+
+/**
+ * Add New Ticket To List
+ */
 const addNew = (ticket) => {
   list.value.unshift(ticket)
 }
@@ -86,7 +96,7 @@ const getTicketList = async (page) => {
   // Set Variables
   let params = new URLSearchParams()
   params.set('page', `${page}`)
-  params.set('pageSize', '15')
+  params.set('pageSize', '100')
   params.set('column', 'updated_at')
   params.set('direction', 'desc')
 
@@ -151,7 +161,7 @@ onMounted(async () => {
           :active="selectedDepartment === item.id"
           :title="item.name"
           icon="coin"
-          subject="New Message"
+          :subject="`${checkMessageCount(item.id)} Ticket`"
         />
       </SwiperSlide>
     </Swiper>
@@ -171,6 +181,14 @@ onMounted(async () => {
     </div>
     <!-- end::Accordion -->
 
+    <!-- begin::No Ticket Image -->
+    <inline-svg
+      v-if="!filteredList.length"
+      src="/media/icons/shapes/no-ticket.svg"
+      class="d-block mx-auto mt-10"
+    ></inline-svg>
+    <!-- end::No Ticket Image -->
+
     <PaginationCard
       class="mt-4"
       v-if="lastPage > currentPage"
@@ -180,13 +198,5 @@ onMounted(async () => {
       :loading="loadings.pagination"
       @clicked="getTicketList(currentPage + 2)"
     />
-
-    <!-- begin::No Ticket Image -->
-    <inline-svg
-      v-if="!filteredList.length"
-      src="/media/icons/shapes/no-ticket.svg"
-      class="d-block mx-auto mt-10"
-    ></inline-svg>
-    <!-- end::No Ticket Image -->
   </template>
 </template>

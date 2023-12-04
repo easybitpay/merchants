@@ -42,12 +42,28 @@ export default function useConvertDate() {
     return moment().unix();
   }
 
+  /**
+   * Create Date
+   */
+  const createDate = (format) => {
+    return moment().utc().format(format);
+  }
+
+  /**
+   * Get Current
+   */
+  const getCurrent = (format) => {
+    return moment().local().format(format)
+  }
+
   return {
     convertDate,
     convertAddDate,
     convertDateFromNow,
     convertUnixFromNow,
     conevrtUnixToDate,
-    createTimestamp
+    createTimestamp,
+    getCurrent,
+    createDate
   }
 }

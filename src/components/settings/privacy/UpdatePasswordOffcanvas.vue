@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
@@ -23,6 +24,7 @@ import { Offcanvas } from 'bootstrap'
 // Generals
 const store = useAuthStore()
 const { showFeedBacks } = useForm()
+const { createDate } = useConvertDate()
 
 // Refs
 const loading = ref(false)
@@ -89,6 +91,8 @@ const updatePassword = async () => {
     loading.value = true
 
     // Set Variables
+    const updateTime = createDate('YYYY-MM-DD hh:mm:ss')
+
     let fd = new FormData()
     fd.append('_method', 'put')
     fd.append('old_password', form.value.old_password)
@@ -96,7 +100,7 @@ const updatePassword = async () => {
     fd.append('confirm_password', form.value.confirm_password)
 
     // Request
-    await store.updatePassword(fd).then((res) => {
+    await store.updatePassword({fd, updateTime}).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()

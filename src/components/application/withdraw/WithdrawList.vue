@@ -116,7 +116,7 @@ watch(selectedSort, () => {
         </thead>
         <tbody>
           <template v-if="loadings.list">
-            <WithdrawItemLoading v-for="(item, index) in 2" :key="index" />
+            <WithdrawItemLoading v-for="item in 2" :key="item" />
           </template>
 
           <template v-else>

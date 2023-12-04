@@ -24,22 +24,26 @@ const props = defineProps({
   }
 })
 
+const reactions = [1, 2, 3]
+
 // ----- START ----- //
 
 // Generals
 const store = useTicketStore()
 const { showFeedBacks } = useForm()
-const { convertDate } = useConvertDate()
+const { convertDate, createDate } = useConvertDate()
 
 // Refs
-const medias = ref([])
+const uploadedFile = ref(null)
 const hiddenFileInput = ref(null)
 
 const sendMessageStep = ref(1)
 const ticketDetail = ref({})
 const loadings = ref({
   details: false,
-  reply: false
+  reply: false,
+  close: false,
+  reaction: false
 })
 
 // Vuelidate
@@ -58,11 +62,20 @@ const v$ = useVuelidate(rules, form)
 // Functions
 
 /**
+ * Convert Ticket Reaction To Image Name
+ */
+const convertReactionToImage = (reaction) => {
+  if (reaction == 1) return 'sad'
+  if (reaction == 2) return 'neutral'
+  if (reaction == 3) return 'happy'
+}
+
+/**
  * Reset Form
  */
 const resetForm = () => {
   form.value.body = ''
-  medias.value = []
+  uploadedFile.value = null
   v$.value.$reset()
 }
 
@@ -71,12 +84,7 @@ const resetForm = () => {
  * @param {files} e
  */
 const addFile = (e) => {
-  for (let i = 0; i < e.target.files.length; i++) {
-    const element = e.target.files[i]
-
-    //
-    medias.value.push(element)
-  }
+  uploadedFile.value = e.target.files[0]
 }
 
 /**
@@ -84,7 +92,7 @@ const addFile = (e) => {
  * @param {file} file
  */
 const removeFiles = (file) => {
-  medias.value = medias.value.filter((item) => item !== file)
+  uploadedFile.value = null
 }
 
 /**
@@ -107,7 +115,7 @@ const showPreview = (file) => {
  */
 const getTicketDetail = async () => {
   // Start Loading
-  loadings.value.loadings = true
+  loadings.value.details = true
 
   // Request
   await store.getTicketDetail(props.item.id).then((res) => {
@@ -120,6 +128,9 @@ const getTicketDetail = async () => {
   loadings.value.details = false
 }
 
+/**
+ * Send Ticket Reply
+ */
 const sendReply = async () => {
   // Validation Form
   const result = await v$.value.$validate()
@@ -132,10 +143,10 @@ const sendReply = async () => {
     let fd = new FormData()
     fd.append('body', form.value.body)
 
-    let files = medias.value
+    let file = uploadedFile.value
 
-    if (files.length) {
-      fd.append('file_path', files[0])
+    if (file.name) {
+      fd.append('file_path', file)
     }
 
     // Request
@@ -153,6 +164,51 @@ const sendReply = async () => {
   }
 }
 
+/**
+ * Close Ticket
+ */
+const closeTicket = async () => {
+  // Start Loading
+  loadings.value.close = true
+
+  // Request
+  await store.closeTicket(props.item.id).then((res) => {
+    if (res) {
+      ticketDetail.value.status = 2
+      ticketDetail.value.closed_at = createDate('YYYY-MM-DD hh:mm:ss')
+    }
+  })
+
+  // Stop Loading
+  loadings.value.close = false
+}
+
+/**
+ * Set Ticket Reaction
+ */
+const setTicketReaction = async (reaction) => {
+  if (!loadings.value.reaction) {
+    // Start Loading
+    loadings.value.reaction = true
+
+    // Set Variables
+    const id = props.item.id
+    const content = {
+      score: reaction
+    }
+
+    // Request
+    await store.setTicketReaction({ id, content }).then((res) => {
+      if (res) {
+        ticketDetail.value.reaction = reaction
+      }
+    })
+
+    // Stop Loading
+    loadings.value.reaction = false
+  }
+}
+
 onMounted(() => {
   const myCollapsible = document.getElementById(`ticket-${props.item.id}`)
 
@@ -160,7 +216,6 @@ onMounted(() => {
    * Accordion Fire On Show
    */
   myCollapsible.addEventListener('show.bs.collapse', (event) => {
-    // do something...
     getTicketDetail()
   })
 
@@ -195,6 +250,8 @@ onMounted(() => {
     >
       <div class="accordion-body p-0">
         <div class="ticket-messages custom-scroll">
+          <BoxLoading v-if="loadings.details" />
+
           <!-- begin::Ticket Messages -->
           <div
             :class="`item-box-holder ${chat.admin_id ? 'admin' : 'user'}`"
@@ -222,11 +279,18 @@ onMounted(() => {
           <!-- end::Ticket Messages -->
 
           <!-- begin::Finish Box -->
-          <div class="both-side-line-title mt-18">
+          <div class="both-side-line-title mt-18" v-if="ticketDetail.status == 2">
             <span>
-              Finished At 16.10.2023 - 07:28
+              Finished At
+              {{
+                convertDate(ticketDetail.closed_at || ticketDetail.created_at, 'DD.MM.YYYY - hh:mm')
+              }}
 
-              <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
+              <img
+                :src="`/media/icons/emoji/${convertReactionToImage(ticketDetail.reaction)}.png`"
+                class="cursor-pointer"
+                v-if="ticketDetail.reaction"
+              />
             </span>
           </div>
           <!-- end::Finish Box -->
@@ -244,9 +308,16 @@ onMounted(() => {
               <span class="d-block d-sm-none">New</span>
               <span class="d-none d-sm-block">New Message</span>
             </button>
-            <button type="button" class="btn btn-light w-100 w-sm-200px">
-              <span class="d-block d-sm-none">Close</span>
-              <span class="d-none d-sm-block">Close Chat</span>
+            <button
+              type="button"
+              @click="closeTicket"
+              :disabled="loadings.close"
+              class="btn btn-light w-100 w-sm-200px"
+            >
+              <span class="d-block d-sm-none">{{ loadings.close ? 'Loading...' : 'Close' }}</span>
+              <span class="d-none d-sm-block">
+                {{ loadings.close ? 'Loading...' : 'Close Chat' }}
+              </span>
             </button>
           </div>
           <!-- end::Message Actions -->
@@ -270,27 +341,19 @@ onMounted(() => {
             </div>
             <!-- end::Textarea -->
 
-            <div class="d-flex flex-wrap row-gap-4 column-gap-6 mt-4 mb-2" v-if="medias.length">
+            <div class="d-flex flex-wrap row-gap-4 column-gap-6 mt-4 mb-2" v-if="uploadedFile">
               <LongImageCard
-                v-for="(file, index) in medias"
-                :key="index"
-                :text="file.name"
-                :background="showPreview(file)"
+                :text="uploadedFile.name"
+                :background="showPreview(uploadedFile)"
                 deleteAction
-                @onDelete="removeFiles(file)"
+                @onDelete="removeFiles(uploadedFile)"
                 class="w-100 mw-310px"
               />
             </div>
 
             <!-- begin::Action -->
             <div class="d-flex gap-4 mt-8">
-              <input
-                type="file"
-                ref="hiddenFileInput"
-                multiple
-                className="d-none"
-                @change="addFile"
-              />
+              <input type="file" ref="hiddenFileInput" className="d-none" @change="addFile" />
               <!-- begin::Submit -->
               <button type="submit" class="btn btn-primary w-168px" :disabled="loadings.reply">
                 {{ loadings.reply ? 'Loading...' : 'Send' }}
@@ -300,6 +363,7 @@ onMounted(() => {
               <!-- begin::Attach -->
               <button
                 @click="inputClick"
+                type="button"
                 class="btn btn-light border-0 w-40px h-40px p-0 align-items-center"
               >
                 <inline-svg src="/media/icons/icons/attach.svg"></inline-svg>
@@ -314,7 +378,7 @@ onMounted(() => {
 
         <!-- begin::User Reaction -->
         <div
-          v-if="false"
+          v-if="ticketDetail.status == 2 && !ticketDetail.reaction"
           class="p-6 pt-20 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between justify-content-md-start w-100 row-gap-3"
         >
           <!-- begin::Question -->
@@ -322,10 +386,14 @@ onMounted(() => {
           <!-- end::Question -->
 
           <!-- begin::Emojies -->
-          <div class="d-flex gap-4 ms-0 ms-sm-8">
-            <img src="/media/icons/emoji/happy.png" class="cursor-pointer" />
-            <img src="/media/icons/emoji/sad.png" class="cursor-pointer" />
-            <img src="/media/icons/emoji/neutral.png" class="cursor-pointer" />
+          <div class="d-flex flex-row-reverse gap-4 ms-0 ms-sm-8">
+            <img
+              v-for="reaction in reactions"
+              :key="reaction"
+              :src="`/media/icons/emoji/${convertReactionToImage(reaction)}.png`"
+              class="cursor-pointer"
+              @click="setTicketReaction(reaction)"
+            />
           </div>
           <!-- end::Emojies -->
         </div>

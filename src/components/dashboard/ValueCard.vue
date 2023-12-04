@@ -14,6 +14,10 @@ const props = defineProps({
   valuePrifix: {
     type: String,
     default: '$'
+  },
+  loading: {
+    type: Boolean,
+    required: true
   }
 })
 </script>
@@ -24,10 +28,17 @@ const props = defineProps({
       <img :src="`/media/images/dashboard/${image}.png`" :alt="title" />
 
       <p class="mt-5 mb-2 fs-extra neue-machina text-gray-800 lh-1">
-        {{ valuePrifix }}{{ value }}
+        <Skeletor class="rounded-0 mw-200px w-100" v-if="loading" />
+        <template v-else> {{ valuePrifix }}{{ value }} </template>
       </p>
 
-      <p class="mb-0 text-gray-500">{{ title }}</p>
+      <p class="mb-0 text-gray-500">
+        <Skeletor class="rounded-0 mw-100px w-100" v-if="loading" />
+
+        <template v-else>
+          {{ title }}
+        </template>
+      </p>
     </div>
   </div>
 </template>

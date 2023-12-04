@@ -97,11 +97,43 @@ export const useTicketStore = defineStore('ticket', () => {
     }
   }
 
+  /**
+   * Close Ticket
+   * @param {ticket id} payload
+   */
+  async function closeTicket(payload) {
+    try {
+      await api.get(`tickets/${payload}/close`)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Set Ticket Reaction
+   * @param {ticket id, {score}} payload
+   */
+  async function setTicketReaction(payload) {
+    try {
+      await api.post(`tickets/${payload.id}/reaction`, payload.content)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     getTicketDepartments,
     getTicketList,
     getTicketDetail,
     replyTicket,
-    createNewTicket
+    createNewTicket,
+    closeTicket,
+    setTicketReaction
   }
 })

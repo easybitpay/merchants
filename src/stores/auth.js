@@ -82,6 +82,14 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Update User Password Update Time
+   */
+  function updatePasswordUpdateTime(time) {
+    user.value.last_password_update = time
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
+  /**
    * Login User
    * @param {user form} payload
    */
@@ -231,15 +239,18 @@ export const useAuthStore = defineStore('auth', () => {
 
   /**
    * Update Password
-   * @param {form} payload
+   * @param {form, update time} payload
    */
   async function updatePassword(payload) {
     try {
-      await api.post('merchants/password', payload, {
+      await api.post('merchants/password', payload.fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
+
+      //
+      updatePasswordUpdateTime(payload.updateTime)
 
       //
       return true
@@ -334,6 +345,34 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  /**
+   * Get Merchat Summary
+   */
+  async function getMerchatSummary() {
+    try {
+      const { data } = await api.get(`merchants/summary`)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Active Sessions
+   */
+  async function getActiveSessions() {
+    try {
+      const { data } = await api.get(`auth/sessions`)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     currentUser,
     lockScreenStatus,
@@ -354,6 +393,8 @@ export const useAuthStore = defineStore('auth', () => {
     enable2FA,
     KYCList,
     uploadKYC,
-    deleteKYC
+    deleteKYC,
+    getMerchatSummary,
+    getActiveSessions
   }
 })

@@ -35,6 +35,14 @@ app.config.globalProperties.$filters = {
   shortenAddress(address, startChars = 4, endChars = 4) {
     const length = address.length
     return `${address.substring(0, startChars)}...${address.substring(length - endChars)}`
+  },
+
+  shortenText(text, size = 10) {
+    if (text.length > size) {
+      return text.slice(0, size) + '.'
+    } else {
+      return text
+    }
   }
 }
 

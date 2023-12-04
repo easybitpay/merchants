@@ -89,7 +89,7 @@ watch(selectedSort, () => {
 })
 </script>
 <template>
-  <ApplicationCard action="status" :app="selectedApp" />
+  <ApplicationCard action="action" :app="selectedApp" />
 
   <div class="accordion mt-10" id="transAccordion">
     <div class="table-responsive accordion-table">
@@ -111,7 +111,7 @@ watch(selectedSort, () => {
         </thead>
         <tbody>
           <template v-if="loadings.list">
-            <TransactionItemLoading v-for="(item, index) in 2" :key="index" />
+            <TransactionItemLoading v-for="item in 2" :key="item" />
           </template>
           <template v-else>
             <TransactionItem v-for="item in history" :key="item.id" :item="item" />

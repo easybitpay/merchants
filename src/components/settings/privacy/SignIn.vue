@@ -5,6 +5,9 @@ import { computed, onMounted, ref } from 'vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
+// Hooks
+import useConvertDate from '@/hooks/useConvertDate'
+
 // Componets
 import TwoFaOffcanvas from './TwoFaOffcanvas.vue'
 import TextColumn from '../../globals/TextColumn.vue'
@@ -14,6 +17,7 @@ import UpdatePasswordOffcanvas from './UpdatePasswordOffcanvas.vue'
 
 // Generals
 const store = useAuthStore()
+const { convertDate } = useConvertDate()
 
 // Refs
 const twoFaStatus = ref(false)
@@ -78,7 +82,11 @@ onMounted(() => {
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <TextColumn title="Password" content="Change Password" canvasId="updatePassword_offcanvas" />
+      <TextColumn
+        title="Password"
+        :content="`On since ${convertDate(currentUser.last_password_update, 'DD MMM YYYY')}`"
+        canvasId="updatePassword_offcanvas"
+      />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->

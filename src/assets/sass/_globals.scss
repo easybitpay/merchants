@@ -125,6 +125,32 @@ body {
     cursor: not-allowed;
 }
 
+#main-loading {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background: transparent;
+    backdrop-filter: blur(9px);
+    svg {
+        animation: rotation 5s infinite linear;
+    }
+}
+
+@keyframes rotation {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(359deg);
+    }
+  }
+
 
 .auth-bg {
     background-position: top;
