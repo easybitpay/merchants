@@ -1,15 +1,92 @@
 <script setup>
+// Vue
+import { computed, onMounted, ref, watch } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hooks
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
 // Components
 import EditPartnerOffcanvas from './EditPartnerOffcanvas.vue'
+import PartnerItem from './PartnerItem.vue'
+import PartnerItemLoading from '../loadings/PartnerItemLoading.vue'
 
 // ----- START ----- //
-const editPartner = () => {
+
+// Generals
+const store = useAppStore()
+const { actionShareAllowed } = useActionShareAllowed()
+
+// Refs
+const loading = ref(false)
+const holders = ref([])
+const selectedPartner = ref({})
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+const partnerListKey = computed(() => store.partnerListKey)
+
+// Functions
+
+/**
+ * Get Share App Holders
+ */
+const getAppShareHolders = async () => {
+  if (actionShareAllowed(selectedApp.value.share_type, 'get_share')) {
+    // Start Loading
+    loading.value = true
+
+    // Request
+    await store.getAppShareHolders(selectedApp.value.id).then((res) => {
+      if (res) {
+        holders.value = res
+      }
+    })
+
+    // Stop Loading
+    loading.value = false
+  }
+}
+
+/**
+ * Show Edit Partners
+ */
+const openEditPartner = (partner) => {
+  selectedPartner.value = partner
   const bsOffcanvas = new Offcanvas('#editPartner_offcanvas')
   bsOffcanvas.show()
 }
+
+/**
+ * Refresh List
+ */
+const refreshData = (list) => {
+  selectedPartner.value = {}
+  holders.value = list
+}
+
+/**
+ * Remove Item Form List
+ */
+const removeItem = (id) => {
+  selectedPartner.value = {}
+  holders.value = holders.value.filter((item) => item.id != id)
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    getAppShareHolders()
+  }, 1000)
+})
+
+watch(partnerListKey, () => {
+  getAppShareHolders()
+})
 </script>
 
 <template>
@@ -20,7 +97,7 @@ const editPartner = () => {
         <h4 class="roboto-mono mb-0 text-gray-900 d-flex gap-5 fw-normal">
           <inline-svg src="/media/icons/shapes/chess.svg"></inline-svg>
 
-          Plusstudio Team
+          {{ selectedApp.name }} Team
         </h4>
         <p
           class="mb-0 fw-medium text-primary cursor-pointer"
@@ -35,70 +112,25 @@ const editPartner = () => {
 
       <!-- begin::Partners -->
       <div class="d-flex flex-column gap-6">
-        <!-- begin::Item -->
-        <div class="d-flex gap-4 text-gray-900 text-hover-primary hover-sm-show-parent">
-          <!-- begin::Info & Image -->
-          <div class="d-flex w-100 gap-4">
-            <!-- begin::Image Box -->
-            <div class="w-40px h-40px">
-              <img
-                src="/media/images/banner/theme.png"
-                alt="user"
-                class="w-100 h-100 object-cover rounded-circle"
-              />
-            </div>
-            <!-- end::Image Box -->
-
-            <!-- begin::Info -->
-            <div class="d-flex flex-column justify-content-between">
-              <p class="mb-0" @click="editPartner()">Golshifte Farahani</p>
-              <small class="text-gray-700">Reporter</small>
-            </div>
-            <!-- end::Info -->
-          </div>
-          <!-- end::Info & Image -->
-
-          <!-- begin::Action -->
-          <div class="w-175px d-none hover-show-target">
-            <button class="btn btn-primary w-100" @click="editPartner()">Edit</button>
-          </div>
-          <!-- end::Action -->
-        </div>
-        <!-- end::Item -->
+        <template v-if="loading">
+          <PartnerItemLoading v-for="item in 2" :key="item" />
+        </template>
 
         <!-- begin::Item -->
-        <div class="d-flex gap-4 text-gray-900 text-hover-primary hover-sm-show-parent">
-          <!-- begin::Info & Image -->
-          <div class="d-flex w-100 gap-4">
-            <!-- begin::Image Box -->
-            <div class="w-40px h-40px">
-              <img
-                src="/media/images/banner/theme.png"
-                alt="user"
-                class="w-100 h-100 object-cover rounded-circle"
-              />
-            </div>
-            <!-- end::Image Box -->
-
-            <!-- begin::Info -->
-            <div class="d-flex flex-column justify-content-between">
-              <p class="mb-0" @click="editPartner()">Golshifte Farahani</p>
-              <small class="text-gray-700">Reporter</small>
-            </div>
-            <!-- end::Info -->
-          </div>
-          <!-- end::Info & Image -->
-
-          <!-- begin::Action -->
-          <div class="w-175px d-none hover-show-target" @click="editPartner()">
-            <button class="btn btn-primary w-100">Edit</button>
-          </div>
-          <!-- end::Action -->
-        </div>
+        <PartnerItem
+          v-for="item in holders"
+          :key="item.id"
+          :item="item"
+          @openEditPartner="openEditPartner"
+        />
         <!-- end::Item -->
       </div>
       <!-- end::Partners -->
     </div>
   </div>
-  <EditPartnerOffcanvas />
+  <EditPartnerOffcanvas
+    :selectedPartner="selectedPartner"
+    @refreshData="refreshData"
+    @removeItem="removeItem"
+  />
 </template>

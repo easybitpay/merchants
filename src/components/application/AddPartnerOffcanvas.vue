@@ -1,6 +1,9 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -9,26 +12,102 @@ import useForm from '@/hooks/useForm.js'
 import useVuelidate from '@vuelidate/core'
 import { helpers, required, email } from '@vuelidate/validators'
 
+// Components
+import SelectDropdown from '../globals/SelectDropdown.vue'
+
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
+
+
 // ----- START ----- //
+
+// Generals
+const store = useAppStore()
 const { showFeedBacks } = useForm()
 
+// Refs
+const loading = ref(false)
+const shareType = ref({})
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+const shareAppStatus = computed(() => store.shareAppStatus)
+
+// Vuelidate
 const form = ref({
-  email: null
+  email: null,
+  type: null
 })
 
 const rules = {
   email: {
     required: helpers.withMessage('Email is required', required),
     email: helpers.withMessage("Email isn't valid", email)
+  },
+  type: {
+    required: helpers.withMessage('Type is required', required)
   }
 }
 
 const v$ = useVuelidate(rules, form)
 
+// Functions
+
+/**
+ * Reset Form
+ */
+const resetForm = () => {
+  shareType.value = {}
+  form.value = {
+    email: null,
+    type: null
+  }
+  v$.value.$reset()
+}
+
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('addPartner_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
+
+/**
+ * Toggle Share Type
+ */
+const toggleShareType = (type) => {
+  shareType.value = type
+  form.value.type = type.type
+}
+
+/**
+ * App Partner
+ */
 const addNewPartner = async () => {
+  // Validation Form
   const result = await v$.value.$validate()
   if (result) {
-    console.log('scas')
+    // Start Loading
+    loading.value = true
+
+    // Set Variables
+    let params = new URLSearchParams()
+    params.set('appId', selectedApp.value.id)
+    params.set('merchantEmail', form.value.email)
+    params.set('shareType', form.value.type)
+
+    // Request
+    await store.updateSharedApp(params).then((res) => {
+      if (res) {
+        store.refreshPartnersList()
+        resetForm()
+        closeOffcanvas()
+      }
+    })
+
+    // Stop Loading
+    loading.value = false
   } else {
     showFeedBacks()
   }
@@ -77,8 +156,8 @@ const addNewPartner = async () => {
               <div class="mb-4 position-relative d-flex align-items-center">
                 <input
                   type="email"
-                  class="form-control ps-10 pe-19"
-                  placeholder="Your Email"
+                  class="form-control ps-9"
+                  placeholder="Merchant Email"
                   v-model="form.email"
                 />
 
@@ -108,26 +187,24 @@ const addNewPartner = async () => {
               </div>
               <!-- end::Email -->
 
-              <div class="dropdown">
-                <button
-                  class="btn ps-2 px-4 fs-7 bg-gray-100 ls-sm dropdown-toggle w-100 justify-content-between border border-gray-200"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <div class="d-flex align-items-center gap-2">
-                    <inline-svg
-                      class="svg-icon-primary"
-                      src="media/icons/icons/splite.svg"
-                    ></inline-svg>
-                    Choose Position
-                  </div>
-                </button>
-                <ul class="dropdown-menu w-100">
-                  <li><a class="dropdown-item">English</a></li>
-                  <li><a class="dropdown-item">English 2</a></li>
-                </ul>
+              <!-- begin::Type -->
+              <div class="position-relative">
+                <SelectDropdown
+                  placeholder="Choose Position"
+                  svgIcon="media/icons/icons/splite.svg"
+                  svgIconColor="primary"
+                  toggleClass="px-2"
+                  show="type"
+                  check="type"
+                  :items="shareAppStatus"
+                  :selected="shareType"
+                  @change="toggleShareType"
+                />
+                <div class="invalid-feedback form-control" v-if="v$.type.$errors.length">
+                  <span> {{ v$.type.$errors[0].$message }}</span>
+                </div>
               </div>
+              <!-- end::Type -->
             </div>
             <!-- end::Info -->
 
@@ -200,9 +277,10 @@ const addNewPartner = async () => {
             <div class="d-flex gap-4 w-100 w-sm-initial">
               <button
                 type="submit"
+                :disabled="loading"
                 class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
               >
-                Add
+                {{ loading ? 'Loading...' : 'Add' }}
               </button>
             </div>
             <!-- end::Actions -->

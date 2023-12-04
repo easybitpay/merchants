@@ -1,38 +1,169 @@
 <script setup>
 // Vue
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-// Hooks
-import useForm from '@/hooks/useForm.js'
+// Store
+import { useAppStore } from '@/stores/app'
 
-// Vuelidate
-import useVuelidate from '@vuelidate/core'
-import { helpers, required, email } from '@vuelidate/validators'
+// Hook
+import useIconImage from '@/hooks/useIconImage'
 
-// ----- START ----- //
-const { showFeedBacks } = useForm()
+// Components
+import SelectDropdown from '../globals/SelectDropdown.vue'
 
-const form = ref({
-  email: null
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
+
+// Props
+const props = defineProps({
+  selectedPartner: {
+    type: Object,
+    required: true
+  }
 })
 
-const rules = {
-  email: {
-    required: helpers.withMessage('Email is required', required),
-    email: helpers.withMessage("Email isn't valid", email)
+// Emit
+const emit = defineEmits(['refreshData', 'removeItem'])
+
+// ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { storageImage } = useIconImage()
+
+// Refs
+const shareType = ref({})
+const loadings = ref({
+  submit: false,
+  delete: false
+})
+const form = ref({
+  email: null,
+  type: null
+})
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+const shareAppStatus = computed(() => store.shareAppStatus)
+
+// Functions
+
+/**
+ * Toggle Share Type
+ */
+const toggleShareType = (type) => {
+  shareType.value = type
+  form.value.type = type.type
+}
+
+/**
+ * Reset Form
+ */
+const resetForm = () => {
+  shareType.value = {}
+  form.value = {
+    email: null,
+    type: null
   }
 }
 
-const v$ = useVuelidate(rules, form)
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('editPartner_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
 
+/**
+ * Set Default Values
+ */
+const setDefaultValues = () => {
+  if (props.selectedPartner.id) {
+    // Set Network
+    for (let i = 0; i < shareAppStatus.value.length; i++) {
+      const element = shareAppStatus.value[i]
+      if (element.type == props.selectedPartner.type) {
+        shareType.value = element
+        break
+      }
+    }
+    // Set Form Data
+    form.value = {
+      email: props.selectedPartner.email,
+      type: shareType.value.type
+    }
+  }
+}
+
+/**
+ * Edit Partner Access
+ */
 const editPartner = async () => {
-  const result = await v$.value.$validate()
-  if (result) {
-    console.log('scas')
-  } else {
-    showFeedBacks()
-  }
+  // Start Loading
+  loadings.value.submit = true
+
+  // Set Variable
+  let params = new URLSearchParams()
+  params.set('appId', selectedApp.value.id)
+  params.set('merchantEmail', form.value.email)
+  params.set('shareType', form.value.type)
+
+  // request
+  await store.updateSharedApp(params).then((res) => {
+    if (res) {
+      emit('refreshData', res)
+      resetForm()
+      closeOffcanvas()
+    }
+  })
+
+  // Stop Loading
+  loadings.value.submit = false
 }
+
+/**
+ * Delete Partner
+ */
+const deletePartner = async () => {
+  // Start Loading
+  loadings.value.delete = true
+
+  // Set Variable
+  let params = new URLSearchParams()
+  params.set('appId', selectedApp.value.id)
+  params.set('merchantEmail', form.value.email)
+
+  // Request
+  await store.deleteAppShareHolder(params).then((res) => {
+    if (res) {
+      emit('removeItem', props.selectedPartner.id)
+      resetForm()
+      closeOffcanvas()
+    }
+  })
+
+  // Stop Loading
+  loadings.value.delete = false
+}
+
+onMounted(() => {
+  const myOffcanvas = document.getElementById('editPartner_offcanvas')
+
+  /**
+   * Offcanvas Fire On Show
+   */
+  myOffcanvas.addEventListener('shown.bs.offcanvas', () => {
+    setDefaultValues()
+  })
+
+  /**
+   * Offcanvas Fire On Hide
+   */
+  myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+    resetForm()
+  })
+})
 </script>
 
 <template>
@@ -59,15 +190,21 @@ const editPartner = async () => {
               <div>
                 <div class="w-48px h-48px">
                   <img
-                    src="/media/images/banner/theme.png"
-                    alt="partner"
+                    :src="
+                      selectedPartner.avatar
+                        ? storageImage(selectedPartner.avatar, 40)
+                        : `/media/images/banner/auth-bg.jpg`
+                    "
+                    :alt="selectedPartner.first_name"
                     class="w-100 h-100 object-cover rounded-circle"
                   />
                 </div>
               </div>
 
               <div class="mb-12">
-                <h3 class="mb-0 text-primary">Golshifte Farahani</h3>
+                <h3 class="mb-0 text-primary">
+                  {{ selectedPartner.first_name }} {{ selectedPartner.last_name }}
+                </h3>
 
                 <p class="fs-7 mb-0 text-gray-800 ls-base">
                   Some info may be visible to other people using Google services.
@@ -80,8 +217,8 @@ const editPartner = async () => {
             <!-- begin::Info -->
             <div class="border-bottom border-gray-200 pb-8 mb-8">
               <p class="mb-6 ls-base">
-                By signing up, you confirm that you’ve readand accepted our User Notice and Privacy
-                Policy.
+                By signing up, you confirm that you’ve readand accepted our User Notice and
+                <span class="text-primary">Privacy Policy.</span>
               </p>
               <div class="row gy-4">
                 <!-- begin::Email -->
@@ -89,27 +226,22 @@ const editPartner = async () => {
                   <input
                     type="email"
                     class="form-control"
-                    placeholder="Your Email"
-                    value="Golshifte@Gmail.com"
+                    placeholder="Merchat Email"
+                    v-model="form.email"
+                    readonly
                   />
                 </div>
                 <!-- end::Email -->
 
                 <div class="col-sm-6">
-                  <div class="dropdown">
-                    <button
-                      class="btn fs-7 bg-gray-100 ls-sm dropdown-toggle w-100 justify-content-between border border-gray-200"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Choose Position
-                    </button>
-                    <ul class="dropdown-menu w-100">
-                      <li><a class="dropdown-item">English</a></li>
-                      <li><a class="dropdown-item">English 2</a></li>
-                    </ul>
-                  </div>
+                  <SelectDropdown
+                    placeholder="Choose Position"
+                    show="type"
+                    check="type"
+                    :items="shareAppStatus"
+                    :selected="shareType"
+                    @change="toggleShareType"
+                  />
                 </div>
               </div>
             </div>
@@ -185,22 +317,27 @@ const editPartner = async () => {
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">Golshifte Farahani as Reporter</p>
+              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+                {{ form.email }} as {{ $filters.capitalize(form.type) }}
+              </p>
 
               <!-- begin::Actions -->
               <div class="d-flex gap-4 w-100 w-sm-initial">
                 <button
                   type="button"
+                  @click="deletePartner"
+                  :disabled="loadings.delete"
                   class="btn btn-sm bg-light text-primary w-100 w-sm-initial h-24px ls-base"
                 >
-                  Remove Person
+                  {{ loadings.delete ? 'Loading...' : 'Remove Person' }}
                 </button>
 
                 <button
                   type="submit"
+                  :disabled="loadings.submit"
                   class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base"
                 >
-                  Add
+                  {{ loadings.submit ? 'Loading...' : 'Save' }}
                 </button>
               </div>
               <!-- end::Actions -->

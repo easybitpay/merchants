@@ -1,6 +1,14 @@
 <script setup>
+// Vue
+import { computed, onMounted, ref, watch } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
+
 // Hook
 import useIconImage from '@/hooks/useIconImage'
+import useConvertDate from '@/hooks/useConvertDate'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
 
 // Props
 const props = defineProps({
@@ -15,7 +23,19 @@ const props = defineProps({
 })
 
 // ----- START ----- //
+
+// Generals
+const store = useAppStore()
 const { storageImage } = useIconImage()
+const { getCurrent } = useConvertDate()
+const { actionShareAllowed } = useActionShareAllowed()
+
+// Refs
+const holders = ref([])
+
+const partnerListKey = computed(() => store.partnerListKey)
+
+// Functions
 
 /**
  * Gateway List Status Converter
@@ -25,13 +45,37 @@ const convartAppType = (type) => {
   if (type == '2') return 'Custom'
   if (type == '3') return 'Donate'
 }
+
+/**
+ * Get Share App Holders
+ */
+const getAppShareHolders = async () => {
+  if (actionShareAllowed(props.app.share_type, 'get_share')) {
+    await store.getAppShareHolders(props.app.id).then((res) => {
+      if (res) {
+        holders.value = res
+      }
+    })
+  }
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    getAppShareHolders()
+  }, 1000)
+})
+
+watch(partnerListKey, () => {
+  getAppShareHolders()
+})
 </script>
 
 <template>
   <div
     :class="[
-      { 'card gradient-image-box application-card have-partners': true },
-      { disabled: app.type != 1 }
+      { 'card gradient-image-box application-card': true },
+      { disabled: app.status != 1 },
+      { 'have-partners': holders.length }
     ]"
     :style="`--background: url(${
       app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
@@ -47,22 +91,15 @@ const convartAppType = (type) => {
           <!-- end::Type -->
 
           <!-- begin::Partners -->
-          <div class="partners">
+          <div class="partners" v-if="holders.length">
             <!-- begin::Item -->
-            <span class="item">
-              <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
-            </span>
-            <!-- end::Item -->
-
-            <!-- begin::Item -->
-            <span class="item">
-              <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
-            </span>
-            <!-- end::Item -->
-
-            <!-- begin::Item -->
-            <span class="item">
-              <img src="/media/images/banner/auth-bg.jpg" alt="partner" />
+            <span class="item" v-for="item in holders" :key="item.id">
+              <img
+                :src="
+                  item.avatar ? storageImage(item.avatar, 40) : `/media/images/banner/auth-bg.jpg`
+                "
+                :alt="item.first_name"
+              />
             </span>
             <!-- end::Item -->
           </div>
@@ -84,28 +121,28 @@ const convartAppType = (type) => {
         <div class="infos mt-6">
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$135.00</p>
+            <p class="value">${{ app?.summary?.total_income }}</p>
             <p class="title">Total Earning</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$42.00</p>
+            <p class="value">${{ app?.summary?.total_withdraws }}</p>
             <p class="title">Withdrawn</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$30.00</p>
-            <p class="title">Earned in July</p>
+            <p class="value">${{ app?.summary?.last_month_income }}</p>
+            <p class="title">Earned in {{ getCurrent('MMMM') }}</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">$76.00</p>
+            <p class="value">${{ app?.summary?.usd_value }}</p>
             <p class="title">Available</p>
           </div>
           <!-- end::Item -->
@@ -116,7 +153,7 @@ const convartAppType = (type) => {
       <div class="enter-btn" v-if="action === 'enter'">
         <div class="w-200px">
           <RouterLink
-            :to="{ name: 'application-overview', params: { id: 2 } }"
+            :to="{ name: 'application-overview', params: { id: app.id } }"
             class="btn btn-primary w-100"
           >
             Enter
@@ -128,7 +165,7 @@ const convartAppType = (type) => {
       <!-- end::Enter Action -->
 
       <!-- begin::Status Action -->
-      <div class="d-flex flex-wrap flex-lg-nowrap gap-4" v-if="action === 'status'">
+      <div class="d-flex flex-wrap flex-lg-nowrap gap-4" v-if="action === 'action'">
         <button
           type="button"
           class="btn btn-primary p-0 w-40px h-40px"
@@ -140,8 +177,8 @@ const convartAppType = (type) => {
         </button>
 
         <button class="btn btn-primary w-168px">
-          <inline-svg src="media/icons/icons/off.svg"></inline-svg>
-          Deactivate
+          <inline-svg src="media/icons/icons/card.svg"></inline-svg>
+          Invoice
         </button>
       </div>
       <!-- end::Status Action -->
