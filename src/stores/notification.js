@@ -1,5 +1,5 @@
 // Axios
-// import api from '@/core/services/api'
+import api from '@/core/services/api'
 
 // Vue
 import { ref } from 'vue'
@@ -22,9 +22,41 @@ export const useNotificationStore = defineStore('notification', () => {
     }, 100)
   }
 
+  /**
+   * Get Notifications Config
+   */
+
+  async function getNotificationsConfig() {
+    try {
+      const { data } = await api.get('notifications')
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Update Notifications Configs
+   */
+
+  async function updateNotificationsConfig(payload) {
+    try {
+      await api.put('notifications', payload)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     newPage,
 
-    changePage
+    changePage,
+    getNotificationsConfig,
+    updateNotificationsConfig
   }
 })
