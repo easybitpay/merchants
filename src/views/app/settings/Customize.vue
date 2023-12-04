@@ -1,11 +1,8 @@
-<script setup>
-// Component
-import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
-</script>
+<script setup></script>
 
 <template>
   <!-- begin::Theme -->
-  <div class="mb-12">
+  <div>
     <!-- begin::Title -->
     <h4 class="mb-2 lh-1 text-gray-900">Theme</h4>
 
@@ -33,20 +30,4 @@ import GatewayThemes from '../../../components/settings/GatewayThemes.vue'
     <!-- end::Title -->
   </div>
   <!-- end::Theme -->
-
-  <!-- begin::Gateway Theme -->
-  <div>
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Gateway Theme</h4>
-
-    <p class="mb-6 text-gray-800">
-      Choose language - Changes will be applied after restarting the app
-    </p>
-    <!-- end::Title -->
-
-    <!-- begin::Content -->
-    <GatewayThemes />
-    <!-- end::Content -->
-  </div>
-  <!-- end::Gateway Theme -->
 </template>

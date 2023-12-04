@@ -1,4 +1,16 @@
 <script setup>
+// Vue
+import { computed, onMounted, ref } from 'vue'
+
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Hooks
+import useIconImage from '@/hooks/useIconImage'
+
+// Bootstrap
+import { Offcanvas } from 'bootstrap'
+
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
@@ -14,7 +26,79 @@ import { Pagination } from 'swiper/modules'
 
 const modules = [Navigation, Pagination]
 
+// Props
+const props = defineProps({
+  previewTheme: {
+    type: Object,
+    required: true
+  }
+})
+
+// Emit
+const emit = defineEmits(['changeDefaultSelectedTheme'])
+
 // ----- START ----- //
+
+// Generals
+const store = useAppStore()
+const { storageImage } = useIconImage()
+
+// Refs
+const loading = ref(false)
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+
+const btnDisable = computed(() => {
+  if (loading.value) return true
+  if (selectedApp.value?.payment_theme?.id == props?.previewTheme?.id) return true
+
+  return false
+})
+
+// Functions
+
+/**
+ * Close Offcanvas
+ */
+const closeOffcanvas = () => {
+  const myOffcanvas = document.getElementById('gatewayTheme_offcanvas')
+  Offcanvas.getInstance(myOffcanvas).hide()
+}
+
+/**
+ * Update App Theme
+ */
+const updateTheme = async () => {
+  // Start Loading
+  loading.value = true
+
+  // Set Variable
+  const id = selectedApp.value.id
+  let fd = new FormData()
+  fd.append('payment_theme_id', props.previewTheme.id)
+
+  // Request
+  await store.updateApp({ id, fd }).then((res) => {
+    if (res) {
+      closeOffcanvas()
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
+}
+
+onMounted(() => {
+  const myOffcanvas = document.getElementById('gatewayTheme_offcanvas')
+
+  /**
+   * Offcanvas Fire On Hide
+   */
+  myOffcanvas.addEventListener('hidden.bs.offcanvas', () => {
+    emit('changeDefaultSelectedTheme')
+  })
+})
 </script>
 
 <template>
@@ -42,10 +126,10 @@ const modules = [Navigation, Pagination]
             </div>
 
             <div class="mb-6">
-              <h3 class="mb-0 text-gray-900">Gateway Theme</h3>
+              <h3 class="mb-0 text-gray-900">{{ previewTheme.name }}</h3>
 
               <p class="fs-7 mb-0 text-gray-800 ls-base">
-                Some info may be visible to other people using Google services.
+                {{ previewTheme.description }}
               </p>
             </div>
           </div>
@@ -54,33 +138,19 @@ const modules = [Navigation, Pagination]
           <!-- begin::Content -->
           <div>
             <Swiper
+              :key="previewTheme.id"
               :spaceBetween="16"
               :navigation="true"
               :pagination="{ clickable: true }"
               :modules="modules"
               class="mySwiper"
             >
-              <SwiperSlide>
-                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
-              </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide v-for="(item, index) in previewTheme.images" :key="index">
                 <img
-                  src="/media/images/banner/auth-bg.jpg"
-                  alt="theme"
+                  :src="storageImage(item)"
+                  :alt="previewTheme.name"
                   class="img-fluid rounded-1"
                 />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src="/media/images/banner/theme.png" alt="theme" class="img-fluid rounded-1" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -118,10 +188,12 @@ const modules = [Navigation, Pagination]
               </button>
 
               <button
-                type="submit"
+                @click="updateTheme"
+                type="button"
+                :disabled="btnDisable"
                 class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base fw-normal"
               >
-                Apply
+                {{ loading ? 'Loading...' : 'Apply' }}
               </button>
             </div>
             <!-- end::Actions -->

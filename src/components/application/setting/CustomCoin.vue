@@ -58,8 +58,6 @@ const get_tokens_list = async () => {
   // request
   await store.getCustomTokensList(params).then((res) => {
     if (res) {
-      console.log(res)
-
       list.value = res.list
     }
   })
