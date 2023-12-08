@@ -137,6 +137,7 @@ body {
     z-index: 1000;
     background: transparent;
     backdrop-filter: blur(9px);
+
     svg {
         animation: rotation 5s infinite linear;
     }
@@ -144,13 +145,18 @@ body {
 
 @keyframes rotation {
     from {
-      transform: rotateY(0deg);
+        transform: rotateY(0deg);
     }
-    to {
-      transform: rotateY(359deg);
-    }
-  }
 
+    to {
+        transform: rotateY(359deg);
+    }
+}
+
+.svg-icon-size {
+    width: 3rem;
+    height: 3rem;
+}
 
 .auth-bg {
     background-position: top;

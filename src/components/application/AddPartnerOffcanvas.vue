@@ -18,7 +18,6 @@ import SelectDropdown from '../globals/SelectDropdown.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
-
 // ----- START ----- //
 
 // Generals
@@ -136,7 +135,10 @@ const addNewPartner = async () => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/person.svg" height="46"></inline-svg>
+                <inline-svg
+                  :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+                  class="svg-icon-size"
+                ></inline-svg>
               </div>
 
               <div class="mb-10">

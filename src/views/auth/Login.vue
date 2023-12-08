@@ -159,7 +159,7 @@ const checkForNextStep = () => {
       <template v-if="step === 1">
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
+          <inline-svg src="/media/icons/no-wrap/signin.svg"></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -244,7 +244,10 @@ const checkForNextStep = () => {
       <template v-else>
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
+          <inline-svg
+            :src="`media/icons/shapes/${$filters.shapeStatus('2F')}.svg`"
+            class="svg-icon-size"
+          ></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->

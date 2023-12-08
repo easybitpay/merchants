@@ -71,7 +71,7 @@ onMounted(() => {
       :key="index"
     >
       <div class="card-body">
-        <inline-svg src="media/icons/shapes/embed.svg" height="40" class="mb-6"></inline-svg>
+        <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('embed')}.svg`" class="mb-6"></inline-svg>
 
         <div class="d-flex align-items-end justify-content-between gap-4">
           <!-- begin::Title & Subject -->

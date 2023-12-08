@@ -160,7 +160,10 @@ const changePass = async () => {
       >
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
+          <inline-svg
+            :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+            class="svg-icon-size"
+          ></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -376,7 +379,10 @@ const changePass = async () => {
       <div v-if="step === 4" class="d-flex flex-column justify-content-between min-h-560px">
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/star.svg"></inline-svg>
+          <inline-svg
+            :src="`media/icons/shapes/${$filters.shapeStatus('star')}.svg`"
+            class="svg-icon-size"
+          ></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Text -->

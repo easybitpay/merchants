@@ -35,7 +35,7 @@ const bannerInputClick = () => {
 const form = ref({
   name: null,
   site_url: null,
-  customer_fee_percent: 0,
+  customer_fee_percent: 0
 })
 
 const rules = {
@@ -206,7 +206,10 @@ onMounted(() => {
           <div
             class="w-40px h-40px d-flex align-items-center justify-content-center rounded bg-white"
           >
-            <inline-svg src="media/icons/shapes/bookmark.svg" height="25"></inline-svg>
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
+              height="25"
+            ></inline-svg>
           </div>
         </div>
       </div>
@@ -222,7 +225,10 @@ onMounted(() => {
 
     <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
       <!-- begin::Top -->
-      <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
+      <inline-svg
+        :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+        class="d-none d-sm-block"
+      ></inline-svg>
 
       <div class="range-div w-100 w-lg-384px">
         <input
@@ -242,7 +248,10 @@ onMounted(() => {
         </span>
       </div>
 
-      <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
+      <inline-svg
+        :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+        class="d-none d-sm-block"
+      ></inline-svg>
       <!-- end::Top -->
     </div>
 

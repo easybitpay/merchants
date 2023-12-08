@@ -248,7 +248,9 @@ const plugins = [htmlLegendPlugin]
           <!-- begin::Header -->
           <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
             <h4 class="neue-machina mb-0 text-gray-900 d-flex gap-3 fw-normal">
-              <inline-svg src="media/icons/shapes/transaction.svg"></inline-svg>
+              <inline-svg
+                :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
+              ></inline-svg>
 
               Transaction History
             </h4>
@@ -272,8 +274,12 @@ const plugins = [htmlLegendPlugin]
         <div class="card-body d-flex flex-column">
           <!-- begin::Header -->
           <h4 class="neue-machina mb-6 text-gray-900 d-flex gap-3 fw-normal">
-            <inline-svg src="media/icons/shapes/graph.svg"></inline-svg>
-            
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('graph')}.svg`"
+              height="24px"
+              width="25px"
+            ></inline-svg>
+
             Bank
           </h4>
           <!-- end::Header -->
