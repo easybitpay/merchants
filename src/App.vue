@@ -25,6 +25,7 @@ watch(newPage, () => {
 
 <template>
   <RouterView />
+  <div id="liveAlertPlaceholder"></div>
 </template>
 
 <style lang="scss">

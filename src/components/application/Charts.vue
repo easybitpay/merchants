@@ -1,6 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+// Vue
+import { computed, onMounted, ref } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
+// Components
+import BankLoading from '../loadings/BankLoading.vue'
+
+// Chart Js
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -15,8 +23,26 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
-const selectedLine = ref('')
+// ----- START ----- //
 
+// Generals
+const store = useAppStore()
+
+// Refs
+const selectedLine = ref('')
+const balances = ref([])
+const loadings = ref({
+  balance: false
+})
+
+// Computeds
+const selectedApp = computed(() => store.selectedApp)
+
+// Chart
+
+/**
+ * Get Or Create Tooltip
+ */
 const getOrCreateTooltip = (chart) => {
   let tooltipEl = chart.canvas.parentNode.querySelector('.tooltipElement')
 
@@ -40,6 +66,9 @@ const getOrCreateTooltip = (chart) => {
   return tooltipEl
 }
 
+/**
+ * Tooltip Handler
+ */
 const externalTooltipHandler = (context) => {
   // Tooltip Element
   const { chart, tooltip } = context
@@ -103,6 +132,9 @@ const externalTooltipHandler = (context) => {
   tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px'
 }
 
+/**
+ * Get Or Create Legend
+ */
 const getOrCreateLegendList = (chart, id) => {
   const legendContainer = document.getElementById(id)
   let listContainer = legendContainer.querySelector('ul')
@@ -116,6 +148,9 @@ const getOrCreateLegendList = (chart, id) => {
   return listContainer
 }
 
+/**
+ * Legend Plugin
+ */
 const htmlLegendPlugin = {
   id: 'htmlLegend',
   afterUpdate(chart, args, options) {
@@ -238,10 +273,46 @@ const chartOptions = ref({
   }
 })
 const plugins = [htmlLegendPlugin]
+
+// Functions
+/**
+ * Get Balances
+ */
+const getAppTokenBalance = async () => {
+  // Start Loading
+  loadings.value.balance = true
+
+  // Request
+  await store.getAppTokenBalance(selectedApp.value.id).then((res) => {
+    if (res) {
+      // convert & set data
+      let array = []
+      for (let i = 0; i < res.length; i++) {
+        const element = res[i]
+        array.push({
+          ...element.token,
+          balance: element.balance
+        })
+      }
+      balances.value = array
+    }
+  })
+
+  // Stop Loading
+  loadings.value.balance = false
+}
+
+onMounted(() => {
+  getAppTokenBalance()
+})
 </script>
 <template>
   <div class="row gy-6 mb-6">
-    <div class="col-lg-7 col-xl-8 col-xxl-9">
+    <div
+      :class="`col-lg-${loadings.balance || balances.length ? '7' : '12'} 
+      col-xl-${loadings.balance || balances.length ? '8' : '12'}
+      col-xxl-${loadings.balance || balances.length ? '9' : '12'}`"
+    >
       <!-- begin::Transactions -->
       <div class="card border-gray-200 rounded-4">
         <div class="card-body p-0">
@@ -269,8 +340,12 @@ const plugins = [htmlLegendPlugin]
     </div>
 
     <!-- begin::Bank -->
-    <div class="col-lg-5 col-xl-4 col-xxl-3">
-      <div class="card border-gray-200 rounded-4 h-100 bank-card">
+    <div class="col-lg-5 col-xl-4 col-xxl-3" v-if="loadings.balance || balances.length">
+      <BankLoading v-if="loadings.balance" />
+      <div
+        class="card border-gray-200 rounded-4 h-100 bank-card"
+        v-if="!loadings.balance && balances.length"
+      >
         <div class="card-body d-flex flex-column">
           <!-- begin::Header -->
           <h4 class="neue-machina mb-6 text-gray-900 d-flex gap-3 fw-normal">
@@ -310,21 +385,24 @@ const plugins = [htmlLegendPlugin]
           <div class="value-infos my-6">
             <!-- begin::Item -->
             <div class="item">
-              <p class="value" style="color: #ffb74d">135.00</p>
-              <p class="title">USDT</p>
+              <p class="value" style="color: #ffb74d">${{ balances[0].balance }}</p>
+              <p class="title">{{ balances[0].symbol }}</p>
             </div>
             <!-- end::Item -->
             <!-- begin::Item -->
-            <div :class="[{ item: true }, { active: selectedLine }]">
-              <p class="value" style="color: #3dd598">0.0006</p>
-              <p class="title">ETH</p>
+            <div v-if="balances[1]" :class="[{ item: true }, { active: selectedLine }]">
+              <p class="value" style="color: #3dd598">${{ balances[1].balance }}</p>
+              <p class="title">{{ balances[1].symbol }}</p>
             </div>
             <!-- end::Item -->
           </div>
           <!-- end::Main Balances -->
 
           <!-- begin::Action -->
-          <RouterLink :to="{ name: 'dashboard' }" class="btn btn-primary w-100">
+          <RouterLink
+            :to="{ name: 'application-withdraw', params: { id: selectedApp.id } }"
+            class="btn btn-primary w-100"
+          >
             Withdraw
             <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
           </RouterLink>

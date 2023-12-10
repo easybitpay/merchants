@@ -1,7 +1,12 @@
+// Axios
 import axios from 'axios'
 
+// Stores
 import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notification'
+
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
 
 const { origin, href } = window.location
 
@@ -60,6 +65,19 @@ api.interceptors.response.use(
 
     // General
     const status = error.response.status
+    const errors = error.response.data.errors
+    const message = error.response.data.message
+
+    // Check Error Code For Show Error
+    if (status != 401) {
+      if (errors) {
+        for (const [key, value] of Object.entries(errors)) {
+          appendAlert(value[0], 'danger')
+        }
+      } else {
+        appendAlert(message, 'danger')
+      }
+    }
 
     switch (status) {
       case 401:
