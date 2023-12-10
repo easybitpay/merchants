@@ -30,6 +30,15 @@ const selectedType = ref({})
 // Functions
 
 /**
+ * Convert Type To Icon
+ */
+const convertTypeToIcon = (type) => {
+  if (type == 1) return 'screen'
+  if (type == 2) return 'weather'
+  if (type == 3) return 'camera-2'
+}
+
+/**
  * Submit Form
  * send data to parent for store
  */
@@ -71,7 +80,10 @@ onMounted(() => {
       :key="index"
     >
       <div class="card-body">
-        <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('embed')}.svg`" class="mb-6"></inline-svg>
+        <inline-svg
+          :src="`media/icons/shapes/${$filters.shapeStatus(convertTypeToIcon(item.type))}.svg`"
+          class="mb-6"
+        ></inline-svg>
 
         <div class="d-flex align-items-end justify-content-between gap-4">
           <!-- begin::Title & Subject -->

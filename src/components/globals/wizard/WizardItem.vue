@@ -28,7 +28,16 @@ const props = defineProps({
 
         <!-- begin::Info Show -->
         <div class="wizard-info p-6 px-xl-0" v-if="step != activeStep">
-          <inline-svg src="media/icons/shapes/embed.svg" height="40"></inline-svg>
+          <div>
+            <div class="svg-holder svg-holder-sm">
+              <inline-svg
+                :src="`/media/icons/shapes/${$filters.shapeStatus(
+                  info.icon,
+                  step < activeStep ? 'active' : 'gray'
+                )}.svg`"
+              ></inline-svg>
+            </div>
+          </div>
 
           <div class="text-center">
             <h5 class="mb-2 text-gray-800 neue-machina fw-normal">{{ info.title }}</h5>

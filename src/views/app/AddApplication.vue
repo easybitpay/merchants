@@ -14,31 +14,37 @@ import Finish from '../../components/add-application/Finish.vue'
 // ----- START ----- //
 const steps = [
   {
+    icon:'print',
     title: 'Start',
     subject: 'Gateway',
     component: Start
   },
   {
+    icon:'archive',
     title: 'Type',
     subject: 'Gateway',
     component: Type
   },
   {
+    icon:'deep-view',
     title: 'Info',
     subject: 'Gateway',
     component: Info
   },
   {
+    icon:'tag',
     title: 'Pro',
     subject: 'Gateway',
     component: Pro
   },
   {
+    icon:'camera',
     title: 'Verify',
     subject: 'Gateway',
     component: Verify
   },
   {
+    icon:'package',
     title: 'Finish',
     subject: 'Gateway',
     component: Finish
