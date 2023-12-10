@@ -7,7 +7,7 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
 <template>
   <ContactInfo />
 
-  <!-- begin::Contact Info -->
+  <!-- begin::Basic Info -->
   <div class="mb-12">
     <!-- begin::Title -->
     <h4 class="mb-2 lh-1 text-gray-900">Basic info</h4>
@@ -53,7 +53,7 @@ import TextColumn from '../../../components/globals/TextColumn.vue'
     </div>
     <!-- end::Content -->
   </div>
-  <!-- end::Contact Info -->
+  <!-- end::Basic Info -->
 
   <!-- begin::Linked Accounts -->
   <div class="mb-12">

@@ -160,7 +160,7 @@ onMounted(async () => {
         <CategoryItem
           :active="selectedDepartment === item.id"
           :title="item.name"
-          icon="coin"
+          icon="chat"
           :subject="`${checkMessageCount(item.id)} Ticket`"
         />
       </SwiperSlide>

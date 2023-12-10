@@ -54,7 +54,7 @@
       <!-- begin::Action -->
       <div class="d-flex flex-wrap flex-lg-nowrap gap-4">
         <button type="button" class="btn bg-white p-0 w-40px h-40px">
-          <inline-svg src="/media/icons/shapes/bookmark.svg" height="24"></inline-svg>
+          <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`" height="24"></inline-svg>
         </button>
 
         <button class="btn btn-primary w-200px">

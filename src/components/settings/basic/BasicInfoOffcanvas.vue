@@ -61,7 +61,7 @@ const updateBasicInfo = async () => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+                <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('account')}.svg`" width="41" height="48"></inline-svg>
               </div>
 
               <div class="mb-10">
@@ -92,7 +92,7 @@ const updateBasicInfo = async () => {
                 <!-- begin::Icon -->
                 <inline-svg
                   src="media/icons/icons/phone.svg"
-                  class="position-absolute start-8px"
+                  class="position-absolute start-8px svg-icon-primary"
                 ></inline-svg>
                 <!-- end::Icon -->
 
@@ -123,7 +123,7 @@ const updateBasicInfo = async () => {
                 <!-- begin::Icon -->
                 <inline-svg
                   src="media/icons/icons/mail.svg"
-                  class="position-absolute start-8px"
+                  class="position-absolute start-8px svg-icon-primary"
                 ></inline-svg>
                 <!-- end::Icon -->
 
@@ -133,6 +133,7 @@ const updateBasicInfo = async () => {
                 >
                   <inline-svg
                     src="media/icons/icons/valid-form.svg"
+                    class="svg-icon-primary"
                     height="18"
                     width="18"
                   ></inline-svg>

@@ -129,10 +129,10 @@ const updateAppInfo = async () => {
 
     if (!setting.need_name) setting.need_name = false
 
-    if (!setting.amount) setting.amount = ""
+    if (!setting.amount) setting.amount = ''
 
-    fd.append("settings", JSON.stringify(setting));
-    
+    fd.append('settings', JSON.stringify(setting))
+
     // Request
     await store.updateApp({ id, fd }).then((res) => {
       if (res) {
@@ -181,7 +181,11 @@ onMounted(() => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/person.svg"></inline-svg>
+                <inline-svg
+                  :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+                  width="40"
+                  height="46"
+                ></inline-svg>
               </div>
 
               <div class="mb-10">

@@ -138,7 +138,13 @@ onMounted(() => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/usb.svg" height="46"></inline-svg>
+                <div class="svg-holder">
+                  <inline-svg
+                    :src="`media/icons/shapes/${$filters.shapeStatus('save-2')}.svg`"
+                    width="19"
+                    height="33"
+                  ></inline-svg>
+                </div>
               </div>
 
               <div class="mb-10">
@@ -235,9 +241,9 @@ onMounted(() => {
         <div class="d-flex gap-4">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
             >
-              <inline-svg src="media/icons/shapes/bookmark.svg"></inline-svg>
+              <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
             </div>
           </div>
           <div class="card border-0 mb-6 w-100">

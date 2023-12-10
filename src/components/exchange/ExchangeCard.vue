@@ -220,7 +220,11 @@ onMounted(() => {
         <!-- begin::Form Box -->
         <div class="col-xl-5">
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/exchange.svg"></inline-svg>
+          <inline-svg
+            :src="`/media/icons/shapes/${$filters.shapeStatus('cards')}.svg`"
+            width="51"
+            height="48"
+          ></inline-svg>
           <!-- end::Icon -->
 
           <!-- begin::Title -->

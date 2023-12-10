@@ -228,7 +228,9 @@ watch(
           <!-- begin::Header -->
           <div class="d-flex gap-2">
             <div>
-              <inline-svg src="media/icons/shapes/invoice.svg"></inline-svg>
+              <div class="svg-holder">
+                <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('invoice')}.svg`" height="34"></inline-svg>
+              </div>
             </div>
 
             <div class="mb-6">

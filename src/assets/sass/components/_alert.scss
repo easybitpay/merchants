@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: center;
     bottom: 24px;
-    z-index: 100;
+    z-index: 10000;
 
     &.pending-list {
         .alert-shadow {

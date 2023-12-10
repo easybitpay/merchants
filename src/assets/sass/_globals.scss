@@ -198,6 +198,19 @@ body {
     }
 }
 
+.svg-holder {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.svg-holder-sm {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
 .main-container {
     display: flex;
     flex: 1;
@@ -399,6 +412,7 @@ body {
             flex-flow: column;
             justify-content: flex-end;
             background-color: inherit;
+
             .user {
                 display: flex;
                 gap: .5rem;
@@ -475,6 +489,7 @@ body {
 
             .user-box {
                 padding: 0 1rem 1rem;
+
                 .user {
                     padding: 0;
                     border-width: 0;

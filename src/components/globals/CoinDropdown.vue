@@ -119,7 +119,7 @@ const filteredItems = () => {
         />
       </div>
 
-      <inline-svg src="media/icons/shapes/coin.svg" height="24" width="24"></inline-svg>
+      <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('balance-2')}.svg`" height="24" width="24"></inline-svg>
     </a>
 
     <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="coinDropdownMenuLink">

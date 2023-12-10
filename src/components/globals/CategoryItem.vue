@@ -30,7 +30,7 @@ const props = defineProps({
     <div class="card-body">
       <div>
         <!-- begin::Icon -->
-        <inline-svg :src="`/media/icons/shapes/${icon}.svg`" height="33"></inline-svg>
+        <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus(icon)}.svg`"></inline-svg>
         <!-- end::Icon -->
 
         <!-- begin::Title -->

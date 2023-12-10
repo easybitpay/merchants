@@ -95,7 +95,7 @@ watch(partnerListKey, () => {
       <!-- begin::Header -->
       <div class="pb-12 d-flex align-items-center justify-content-between flex-wrap gap-4">
         <h4 class="roboto-mono mb-0 text-gray-900 d-flex gap-5 fw-normal">
-          <inline-svg src="/media/icons/shapes/chess.svg"></inline-svg>
+          <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('chess-2')}.svg`" height="24" width="15"></inline-svg>
 
           {{ selectedApp.name }} Team
         </h4>

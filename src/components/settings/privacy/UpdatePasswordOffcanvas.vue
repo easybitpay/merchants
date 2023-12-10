@@ -100,7 +100,7 @@ const updatePassword = async () => {
     fd.append('confirm_password', form.value.confirm_password)
 
     // Request
-    await store.updatePassword({fd, updateTime}).then((res) => {
+    await store.updatePassword({ fd, updateTime }).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()
@@ -156,7 +156,13 @@ onMounted(() => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
+                <div class="svg-holder">
+                  <inline-svg
+                    :src="`/media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+                    width="21"
+                    height="32"
+                  ></inline-svg>
+                </div>
               </div>
 
               <div class="mb-10">

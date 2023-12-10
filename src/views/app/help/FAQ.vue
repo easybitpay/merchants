@@ -66,7 +66,7 @@ onMounted(async () => {
 </script>
 <template>
   <!-- begin::Categories -->
-  <div>
+  <div v-if="loading || categories.length">
     <Swiper
       :slidesPerView="1.2"
       :spaceBetween="16"

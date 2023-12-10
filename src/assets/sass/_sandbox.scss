@@ -37,8 +37,10 @@
     .btn:first-child:active,
     .btn.active,
     .btn.show {
-        background-color: $primary;
-        border-color: $primary;
+        &:not(.dropdown-toggle) {
+            background-color: $primary;
+            border-color: $primary;
+        }
     }
 
     .form-check .form-check-input:checked~.form-check-label {
@@ -87,6 +89,24 @@
     .dropdown-item:hover,
     .dropdown-item:focus {
         color: $primary;
+    }
+
+    #birthdateDropdown .dropdown-menu .input-box .item:focus,
+    #birthdateDropdown .dropdown-menu .input-box .item:active,
+    #birthdateDropdown .dropdown-menu .input-box .item:hover,
+    #birthdateDropdown .dropdown-menu .input-box .item:focus-within {
+        border-color: $primary;
+    }
+
+    #birthdateDropdown .dropdown-menu .input-box .item:focus .form-control,
+    #birthdateDropdown .dropdown-menu .input-box .item:active .form-control,
+    #birthdateDropdown .dropdown-menu .input-box .item:hover .form-control,
+    #birthdateDropdown .dropdown-menu .input-box .item:focus-within .form-control {
+        border-color: $primary;
+    }
+
+    .main-container #main {
+        padding-bottom: 6rem;
     }
 
     .main-container #sidebar {
@@ -172,7 +192,7 @@
     .dropzone {
         border-color: $primary;
     }
-    
+
     .ticket-messages .item-box-holder.user .item-box .item {
         border-color: $primary;
         background-color: $primary;

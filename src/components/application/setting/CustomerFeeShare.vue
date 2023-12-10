@@ -101,7 +101,12 @@ onMounted(() => {
       <div class="w-100 w-lg-initial">
         <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
           <!-- begin::Top -->
-          <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
+          <inline-svg
+            :src="`/media/icons/shapes/${$filters.shapeStatus('account')}.svg`"
+            width="43"
+            height="48"
+            class="d-none d-sm-block"
+          ></inline-svg>
 
           <div class="range-div w-100 w-lg-384px">
             <input
@@ -122,7 +127,12 @@ onMounted(() => {
             </span>
           </div>
 
-          <inline-svg src="media/icons/shapes/person.svg" class="d-none d-sm-block"></inline-svg>
+          <inline-svg
+            :src="`/media/icons/shapes/${$filters.shapeStatus('chess')}.svg`"
+            width="43"
+            height="48"
+            class="d-none d-sm-block"
+          ></inline-svg>
           <!-- end::Top -->
         </div>
 

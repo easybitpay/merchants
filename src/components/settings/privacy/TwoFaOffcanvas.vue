@@ -174,7 +174,9 @@ onMounted(() => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg src="media/icons/shapes/2F.svg"></inline-svg>
+                <div class="svg-holder">
+                  <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('2F')}.svg`" width="39" height="38"></inline-svg>
+                </div>
               </div>
 
               <div class="mb-10">
@@ -259,7 +261,7 @@ onMounted(() => {
                 <!-- begin::Icon -->
                 <inline-svg
                   src="media/icons/icons/mail.svg"
-                  class="position-absolute start-8px"
+                  class="position-absolute start-8px svg-icon-primary"
                 ></inline-svg>
                 <!-- end::Icon -->
               </div>
@@ -275,9 +277,9 @@ onMounted(() => {
         <div class="d-flex gap-4">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
             >
-              <inline-svg src="media/icons/shapes/bookmark.svg"></inline-svg>
+              <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
             </div>
           </div>
           <div class="card border-0 mb-6 w-100">

@@ -8,7 +8,9 @@
       <!-- begin::Title -->
       <div class="d-flex align-items-center gap-4">
         <div>
-          <inline-svg src="media/icons/shapes/embed.svg" height="40"></inline-svg>
+          <div class="svg-holder svg-holder-sm">
+            <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('embed')}.svg`" width="33" height="29"></inline-svg>
+          </div>
         </div>
         <p class="mb-0">
           Embed Exchange In Your Website

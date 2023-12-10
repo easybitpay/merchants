@@ -137,7 +137,8 @@ const addNewPartner = async () => {
               <div>
                 <inline-svg
                   :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
-                  class="svg-icon-size"
+                  width="40"
+                  height="46"
                 ></inline-svg>
               </div>
 
@@ -170,7 +171,7 @@ const addNewPartner = async () => {
                 <!-- begin::Icon -->
                 <inline-svg
                   src="media/icons/icons/mail.svg"
-                  class="position-absolute start-8px"
+                  class="position-absolute start-8px svg-icon-primary"
                 ></inline-svg>
                 <!-- end::Icon -->
 

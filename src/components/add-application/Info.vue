@@ -226,7 +226,9 @@ onMounted(() => {
     <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
       <!-- begin::Top -->
       <inline-svg
-        :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+        :src="`/media/icons/shapes/${$filters.shapeStatus('account')}.svg`"
+        width="43"
+        height="48"
         class="d-none d-sm-block"
       ></inline-svg>
 
@@ -249,7 +251,9 @@ onMounted(() => {
       </div>
 
       <inline-svg
-        :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
+        :src="`/media/icons/shapes/${$filters.shapeStatus('chess')}.svg`"
+        width="43"
+        height="48"
         class="d-none d-sm-block"
       ></inline-svg>
       <!-- end::Top -->
