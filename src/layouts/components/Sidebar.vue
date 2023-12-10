@@ -3,7 +3,7 @@
 import { computed, ref, watch } from 'vue'
 
 // Router
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
@@ -30,6 +30,7 @@ const emit = defineEmits(['changeSidebarStatus'])
 
 // Generals
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const appStore = useAppStore()
 const { storageImage } = useIconImage()
@@ -46,6 +47,18 @@ const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 
 const currentUser = computed(() => authStore.currentUser)
 
 // Functions
+
+const checkActive = (checkText, extraCheck = false) => {
+  const currentParentUrl = route.path.split('/').filter((x) => x !== '')
+
+  if (extraCheck) {
+    const mustCheckItem = currentParentUrl[currentParentUrl.length - 1]
+
+    return currentParentUrl[0].includes(checkText) && extraCheck == mustCheckItem
+  } else {
+    return currentParentUrl[0].includes(checkText)
+  }
+}
 
 /**
  * Change Sibedar
@@ -117,13 +130,13 @@ watch(sandbox, () => {
     <!-- begin::Logo & Search -->
     <div class="two-side-space w-100">
       <!-- begin::Logo -->
-      <RouterLink :to="{ name: 'dashboard' }">
+      <router-link :to="{ name: 'dashboard' }">
         <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
         <inline-svg
           src="media/images/logo/sidebar-collapse-logo.svg"
           class="logo-collapse"
         ></inline-svg>
-      </RouterLink>
+      </router-link>
       <!-- end::Logo -->
 
       <!-- begin::Search -->
@@ -150,7 +163,10 @@ watch(sandbox, () => {
         <!-- begin::Collapse Link -->
         <div class="collapse-box">
           <div class="collapse-link">
-            <RouterLink :to="{ name: 'applications' }" class="link pe-0">
+            <router-link
+              :to="{ name: 'applications' }"
+              :class="[{ 'link pe-0': true }, { active: checkActive('application') }]"
+            >
               <!-- begin::icon -->
               <div>
                 <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
@@ -158,7 +174,7 @@ watch(sandbox, () => {
               <!-- end::icon -->
 
               <span>Applications</span>
-            </RouterLink>
+            </router-link>
 
             <!-- begin::icon -->
             <inline-svg
@@ -174,9 +190,9 @@ watch(sandbox, () => {
 
           <div class="collapse collapse-box" id="appListCollapse">
             <div class="box">
-              <RouterLink
+              <router-link
                 :to="{ name: 'application-overview', params: { id: app.id } }"
-                class="item"
+                :class="[{ item: true }, { active: checkActive('application', app.id) }]"
                 v-for="app in appList"
                 :key="app.id"
               >
@@ -185,7 +201,7 @@ watch(sandbox, () => {
                 </div>
 
                 <span>{{ app.name }}</span>
-              </RouterLink>
+              </router-link>
             </div>
           </div>
         </div>
@@ -193,7 +209,10 @@ watch(sandbox, () => {
         <!-- end::Collapse Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'exchange' }" class="link">
+        <router-link
+          :to="{ name: 'exchange' }"
+          :class="[{ link: true }, { active: checkActive('exchange') }]"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/settings-alt.svg" class="icon"></inline-svg>
@@ -201,11 +220,14 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Exchange</span>
-        </RouterLink>
+        </router-link>
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'notification' }" class="link">
+        <router-link
+          :to="{ name: 'notification' }"
+          :class="[{ link: true }, { active: checkActive('notification') }]"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/notification.svg" class="icon"></inline-svg>
@@ -213,11 +235,14 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Notif Center</span>
-        </RouterLink>
+        </router-link>
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'plugin' }" class="link">
+        <router-link
+          :to="{ name: 'plugin' }"
+          :class="[{ link: true }, { active: checkActive('plugin') }]"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/commandline.svg" class="icon"></inline-svg>
@@ -225,7 +250,7 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Plugin</span>
-        </RouterLink>
+        </router-link>
         <!-- end::Link -->
       </div>
       <!-- end::Link Box -->
@@ -233,7 +258,10 @@ watch(sandbox, () => {
       <!-- begin::Link Box -->
       <div class="link-box">
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'settings' }" class="link">
+        <router-link
+          :to="{ name: 'settings' }"
+          :class="[{ link: true }, { active: checkActive('settings') }]"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
@@ -241,11 +269,17 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Setting</span>
-        </RouterLink>
+        </router-link>
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'login' }" class="link">
+
+        <a
+          href="https://docs.easybitpay.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/book.svg" class="icon"></inline-svg>
@@ -253,11 +287,14 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Documentation</span>
-        </RouterLink>
+        </a>
         <!-- end::Link -->
 
         <!-- begin::Link -->
-        <RouterLink :to="{ name: 'help' }" class="link">
+        <router-link
+          :to="{ name: 'help' }"
+          :class="[{ link: true }, { active: checkActive('help') }]"
+        >
           <!-- begin::icon -->
           <div>
             <inline-svg src="media/icons/icons/compass.svg" class="icon"></inline-svg>
@@ -265,7 +302,7 @@ watch(sandbox, () => {
           <!-- end::icon -->
 
           <span>Get Help</span>
-        </RouterLink>
+        </router-link>
         <!-- end::Link -->
 
         <!-- begin::Lock -->

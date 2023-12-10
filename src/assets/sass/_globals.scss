@@ -357,13 +357,13 @@ body {
                 position: relative;
                 min-width: max-content;
                 cursor: pointer;
-                transition: all linear .3s;
+                // transition: all linear .3s;
 
                 span {
-                    transition: all linear .3s;
+                    // transition: all linear .3s;
                 }
 
-                &.router-link-exact-active {
+                &.active {
                     color: $primary !important;
 
                     &::before {

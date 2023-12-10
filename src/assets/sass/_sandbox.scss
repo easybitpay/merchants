@@ -173,11 +173,11 @@
         color: $primary;
     }
 
-    .main-container #sidebar .links .link.router-link-exact-active::before {
+    .main-container #sidebar .links .link.active::before {
         background-color: $primary;
     }
 
-    .main-container #sidebar .links .link.router-link-exact-active {
+    .main-container #sidebar .links .link.active {
         color: $primary !important;
     }
 
@@ -185,7 +185,7 @@
         stroke: $primary;
     }
 
-    .main-container #sidebar .links .link.router-link-exact-active .icon path {
+    .main-container #sidebar .links .link.active .icon path {
         stroke: $primary;
     }
 
