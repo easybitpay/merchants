@@ -182,9 +182,9 @@ onMounted(() => {
             <div class="d-flex gap-4">
               <div>
                 <inline-svg
-                  :src="`media/icons/no-wrap/${$filters.shapeStatus('account')}.svg`"
-                  width="40"
-                  height="46"
+                  :src="`media/icons/shapes/${$filters.shapeStatus('account')}.svg`"
+                  width="41"
+                  height="48"
                 ></inline-svg>
               </div>
 

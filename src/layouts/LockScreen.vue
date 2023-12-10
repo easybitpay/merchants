@@ -88,7 +88,7 @@ onMounted(() => {
             <div class="card">
               <div class="card-body">
                 <!-- begin::Icon -->
-                <inline-svg src="/media/icons/shapes/unlock.svg"></inline-svg>
+                <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('unlock')}.svg`" width="30" height="48"></inline-svg>
                 <!-- end::Icon -->
 
                 <!-- begin::Text -->

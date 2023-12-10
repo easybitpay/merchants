@@ -61,7 +61,11 @@ const updateBasicInfo = async () => {
             <!-- begin::Header -->
             <div class="d-flex gap-4">
               <div>
-                <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('account')}.svg`" width="41" height="48"></inline-svg>
+                <inline-svg
+                  :src="`media/icons/shapes/${$filters.shapeStatus('account')}.svg`"
+                  width="41"
+                  height="48"
+                ></inline-svg>
               </div>
 
               <div class="mb-10">

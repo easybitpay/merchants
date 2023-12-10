@@ -125,7 +125,11 @@ onMounted(() => {
     <div class="card-body d-flex flex-column justify-content-between">
       <div>
         <!-- begin::Icon -->
-        <inline-svg src="media/icons/shapes/auth.svg"></inline-svg>
+        <inline-svg
+          :src="`/media/icons/shapes/${$filters.shapeStatus('signin')}.svg`"
+          width="45"
+          height="48"
+        ></inline-svg>
         <!-- end::Icon -->
 
         <!-- begin::Text -->

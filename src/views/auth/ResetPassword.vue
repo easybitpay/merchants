@@ -160,7 +160,13 @@ const changePass = async () => {
       >
         <div>
           <!-- begin::Icon -->
-          <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"></inline-svg>
+          <div class="svg-holder">
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+              width="21"
+              height="32"
+            ></inline-svg>
+          </div>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -210,7 +216,13 @@ const changePass = async () => {
       >
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
+          <div class="svg-holder">
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+              width="21"
+              height="32"
+            ></inline-svg>
+          </div>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -314,7 +326,13 @@ const changePass = async () => {
       <div v-if="step === 3" class="d-flex flex-column justify-content-between min-h-560px">
         <div>
           <!-- begin::Icon -->
-          <inline-svg src="media/icons/shapes/lock.svg"></inline-svg>
+          <div class="svg-holder">
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+              width="21"
+              height="32"
+            ></inline-svg>
+          </div>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
@@ -376,7 +394,13 @@ const changePass = async () => {
       <div v-if="step === 4" class="d-flex flex-column justify-content-between min-h-560px">
         <div>
           <!-- begin::Icon -->
-          <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('star')}.svg`"></inline-svg>
+          <div class="svg-holder">
+            <inline-svg
+              :src="`media/icons/shapes/${$filters.shapeStatus('star')}.svg`"
+              width="32"
+              height="30"
+            ></inline-svg>
+          </div>
           <!-- end::Icon -->
 
           <!-- begin::Text -->
