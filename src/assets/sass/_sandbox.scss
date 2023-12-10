@@ -1,6 +1,16 @@
 .sandbox {
     $primary: $warning;
 
+    #sandbox-alert {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 24px;
+        z-index: $zindex-offcanvas;
+        max-width: 792px;
+        width: 100%;
+    }
+
     .btn-light {
         color: $primary !important;
     }
@@ -83,6 +93,13 @@
         border-color: $primary;
     }
 
+    .main-container #sidebar .user-box {
+        height: 223px;
+        background-image: url(/media/images/banner/sand-box.png);
+        background-position: center;
+        background-size: cover;
+    }
+
     .form-check-input[type=radio] {
         border-color: $primary;
     }
@@ -159,5 +176,13 @@
     .ticket-messages .item-box-holder.user .item-box .item {
         border-color: $primary;
         background-color: $primary;
+    }
+
+    .offcanvas.offcanvas-bottom.show:not(.hiding) {
+        bottom: 80px;
+
+        @media (max-width: 600px) {
+            bottom: 114px;
+        }
     }
 }

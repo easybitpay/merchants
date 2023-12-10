@@ -5,6 +5,12 @@ import { computed, onMounted, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Hook
+import useIconImage from '@/hooks/useIconImage'
+
+// Color Thief
+import ColorThief from 'colorthief'
+
 // Components
 import BankLoading from '../loadings/BankLoading.vue'
 
@@ -27,6 +33,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 // Generals
 const store = useAppStore()
+const { iconImage } = useIconImage()
 
 // Refs
 const selectedLine = ref('')
@@ -289,12 +296,16 @@ const getAppTokenBalance = async () => {
       let array = []
       for (let i = 0; i < res.length; i++) {
         const element = res[i]
-        array.push({
-          ...element.token,
-          balance: element.balance
-        })
+        if (+element.balance) {
+          array.push({
+            ...element.token,
+            balance: +element.balance
+          })
+        }
       }
-      balances.value = array
+      let sorted = array.sort((a, b) => a.balance + b.balance)
+      balances.value = sorted
+      detectImageColor()
     }
   })
 
@@ -302,8 +313,32 @@ const getAppTokenBalance = async () => {
   loadings.value.balance = false
 }
 
+/**
+ * Balance To Percent
+ */
+const convertAmountToPercent = (balance) => {
+  const total = balances.value.reduce((acc, obj) => acc + +obj.balance, 0)
+  return ((+balance * 100) / total).toFixed(0)
+}
+
+const detectImageColor = async () => {
+  setTimeout(() => {
+    const colorThief = new ColorThief()
+    for (let i = 0; i < balances.value.length; i++) {
+      const element = balances.value[i]
+
+      const img = document.querySelector(`#image_${element.symbol}`)
+
+      const colors = colorThief.getColor(img)
+      element.colors = colors
+    }
+  }, 2000)
+}
+
 onMounted(() => {
-  getAppTokenBalance()
+  setTimeout(() => {
+    getAppTokenBalance()
+  }, 1000)
 })
 </script>
 <template>
@@ -364,18 +399,22 @@ onMounted(() => {
             :class="[{ 'd-flex flex-root amount-columns': true }, { 'active-item': selectedLine }]"
           >
             <!-- begin::Item -->
-            <div class="item" style="width: 53%; background-color: #ffb74d">
-              <span class="d-none d-sm-block">53%</span>
-            </div>
-            <!-- end::Item -->
-            <!-- begin::Item -->
-            <div class="item active" style="width: 39%; background-color: #3dd598">
-              <span class="d-none d-sm-block">39%</span>
-            </div>
-            <!-- end::Item -->
-            <!-- begin::Item -->
-            <div class="item" style="width: 8%; background-color: #9575cd">
-              <span class="d-none d-sm-block"></span>
+            <div
+              class="item"
+              v-for="(item, index) in balances"
+              :key="index"
+              :style="`width: ${convertAmountToPercent(item.balance)}%; background-color: ${
+                item.colors ? `rgb(${item.colors[0]}, ${item.colors[1]}, ${item.colors[2]})` : ''
+              }`"
+            >
+              <img :src="iconImage(item.symbol)" alt="item" :id="`image_${item.symbol}`" hidden />
+              <span class="d-none d-sm-block">
+                {{
+                  convertAmountToPercent(item.balance) > 40
+                    ? `${convertAmountToPercent(item.balance)}%`
+                    : ''
+                }}
+              </span>
             </div>
             <!-- end::Item -->
           </div>
@@ -385,13 +424,31 @@ onMounted(() => {
           <div class="value-infos my-6">
             <!-- begin::Item -->
             <div class="item">
-              <p class="value" style="color: #ffb74d">${{ balances[0].balance }}</p>
+              <p
+                class="value"
+                :style="`color: ${
+                  balances[0].colors
+                    ? `rgb(${balances[0].colors[0]}, ${balances[0].colors[1]}, ${balances[0].colors[2]})`
+                    : ''
+                }`"
+              >
+                ${{ balances[0].balance }}
+              </p>
               <p class="title">{{ balances[0].symbol }}</p>
             </div>
             <!-- end::Item -->
             <!-- begin::Item -->
             <div v-if="balances[1]" :class="[{ item: true }, { active: selectedLine }]">
-              <p class="value" style="color: #3dd598">${{ balances[1].balance }}</p>
+              <p
+                class="value"
+                :style="`color: ${
+                  balances[1].colors
+                    ? `rgb(${balances[1].colors[0]}, ${balances[1].colors[1]}, ${balances[1].colors[2]})`
+                    : ''
+                }`"
+              >
+                ${{ balances[1].balance }}
+              </p>
               <p class="title">{{ balances[1].symbol }}</p>
             </div>
             <!-- end::Item -->

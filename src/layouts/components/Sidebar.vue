@@ -12,6 +12,9 @@ import { useAppStore } from '@/stores/app'
 // Hook
 import useIconImage from '@/hooks/useIconImage'
 
+// Components
+import SandboxAlert from '../../components/globals/SandboxAlert.vue'
+
 // Props
 const props = defineProps({
   collapsed: {
@@ -363,7 +366,7 @@ watch(sandbox, () => {
     <!-- end::Links -->
 
     <!-- begin::User -->
-    <div class="two-side-space w-100">
+    <div class="user-box w-100">
       <div class="user cursor-pointer">
         <div>
           <!-- begin::Image Box -->
@@ -403,4 +406,6 @@ watch(sandbox, () => {
     </div>
     <!-- end::User -->
   </aside>
+
+  <SandboxAlert v-if="sandBoxStatus" />
 </template>
