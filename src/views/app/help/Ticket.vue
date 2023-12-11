@@ -17,7 +17,7 @@ import 'swiper/css'
 // Components
 import CreateTicket from '../../../components/help/ticket/CreateTicket.vue'
 import TicketItem from '../../../components/help/ticket/TicketItem.vue'
-import CategoryItem from '../../../components/globals/CategoryItem.vue'
+import ItemCategory from '../../../components/globals/ItemCategories.vue'
 import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
 import CategoryItemLoading from '../../../components/loadings/CategoryItemLoading.vue'
 import PaginationCard from '../../../components/globals/PaginationCard.vue'
@@ -157,7 +157,7 @@ onMounted(async () => {
       </template>
 
       <SwiperSlide v-for="item in departments" :key="item.id" @click="selectedDepartment = item.id">
-        <CategoryItem
+        <ItemCategory
           :active="selectedDepartment === item.id"
           :title="item.name"
           icon="chat"

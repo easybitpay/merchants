@@ -18,7 +18,7 @@ import 'swiper/css'
 import FAQItem from '../../../components/help/faq/FAQItem.vue'
 import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
 import CategoryItemLoading from '../../../components/loadings/CategoryItemLoading.vue'
-import CategoryItem from '../../../components/globals/CategoryItem.vue'
+import ItemCategory from '../../../components/globals/ItemCategories.vue'
 
 // ----- START ----- //
 
@@ -97,7 +97,7 @@ onMounted(async () => {
 
       <template v-else>
         <SwiperSlide v-for="item in categories" :key="item.id" @click="selectedCategory = item.id">
-          <CategoryItem
+          <ItemCategory
             :active="selectedCategory === item.id"
             :title="item.title"
             icon="wallet"
