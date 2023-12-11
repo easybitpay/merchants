@@ -371,20 +371,22 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-    /**
+  /**
    * Get Balance List
-   * @param {app id} payload
+   * @param {app id, {page, perPage}} payload
    */
-    async function getAppBalanceChart(payload) {
-      try {
-        const { data } = await api.get(`apps-balances/chart/${payload}`)
-        //
-  
-        return data
-      } catch (error) {
-        return false
-      }
+  async function getAppBalanceChart(payload) {
+    try {
+      const { data } = await api.get(`apps-balances/chart/${payload.id}`, {
+        params: payload.params
+      })
+      //
+
+      return data
+    } catch (error) {
+      return false
     }
+  }
 
   /**
    * Get Minimum Withdraw Amount

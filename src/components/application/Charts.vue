@@ -40,6 +40,8 @@ const chartKey = ref(0)
 const selectedLine = ref('')
 const balances = ref([])
 const chartImage = ref([])
+const lastPage = ref(1)
+const currentPage = ref(1)
 const loadings = ref({
   chart: false,
   balance: false
@@ -319,59 +321,69 @@ const getAppTokenBalance = async () => {
 /**
  * Get Balance Chart
  */
-const getAppBalanceChart = async () => {
-  // Start Loading
-  loadings.value.chart = true
+const getAppBalanceChart = async (page) => {
+  if (page && page <= lastPage.value && !loadings.value.chart) {
+    // Start Loading
+    loadings.value.chart = true
 
-  // Request
-  await store.getAppBalanceChart(selectedApp.value.id).then(async (res) => {
-    if (res) {
-      let list = res.list
-      chartData.value.labels = list.labels
-      let datas = []
-      let symbols = []
+    // Set Variables
+    const id = selectedApp.value.id
+    let params = new URLSearchParams()
+    params.set('page', `${page}`)
+    params.set('perPage', '15')
 
-      for (let i = 0; i < list.tokens.length; i++) {
-        const element = list.tokens[i]
-        symbols.push(element.token.symbol)
+    // Request
+    await store.getAppBalanceChart({ id, params }).then(async (res) => {
+      if (res) {
+        currentPage.value = page
+        lastPage.value = res.totalPages
+        let list = res.list
+        chartData.value.labels = list.labels
+        let datas = []
+        let symbols = []
 
-        datas.push({
-          label: `${element.token.symbol} (${element.token.network.name})`,
-          data: element.data,
-          borderColor: '',
-          backgroundColor: '',
-          tension: 0.5,
-          pointStyle: 'circle'
+        for (let i = 0; i < list.tokens.length; i++) {
+          const element = list.tokens[i]
+          symbols.push(element.token.symbol)
+
+          datas.push({
+            label: `${element.token.symbol} (${element.token.network.name})`,
+            data: element.data,
+            borderColor: '',
+            backgroundColor: '',
+            tension: 0.5,
+            pointStyle: 'circle'
+          })
+        }
+
+        chartImage.value = symbols
+
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const colorThief = new ColorThief()
+            for (let i = 0; i < chartImage.value.length; i++) {
+              const element = chartImage.value[i]
+
+              const img = document.querySelector(`#chart_${element}`)
+
+              const colors = colorThief.getColor(img)
+              datas[i].borderColor = rgbToHex(colors[0], colors[1], colors[2])
+              datas[i].backgroundColor = rgbToHex(colors[0], colors[1], colors[2])
+            }
+
+            resolve()
+          }, 1000)
         })
+
+        chartData.value.datasets = datas
+
+        chartKey.value++
       }
+    })
 
-      chartImage.value = symbols
-
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const colorThief = new ColorThief()
-          for (let i = 0; i < chartImage.value.length; i++) {
-            const element = chartImage.value[i]
-
-            const img = document.querySelector(`#chart_${element}`)
-
-            const colors = colorThief.getColor(img)
-            datas[i].borderColor = rgbToHex(colors[0], colors[1], colors[2])
-            datas[i].backgroundColor = rgbToHex(colors[0], colors[1], colors[2])
-          }
-
-          resolve()
-        }, 1000)
-      })
-
-      chartData.value.datasets = datas
-
-      chartKey.value++
-    }
-  })
-
-  // Stop Loading
-  loadings.value.chart = false
+    // Stop Loading
+    loadings.value.chart = false
+  }
 }
 
 /**
@@ -398,7 +410,7 @@ const detectImageColor = async () => {
 
 onMounted(() => {
   setTimeout(() => {
-    getAppBalanceChart()
+    getAppBalanceChart(1)
     getAppTokenBalance()
   }, 1000)
 })
@@ -442,7 +454,7 @@ onMounted(() => {
           <!-- end::Header -->
 
           <!-- begin::Chart -->
-          <div class="w-100 d-flex gap-4">
+          <div class="w-100 d-flex flex-column flex-sm-row gap-4">
             <div class="h-400px flex-grow-1">
               <Line
                 :key="chartKey"
@@ -453,9 +465,17 @@ onMounted(() => {
               />
             </div>
 
-            <div class="pe-6 pb-6">
-              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
-              <inline-svg src="media/icons/icons/chevron-right.svg"></inline-svg>
+            <div class="px-6 pb-6 ps-sm-0 d-flex justify-content-end align-items-end">
+              <inline-svg
+                @click="getAppBalanceChart(currentPage + 1)"
+                src="media/icons/icons/chevron-left.svg"
+                :class="[{ 'svg-icon-indigo-500 cursor-pointer': currentPage < lastPage }]"
+              ></inline-svg>
+              <inline-svg
+                @click="getAppBalanceChart(currentPage - 1)"
+                src="media/icons/icons/chevron-right.svg"
+                :class="[{ 'svg-icon-indigo-500 cursor-pointer': currentPage > 1 }]"
+              ></inline-svg>
             </div>
           </div>
           <!-- end::Chart -->
