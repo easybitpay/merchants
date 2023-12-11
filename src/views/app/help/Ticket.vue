@@ -17,7 +17,7 @@ import 'swiper/css'
 // Components
 import CreateTicket from '../../../components/help/ticket/CreateTicket.vue'
 import TicketItem from '../../../components/help/ticket/TicketItem.vue'
-import CategoryItem from '../../../components/globals/Categoryitem.vue'
+import CategoryItem from '../../../components/globals/CategoryItem.vue'
 import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
 import CategoryItemLoading from '../../../components/loadings/CategoryItemLoading.vue'
 import PaginationCard from '../../../components/globals/PaginationCard.vue'

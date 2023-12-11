@@ -16,7 +16,6 @@ import 'swiper/css'
 
 // Components
 import FAQItem from '../../../components/help/faq/FAQItem.vue'
-import CategoryItem from '../../../components/globals/CategoryItem.vue'
 import AccordionItemLoading from '../../../components/loadings/AccordionItemLoading.vue'
 import CategoryItemLoading from '../../../components/loadings/CategoryItemLoading.vue'
 
