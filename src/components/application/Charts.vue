@@ -36,9 +36,12 @@ const store = useAppStore()
 const { iconImage } = useIconImage()
 
 // Refs
+const chartKey = ref(0)
 const selectedLine = ref('')
 const balances = ref([])
+const chartImage = ref([])
 const loadings = ref({
+  chart: false,
   balance: false
 })
 
@@ -204,25 +207,8 @@ const htmlLegendPlugin = {
 }
 
 const chartData = ref({
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  datasets: [
-    {
-      label: 'Tether USD',
-      data: [15, 12, 5, 6, 45, 45, 15],
-      borderColor: '#0062FF',
-      backgroundColor: '#0062FF',
-      tension: 0.5,
-      pointStyle: 'circle'
-    },
-    {
-      label: 'ECS Gold',
-      data: [40, 39, 10, 2000, 39, 80, 40],
-      borderColor: '#3DD598',
-      backgroundColor: '#3DD598',
-      tension: 0.5,
-      pointStyle: 'circle'
-    }
-  ]
+  labels: [],
+  datasets: []
 })
 
 const chartOptions = ref({
@@ -282,6 +268,16 @@ const chartOptions = ref({
 const plugins = [htmlLegendPlugin]
 
 // Functions
+
+const componentToHex = (c) => {
+  var hex = c.toString(16)
+  return hex.length == 1 ? '0' + hex : hex
+}
+
+const rgbToHex = (r, g, b) => {
+  return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b)
+}
+
 /**
  * Get Balances
  */
@@ -303,14 +299,78 @@ const getAppTokenBalance = async () => {
           })
         }
       }
-      let sorted = array.sort((a, b) => a.balance + b.balance)
+      let sorted = array.sort((a, b) => {
+        if (a.balance > b.balance) {
+          return -1
+        } else {
+          return 1
+        }
+      })
       balances.value = sorted
+
       detectImageColor()
     }
   })
 
   // Stop Loading
   loadings.value.balance = false
+}
+
+/**
+ * Get Balance Chart
+ */
+const getAppBalanceChart = async () => {
+  // Start Loading
+  loadings.value.chart = true
+
+  // Request
+  await store.getAppBalanceChart(selectedApp.value.id).then(async (res) => {
+    if (res) {
+      chartData.value.labels = res[0].history.labels
+      let datas = []
+      let symbols = []
+
+      for (let i = 0; i < res.length; i++) {
+        const element = res[i]
+        symbols.push(element.token.symbol)
+
+        datas.push({
+          label: `${element.token.symbol} (${element.token.network.name})`,
+          data: element.history.data,
+          borderColor: '',
+          backgroundColor: '',
+          tension: 0.5,
+          pointStyle: 'circle'
+        })
+      }
+
+      chartImage.value = symbols
+
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const colorThief = new ColorThief()
+          for (let i = 0; i < chartImage.value.length; i++) {
+            const element = chartImage.value[i]
+
+            const img = document.querySelector(`#chart_${element}`)
+
+            const colors = colorThief.getColor(img)
+            datas[i].borderColor = rgbToHex(colors[0], colors[1], colors[2])
+            datas[i].backgroundColor = rgbToHex(colors[0], colors[1], colors[2])
+          }
+
+          resolve()
+        }, 1000)
+      })
+
+      chartData.value.datasets = datas
+
+      chartKey.value++
+    }
+  })
+
+  // Stop Loading
+  loadings.value.chart = false
 }
 
 /**
@@ -330,35 +390,51 @@ const detectImageColor = async () => {
       const img = document.querySelector(`#image_${element.symbol}`)
 
       const colors = colorThief.getColor(img)
-      element.colors = colors
+      element.color = rgbToHex(colors[0], colors[1], colors[2])
     }
-  }, 2000)
+  }, 1000)
 }
 
 onMounted(() => {
   setTimeout(() => {
+    getAppBalanceChart()
     getAppTokenBalance()
   }, 1000)
 })
 </script>
 <template>
-  <div class="row gy-6 mb-6">
+  <div class="row gy-6">
     <div
       :class="`col-lg-${loadings.balance || balances.length ? '7' : '12'} 
       col-xl-${loadings.balance || balances.length ? '8' : '12'}
       col-xxl-${loadings.balance || balances.length ? '9' : '12'}`"
     >
-      <!-- begin::Transactions -->
+      <!-- begin::Balance History -->
       <div class="card border-gray-200 rounded-4">
         <div class="card-body p-0">
+          <img
+            v-for="(item, index) in chartImage"
+            :key="index"
+            :src="iconImage(item)"
+            alt="item"
+            :id="`chart_${item}`"
+            hidden
+          />
+
           <!-- begin::Header -->
           <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
-            <h4 class="neue-machina mb-0 text-gray-900 d-flex gap-3 fw-normal">
+            <h4 class="neue-machina mb-0 text-gray-900 d-flex align-items-center gap-3 fw-normal">
               <inline-svg
                 :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
               ></inline-svg>
 
-              Transaction History
+              Balance History
+
+              <span
+                v-if="loadings.chart"
+                class="spinner-border spinner-border-sm"
+                role="status"
+              ></span>
             </h4>
             <div id="legend-container"></div>
           </div>
@@ -366,12 +442,18 @@ onMounted(() => {
 
           <!-- begin::Chart -->
           <div class="h-400px">
-            <Line id="my-chart-id" :options="chartOptions" :data="chartData" :plugins="plugins" />
+            <Line
+              :key="chartKey"
+              id="my-chart-id"
+              :options="chartOptions"
+              :data="chartData"
+              :plugins="plugins"
+            />
           </div>
           <!-- end::Chart -->
         </div>
       </div>
-      <!-- end::Transactions -->
+      <!-- end::Balance History -->
     </div>
 
     <!-- begin::Bank -->
@@ -400,11 +482,15 @@ onMounted(() => {
           >
             <!-- begin::Item -->
             <div
-              class="item"
+              :class="[
+                { item: true },
+                { active: selectedLine === `${item.symbol} (${item?.network?.name})` },
+                { 'p-0': convertAmountToPercent(item.balance) < 40 }
+              ]"
               v-for="(item, index) in balances"
               :key="index"
               :style="`width: ${convertAmountToPercent(item.balance)}%; background-color: ${
-                item.colors ? `rgb(${item.colors[0]}, ${item.colors[1]}, ${item.colors[2]})` : ''
+                item.color ? item.color : ''
               }`"
             >
               <img :src="iconImage(item.symbol)" alt="item" :id="`image_${item.symbol}`" hidden />
@@ -423,30 +509,27 @@ onMounted(() => {
           <!-- begin::Main Balances -->
           <div class="value-infos my-6">
             <!-- begin::Item -->
-            <div class="item">
-              <p
-                class="value"
-                :style="`color: ${
-                  balances[0].colors
-                    ? `rgb(${balances[0].colors[0]}, ${balances[0].colors[1]}, ${balances[0].colors[2]})`
-                    : ''
-                }`"
-              >
+            <div
+              :class="[
+                { item: true },
+                { active: selectedLine === `${balances[0].symbol} (${balances[0]?.network?.name})` }
+              ]"
+            >
+              <p class="value" :style="`color: ${balances[0].color ? balances[0].color : ''}`">
                 ${{ balances[0].balance }}
               </p>
               <p class="title">{{ balances[0].symbol }}</p>
             </div>
             <!-- end::Item -->
             <!-- begin::Item -->
-            <div v-if="balances[1]" :class="[{ item: true }, { active: selectedLine }]">
-              <p
-                class="value"
-                :style="`color: ${
-                  balances[1].colors
-                    ? `rgb(${balances[1].colors[0]}, ${balances[1].colors[1]}, ${balances[1].colors[2]})`
-                    : ''
-                }`"
-              >
+            <div
+              v-if="balances[1]"
+              :class="[
+                { item: true },
+                { active: selectedLine === `${balances[1].symbol} (${balances[1]?.network?.name})` }
+              ]"
+            >
+              <p class="value" :style="`color: ${balances[1].color ? balances[1].color : ''}`">
                 ${{ balances[1].balance }}
               </p>
               <p class="title">{{ balances[1].symbol }}</p>
