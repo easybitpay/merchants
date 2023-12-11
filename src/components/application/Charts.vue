@@ -326,17 +326,17 @@ const getAppBalanceChart = async () => {
   // Request
   await store.getAppBalanceChart(selectedApp.value.id).then(async (res) => {
     if (res) {
-      chartData.value.labels = res[0].history.labels
+      chartData.value.labels = res.labels
       let datas = []
       let symbols = []
 
-      for (let i = 0; i < res.length; i++) {
-        const element = res[i]
+      for (let i = 0; i < res.tokens.length; i++) {
+        const element = res.tokens[i]
         symbols.push(element.token.symbol)
 
         datas.push({
           label: `${element.token.symbol} (${element.token.network.name})`,
-          data: element.history.data,
+          data: element.data,
           borderColor: '',
           backgroundColor: '',
           tension: 0.5,

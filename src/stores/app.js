@@ -377,7 +377,7 @@ export const useAppStore = defineStore('app', () => {
    */
     async function getAppBalanceChart(payload) {
       try {
-        const { data } = await api.get(`apps-balances/history/${payload}`)
+        const { data } = await api.get(`apps-balances/chart/${payload}`)
         //
   
         return data
