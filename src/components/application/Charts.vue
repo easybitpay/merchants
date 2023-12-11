@@ -326,12 +326,13 @@ const getAppBalanceChart = async () => {
   // Request
   await store.getAppBalanceChart(selectedApp.value.id).then(async (res) => {
     if (res) {
-      chartData.value.labels = res.labels
+      let list = res.list
+      chartData.value.labels = list.labels
       let datas = []
       let symbols = []
 
-      for (let i = 0; i < res.tokens.length; i++) {
-        const element = res.tokens[i]
+      for (let i = 0; i < list.tokens.length; i++) {
+        const element = list.tokens[i]
         symbols.push(element.token.symbol)
 
         datas.push({
@@ -441,14 +442,21 @@ onMounted(() => {
           <!-- end::Header -->
 
           <!-- begin::Chart -->
-          <div class="h-400px">
-            <Line
-              :key="chartKey"
-              id="my-chart-id"
-              :options="chartOptions"
-              :data="chartData"
-              :plugins="plugins"
-            />
+          <div class="w-100 d-flex gap-4">
+            <div class="h-400px flex-grow-1">
+              <Line
+                :key="chartKey"
+                id="my-chart-id"
+                :options="chartOptions"
+                :data="chartData"
+                :plugins="plugins"
+              />
+            </div>
+
+            <div class="pe-6 pb-6">
+              <inline-svg src="media/icons/icons/chevron-left.svg"></inline-svg>
+              <inline-svg src="media/icons/icons/chevron-right.svg"></inline-svg>
+            </div>
           </div>
           <!-- end::Chart -->
         </div>
