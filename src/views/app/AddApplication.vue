@@ -14,37 +14,37 @@ import Finish from '../../components/add-application/Finish.vue'
 // ----- START ----- //
 const steps = [
   {
-    icon:'print',
+    icon: 'print',
     title: 'Start',
     subject: 'Gateway',
     component: Start
   },
   {
-    icon:'archive',
+    icon: 'archive',
     title: 'Type',
     subject: 'Gateway',
     component: Type
   },
   {
-    icon:'deep-view',
+    icon: 'deep-view',
     title: 'Info',
     subject: 'Gateway',
     component: Info
   },
   {
-    icon:'tag',
+    icon: 'tag',
     title: 'Pro',
     subject: 'Gateway',
     component: Pro
   },
   {
-    icon:'camera',
+    icon: 'camera',
     title: 'Verify',
     subject: 'Gateway',
     component: Verify
   },
   {
-    icon:'package',
+    icon: 'package',
     title: 'Finish',
     subject: 'Gateway',
     component: Finish
@@ -133,7 +133,10 @@ const submitForm = () => {
     <!-- begin::Actions -->
     <div class="d-flex flex-wrap gap-4 mt-10">
       <button type="button" @click="prev" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
-        <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
+        <inline-svg
+          src="media/icons/icons/arrow-left.svg"
+          :class="activeStep === 0 ? 'svg-icon-gray-500' : 'svg-icon-primary'"
+        ></inline-svg>
       </button>
 
       <button

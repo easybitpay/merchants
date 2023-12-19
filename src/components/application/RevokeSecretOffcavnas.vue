@@ -221,6 +221,7 @@ onMounted(() => {
                       <inline-svg
                         src="media/icons/icons/copy.svg"
                         height="40"
+                        width="40"
                         class="cursor-pointer"
                         @click="copyAndClose"
                       ></inline-svg>
