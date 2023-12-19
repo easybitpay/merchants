@@ -7,7 +7,8 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 
 // Componenets
-import AddPartnerOffcanvas from '../components/application/AddPartnerOffcanvas.vue';
+import AddPartnerOffcanvas from '../components/application/AddPartnerOffcanvas.vue'
+import CreateInvoiceOffcanvas from '../components/application/CreateInvoiceOffcanvas.vue'
 
 // ----- START ----- //
 const route = useRoute()
@@ -17,6 +18,7 @@ const appId = computed(() => route.params.id)
 const selectedApp = computed(() => store.selectedApp)
 
 onMounted(() => {
+  console.log('12312')
   store.setSelectedApp(appId.value)
 })
 </script>
@@ -40,10 +42,11 @@ onMounted(() => {
       </RouterLink>
     </header>
 
-    <div class="d-flex flex-column flex-root">
-      <RouterView v-if="selectedApp.name"/>
+    <div class="d-flex flex-column flex-root" v-if="selectedApp.id">
+      <RouterView />
     </div>
   </div>
 
   <AddPartnerOffcanvas />
+  <CreateInvoiceOffcanvas />
 </template>

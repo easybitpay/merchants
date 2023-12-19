@@ -5,11 +5,19 @@ import { computed } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Hook
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+
 // Component
 import RevokeSecretOffcavnas from './RevokeSecretOffcavnas.vue'
 
 // ----- START ----- //
+
+// Generals
 const store = useAppStore()
+const { actionShareAllowed } = useActionShareAllowed()
+
+// Computeds
 const selectedApp = computed(() => store.selectedApp)
 </script>
 
@@ -24,13 +32,17 @@ const selectedApp = computed(() => store.selectedApp)
         <!-- end::Title -->
 
         <!-- begin::Api & Action -->
-        <div class="w-100 min-h-40px d-flex flex-wrap align-items-center justify-content-between gap-4">
-          <p class="m-0 ls-base">
+        <div
+          class="w-100 min-h-40px d-flex flex-wrap align-items-center justify-content-between gap-4"
+        >
+          <p class="m-0 ls-base text-break">
             {{ selectedApp.type == 1 ? selectedApp.api_key : selectedApp.pay_url }}
           </p>
 
           <button
-            v-if="selectedApp.type == 1"
+            v-if="
+              selectedApp.type == 1 && actionShareAllowed(selectedApp.share_type, 'revoke_secret')
+            "
             class="btn btn-primary w-175px"
             data-bs-toggle="offcanvas"
             data-bs-target="#revokeSecret_offcanvas"

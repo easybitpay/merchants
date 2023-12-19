@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import authRequired from "@/core/router-guards/authRequired";
-import loginCheck from "@/core/router-guards/loginCheck";
+import authRequired from '@/core/router-guards/authRequired'
+import loginCheck from '@/core/router-guards/loginCheck'
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,7 +49,7 @@ const router = createRouter({
           path: '/application',
           name: 'application',
           component: () => import('@/layouts/Application.vue'),
-          
+
           children: [
             {
               path: 'overview/:id',
@@ -75,7 +75,7 @@ const router = createRouter({
               path: 'withdraw/:id',
               name: 'application-withdraw',
               component: () => import('@/views/app/application/Withdraw.vue')
-            },
+            }
           ]
         },
         {
@@ -130,7 +130,7 @@ const router = createRouter({
               component: () => import('@/views/app/help/Ticket.vue')
             }
           ]
-        },
+        }
       ]
     },
     /**
@@ -155,6 +155,21 @@ const router = createRouter({
           path: '/forget-password',
           name: 'reset-password',
           component: () => import('@/views/auth/ResetPassword.vue')
+        }
+      ]
+    },
+    /**
+     * Pay Layout
+     */
+    {
+      path: '/pay',
+      redirect: '/pay/invoice',
+      component: () => import('@/layouts/PayLayout.vue'),
+      children: [
+        {
+          path: 'invoice/:id',
+          name: 'select-coin',
+          component: () => import('@/views/pay/SelectToken.vue')
         }
       ]
     }

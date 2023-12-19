@@ -7,6 +7,7 @@ import { useAppStore } from '@/stores/app'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
@@ -21,6 +22,7 @@ import MultiSelectDropdown from '../../globals/MultiSelectDropdown.vue'
 // Generals
 const store = useAppStore()
 const { showFeedBacks } = useForm()
+const { actionShareAllowed } = useActionShareAllowed()
 
 // Refs
 const loading = ref(false)
@@ -213,7 +215,7 @@ onMounted(() => {
               :selected="base_token"
               @change="toggleBaseToken"
               @update="checkBaseTokensUpdate"
-              :disabled="loading"
+              :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
             />
 
             <div
@@ -234,7 +236,7 @@ onMounted(() => {
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div class="w-100 w-lg-264px position-relative d-flex align-items-center">
             <MultiSelectDropdown
-              placeholder="Select Your Main Coin"
+              placeholder="Select Your Can Pay Coin"
               show="name"
               showImage
               btnSize="sm"
@@ -243,7 +245,7 @@ onMounted(() => {
               :selected="available_tokens"
               @change="toggleAvialableToken"
               @update="checkAvailableTokensUpdate"
-              :disabled="loading"
+              :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
             />
             <div
               class="invalid-feedback form-control form-control-sm"

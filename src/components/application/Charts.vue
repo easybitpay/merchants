@@ -455,7 +455,7 @@ onMounted(() => {
 
           <!-- begin::Chart -->
           <div class="w-100 d-flex flex-column flex-sm-row gap-4">
-            <div class="h-400px flex-grow-1">
+            <div class="h-400px chart-box">
               <Line
                 :key="chartKey"
                 id="my-chart-id"

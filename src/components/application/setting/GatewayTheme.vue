@@ -7,6 +7,7 @@ import { useAppStore } from '@/stores/app'
 
 // Hooks
 import useIconImage from '@/hooks/useIconImage'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
 
 // Component
 import GatewayThemeOffcanvas from './GatewayThemeOffcanvas.vue'
@@ -19,6 +20,7 @@ import { Offcanvas } from 'bootstrap'
 // Generals
 const store = useAppStore()
 const { storageImage } = useIconImage()
+const { actionShareAllowed } = useActionShareAllowed()
 
 // Refs
 const themes = ref([])
@@ -124,7 +126,7 @@ onMounted(() => {
         <!-- begin::Image Box -->
         <div
           class="w-192px h-216px border border-gray-300 border-hover-primary rounded-3 mb-6 cursor-pointer"
-          @click="themePreview(item)"
+          @click="actionShareAllowed(selectedApp.share_type, 'edit_app') && themePreview(item)"
         >
           <img
             :src="storageImage(item.thumbnail)"
@@ -136,7 +138,8 @@ onMounted(() => {
 
         <!-- begin::Select Box -->
         <div
-          @click="setSelectedTheme(item)"
+          :disabled="!actionShareAllowed(selectedApp.share_type, 'edit_app')"
+          @click="actionShareAllowed(selectedApp.share_type, 'edit_app') && setSelectedTheme(item)"
           :class="[
             {
               'border border-2 rounded-1 w-33px h-33px d-flex align-items-center justify-content-center cursor-pointer': true

@@ -336,6 +336,21 @@ export const useAppStore = defineStore('app', () => {
   }
 
   /**
+   * Create Custom Invoice
+   * @param {form} payload
+   */
+  async function createCustomInvoice(payload) {
+    try {
+      const { data } = await api.post('invoices/custom', payload)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get App Invoices
    * @param {app id & search params} payload
    */
@@ -638,6 +653,7 @@ export const useAppStore = defineStore('app', () => {
     createApp,
     verifyAppDomain,
     revokeSecret,
+    createCustomInvoice,
     getAppInvoices,
     getAppTokenBalance,
     getAppBalanceChart,

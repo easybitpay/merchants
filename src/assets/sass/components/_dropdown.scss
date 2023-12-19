@@ -138,10 +138,18 @@
 
     .multi-select-dropdown-text-content {
         width: calc(100% - 1.5rem - 20px - 10px);
+
+        &.with-svg {
+            width: calc(100% - 1.5rem - 20px - 10px - 23px)
+        }
     }
 
     .multi-select-dropdown-text-placeholder {
         width: calc(100% - 1.5rem - 8px);
+
+        &.with-svg {
+            width: calc(100% - 1.5rem - 8px - 23px);
+        }
     }
 
     .and-after:not(:last-child) {
@@ -180,6 +188,7 @@
         border: none;
         width: 1.5rem;
         height: 1.5rem;
+        margin-inline-start: auto;
     }
 }
 
@@ -256,7 +265,7 @@
                     border-color: $gray-300;
                 }
             }
-            
+
             @media (max-width: 576px) {
                 flex-flow: column;
             }

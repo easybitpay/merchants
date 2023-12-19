@@ -20,11 +20,12 @@ const loading = ref(false)
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
 const btnDisable = computed(() => {
+  console.log(actionShareAllowed(selectedApp.value.share_type, 'change_status'));
   if (loading.value) return true
 
   if (selectedApp.value.status == 9) return true
 
-  if (!actionShareAllowed(selectedApp.value.share_type, 'get_share')) return true
+  if (!actionShareAllowed(selectedApp.value.share_type, 'change_status')) return true
 
   return false
 })

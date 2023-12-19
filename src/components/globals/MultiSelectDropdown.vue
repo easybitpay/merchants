@@ -46,6 +46,19 @@ const props = defineProps({
     type: String,
     default: 'md'
   },
+  toggleClass: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  svgIcon: {
+    type: String,
+    required: false
+  },
+  svgIconColor: {
+    type: String,
+    required: false
+  },
   width: {
     Type: String,
     default: '100'
@@ -178,7 +191,7 @@ onMounted(() => {
 <template>
   <div :class="`dropdown w-${width}`" id="multiSelectDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100`"
+      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"
@@ -187,9 +200,23 @@ onMounted(() => {
       data-bs-auto-close="outside"
       data-bs-offset="0,0"
     >
+      <!-- begin::Icon -->
+      <div v-if="svgIcon">
+        <inline-svg
+          :src="svgIcon"
+          :class="`me-1 ${svgIconColor ? `svg-icon-${svgIconColor}` : ''}`"
+        ></inline-svg>
+      </div>
+      <!-- end::Icon -->
+
       <!-- begin::Show Selected -->
       <div
-        class="d-flex align-items-center gap-2 text-gray-800 active multi-select-dropdown-text-content"
+        :class="[
+          {
+            'd-flex align-items-center gap-2 text-gray-800 active multi-select-dropdown-text-content': true
+          },
+          { 'with-svg': svgIcon }
+        ]"
         v-if="selected.length"
       >
         <!-- begin::Radio Box -->
@@ -219,7 +246,13 @@ onMounted(() => {
       <!-- end::Show Selected -->
 
       <!-- begin::Show Placeholder -->
-      <div v-else class="multi-select-dropdown-text-placeholder text-start">
+      <div
+        v-else
+        :class="[
+          { 'multi-select-dropdown-text-placeholder text-start': true },
+          { 'with-svg': svgIcon }
+        ]"
+      >
         <span class="text-gray-600 ellipsis" style="--ellipsis-width: 100%">{{ placeholder }}</span>
       </div>
       <!-- end::Show Placeholder -->

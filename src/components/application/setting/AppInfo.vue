@@ -5,6 +5,9 @@ import { computed } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Hooks
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+
 // Components
 import TextColumn from '../../globals/TextColumn.vue'
 import AppInfoOffcanvas from './AppInfoOffcanvas.vue'
@@ -16,6 +19,7 @@ const store = useAppStore()
 
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
+const { actionShareAllowed } = useActionShareAllowed()
 </script>
 
 <template>
@@ -32,14 +36,22 @@ const selectedApp = computed(() => store.selectedApp)
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <TextColumn title="App Name" :content="selectedApp.name" canvasId="appInfo_offcanvas" />
+      <TextColumn
+        title="App Name"
+        :content="selectedApp.name"
+        :canvasId="
+          actionShareAllowed(selectedApp.share_type, 'edit_app') ? 'appInfo_offcanvas' : ''
+        "
+      />
       <!-- end::Item -->
 
       <!-- begin::Item -->
       <TextColumn
         title="Site Url"
         :content="selectedApp.site_url || 'Not Set'"
-        canvasId="appInfo_offcanvas"
+        :canvasId="
+          actionShareAllowed(selectedApp.share_type, 'edit_app') ? 'appInfo_offcanvas' : ''
+        "
       />
       <!-- end::Item -->
 
@@ -47,7 +59,9 @@ const selectedApp = computed(() => store.selectedApp)
       <TextColumn
         title="Callback URL"
         :content="selectedApp.callback_url || 'Not Set'"
-        canvasId="appInfo_offcanvas"
+        :canvasId="
+          actionShareAllowed(selectedApp.share_type, 'edit_app') ? 'appInfo_offcanvas' : ''
+        "
       />
       <!-- end::Item -->
 
@@ -55,7 +69,9 @@ const selectedApp = computed(() => store.selectedApp)
       <TextColumn
         title="Redirect URL"
         :content="selectedApp.redirect_url || 'Not Set'"
-        canvasId="appInfo_offcanvas"
+        :canvasId="
+          actionShareAllowed(selectedApp.share_type, 'edit_app') ? 'appInfo_offcanvas' : ''
+        "
       />
       <!-- end::Item -->
     </div>

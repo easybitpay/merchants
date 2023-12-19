@@ -5,10 +5,14 @@ import { computed, onMounted, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Hooks
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+
 // ----- START ----- //
 
 // Generals
 const store = useAppStore()
+const { actionShareAllowed } = useActionShareAllowed()
 
 // Refs
 const loading = ref(false)
@@ -110,7 +114,7 @@ onMounted(() => {
 
           <div class="range-div w-100 w-lg-384px">
             <input
-              :disabled="loading"
+              :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
               type="range"
               name=""
               class="range"

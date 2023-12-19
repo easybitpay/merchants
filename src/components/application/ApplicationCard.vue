@@ -167,6 +167,7 @@ watch(partnerListKey, () => {
       <!-- begin::Status Action -->
       <div class="d-flex flex-wrap flex-lg-nowrap gap-4" v-if="action === 'action'">
         <button
+          v-if="actionShareAllowed(app.share_type, 'update_share')"
           type="button"
           class="btn btn-primary p-0 w-40px h-40px"
           data-bs-toggle="offcanvas"
@@ -176,7 +177,15 @@ watch(partnerListKey, () => {
           <inline-svg src="media/icons/icons/share.svg"></inline-svg>
         </button>
 
-        <button class="btn btn-primary w-168px">
+        <button
+          v-if="app.type == 1"
+          type="button"
+          :disabled="app.status != 1"
+          class="btn btn-primary w-168px"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#createInvoice_offcanvas"
+          aria-controls="createInvoice_offcanvas"
+        >
           <inline-svg src="media/icons/icons/card.svg"></inline-svg>
           Invoice
         </button>

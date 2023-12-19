@@ -286,3 +286,39 @@
         }
     }
 }
+
+.amount-table {
+    thead {
+        tr {
+            th {
+                padding: 0 .5rem;
+
+                &:first-child {
+                    padding-inline-start: 0;
+                }
+
+                &:last-child {
+                    padding-inline-end: 0;
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                padding: .375rem .5rem;
+                border: none !important;
+                vertical-align: middle;
+
+                &:first-child {
+                    padding-inline-start: 0;
+                }
+
+                &:last-child {
+                    padding-inline-end: 0;
+                }
+            }
+        }
+    }
+}
