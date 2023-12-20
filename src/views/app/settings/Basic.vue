@@ -2,9 +2,12 @@
 import BasicInfoOffcanvas from '../../../components/settings/basic/BasicInfoOffcanvas.vue'
 import ContactInfo from '../../../components/settings/basic/ContactInfo.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
+import ContactImage from '../../../components/settings/basic/ContactImage.vue'
 </script>
 
 <template>
+  <ContactImage />
+
   <ContactInfo />
 
   <!-- begin::Basic Info -->
