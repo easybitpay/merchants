@@ -30,6 +30,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showImageKey: {
+    type: String,
+    required: false
+  },
   showCoinNetwork: {
     type: Boolean,
     default: false
@@ -170,7 +174,11 @@ onMounted(() => {
         <img
           v-if="showImage"
           class="small-coin-icon"
-          :src="selected.logo ? storageImage(selected.logo, 24) : iconImage(selected.symbol)"
+          :src="
+            selected.logo
+              ? storageImage(selected.logo, 24)
+              : iconImage(showImageKey ? selected[showImageKey] : selected.symbol)
+          "
           :alt="selected[show]"
         />
 
@@ -224,7 +232,11 @@ onMounted(() => {
               <img
                 v-if="showImage"
                 class="small-coin-icon"
-                :src="item.logo ? storageImage(item.logo, 24) : iconImage(item.symbol)"
+                :src="
+                  item.logo
+                    ? storageImage(item.logo, 24)
+                    : iconImage(showImageKey ? item[showImageKey] : item.symbol)
+                "
                 :alt="item[show]"
               />
               {{ item[show] }}

@@ -14,7 +14,10 @@ import { useNotificationStore } from '@/stores/notification'
 const notificationStore = useNotificationStore()
 const router = useRouter()
 
+// Computeds
 const newPage = computed(() => notificationStore.newPage)
+
+// Functions
 
 watch(newPage, () => {
   if (newPage.value) {

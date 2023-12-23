@@ -309,11 +309,13 @@ const createInvoice = async () => {
     app_id: selectedApp.value.id,
     send_email: form.value.send_email,
     base_token_id: base_token.value.id,
-    payer_details: {
-      name: form.value.name,
-      email: form.value.email
-    }
   }
+  const customer_info =  {
+    name: form.value.name,
+    email: form.value.email
+  }
+
+  content.customer_info = JSON.stringify(customer_info)
 
   let array = []
   for (let i = 0; i < available_tokens.value.length; i++) {
@@ -332,16 +334,19 @@ const createInvoice = async () => {
     content.description = form.value.description
   }
 
+  let items = {}
   if (form.value.need_detail) {
     for (let i = 0; i < state.amountDetails.length; i++) {
       const element = state.amountDetails[i]
-      content[element.name] = element.price
+      items[element.name] = element.price
     }
 
+    content.invoice_items = JSON.stringify(items)
     content.amount = `${totalAmount.value}`
   } else {
     content.amount = `${form.value.amount}`
   }
+  
 
   // Request
   await store.createCustomInvoice(content).then((res) => {
@@ -430,7 +435,7 @@ onMounted(() => {
 
             <!-- begin::Step Count -->
             <h3 class="text-gray-500 mb-0">
-              <span class="text-primary">1</span>
+              <span class="text-primary">{{ step }}</span>
               | {{ totalStep }}
             </h3>
             <!-- end::Step Count -->
@@ -767,7 +772,7 @@ onMounted(() => {
                 <!-- begin::Item -->
                 <div class="item">
                   <p class="title">Total Price</p>
-                  <p class="value">{{ totalAmount }} $</p>
+                  <p class="value">{{ totalAmount }} {{ base_token.symbol }}</p>
                 </div>
                 <!-- end::Item -->
               </div>
@@ -841,7 +846,7 @@ onMounted(() => {
                           </div>
                         </td>
                         <td class="text-end">
-                          <div class="max-content">{{ item.price }} $</div>
+                          <div class="max-content">{{ item.price }} {{ base_token.symbol }}</div>
                         </td>
                       </tr>
 
@@ -851,7 +856,9 @@ onMounted(() => {
                           <div class="max-content text-primary fw-medium">Total</div>
                         </td>
                         <td class="text-end pb-0 pt-3">
-                          <div class="max-content text-primary fw-medium">{{ totalAmount }} $</div>
+                          <div class="max-content text-primary fw-medium">
+                            {{ totalAmount }} {{ base_token.symbol }}
+                          </div>
                         </td>
                       </tr>
                     </tbody>
