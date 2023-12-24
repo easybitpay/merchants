@@ -10,6 +10,7 @@ import { defineStore } from 'pinia'
 // Store
 export const usePayStore = defineStore('pay', () => {
   // ----- States -----
+  const payLoading = ref(false)
   const invoiceCode = ref('')
   const invoiceDetail = ref(null)
   const paymentDetail = ref(null)
@@ -60,6 +61,10 @@ export const usePayStore = defineStore('pay', () => {
   )
 
   // ----- Function -----
+  function setMainLoading(status) {
+    payLoading.value = status
+  }
+
   function setInvoiceCode(payload) {
     localStorage.setItem('invoiceCode', payload)
     invoiceCode.value = payload
@@ -99,12 +104,12 @@ export const usePayStore = defineStore('pay', () => {
   }
 
   function refreshPayStore() {
-    localStorage.removeItem(`selectedCoin_${invoiceCode.value}`)
-    localStorage.removeItem(`selectedNetwork_${invoiceCode.value}`)
+    localStorage.removeItem(`selectedCoin_${getInvoiceCode.value}`)
+    localStorage.removeItem(`selectedNetwork_${getInvoiceCode.value}`)
+    localStorage.removeItem(`invoiceDetail_${getInvoiceCode.value}`)
+    localStorage.removeItem(`paymentDetail_${getInvoiceCode.value}`)
+    localStorage.removeItem(`paymentTransactions_${getInvoiceCode.value}`)
     localStorage.removeItem(`invoiceCode`)
-    localStorage.removeItem(`invoiceDetail_${invoiceCode.value}`)
-    localStorage.removeItem(`paymentDetail_${invoiceCode.value}`)
-    localStorage.removeItem(`paymentTransactions_${invoiceCode.value}`)
 
     invoiceCode.value = ''
     invoiceDetail.value = null
@@ -121,7 +126,11 @@ export const usePayStore = defineStore('pay', () => {
    */
   async function getPaymentInfo(payload) {
     try {
+      setMainLoading(true)
+
       const { data } = await api.get(`invoices/${payload}`)
+
+      setMainLoading(false)
 
       //
       const { invoice, tokens_prices } = data
@@ -243,6 +252,7 @@ export const usePayStore = defineStore('pay', () => {
   }
 
   return {
+    payLoading,
     getInvoiceCode,
     getInvoiceDetail,
     getPaymentDetail,

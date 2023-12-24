@@ -18,12 +18,15 @@ const { iconImage, storageImage } = useIconImage()
 const invoiceCode = computed(() => store.getInvoiceCode)
 const invoiceDetail = computed(() => store.getInvoiceDetail)
 const userInputs = computed(() => store.getUserInputs)
+const payLoading = computed(() => store.payLoading)
 </script>
 
 <template>
   <!-- begin::Gateway Info -->
   <div
-    class="card gradient-image-box border-gray-200 h-156px rounded mb-11"
+    :class="`card ${
+      payLoading && !invoiceDetail.base_token ? 'gradient-loading-box' : 'gradient-image-box'
+    } border-gray-200 h-156px rounded mb-11`"
     :style="`--background: url(${
       invoiceDetail?.app?.banner
         ? storageImage(invoiceDetail?.app?.banner)
@@ -41,7 +44,10 @@ const userInputs = computed(() => store.getUserInputs)
         <div class="d-flex align-items-end gap-4">
           <!-- begin::Logo -->
           <div>
+            <Skeletor size="40" class="rounded-1" v-if="payLoading && !invoiceDetail.base_token" />
+
             <img
+              v-else
               :src="
                 invoiceDetail?.app?.logo
                   ? storageImage(invoiceDetail?.app?.logo, 48)
@@ -54,11 +60,25 @@ const userInputs = computed(() => store.getUserInputs)
           <!-- end::Logo -->
 
           <div>
-            <p class="fs-7 mb-2 text-gray-600 ls-base lh-1">{{ invoiceDetail?.app?.name }}</p>
+            <p class="fs-7 mb-2 text-gray-600 ls-base lh-1">
+              <template v-if="payLoading && !invoiceDetail.base_token">
+                <Skeletor width="100px" class="rounded-0" />
+              </template>
+              <template v-else>
+                {{ invoiceDetail?.app?.name }}
+              </template>
+            </p>
 
             <h2 class="mb-0 text-gray-800 neue-machina lh-1 fw-medium">
-              {{ invoiceDetail.amount ? invoiceDetail.amount : userInputs.amount || 0 }}
-              {{ invoiceDetail.base_token }}
+              <template v-if="payLoading && !invoiceDetail.base_token">
+                <Skeletor width="150px" height="26px" class="rounded-0" />
+              </template>
+              <template v-else>
+             
+                {{ invoiceDetail.amount ? invoiceDetail.amount : userInputs.amount || 0 }}
+                {{ invoiceDetail.base_token }}
+              </template>
+              
             </h2>
           </div>
         </div>

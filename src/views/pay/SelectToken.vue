@@ -56,6 +56,7 @@ const invoiceDetail = computed(() => store.getInvoiceDetail)
 const userInputs = computed(() => store.getUserInputs)
 const paymentTransactions = computed(() => store.getPaymentTransactions)
 const customerInfo = computed(() => JSON.parse(invoiceDetail.value.customer_info || '{}'))
+const payLoading = computed(() => store.payLoading)
 
 const paidAmount = computed(() => {
   const initialValue = 0
@@ -289,7 +290,7 @@ const checkForm = async () => {
     }
   }
 
-  if (generalResult && amountResult && nameResult && emailResul) {
+  if (generalResult && amountResult && nameResult && emailResult) {
     router.push({
       name: props.sandbox ? 'gateway-sandbox' : 'gateway',
       params: { id: invoiceCode.value }
@@ -555,44 +556,62 @@ onMounted(() => {
 
       <!-- begin::Base Coin -->
       <div class="w-100 position-relative d-flex align-items-center mb-4">
-        <SelectDropdown
-          placeholder="Select Coin"
-          show="name"
-          check="name"
-          showImage
-          toggleClass="px-2"
-          svgIcon="media/icons/icons/crypto.svg"
-          svgIconColor="primary"
-          :items="tokens"
-          :selected="selectedCoin"
-          @change="toggleToken"
+        <Skeletor
+          width="100%"
+          height="40px"
+          class="rounded"
+          v-if="payLoading && !invoiceDetail.base_token"
         />
 
-        <div class="invalid-feedback form-control" v-if="vGeneral$.token.$errors.length">
-          <span> {{ vGeneral$.token.$errors[0].$message }}</span>
-        </div>
+        <template v-else>
+          <SelectDropdown
+            placeholder="Select Coin"
+            show="name"
+            check="name"
+            showImage
+            toggleClass="px-2"
+            svgIcon="media/icons/icons/crypto.svg"
+            svgIconColor="primary"
+            :items="tokens"
+            :selected="selectedCoin"
+            @change="toggleToken"
+          />
+
+          <div class="invalid-feedback form-control" v-if="vGeneral$.token.$errors.length">
+            <span> {{ vGeneral$.token.$errors[0].$message }}</span>
+          </div>
+        </template>
       </div>
       <!-- end::Base Coin -->
 
       <!-- begin::Network -->
       <div class="w-100 position-relative d-flex align-items-center mb-10">
-        <SelectDropdown
-          :disabled="!selectedCoin.networks"
-          placeholder="Select Network"
-          show="name"
-          showImage
-          showImageKey="nick_name"
-          toggleClass="px-2"
-          svgIcon="media/icons/icons/crypto.svg"
-          svgIconColor="primary"
-          :items="selectedCoin.networks || []"
-          :selected="selectedNetwork"
-          @change="toggleNetwork"
+        <Skeletor
+          width="100%"
+          height="40px"
+          class="rounded"
+          v-if="payLoading && !invoiceDetail.base_token"
         />
 
-        <div class="invalid-feedback form-control" v-if="vGeneral$.network.$errors.length">
-          <span> {{ vGeneral$.network.$errors[0].$message }}</span>
-        </div>
+        <template v-else>
+          <SelectDropdown
+            :disabled="!selectedCoin.networks"
+            placeholder="Select Network"
+            show="name"
+            showImage
+            showImageKey="nick_name"
+            toggleClass="px-2"
+            svgIcon="media/icons/icons/crypto.svg"
+            svgIconColor="primary"
+            :items="selectedCoin.networks || []"
+            :selected="selectedNetwork"
+            @change="toggleNetwork"
+          />
+
+          <div class="invalid-feedback form-control" v-if="vGeneral$.network.$errors.length">
+            <span> {{ vGeneral$.network.$errors[0].$message }}</span>
+          </div>
+        </template>
       </div>
       <!-- end::Network -->
 
@@ -607,7 +626,9 @@ onMounted(() => {
           <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
         </button>
 
-        <button type="submit" class="btn btn-primary flex-grow-1">Pay</button>
+        <button type="submit" :disabled="payLoading && !invoiceDetail.base_token" class="btn btn-primary flex-grow-1">
+          Pay
+        </button>
       </div>
       <!-- end::Action -->
     </template>

@@ -239,7 +239,10 @@ onUnmounted(() => {
 
   <!-- begin::Qr Code -->
   <div class="d-flex flex-column flex-md-row align-items-center gap-4">
-    <img :src="qrCode" alt="qr-code" width="140" />
+    <div v-if="loading">
+      <Skeletor size="140px" />
+    </div>
+    <img :src="qrCode" alt="qr-code" width="140" v-else />
 
     <div class="w-100">
       <!-- begin::Coin & Price -->
@@ -255,19 +258,23 @@ onUnmounted(() => {
 
       <!-- begin::Address -->
       <div class="w-100 position-relative d-flex align-items-center mb-4">
-        <input
-          type="text"
-          class="form-control ps-9"
-          :value="paymentDetail.walletAddress"
-          readonly
-        />
+        <Skeletor width="100%" height="40px" class="rounded" v-if="loading" />
 
-        <!-- begin::Icon -->
-        <inline-svg
-          src="media/icons/icons/wireless.svg"
-          class="position-absolute start-8px svg-icon-primary"
-        ></inline-svg>
-        <!-- end::Icon -->
+        <template v-else>
+          <input
+            type="text"
+            class="form-control ps-9"
+            :value="paymentDetail.walletAddress"
+            readonly
+          />
+
+          <!-- begin::Icon -->
+          <inline-svg
+            src="media/icons/icons/wireless.svg"
+            class="position-absolute start-8px svg-icon-primary"
+          ></inline-svg>
+          <!-- end::Icon -->
+        </template>
       </div>
       <!-- end::Address -->
     </div>
@@ -275,19 +282,37 @@ onUnmounted(() => {
   <!-- end::Qr Code -->
 
   <!-- begin::Action -->
-  <div class="d-flex flex-wrap gap-4 mt-28">
-    <button type="button" @click="back" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
-      <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
-    </button>
-
+  <div class="d-flex flex-column gap-4 mt-28">
+    <!-- begin::Fake Payment -->
     <button
+      v-if="sandbox"
       type="button"
-      :disabled="cancelLoading"
-      @click="cancelPayment"
-      class="btn btn-danger flex-grow-1 text-white"
+      :disabled="fakePayLoading"
+      @click="fakePayment(selectedNetwork.token_id)"
+      class="btn btn-primary w-100"
     >
-      {{ cancelLoading ? 'Loading...' : 'Cancel' }}
+      {{
+        fakePayLoading
+          ? 'Loading...'
+          : `Assume ${selectedCoin.amount} ${selectedCoin.symbol} is paid`
+      }}
     </button>
+    <!-- end::Fake Payment -->
+
+    <div class="d-flex flex-wrap gap-4">
+      <button type="button" @click="back" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
+        <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
+      </button>
+
+      <button
+        type="button"
+        :disabled="cancelLoading"
+        @click="cancelPayment"
+        class="btn btn-danger flex-grow-1 text-white"
+      >
+        {{ cancelLoading ? 'Loading...' : 'Cancel' }}
+      </button>
+    </div>
   </div>
   <!-- end::Action -->
 </template>
