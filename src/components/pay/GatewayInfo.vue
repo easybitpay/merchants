@@ -17,6 +17,7 @@ const { iconImage, storageImage } = useIconImage()
 // Computeds
 const invoiceCode = computed(() => store.getInvoiceCode)
 const invoiceDetail = computed(() => store.getInvoiceDetail)
+const userInputs = computed(() => store.getUserInputs)
 </script>
 
 <template>
@@ -56,7 +57,8 @@ const invoiceDetail = computed(() => store.getInvoiceDetail)
             <p class="fs-7 mb-2 text-gray-600 ls-base lh-1">{{ invoiceDetail?.app?.name }}</p>
 
             <h2 class="mb-0 text-gray-800 neue-machina lh-1 fw-medium">
-              {{ invoiceDetail.amount }} {{ invoiceDetail.base_token }}
+              {{ invoiceDetail.amount ? invoiceDetail.amount : userInputs.amount || 0 }}
+              {{ invoiceDetail.base_token }}
             </h2>
           </div>
         </div>

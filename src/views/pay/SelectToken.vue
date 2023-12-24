@@ -270,17 +270,30 @@ const getInvoiceDetail = async () => {
  * Ge To Gateway Page
  */
 const checkForm = async () => {
-  const result = await vGeneral$.value.$validate()
+  const generalResult = await vGeneral$.value.$validate()
+  let amountResult = true
+  let nameResult = true
+  let emailResult = true
 
-  if (result) {
-    if (invoiceDetail.value.app.type != 3) {
-      router.push({
-        name: props.sandbox ? 'gateway-sandbox' : 'gateway',
-        params: { id: invoiceCode.value }
-      })
-    } else {
-      return
+  if (invoiceDetail.value.app.type == 3) {
+    const { need_email, need_name } = invoiceDetail.value.app?.settings
+
+    amountResult = await vAmount$.value.$validate()
+
+    if (need_email === 'true') {
+      emailResult = await vEmail$.value.$validate()
     }
+
+    if (need_name === 'true') {
+      nameResult = await vName$.value.$validate()
+    }
+  }
+
+  if (generalResult && amountResult && nameResult && emailResul) {
+    router.push({
+      name: props.sandbox ? 'gateway-sandbox' : 'gateway',
+      params: { id: invoiceCode.value }
+    })
   } else {
     emit('changeBG')
     showFeedBacks()
@@ -470,7 +483,7 @@ onMounted(() => {
       <div class="border-bottom border-gray-400 w-100 mt-4 mb-10"></div>
       <!-- end::Spacer -->
 
-      <template>
+      <template v-if="invoiceDetail?.app?.type == 3">
         <!-- begin::Amount -->
         <div class="w-100 position-relative d-flex align-items-center mb-4">
           <input
@@ -488,7 +501,7 @@ onMounted(() => {
 
           <!-- begin::Icon -->
           <inline-svg
-            src="media/icons/icons/mail.svg"
+            src="media/icons/icons/crypto.svg"
             class="position-absolute start-8px svg-icon-primary"
           ></inline-svg>
           <!-- end::Icon -->
