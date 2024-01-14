@@ -18,7 +18,6 @@ const appId = computed(() => route.params.id)
 const selectedApp = computed(() => store.selectedApp)
 
 onMounted(() => {
-  console.log('12312')
   store.setSelectedApp(appId.value)
 })
 </script>

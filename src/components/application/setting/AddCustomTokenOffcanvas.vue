@@ -86,7 +86,6 @@ const removeFiles = (file) => {
 }
 
 const toggleNetwork = (selected) => {
-  console.log(selected)
   network.value = selected
   form.value.networkId = selected.id
 }

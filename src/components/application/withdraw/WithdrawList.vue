@@ -59,7 +59,6 @@ const get_app_withdraws = async (page) => {
   // Request
   await store.getAppWithdraws(params).then((res) => {
     if (res) {
-      console.log(res)
       if (page === 1) {
         history.value = res.list
       } else {

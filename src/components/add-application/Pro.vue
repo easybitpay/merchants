@@ -115,7 +115,6 @@ const submitForm = async () => {
   const generalResult = await vGeneral$.value.$validate()
   let amountResult = true
 
-  console.log(props)
   if (props?.appInfo?.type?.type == 2) {
     amountResult = await vAmount$.value.$validate()
   }

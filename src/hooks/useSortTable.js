@@ -9,7 +9,6 @@ export default function useSortTable() {
   const startCheckSort = (name) => {
     // Detect Sort Table Header Row
     const sort_table = document.querySelector(`[${name}-sortable]`)
-    console.log({ sort_table })
     if (sort_table) {
       const sort_items = sort_table.querySelectorAll('[sortKey]')
 

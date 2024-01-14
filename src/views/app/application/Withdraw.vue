@@ -54,7 +54,6 @@ const getAppTokenBalance = async () => {
         })
       }
       balances.value = array
-      console.log(balances.value)
     }
   })
 

@@ -29,7 +29,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   // ----- Function -----
   function changeLockScreenStatus(status) {
-    console.log(status)
     if (status) {
       lockScreen.value = 'active'
       localStorage.setItem('lockScreenStatus', 'active')

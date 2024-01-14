@@ -128,6 +128,13 @@ const filteredItems = () => {
   return all
 }
 
+const selectItem = (e, item) => {
+  const menu = e.target.offsetParent
+  menu.classList.remove('show')
+  emit('change', item)
+  emit('update')
+}
+
 onMounted(() => {
   const myDropdown = document.getElementById('selectDropdown')
 
@@ -226,7 +233,11 @@ onMounted(() => {
       <!-- begin::Items -->
       <div class="custom-scroll d-flex flex-column gap-2">
         <!-- begin::Item -->
-        <li v-for="(item, index) in filteredItems()" :key="index" @click="$emit('change', item)">
+        <li
+          v-for="(item, index) in filteredItems()"
+          :key="index"
+          @click="(e) => selectItem(e, item)"
+        >
           <a :class="[{ 'dropdown-item': true }, { active: selected[check] === item[check] }]">
             <div class="d-flex align-items-center gap-2">
               <img

@@ -90,7 +90,6 @@ const goNext = (info) => {
     appInfo.value[key] = value
   }
 
-  console.log(appInfo.value)
   next()
 }
 

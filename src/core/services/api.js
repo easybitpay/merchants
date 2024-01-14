@@ -70,13 +70,11 @@ api.interceptors.response.use(
 
     // Check Error Code For Show Error
     if (status != 401) {
-      console.log(errors , message);
       if (errors) {
         for (const [key, value] of Object.entries(errors)) {
           appendAlert(value[0], 'danger')
         }
       } else {
-        console.log('123');
         appendAlert(message, 'danger')
       }
     }
