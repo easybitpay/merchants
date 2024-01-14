@@ -7,6 +7,21 @@ import AvailableCoin from '../../../components/application/setting/AvailableCoin
 import CustomCoin from '../../../components/application/setting/CustomCoin.vue'
 import CustomerFeeShare from '../../../components/application/setting/CustomerFeeShare.vue'
 import GatewayTheme from '../../../components/application/setting/GatewayTheme.vue'
+import { ref } from 'vue'
+
+// ----- START ----- //
+
+// Refs
+const availableCoinsRefreshKey = ref(0)
+
+// Functions
+
+/**
+ * Update Available Coins Component
+ */
+const refreshAvailableCoins = () => {
+  availableCoinsRefreshKey.value++
+}
 </script>
 
 <template>
@@ -16,9 +31,9 @@ import GatewayTheme from '../../../components/application/setting/GatewayTheme.v
 
   <ChangeAppStatus />
 
-  <AvailableCoin />
+  <AvailableCoin :key="availableCoinsRefreshKey"/>
 
-  <CustomCoin />
+  <CustomCoin @refreshAvailableCoins="refreshAvailableCoins"/>
 
   <CustomerFeeShare />
 

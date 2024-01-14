@@ -13,6 +13,9 @@ import CustomTokenItemLoading from '../../loadings/CustomTokenItemLoading.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
+// Emit
+const emit = defineEmits(['refreshAvailableCoins'])
+
 // ------ START ----- //
 
 // Generals
@@ -40,6 +43,14 @@ const openEdit = (coin) => {
  */
 const resetData = () => {
   selectedCoinInfo.value = {}
+}
+
+/**
+ * Refresh List
+ */
+const refreshList = () => {
+  get_tokens_list()
+  emit('refreshAvailableCoins')
 }
 
 /**
@@ -108,5 +119,5 @@ onMounted(() => {
   </div>
   <!-- end::Custom Coin -->
 
-  <AddCustomTokenOffcanvas @refresh="get_tokens_list" @resetData="resetData" :selectedCoinInfo="selectedCoinInfo" />
+  <AddCustomTokenOffcanvas @refresh="refreshList" @resetData="resetData" :selectedCoinInfo="selectedCoinInfo" />
 </template>
