@@ -26,11 +26,11 @@ const { actionShareAllowed } = useActionShareAllowed()
 
 // Refs
 const loading = ref(false)
+const tokens = ref([])
 const base_token = ref({})
 const available_tokens = ref([])
 
 // Computeds
-const tokens = computed(() => store.tokens)
 const selectedApp = computed(() => store.selectedApp)
 
 // Vuelidate
@@ -51,6 +51,24 @@ const rules = {
 const v$ = useVuelidate(rules, form)
 
 // Functions
+
+/**
+ * Get App Tokens
+ */
+const getAppTokens = async () => {
+  // Start Loading
+  loading.value = true;
+
+  // Request
+  await store.getAppTokens(selectedApp.value.id).then(res => {
+    if (res) {
+      tokens.value = res
+    }
+  })
+
+  // Stop Loading
+  loading.value = false
+}
 
 /**
  * Set Default Values
@@ -180,6 +198,7 @@ const updateAppInfo = async () => {
 }
 
 onMounted(() => {
+  getAppTokens()
   setDefaultValues()
 })
 </script>
