@@ -404,7 +404,7 @@ watch(sandbox, () => {
 
     <!-- begin::User -->
     <div class="user-box w-100">
-      <div class="user cursor-pointer">
+      <RouterLink :to="{name: 'settings-basic'}" class="user cursor-pointer">
         <div>
           <!-- begin::Image Box -->
           <div class="w-40px h-40px position-relative">
@@ -439,7 +439,7 @@ watch(sandbox, () => {
             {{ currentUser?.total_balance_usd?.toFixed(2) }} $
           </small>
         </div>
-      </div>
+      </RouterLink>
     </div>
     <!-- end::User -->
   </aside>
