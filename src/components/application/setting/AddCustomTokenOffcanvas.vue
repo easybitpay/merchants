@@ -170,7 +170,7 @@ const getContractInfo = async () => {
         step.value = 2
 
         if (res.exists) {
-          appendAlert('Coin existed', 'danger')
+          appendAlert('Coin existed', 'warning')
         }
       }
     })
