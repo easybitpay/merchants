@@ -559,11 +559,11 @@ export const useAppStore = defineStore('app', () => {
 
   /**
    * Update Custom Token
-   * @param {id, fd} payload
+   * @param {app_id, id, fd} payload
    */
   async function updateCustomToken(payload) {
     try {
-      const { data } = await api.post(`tokens/${payload.id}`, payload.fd, {
+      const { data } = await api.post(`tokens/update-custom/${payload.app_id}/${payload.id}`, payload.fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

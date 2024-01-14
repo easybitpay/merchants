@@ -206,7 +206,7 @@ const addCustomToken = async () => {
     }
 
     // Request
-    await store.updateCustomToken({ id, fd }).then((res) => {
+    await store.updateCustomToken({ app_id, id, fd }).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()
