@@ -7,10 +7,14 @@ export default function useIconImage() {
 
   const storageImage = (url, size) => {
     if (url) {
-      const URL = url.split('.')
-      const newURL = `${URL[0]}_${size}x0.${URL[1]}`
+      if (url.includes('http')) {
+        return url
+      } else {
+        const URL = url.split('.')
+        const newURL = `${URL[0]}_${size}x0.${URL[1]}`
 
-      return `${import.meta.env.VITE_APP_STORAGE_URL}${size ? newURL : url}`
+        return `${import.meta.env.VITE_APP_STORAGE_URL}${size ? newURL : url}`
+      }
     }
   }
 
