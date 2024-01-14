@@ -193,6 +193,7 @@ const addCustomToken = async () => {
   loading.value = true
 
   let id = props.selectedCoinInfo.id
+  const app_id = appId.value
 
   if (id) {
     // Set Variable
@@ -216,7 +217,6 @@ const addCustomToken = async () => {
   } else {
     // Set Variable
     let fd = new FormData()
-    fd.append('appId', appId.value)
     fd.append('price', form.value.price)
     fd.append('network_id', form.value.networkId)
     fd.append('contract_address', form.value.contractAddress)
@@ -225,7 +225,7 @@ const addCustomToken = async () => {
     }
 
     // Request
-    await store.createCustomToken(fd).then((res) => {
+    await store.createCustomToken({app_id, fd}).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()

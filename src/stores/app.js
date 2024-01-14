@@ -540,11 +540,11 @@ export const useAppStore = defineStore('app', () => {
 
   /**
    * Create Custom Token
-   * @param {contract_address, network_id, price, logo} payload
+   * @param {app_id, {contract_address, network_id, price, logo}} payload
    */
   async function createCustomToken(payload) {
     try {
-      await api.post('tokens/create-custom', payload, {
+      await api.post(`tokens/create-custom/${payload.app_id}`, payload.fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
