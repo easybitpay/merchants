@@ -43,7 +43,7 @@ const search = ref('')
 
 // Computeds
 const appList = computed(() => appStore.appList)
-const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Lock')
+const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Sign out')
 const currentUser = computed(() => authStore.currentUser)
 
 // Functions
