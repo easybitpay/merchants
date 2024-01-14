@@ -1,6 +1,7 @@
 <script setup>
 // Vue
 import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 // Store
 import { useAppStore } from '@/stores/app'
@@ -20,6 +21,7 @@ import Dropzone from '../../globals/Dropzone.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
+
 // Props
 const props = defineProps({
   selectedCoinInfo: {
@@ -34,6 +36,7 @@ const emit = defineEmits(['refresh', 'resetData'])
 // ----- START ----- //
 
 // Generals
+const route = useRoute()
 const store = useAppStore()
 const { showFeedBacks } = useForm()
 const { iconImage } = useIconImage()
@@ -47,6 +50,7 @@ const contractInfo = ref({})
 
 // Comouteds
 const networks = computed(() => store.networks)
+const appId = computed(() => route.params.id)
 
 // Vuelidate
 const form = ref({
@@ -194,6 +198,7 @@ const addCustomToken = async () => {
     // Set Variable
     let fd = new FormData()
     fd.append('_method', 'put')
+    fd.append('appId', appId.value)
     fd.append('price', form.value.price)
     if (documents.value.length) {
       fd.append('logo', documents.value[0])
@@ -211,6 +216,7 @@ const addCustomToken = async () => {
   } else {
     // Set Variable
     let fd = new FormData()
+    fd.append('appId', appId.value)
     fd.append('price', form.value.price)
     fd.append('network_id', form.value.networkId)
     fd.append('contract_address', form.value.contractAddress)
