@@ -10,6 +10,9 @@ import { useAppStore } from '@/stores/app'
 import useForm from '@/hooks/useForm.js'
 import useIconImage from '@/hooks/useIconImage'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
@@ -101,16 +104,6 @@ const showPreview = (file) => {
 }
 
 /**
- * Save BTN Disable Conditions
- */
-const saveDisable = computed(() => {
-  if (loading.value) return true
-  if (!props.selectedCoinInfo.id && contractInfo.value.exists) return true
-
-  return false
-})
-
-/**
  * Reset Form
  */
 const resetForm = () => {
@@ -175,6 +168,10 @@ const getContractInfo = async () => {
       if (res) {
         contractInfo.value = res
         step.value = 2
+
+        if (res.exists) {
+          appendAlert('Coin existed', 'danger')
+        }
       }
     })
 
@@ -539,7 +536,7 @@ onMounted(() => {
                 <button
                   @click="addCustomToken"
                   type="button"
-                  :disabled="saveDisable"
+                  :disabled="loading"
                   class="btn btn-sm btn-primary w-100 w-sm-104px h-24px ls-base"
                 >
                   {{ loading ? 'Loading...' : 'Save' }}
