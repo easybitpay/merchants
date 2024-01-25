@@ -224,6 +224,7 @@ onUnmounted(() => {
       <p class="title">Expiration Time</p>
       <p class="value">
         <PayCountDown
+          :key="paymentDetail.remain_time"
           :remain_time="paymentDetail.remain_time"
           @expired="redirectPaymentStatus(1)"
         />
