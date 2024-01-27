@@ -138,23 +138,30 @@ const router = createRouter({
      */
     {
       path: '/',
-      beforeEnter: loginCheck,
       component: () => import('@/layouts/Auth.vue'),
       children: [
         {
           path: '/login',
           name: 'login',
+          beforeEnter: loginCheck,
           component: () => import('@/views/auth/Login.vue')
         },
         {
           path: '/register',
           name: 'register',
+          beforeEnter: loginCheck,
           component: () => import('@/views/auth/Register.vue')
         },
         {
           path: '/forget-password',
           name: 'reset-password',
+          beforeEnter: loginCheck,
           component: () => import('@/views/auth/ResetPassword.vue')
+        },
+        {
+          path: '/email-verify/:token',
+          name: 'email-verify',
+          component: () => import('@/views/auth/EmailVerify.vue')
         }
       ]
     },
@@ -214,14 +221,14 @@ const router = createRouter({
     },
     {
       // the 404 route, when none of the above matches
-      path: "/404",
-      name: "404",
-      component: () => import("@/views/Error404.vue"),
+      path: '/404',
+      name: '404',
+      component: () => import('@/views/Error404.vue')
     },
     {
-      path: "/:pathMatch(.*)*",
-      redirect: "/404",
-    },
+      path: '/:pathMatch(.*)*',
+      redirect: '/404'
+    }
   ]
 })
 

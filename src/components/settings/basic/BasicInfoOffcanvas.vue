@@ -32,9 +32,6 @@ const form = ref({
 })
 
 const rules = {
-  phone: {
-    required: helpers.withMessage('Phone No is required', required)
-  },
   email: {
     required: helpers.withMessage('Email is required', required),
     email: helpers.withMessage("Email isn't valid", email)
@@ -155,10 +152,6 @@ onMounted(() => {
                   placeholder="Your Phone No."
                   v-model="form.phone"
                 />
-
-                <div class="invalid-feedback form-control" v-if="v$.phone.$errors.length">
-                  <span> {{ v$.phone.$errors[0].$message }}</span>
-                </div>
 
                 <!-- begin::Icon -->
                 <inline-svg
