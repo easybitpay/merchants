@@ -13,12 +13,27 @@ const props = defineProps({
   canvasId: {
     type: String,
     required: false
+  },
+  titleCanvas: {
+    type: Object,
+    required: false
   }
 })
 </script>
 <template>
   <div class="row ls-base">
-    <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">{{ title }}</div>
+    <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">
+      {{ title }}
+      <span
+        class="text-primary cursor-pointer fs-8"
+        v-if="titleCanvas"
+        data-bs-toggle="offcanvas"
+        :data-bs-target="`#${titleCanvas.id}`"
+        :aria-controls="titleCanvas.id"
+      >
+        {{ titleCanvas.title }}
+      </span>
+    </div>
 
     <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
       <div

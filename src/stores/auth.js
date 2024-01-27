@@ -184,6 +184,38 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Resend Email Verification
+   */
+  async function resendEmailVerification() {
+    try {
+      await api.get('merchants/verify-email')
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Verify Email
+   * @param {code} payload
+   */
+  async function verifyEmail(payload) {
+    try {
+      await api.get('auth/verify-email', {
+        params: {
+          token: payload
+        }
+      })
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get Profile Info
    */
   async function getProfile() {
@@ -383,6 +415,8 @@ export const useAuthStore = defineStore('auth', () => {
     registerUser,
     sendForgetPasswordEmail,
     resetPassword,
+    resendEmailVerification,
+    verifyEmail,
     getProfile,
     updateProfile,
     changeLockScreenStatus,
