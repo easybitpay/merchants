@@ -1,8 +1,23 @@
 <script setup>
+// Vue
+import { computed } from 'vue'
+
+// Store
+import { useAuthStore } from '@/stores/auth'
+
+// Components
 import BasicInfoOffcanvas from '../../../components/settings/basic/BasicInfoOffcanvas.vue'
 import ContactInfo from '../../../components/settings/basic/ContactInfo.vue'
 import TextColumn from '../../../components/globals/TextColumn.vue'
 import ContactImage from '../../../components/settings/basic/ContactImage.vue'
+
+// ----- START ----- //
+
+// Generals
+const store = useAuthStore()
+
+// Computeds
+const currentUser = computed(() => store.currentUser)
 </script>
 
 <template>
@@ -23,15 +38,15 @@ import ContactImage from '../../../components/settings/basic/ContactImage.vue'
     <!-- begin::Content -->
     <div class="d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <TextColumn title="Phone" content="+98 912 260 46 54" canvasId="basicInfo_offcanvas" />
+      <TextColumn title="Phone" content="Not Set" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <TextColumn title="Email" content="Plusstudio2007@gmail.com" canvasId="basicInfo_offcanvas" />
+      <TextColumn title="Email" :content="currentUser?.merchant?.email" />
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row ls-base">
+      <!-- <div class="row ls-base">
         <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">Country</div>
         <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
           <div
@@ -51,7 +66,7 @@ import ContactImage from '../../../components/settings/basic/ContactImage.vue'
             ></inline-svg>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
