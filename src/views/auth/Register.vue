@@ -80,7 +80,11 @@ const register = async () => {
     // Request
     await store.registerUser(form.value).then((res) => {
       if (res) {
-        router.push({ name: 'dashboard' })
+        if (localStorage.getItem('afterLoginPage')) {
+          router.push(localStorage.getItem('afterLoginPage') || '/')
+        } else {
+          router.push({ name: 'dashboard' })
+        }
       } else {
         emit('changeBG')
       }

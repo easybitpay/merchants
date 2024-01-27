@@ -77,6 +77,11 @@ api.interceptors.response.use(
       } else {
         appendAlert(message, 'danger')
       }
+    } else {
+      const pageRoute = window.location.hash.split('#/')[1]
+      if (pageRoute && pageRoute != 'login') {
+        localStorage.setItem('afterLoginPage', `/${pageRoute}`)
+      }
     }
 
     switch (status) {

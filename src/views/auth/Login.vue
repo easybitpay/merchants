@@ -105,7 +105,11 @@ const verifyUser = async () => {
     // Request
     await store.vefiryLogin(info).then((res) => {
       if (res) {
-        router.push({ name: 'dashboard' })
+        if (localStorage.getItem('afterLoginPage')) {
+          router.push(localStorage.getItem('afterLoginPage') || '/')
+        } else {
+          router.push({ name: 'dashboard' })
+        }
       } else {
         emit('changeBG')
       }
@@ -147,7 +151,11 @@ const checkForNextStep = () => {
   if (two_factor) {
     step.value = 2
   } else {
-    router.push({ name: 'dashboard' })
+    if (localStorage.getItem('afterLoginPage')) {
+      router.push(localStorage.getItem('afterLoginPage') || '/')
+    } else {
+      router.push({ name: 'dashboard' })
+    }
   }
 }
 </script>

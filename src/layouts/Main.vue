@@ -26,6 +26,8 @@ const changeSidebarStatus = () => {
 onMounted(async () => {
   loading.value = true
 
+  localStorage.removeItem('afterLoginPage')
+
   await authStore.getProfile()
   await appStore.getShareAppStatuses()
   await appStore.getTokens()
