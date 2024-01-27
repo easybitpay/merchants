@@ -211,7 +211,17 @@ const router = createRouter({
           props: { sandbox: true }
         }
       ]
-    }
+    },
+    {
+      // the 404 route, when none of the above matches
+      path: "/404",
+      name: "404",
+      component: () => import("@/views/Error404.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/404",
+    },
   ]
 })
 
