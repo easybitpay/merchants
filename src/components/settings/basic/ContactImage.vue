@@ -60,7 +60,7 @@ const currentUser = computed(() => store.currentUser)
 
           <inline-svg
             src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
+            class="svg-icon-primary hover-show-target d-none d-sm-block ms-0 ms-lg-16"
           ></inline-svg>
         </div>
       </div>

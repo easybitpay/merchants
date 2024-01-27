@@ -57,7 +57,7 @@ const openEditPartner = () => {
     <!-- end::Info & Image -->
 
     <!-- begin::Action -->
-    <div class="w-175px d-none hover-show-target">
+    <div class="w-175px d-none d-sm-block hover-show-target">
       <button class="btn btn-primary w-100" @click="openEditPartner">Edit</button>
     </div>
     <!-- end::Action -->

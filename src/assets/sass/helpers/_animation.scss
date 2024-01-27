@@ -20,12 +20,12 @@
 
         .hover#{$infix}-show-parent {
             .hover-show-target {
-                display: none !important;
+                opacity: 0 !important;
             }
 
             &:hover {
                 .hover-show-target {
-                    display: block !important;
+                    opacity: 1 !important;
                 }
             }
         }

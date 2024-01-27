@@ -93,7 +93,7 @@ onMounted(() => {
           <inline-svg
             src="media/icons/icons/trash.svg"
             height="24"
-            class="svg-icon-danger hover-show-target d-none"
+            class="svg-icon-danger hover-show-target d-none d-sm-block"
           ></inline-svg>
         </div>
       </div>

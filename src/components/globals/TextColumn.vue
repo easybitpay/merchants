@@ -37,7 +37,7 @@ const props = defineProps({
         <inline-svg
           v-if="canvasId"
           src="media/icons/icons/arrow-right.svg"
-          class="svg-icon-primary hover-show-target d-none ms-0 ms-lg-16"
+          class="svg-icon-primary hover-show-target d-sm-block d-none ms-0 ms-lg-16"
         ></inline-svg>
       </div>
     </div>
