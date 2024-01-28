@@ -88,6 +88,59 @@
 html,
 body {
     font-family: 'Roboto', sans-serif !important;
+
+
+    &.sandbox,
+    &.email-verify {
+        .main-container #main {
+            padding-bottom: 6rem;
+        }
+
+        .offcanvas.offcanvas-bottom.show:not(.hiding) {
+            bottom: 80px;
+
+            @media (max-width: 600px) {
+                bottom: 114px;
+            }
+        }
+    }
+
+}
+
+body.sandbox.email-verify {
+
+    .main-container #main {
+        padding-bottom: 13rem;
+    }
+
+    .offcanvas.offcanvas-bottom.show:not(.hiding) {
+        bottom: 164px;
+
+        @media (max-width: 576px) {
+            bottom: 243px;
+        }
+    }
+
+    #sandbox-alert {
+        @media (max-width: 576px) {
+            bottom: 145px;
+        }
+
+        bottom: 106px;
+    }
+
+
+}
+
+#sandbox-alert,
+#email-verify-alert {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 24px;
+    z-index: $zindex-offcanvas;
+    max-width: 792px;
+    width: 100%;
 }
 
 #app {

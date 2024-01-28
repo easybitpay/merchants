@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 
 // Router
 import { useRouter, useRoute } from 'vue-router'
@@ -14,6 +14,7 @@ import useIconImage from '@/hooks/useIconImage'
 
 // Components
 import SandboxAlert from '../../components/globals/SandboxAlert.vue'
+import EmailVerifyAlert from '../../components/globals/EmailVerifyAlert.vue'
 
 // Props
 const props = defineProps({
@@ -37,6 +38,7 @@ const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
 const sandbox = ref(sandBoxStatus.value)
+const showEmailVerifyAlert = ref(false)
 
 // Refs
 const search = ref('')
@@ -118,6 +120,22 @@ const signOut = () => {
   authStore.logout()
   window.location.reload()
 }
+
+/**
+ * Set Email Verify Status
+ */
+const setEmailVerifyStatus = () => {
+  let emailVerifyAt = currentUser.value?.merchant?.email_verified_at
+
+  if (!emailVerifyAt) {
+    document.body.classList.add('email-verify')
+    showEmailVerifyAlert.value = true
+  }
+}
+
+onMounted(() => {
+  setEmailVerifyStatus()
+})
 
 watch(sandbox, () => {
   appStore.setSandBoxStatus(sandbox.value)
@@ -404,7 +422,7 @@ watch(sandbox, () => {
 
     <!-- begin::User -->
     <div class="user-box w-100">
-      <RouterLink :to="{name: 'settings-basic'}" class="user cursor-pointer">
+      <RouterLink :to="{ name: 'settings-basic' }" class="user cursor-pointer">
         <div>
           <!-- begin::Image Box -->
           <div class="w-40px h-40px position-relative">
@@ -445,4 +463,5 @@ watch(sandbox, () => {
   </aside>
 
   <SandboxAlert v-if="sandBoxStatus" />
+  <EmailVerifyAlert v-if="showEmailVerifyAlert"/>
 </template>
