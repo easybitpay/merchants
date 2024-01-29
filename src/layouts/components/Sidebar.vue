@@ -38,7 +38,7 @@ const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
 const sandbox = ref(sandBoxStatus.value)
-const showEmailVerifyAlert = ref(false)
+const emailVerifyAlert = computed(() => authStore.emailVerifyAlert)
 
 // Refs
 const search = ref('')
@@ -128,8 +128,7 @@ const setEmailVerifyStatus = () => {
   let emailVerifyAt = currentUser.value?.merchant?.email_verified_at
 
   if (!emailVerifyAt) {
-    document.body.classList.add('email-verify')
-    showEmailVerifyAlert.value = true
+    authStore.setShowEmailVerifyAlert(true)
   }
 }
 
@@ -463,5 +462,5 @@ watch(sandbox, () => {
   </aside>
 
   <SandboxAlert v-if="sandBoxStatus" />
-  <EmailVerifyAlert v-if="showEmailVerifyAlert"/>
+  <EmailVerifyAlert v-if="emailVerifyAlert"/>
 </template>

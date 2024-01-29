@@ -119,7 +119,7 @@ onMounted(() => {
             <!-- begin::Content -->
             <div>
               <p class="text-gray-900 ls-base mb-10">
-                A 6-digit confirmation code has been sent to {{ currentUser.email }} via Email.
+                A 6-digit confirmation code has been sent to {{ currentUser?.merchant?.email }} via Email.
                 <span class="text-primary">
                   <Countdown :showText="false" :emidiate="false" @isRestarted="sendEmail" />
                 </span>

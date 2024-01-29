@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   // ----- States -----
   const user = ref({})
   const lockScreen = ref('')
+  const emailVerifyAlert = ref(false)
 
   // Computeds
   const currentUser = computed(() =>
@@ -81,11 +82,31 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Set Merchant Email Verified At
+   */
+  function setMerchantEmailVerifiedAt() {
+    user.value.merchant.email_verified_at = 'true'
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
+  /**
    * Update User Password Update Time
    */
   function updatePasswordUpdateTime(time) {
     user.value.last_password_update = time
     localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
+  /**
+   * Set Show Email Verify Alert
+   */
+  function setShowEmailVerifyAlert(status) {
+    emailVerifyAlert.value = status
+    if (status) {
+      document.body.classList.add('email-verify')
+    } else {
+      document.body.classList.remove('email-verify')
+    }
   }
 
   /**
@@ -208,6 +229,9 @@ export const useAuthStore = defineStore('auth', () => {
           token: payload
         }
       })
+
+      setMerchantEmailVerifiedAt()
+      setShowEmailVerifyAlert(false)
 
       return true
     } catch (error) {
@@ -407,7 +431,9 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     currentUser,
     lockScreenStatus,
+    emailVerifyAlert,
 
+    setShowEmailVerifyAlert,
     logout,
     loginUser,
     vefiryLogin,
