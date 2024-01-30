@@ -213,7 +213,7 @@ onMounted(() => {
     <!-- begin::Dropdown Menu -->
     <ul :class="`dropdown-menu gap-0 ${btnSize}-triangle w-100`" aria-labelledby="dropdownMenuLink">
       <!-- begin::Search Input -->
-      <div class="position-relative d-flex align-items-center mb-6" v-if="items.length > 30">
+      <div class="position-relative d-flex align-items-center mb-6" v-if="items.length > 10">
         <input
           type="text"
           class="form-control form-control-sm"

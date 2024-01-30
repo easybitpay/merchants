@@ -15,6 +15,19 @@ import useRedirectPayment from '@/hooks/useRedirectPayment'
 // Components
 import PayCountDown from '../../components/globals/PayCountDown.vue'
 
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue'
+
+// Import Swiper styles
+import 'swiper/css'
+
+import 'swiper/css/navigation'
+
+// import required modules
+import { Navigation } from 'swiper/modules'
+
+const modules = [Navigation]
+
 // Props
 const props = defineProps({
   sandbox: {
@@ -60,21 +73,9 @@ const convertPricePerBase = computed(() => {
   return (base_amount / must_pay_amount).toFixed(2)
 })
 
-const paidAmount = computed(() => {
-  const initialValue = 0
-
-  if (!paymentTransactions.value.length) return initialValue
-
-  const sum = paymentTransactions.value.reduce(function (accumulator, curValue) {
-    return accumulator + +curValue.amount
-  }, initialValue)
-
-  return sum
-})
-
 const filledPercent = computed(() => {
-  const paid = paidAmount.value
-  const mustPaid = +selectedCoin.value.amount
+  const paid = +invoiceDetail.value.paid
+  const mustPaid = +invoiceDetail.value.amount
 
   return ((paid * 100) / mustPaid).toFixed(0)
 })
@@ -172,10 +173,31 @@ const get_payment_detail = async () => {
  */
 const payment_check_status = async () => {
   await store.paymentCheckStatus(invoiceCode.value).then((res) => {
-    if (res) {
+    if (res.invoice_status) {
       clearInterval(interval.value)
 
-      redirectPaymentStatus(res)
+      redirectPaymentStatus(res.invoice_status)
+    } else {
+      let prices = res.tokens_prices
+
+      for (let i = 0; i < prices.length; i++) {
+        const token = prices[i]
+        if (selectedNetwork.value.token_id === token.token_id) {
+          store.setSelectedNetwork({
+            network: {
+              ...token.token.network,
+              token_id: token.token.id,
+              symbol: token.token.symbol,
+              price: token.price,
+              amount: token.amount,
+              amount_filled: token.amount_filled,
+              amount_remain: token.amount_remain,
+              payable: token.payable
+            },
+            invoiceID: invoiceCode.value
+          })
+        }
+      }
     }
   })
 }
@@ -210,11 +232,7 @@ onUnmounted(() => {
     <div class="item">
       <p class="title">Netrwok</p>
       <p class="value">
-        {{
-          selectedNetwork.name
-            ? `${selectedNetwork.name.toUpperCase()} (${selectedNetwork.chain_type.toUpperCase()})`
-            : 'not Selected'
-        }}
+        {{ selectedNetwork.name ? `${selectedNetwork.name.toUpperCase()}` : 'not Selected' }}
       </p>
     </div>
     <!-- end::Item -->
@@ -253,7 +271,7 @@ onUnmounted(() => {
           :alt="selectedCoin.symbol"
           class="small-coin-icon"
         />
-        {{ +selectedCoin.amount - paidAmount }} {{ selectedCoin.symbol }}
+        {{ selectedNetwork.amount_remain }} {{ selectedCoin.symbol }}
       </div>
       <!-- end::Coin & Price -->
 
@@ -282,6 +300,38 @@ onUnmounted(() => {
   </div>
   <!-- end::Qr Code -->
 
+  <template v-if="paymentTransactions.length">
+    <!-- begin::Spacer -->
+    <div class="border-bottom border-gray-400 w-100 mt-10 mb-4"></div>
+    <!-- end::Spacer -->
+
+    <!-- begin::Info -->
+    <div class="auto-infos">
+      <Swiper
+        :spaceBetween="0"
+        :navigation="true"
+        :pagination="{ clickable: true }"
+        :modules="modules"
+        class="primary-navigation small-navigation close-side"
+      >
+        <SwiperSlide v-for="(item, index) in paymentTransactions" :key="index">
+          <div class="item min-w-initial p-0">
+            <p class="title d-flex align-items-center gap-2">
+              TaxID
+              <span
+                class="d-flex align-items-center h-24px bg-primary text-white px-2 rounded fs-8"
+              >
+                {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
+              </span>
+            </p>
+            <p class="value text-break min-w-initial fs-8">{{ item.hash }}</p>
+          </div>
+        </SwiperSlide>
+      </Swiper>
+    </div>
+    <!-- end::Info -->
+  </template>
+
   <!-- begin::Action -->
   <div class="d-flex flex-column gap-4 mt-28">
     <!-- begin::Fake Payment -->
@@ -295,7 +345,7 @@ onUnmounted(() => {
       {{
         fakePayLoading
           ? 'Loading...'
-          : `Assume ${selectedCoin.amount} ${selectedCoin.symbol} is paid`
+          : `Assume ${selectedNetwork.amount_remain} ${selectedCoin.symbol} is paid`
       }}
     </button>
     <!-- end::Fake Payment -->

@@ -71,12 +71,10 @@ const paidAmount = computed(() => {
 })
 
 const filledPercent = computed(() => {
-  const paid = paidAmount.value
-  const mustPaid = +selectedCoin.value.amount
+  const paid = +invoiceDetail.value.paid
+  const mustPaid = +invoiceDetail.value.amount
 
-  if (mustPaid) return ((paid * 100) / mustPaid).toFixed(0)
-
-  return 0
+  return ((paid * 100) / mustPaid).toFixed(0)
 })
 
 const convertFillToColor = computed(() => {
@@ -155,11 +153,12 @@ const toggleToken = (token) => {
   store.setSelectedCoin({
     coin: {
       symbol: token.symbol,
-      name: token.name,
-      amount: token.amount
+      name: token.name
     },
     invoiceID: invoiceCode.value
   })
+
+  toggleNetwork(token.networks[0])
 }
 
 /**
@@ -224,7 +223,6 @@ const getInvoiceDetail = async () => {
 
         if (!tokenPushedBefore) {
           tokensArray.push({
-            amount: token.amount,
             name: token.token.name,
             symbol: token.token.symbol,
             logo: token.token.logo,
@@ -232,7 +230,12 @@ const getInvoiceDetail = async () => {
               {
                 ...token.token.network,
                 token_id: token.token.id,
-                symbol: token.token.symbol
+                symbol: token.token.symbol,
+                price: token.price,
+                amount: token.amount,
+                amount_filled: token.amount_filled,
+                amount_remain: token.amount_remain,
+                payable: token.payable
               }
             ]
           })
@@ -242,7 +245,12 @@ const getInvoiceDetail = async () => {
             if (token.token.name === element.name) {
               element.networks.push({
                 ...token.token.network,
-                token_id: token.token.id
+                token_id: token.token.id,
+                price: token.price,
+                amount: token.amount,
+                amount_filled: token.amount_filled,
+                amount_remain: token.amount_remain,
+                payable: token.payable
               })
             }
           }
@@ -460,6 +468,15 @@ onMounted(() => {
 
         <!-- begin::Item -->
         <div class="item">
+          <p class="title">Amount</p>
+          <p class="value">
+            {{ selectedNetwork.amount_remain ? selectedNetwork.amount_remain : 'not Selected' }}
+          </p>
+        </div>
+        <!-- end::Item -->
+
+        <!-- begin::Item -->
+        <div class="item">
           <p class="title">Coin</p>
           <p class="value">{{ selectedCoin.symbol || 'not Selected' }}</p>
         </div>
@@ -469,11 +486,7 @@ onMounted(() => {
         <div class="item">
           <p class="title">Netrwok</p>
           <p class="value">
-            {{
-              selectedNetwork.name
-                ? `${selectedNetwork.name.toUpperCase()} (${selectedNetwork.chain_type.toUpperCase()})`
-                : 'not Selected'
-            }}
+            {{ selectedNetwork.name ? `${selectedNetwork.name.toUpperCase()}` : 'not Selected' }}
           </p>
         </div>
         <!-- end::Item -->
@@ -626,7 +639,11 @@ onMounted(() => {
           <inline-svg src="media/icons/icons/arrow-left.svg" class="svg-icon-primary"></inline-svg>
         </button>
 
-        <button type="submit" :disabled="payLoading && !invoiceDetail.base_token" class="btn btn-primary flex-grow-1">
+        <button
+          type="submit"
+          :disabled="payLoading && !invoiceDetail.base_token"
+          class="btn btn-primary flex-grow-1"
+        >
           Pay
         </button>
       </div>

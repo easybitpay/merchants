@@ -115,14 +115,14 @@ onMounted(() => {
       class="primary-navigation small-navigation close-side"
     >
       <SwiperSlide v-for="(item, index) in paymentTransactions" :key="index">
-        <div class="item">
+        <div class="item min-w-initial p-0">
           <p class="title d-flex align-items-center gap-2">
             TaxID
             <span class="d-flex align-items-center h-24px bg-primary text-white px-2 rounded fs-8">
-              {{ item.amount }} {{ selectedCoin.symbol }}
+              {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
             </span>
           </p>
-          <p class="value">{{ item.hash }}</p>
+          <p class="value text-break min-w-initial fs-8">{{ item.hash }}</p>
         </div>
       </SwiperSlide>
     </Swiper>
@@ -138,11 +138,7 @@ onMounted(() => {
         height="19"
       ></inline-svg>
     </button>
-    <button
-      type="button"
-      @click="goHome()"
-      class="btn btn-primary flex-grow-1"
-    >
+    <button type="button" @click="goHome()" class="btn btn-primary flex-grow-1">
       Go Home ({{ minAndSec(leftTime) }})
     </button>
   </div>

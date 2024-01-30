@@ -206,7 +206,7 @@ export const usePayStore = defineStore('pay', () => {
       const { data } = await api.get(`invoices/status/${payload}`)
 
       //
-      const { transactions, invoice_status } = data
+      const { transactions, invoice_status, invoice, tokens_prices } = data
 
       //
       setPaymentTransactions({
@@ -214,8 +214,12 @@ export const usePayStore = defineStore('pay', () => {
         transactions
       })
 
+      setInvoiceDetail({
+        invoice
+      })
+
       //
-      return invoice_status
+      return { tokens_prices, invoice_status }
     } catch (error) {
       return false
     }
