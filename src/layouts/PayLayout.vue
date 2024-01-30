@@ -1,6 +1,9 @@
 <script setup>
 // Vue
-import { onBeforeUnmount, ref } from 'vue'
+import { computed, onBeforeUnmount,onBeforeMount, ref } from 'vue'
+
+// Hooks
+import useIconImage from '@/hooks/useIconImage'
 
 // Store
 import { usePayStore } from '@/stores/pay'
@@ -13,7 +16,7 @@ const props = defineProps({
   sandbox: {
     type: Boolean,
     default: false
-  },
+  }
 })
 
 const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
@@ -24,11 +27,16 @@ if (sandbox) {
 // ----- START ----- //
 
 // Generals
-const payStore = usePayStore()
+const store = usePayStore()
+const { storageImage } = useIconImage()
 
 // Refs
 const errorStatus = ref(false)
 const timeout = ref(null)
+
+// Computeds
+const paymentThemeID = computed(() => store.getPaymentThemeID)
+const invoiceDetail = computed(() => store.getInvoiceDetail)
 
 // Functions
 const changeBG = () => {
@@ -44,10 +52,14 @@ const changeBG = () => {
 onBeforeUnmount(() => {
   payStore.refreshPayStore()
 })
+
+onBeforeMount(() => {
+  localStorage.removeItem('paymentThemeID')
+})
 </script>
 
 <template>
-  <div class="pay-layout type-1">
+  <div :class="`pay-layout type-${paymentThemeID}`">
     <!-- begin::Main Box -->
     <div class="d-flex flex-column flex-root z-2">
       <div class="d-flex flex-column flex-root justify-content-center">
@@ -81,8 +93,12 @@ onBeforeUnmount(() => {
 
     <!-- begin::Backgroun Image -->
     <div
-      :class="[{ 'auth-bg': true }, { error: errorStatus }]"
-      style="background-image: url('media/images/banner/auth-bg.jpg')"
+      :class="[{ 'payment-bg': true }, { error: errorStatus }]"
+      :style="`background-image: url(${
+        paymentThemeID == 1
+          ? 'media/images/banner/auth-bg.jpg'
+          : storageImage(invoiceDetail?.app?.banner)
+      })`"
     ></div>
     <!-- end::Backgroun Image -->
   </div>

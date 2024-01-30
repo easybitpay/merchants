@@ -10,6 +10,7 @@ import { defineStore } from 'pinia'
 // Store
 export const usePayStore = defineStore('pay', () => {
   // ----- States -----
+  const paymentThemeID = ref(1)
   const payLoading = ref(false)
   const invoiceCode = ref('')
   const invoiceDetail = ref(null)
@@ -20,6 +21,10 @@ export const usePayStore = defineStore('pay', () => {
   const paymentTransactions = ref(null)
 
   // Computeds
+  const getPaymentThemeID = computed(
+    () => localStorage.getItem('paymentThemeID') || paymentThemeID.value
+  )
+
   const getInvoiceCode = computed(() =>
     invoiceCode.value ? invoiceCode.value : localStorage.getItem('invoiceCode')
   )
@@ -63,6 +68,14 @@ export const usePayStore = defineStore('pay', () => {
   // ----- Function -----
   function setMainLoading(status) {
     payLoading.value = status
+  }
+
+  function setThemeInfo(invoice) {
+    const themeID = invoice.app.payment_theme_id
+    if (themeID) {
+      paymentThemeID.value = themeID
+      localStorage.setItem('paymentThemeID', themeID)
+    }
   }
 
   function setInvoiceCode(payload) {
@@ -110,6 +123,7 @@ export const usePayStore = defineStore('pay', () => {
     localStorage.removeItem(`paymentDetail_${getInvoiceCode.value}`)
     localStorage.removeItem(`paymentTransactions_${getInvoiceCode.value}`)
     localStorage.removeItem(`invoiceCode`)
+    localStorage.removeItem(`paymentThemeID`)
 
     invoiceCode.value = ''
     invoiceDetail.value = null
@@ -137,6 +151,8 @@ export const usePayStore = defineStore('pay', () => {
 
       //
       setInvoiceDetail({ invoiceID: payload, invoice })
+
+      setThemeInfo(invoice)
 
       //
       return tokens_prices
@@ -257,6 +273,7 @@ export const usePayStore = defineStore('pay', () => {
 
   return {
     payLoading,
+    getPaymentThemeID,
     getInvoiceCode,
     getInvoiceDetail,
     getPaymentDetail,

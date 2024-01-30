@@ -210,7 +210,8 @@ body.sandbox.email-verify {
     height: 3rem;
 }
 
-.auth-bg {
+.auth-bg,
+.payment-bg {
     background-position: top;
     background-size: cover;
     filter: grayscale(0);
@@ -1053,8 +1054,9 @@ body.sandbox.email-verify {
     flex: 1;
     flex-flow: row-reverse;
 
-    &.type-1 {
-        .auth-bg {
+    &.type-1,
+    &.type-2 {
+        .payment-bg {
             position: fixed;
             height: 53vh;
             bottom: 0;
@@ -1062,8 +1064,8 @@ body.sandbox.email-verify {
         }
     }
 
-    &.type-2 {
-        .auth-bg {
+    &.type-3 {
+        .payment-bg {
             width: 50%;
 
             @media (max-width: 992px) {
