@@ -210,6 +210,10 @@ body.sandbox.email-verify {
     height: 3rem;
 }
 
+.gray-icon {
+    filter: grayscale(1);
+}
+
 .auth-bg,
 .payment-bg {
     background-position: top;

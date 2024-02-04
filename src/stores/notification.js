@@ -52,11 +52,62 @@ export const useNotificationStore = defineStore('notification', () => {
     }
   }
 
+  /**
+   * Get Telegram Connect Code
+   */
+  async function getTelegramConnectCode() {
+    try {
+      const { data } = await api.get('notifications/telegram/connect')
+
+      //
+      const code = data.code
+
+      //
+      return code
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get Telegram Connect Code
+   */
+  async function checkTelegramStatus() {
+    try {
+      const { data } = await api.get('notifications/telegram/status')
+
+      //
+      const code = data.connected
+
+      //
+      return code
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Disconnect Telegram
+   */
+  async function disconnectTelegram() {
+    try {
+      const { data } = await api.get('notifications/telegram/disconnect')
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     newPage,
 
     changePage,
     getNotificationsConfig,
-    updateNotificationsConfig
+    updateNotificationsConfig,
+    getTelegramConnectCode,
+    checkTelegramStatus,
+    disconnectTelegram
   }
 })

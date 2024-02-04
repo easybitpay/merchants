@@ -1,15 +1,9 @@
 <script setup>
-// Vue
-import { computed } from 'vue'
-
-// Store
-import { useAuthStore } from '@/stores/auth'
-
 // Components
 import ContactInfo from '../../../components/settings/basic/ContactInfo.vue'
-import TextColumn from '../../../components/globals/TextColumn.vue'
 import ContactImage from '../../../components/settings/basic/ContactImage.vue'
 import BasicInfo from '../../../components/settings/basic/BasicInfo.vue'
+import LinkedAccounts from '../../../components/settings/basic/LinkedAccounts.vue'
 </script>
 
 <template>
@@ -19,54 +13,7 @@ import BasicInfo from '../../../components/settings/basic/BasicInfo.vue'
 
   <BasicInfo />
 
-  <!-- begin::Linked Accounts -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Linked Account</h4>
-
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
-
-    <!-- begin::Content -->
-    <div class="d-flex flex-wrap gap-6">
-      <!-- begin::Item -->
-      <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
-        <!-- begin::Logo -->
-        <inline-svg src="media/icons/companies/google-logo.svg" class="me-7"></inline-svg>
-        <!-- end::Logo -->
-
-        <!-- begin::Action -->
-        <inline-svg
-          src="media/icons/icons/trash.svg"
-          width="20"
-          class="svg-icon-gray-700 cursor-pointer"
-        ></inline-svg>
-        <!-- end::Action -->
-      </div>
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
-        <!-- begin::Logo -->
-        <inline-svg src="media/icons/companies/facebook-logo.svg" class="me-7"></inline-svg>
-        <!-- end::Logo -->
-
-        <!-- begin::Action -->
-        <inline-svg
-          src="media/icons/icons/link.svg"
-          width="20"
-          class="svg-icon-primary cursor-pointer"
-        ></inline-svg>
-        <!-- end::Action -->
-      </div>
-      <!-- end::Item -->
-    </div>
-    <!-- end::Content -->
-  </div>
-  <!-- end::Linked Accounts -->
-
+  <LinkedAccounts />
   <!-- begin::Languege -->
   <div>
     <!-- begin::Title -->

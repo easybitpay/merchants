@@ -110,6 +110,14 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   /**
+   * Change User Telegram Status
+   */
+  function chengeTelegramChatID(status) {
+    user.value.merchant.telegram_chat_id = status;
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
+  /**
    * Login User
    * @param {user form} payload
    */
@@ -434,6 +442,7 @@ export const useAuthStore = defineStore('auth', () => {
     emailVerifyAlert,
 
     setShowEmailVerifyAlert,
+    chengeTelegramChatID,
     logout,
     loginUser,
     vefiryLogin,
