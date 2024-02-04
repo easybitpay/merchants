@@ -242,18 +242,18 @@ watch(sandbox, () => {
           <!-- end::Link -->
 
           <!-- begin::Link -->
-          <router-link
+          <!-- <router-link
             :to="{ name: 'notification' }"
             :class="[{ link: true }, { active: checkActive('notification') }]"
-          >
+          > -->
             <!-- begin::icon -->
-            <div>
+            <!-- <div>
               <inline-svg src="media/icons/icons/notification.svg" class="icon"></inline-svg>
-            </div>
+            </div> -->
             <!-- end::icon -->
 
-            <span>Notif Center</span>
-          </router-link>
+            <!-- <span>Notif Center</span> -->
+          <!-- </router-link> -->
           <!-- end::Link -->
 
           <!-- begin::Link -->
