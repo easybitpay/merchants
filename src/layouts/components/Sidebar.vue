@@ -174,154 +174,191 @@ watch(sandbox, () => {
     <!-- end::Logo & Search -->
 
     <!-- begin::Links -->
-    <div class="links w-100 custom-scroll">
-      <!-- begin::Link Box -->
-      <div class="link-box mb-12">
-        <!-- begin::Collapse Link -->
-        <div class="collapse-box">
-          <div class="collapse-link">
-            <router-link
-              :to="{ name: 'applications' }"
-              :class="[{ 'link pe-0': true }, { active: checkActive('application') }]"
-            >
-              <!-- begin::icon -->
-              <div>
-                <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
-              </div>
-              <!-- end::icon -->
-
-              <span>Applications</span>
-            </router-link>
-
-            <!-- begin::icon -->
-            <inline-svg
-              v-if="appList.length"
-              src="media/icons/icons/chevron-down.svg"
-              data-bs-toggle="collapse"
-              data-bs-target="#appListCollapse"
-              aria-expanded="false"
-              aria-controls="appListCollapse"
-            ></inline-svg>
-            <!-- end::icon -->
-          </div>
-
-          <div class="collapse collapse-box" id="appListCollapse">
-            <div class="box">
+    <div class="links w-100">
+      <div class="links custom-scroll">
+        <!-- begin::Link Box -->
+        <div class="link-box mb-12">
+          <!-- begin::Collapse Link -->
+          <div class="collapse-box">
+            <div class="collapse-link">
               <router-link
-                :to="{ name: 'application-overview', params: { id: app.id } }"
-                :class="[{ item: true }, { active: checkActive('application', app.id) }]"
-                v-for="app in appList"
-                :key="app.id"
+                :to="{ name: 'applications' }"
+                :class="[{ 'link pe-0': true }, { active: checkActive('application') }]"
               >
+                <!-- begin::icon -->
                 <div>
-                  <div class="w-8px h-8px rounded-circle bg-success"></div>
+                  <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
                 </div>
+                <!-- end::icon -->
 
-                <span>{{ app.name }}</span>
+                <span>Applications</span>
               </router-link>
+
+              <!-- begin::icon -->
+              <inline-svg
+                v-if="appList.length"
+                src="media/icons/icons/chevron-down.svg"
+                data-bs-toggle="collapse"
+                data-bs-target="#appListCollapse"
+                aria-expanded="false"
+                aria-controls="appListCollapse"
+              ></inline-svg>
+              <!-- end::icon -->
+            </div>
+
+            <div class="collapse collapse-box" id="appListCollapse">
+              <div class="box">
+                <router-link
+                  :to="{ name: 'application-overview', params: { id: app.id } }"
+                  :class="[{ item: true }, { active: checkActive('application', app.id) }]"
+                  v-for="app in appList"
+                  :key="app.id"
+                >
+                  <div>
+                    <div class="w-8px h-8px rounded-circle bg-success"></div>
+                  </div>
+
+                  <span>{{ app.name }}</span>
+                </router-link>
+              </div>
             </div>
           </div>
+
+          <!-- end::Collapse Link -->
+
+          <!-- begin::Link -->
+          <router-link
+            :to="{ name: 'exchange' }"
+            :class="[{ link: true }, { active: checkActive('exchange') }]"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/settings-alt.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span>Exchange</span>
+          </router-link>
+          <!-- end::Link -->
+
+          <!-- begin::Link -->
+          <router-link
+            :to="{ name: 'notification' }"
+            :class="[{ link: true }, { active: checkActive('notification') }]"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/notification.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span>Notif Center</span>
+          </router-link>
+          <!-- end::Link -->
+
+          <!-- begin::Link -->
+          <router-link
+            :to="{ name: 'plugin' }"
+            :class="[{ link: true }, { active: checkActive('plugin') }]"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/commandline.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span>Plugin</span>
+          </router-link>
+          <!-- end::Link -->
         </div>
+        <!-- end::Link Box -->
 
-        <!-- end::Collapse Link -->
+        <!-- begin::Link Box -->
+        <div class="link-box">
+          <!-- begin::Link -->
+          <router-link
+            :to="{ name: 'settings' }"
+            :class="[{ link: true }, { active: checkActive('settings') }]"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
 
-        <!-- begin::Link -->
-        <router-link
-          :to="{ name: 'exchange' }"
-          :class="[{ link: true }, { active: checkActive('exchange') }]"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/settings-alt.svg" class="icon"></inline-svg>
+            <span>Setting</span>
+          </router-link>
+          <!-- end::Link -->
+
+          <!-- begin::Link -->
+          <a
+            href="https://docs.easybitpay.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/book.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span>Documentation</span>
+          </a>
+          <!-- end::Link -->
+
+          <!-- begin::Link -->
+          <router-link
+            :to="{ name: 'help' }"
+            :class="[{ link: true }, { active: checkActive('help') }]"
+          >
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/compass.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span>Get Help</span>
+          </router-link>
+          <!-- end::Link -->
+
+          <!-- begin::SandBox -->
+          <div class="link form-check form-switch">
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/archive-full.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span class="d-flex align-items-center justify-content-between w-100">
+              <div>
+                <label class="form-check-label" for="sandbox"> SandBox </label>
+              </div>
+
+              <div>
+                <input
+                  class="form-check-input m-0"
+                  type="checkbox"
+                  role="switch"
+                  id="sandbox"
+                  v-model="sandbox"
+                />
+              </div>
+            </span>
           </div>
-          <!-- end::icon -->
-
-          <span>Exchange</span>
-        </router-link>
-        <!-- end::Link -->
-
-        <!-- begin::Link -->
-        <router-link
-          :to="{ name: 'notification' }"
-          :class="[{ link: true }, { active: checkActive('notification') }]"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/notification.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
-
-          <span>Notif Center</span>
-        </router-link>
-        <!-- end::Link -->
-
-        <!-- begin::Link -->
-        <router-link
-          :to="{ name: 'plugin' }"
-          :class="[{ link: true }, { active: checkActive('plugin') }]"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/commandline.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
-
-          <span>Plugin</span>
-        </router-link>
-        <!-- end::Link -->
+          <!-- end::SandBox -->
+        </div>
+        <!-- end::Link Box -->
       </div>
-      <!-- end::Link Box -->
+      <!-- begin::Collapse -->
 
-      <!-- begin::Link Box -->
+      <!-- begin::Seprate Line -->
+      <div class="seprator-line">
+        <span></span>
+      </div>
+      <!-- end::Seprate Line -->
+
       <div class="link-box">
-        <!-- begin::Link -->
-        <router-link
-          :to="{ name: 'settings' }"
-          :class="[{ link: true }, { active: checkActive('settings') }]"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
-
-          <span>Setting</span>
-        </router-link>
-        <!-- end::Link -->
-
-        <!-- begin::Link -->
-
-        <a
-          href="https://docs.easybitpay.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/book.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
-
-          <span>Documentation</span>
-        </a>
-        <!-- end::Link -->
-
-        <!-- begin::Link -->
-        <router-link
-          :to="{ name: 'help' }"
-          :class="[{ link: true }, { active: checkActive('help') }]"
-        >
-          <!-- begin::icon -->
-          <div>
-            <inline-svg src="media/icons/icons/compass.svg" class="icon"></inline-svg>
-          </div>
-          <!-- end::icon -->
-
-          <span>Get Help</span>
-        </router-link>
-        <!-- end::Link -->
-
         <!-- begin::Lock -->
         <!-- begin::Collapse Link -->
         <div class="collapse-box">
@@ -337,13 +374,15 @@ watch(sandbox, () => {
             </a>
 
             <!-- begin::icon -->
-            <inline-svg
-              src="media/icons/icons/chevron-down.svg"
-              data-bs-toggle="collapse"
-              data-bs-target="#authActionsCollapse"
-              aria-expanded="false"
-              aria-controls="authActionsCollapse"
-            ></inline-svg>
+            <div>
+              <inline-svg
+                src="media/icons/icons/chevron-down.svg"
+                data-bs-toggle="collapse"
+                data-bs-target="#authActionsCollapse"
+                aria-expanded="false"
+                aria-controls="authActionsCollapse"
+              ></inline-svg>
+            </div>
             <!-- end::icon -->
           </div>
 
@@ -367,55 +406,19 @@ watch(sandbox, () => {
             </div>
           </div>
         </div>
-
         <!-- end::Collapse Link -->
         <!-- end::Lock -->
 
-        <!-- begin::SandBox -->
-        <div class="link form-check form-switch">
+        <div class="link collapse-btn" @click="changeSidebar()">
           <!-- begin::icon -->
           <div>
-            <inline-svg src="media/icons/icons/archive-full.svg" class="icon"></inline-svg>
+            <inline-svg src="media/icons/icons/chevron-left.svg" class="icon"></inline-svg>
           </div>
           <!-- end::icon -->
 
-          <span class="d-flex align-items-center justify-content-between w-100">
-            <div>
-              <label class="form-check-label" for="sandbox"> SandBox </label>
-            </div>
-
-            <div>
-              <input
-                class="form-check-input m-0"
-                type="checkbox"
-                role="switch"
-                id="sandbox"
-                v-model="sandbox"
-              />
-            </div>
-          </span>
+          <span>Collapse</span>
         </div>
-        <!-- end::SandBox -->
       </div>
-      <!-- end::Link Box -->
-
-      <!-- begin::Seprate Line -->
-      <div class="seprator-line">
-        <span></span>
-      </div>
-      <!-- end::Seprate Line -->
-
-      <!-- begin::Collapse -->
-      <div class="link collapse-btn" @click="changeSidebar()">
-        <!-- begin::icon -->
-        <div>
-          <inline-svg src="media/icons/icons/chevron-left.svg" class="icon"></inline-svg>
-        </div>
-        <!-- end::icon -->
-
-        <span>Collapse</span>
-      </div>
-      <!-- end::Collapse -->
     </div>
     <!-- end::Links -->
 
@@ -462,5 +465,5 @@ watch(sandbox, () => {
   </aside>
 
   <SandboxAlert v-if="sandBoxStatus" />
-  <EmailVerifyAlert v-if="emailVerifyAlert"/>
+  <EmailVerifyAlert v-if="emailVerifyAlert" />
 </template>
