@@ -69,11 +69,14 @@ onMounted(() => {
 
       <div class="mb-10">
         <h1
+          v-if="!loading"
           :class="`text-center mb-0 text-${varified ? 'success' : 'danger'}`"
           style="font-size: 2rem"
         >
           {{ varified ? 'Activation successfull' : 'Activation failed' }}
         </h1>
+
+        <h1 v-else class="text-center mb-0" style="font-size: 2rem">Activating...</h1>
       </div>
 
       <!-- begin::Action -->
