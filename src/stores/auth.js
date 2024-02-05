@@ -15,8 +15,9 @@ export const useAuthStore = defineStore('auth', () => {
   const emailVerifyAlert = ref(false)
 
   // Computeds
-  const currentUser = computed(() =>
-    Object.keys(user.value).length ? user.value : JSON.parse(localStorage.getItem('user') || '{}')
+  const currentUser = computed(
+    () => user.value
+    // Object.keys(user.value).length ? user.value : JSON.parse(localStorage.getItem('user') || '{}')
   )
 
   const lockScreenStatus = computed(() => {
@@ -85,8 +86,10 @@ export const useAuthStore = defineStore('auth', () => {
    * Set Merchant Email Verified At
    */
   function setMerchantEmailVerifiedAt() {
-    user.value.merchant.email_verified_at = 'true'
-    localStorage.setItem('user', JSON.stringify(user.value))
+    if (user.value.merchant) {
+      user.value.merchant.email_verified_at = 'true'
+      localStorage.setItem('user', JSON.stringify(user.value))
+    }
   }
 
   /**
@@ -113,7 +116,7 @@ export const useAuthStore = defineStore('auth', () => {
    * Change User Telegram Status
    */
   function chengeTelegramChatID(status) {
-    user.value.merchant.telegram_chat_id = status;
+    user.value.merchant.telegram_chat_id = status
     localStorage.setItem('user', JSON.stringify(user.value))
   }
 

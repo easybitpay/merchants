@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
@@ -12,15 +12,34 @@ import LockScreen from './LockScreen.vue'
 import MainLoading from '../components/globals/MainLoading.vue'
 
 // ----- START ----- //
+
+// Generals
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
+// Refs
 const loading = ref(true)
-
 const sidebarStatus = ref(true)
 
+// Computeds
+const currentUser = computed(() => authStore.currentUser)
+
+// Functions
 const changeSidebarStatus = () => {
   sidebarStatus.value = !sidebarStatus.value
+}
+
+/**
+ * Set Email Verify Status
+ */
+ const setEmailVerifyStatus = () => {
+  let emailVerifyAt = currentUser.value?.merchant?.email_verified_at
+
+  if (!emailVerifyAt) {
+    authStore.setShowEmailVerifyAlert(true)
+  }else {
+    authStore.setShowEmailVerifyAlert(false)
+  }
 }
 
 onMounted(async () => {
@@ -29,6 +48,7 @@ onMounted(async () => {
   localStorage.removeItem('afterLoginPage')
 
   await authStore.getProfile()
+  setEmailVerifyStatus()
   await appStore.getShareAppStatuses()
   await appStore.getTokens()
   await appStore.getNetworks()

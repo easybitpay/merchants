@@ -31,6 +31,7 @@ const verifyEmail = async () => {
 
   // request
   await store.verifyEmail(emailToken.value).then((res) => {
+    console.log(res);
     if (res) {
       varified.value = true
     } else {

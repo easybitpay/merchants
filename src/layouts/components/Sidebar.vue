@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, ref, watch, onMounted } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Router
 import { useRouter, useRoute } from 'vue-router'
@@ -120,21 +120,6 @@ const signOut = () => {
   authStore.logout()
   window.location.reload()
 }
-
-/**
- * Set Email Verify Status
- */
-const setEmailVerifyStatus = () => {
-  let emailVerifyAt = currentUser.value?.merchant?.email_verified_at
-
-  if (!emailVerifyAt) {
-    authStore.setShowEmailVerifyAlert(true)
-  }
-}
-
-onMounted(() => {
-  setEmailVerifyStatus()
-})
 
 watch(sandbox, () => {
   appStore.setSandBoxStatus(sandbox.value)
