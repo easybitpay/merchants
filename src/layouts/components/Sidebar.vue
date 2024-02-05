@@ -121,8 +121,36 @@ const signOut = () => {
   window.location.reload()
 }
 
+/**
+ * Search Apps
+ */
+const searchApps = () => {
+  // Get Apps Items
+  let appItems = document.querySelectorAll(".app-item");
+
+  // Remove All Apps
+  appItems.forEach(app => {
+    let appName = app.querySelector("span").innerHTML;
+
+    // Remove All
+    app.classList.add('d-none')
+
+    if (search.value) {
+      if (appName.includes(search.value)) {
+        app.classList.remove("d-none");
+      }
+    }else {
+      app.classList.remove('d-none')
+    }
+  });
+}
+
 watch(sandbox, () => {
   appStore.setSandBoxStatus(sandbox.value)
+})
+
+watch(search, () => {
+  searchApps()
 })
 </script>
 
@@ -146,7 +174,7 @@ watch(sandbox, () => {
         <input
           type="text"
           class="form-control form-control-sm"
-          placeholder="Search anything"
+          placeholder="Search app"
           v-model="search"
         />
 
@@ -195,7 +223,7 @@ watch(sandbox, () => {
               <div class="box">
                 <router-link
                   :to="{ name: 'application-overview', params: { id: app.id } }"
-                  :class="[{ item: true }, { active: checkActive('application', app.id) }]"
+                  :class="[{ 'item app-item': true }, { active: checkActive('application', app.id) }]"
                   v-for="app in appList"
                   :key="app.id"
                 >
