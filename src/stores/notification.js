@@ -25,7 +25,6 @@ export const useNotificationStore = defineStore('notification', () => {
   /**
    * Get Notifications Config
    */
-
   async function getNotificationsConfig() {
     try {
       const { data } = await api.get('notifications')
@@ -40,10 +39,38 @@ export const useNotificationStore = defineStore('notification', () => {
   /**
    * Update Notifications Configs
    */
-
   async function updateNotificationsConfig(payload) {
     try {
       await api.put('notifications', payload)
+
+      //
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Get App Notifications Config
+   */
+  async function getAppNotificationsConfig(payload) {
+    try {
+      const { data } = await api.get(`notifications/${payload}`)
+
+      //
+      return data
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
+   * Update Notifications Configs
+   */
+
+  async function updateAppNotificationsConfig(payload) {
+    try {
+      await api.put(`notifications/${payload.id}`, payload.configs)
 
       //
       return true
@@ -106,6 +133,8 @@ export const useNotificationStore = defineStore('notification', () => {
     changePage,
     getNotificationsConfig,
     updateNotificationsConfig,
+    getAppNotificationsConfig,
+    updateAppNotificationsConfig,
     getTelegramConnectCode,
     checkTelegramStatus,
     disconnectTelegram

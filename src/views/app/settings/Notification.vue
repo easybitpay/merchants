@@ -17,7 +17,7 @@ const notificationStore = useNotificationStore()
 
 // Refs
 const drivers = ref({})
-const events = ref({})
+const events = ref([])
 const notifications = ref({})
 
 const loadings = ref({
@@ -27,6 +27,10 @@ const loadings = ref({
 
 // Computeds
 const currentUser = computed(() => authStore.currentUser)
+
+const filteredEvents = computed(() => {
+  return events.value.filter((item) => item.scope === 'profile')
+})
 
 // Functions
 
@@ -142,7 +146,7 @@ onMounted(() => {
         </template>
 
         <template v-else>
-          <tr v-for="(event, index) in events" :key="index">
+          <tr v-for="(event, index) in filteredEvents" :key="index">
             <td>{{ event.label }}</td>
             <td v-for="(driver, i) in drivers" :key="i">
               <div class="form-check form-switch">

@@ -1,105 +1,176 @@
 <script setup>
 // Vue
-import { ref, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notification'
 
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'
+import NotificationConfigLoading from '../../../components/loadings/NotificationConfigLoading.vue'
 
 // ----- START ----- //
-const store = useAppStore()
-const selectedApp = computed(() => store.selectedApp)
 
-const telegram = ref(true)
+// Generals
+const appStore = useAppStore()
+const authStore = useAuthStore()
+const notificationStore = useNotificationStore()
+
+// Refs
+const drivers = ref({})
+const events = ref([])
+const notifications = ref({})
+
+const loadings = ref({
+  list: false,
+  update: false
+})
+
+// Computeds
+const currentUser = computed(() => authStore.currentUser)
+const selectedApp = computed(() => appStore.selectedApp)
+
+const filteredEvents = computed(() => {
+  return events.value.filter((item) => item.scope === 'app')
+})
+
+// Functions
+
+/**
+ * Disable Switch OF Each Item Condition
+ * @param {driver key} driver
+ */
+const disableSwitchItem = (driver) => {
+  if (driver === 'telegram' && !currentUser.value?.merchant?.telegram_chat_id) return true
+
+  return false
+}
+
+/**
+ * Get Notifications Config
+ */
+const getNotificationsConfig = async () => {
+  // Start Loading
+  loadings.value.list = true
+
+  // Request
+  await notificationStore.getAppNotificationsConfig(selectedApp.value.id).then((res) => {
+    if (res) {
+      drivers.value = res.drivers
+      events.value = res.events
+      const notificationsObject = res.notifications
+      let lastNotification = {}
+
+      for (const [key, value] of Object.entries(notificationsObject)) {
+        lastNotification[key] = {}
+        for (let i = 0; i < value.length; i++) {
+          const element = value[i]
+          lastNotification[key][element] = true
+        }
+      }
+
+      const defaultNotifications = {}
+      for (let e = 0; e < res.events.length; e++) {
+        const event = res.events[e]
+        defaultNotifications[event.name] = {}
+
+        for (let d = 0; d < res.drivers.length; d++) {
+          const driver = res.drivers[d]
+          defaultNotifications[event.name][driver.name] = false
+        }
+      }
+
+      let newNotificatios = {}
+      for (const [key, value] of Object.entries(defaultNotifications)) {
+        if (lastNotification[key]) {
+          newNotificatios[key] = Object.assign(defaultNotifications[key], lastNotification[key])
+        } else {
+          newNotificatios[key] = value
+        }
+      }
+
+      notifications.value = newNotificatios
+    }
+  })
+
+  // Stop Loading
+  loadings.value.list = false
+}
+
+/**
+ * Update Notification Config
+ */
+const updateConfig = async () => {
+  // Start Loadinh
+  loadings.value.update = true
+
+  // Set Variable
+  const id = selectedApp.value.id
+  let configs = {}
+  for (const [key, value] of Object.entries(notifications.value)) {
+    configs[key] = []
+
+    for (const [notifKey, notifVal] of Object.entries(value)) {
+      if (notifVal) {
+        configs[key].push(notifKey)
+      }
+    }
+
+    if (!configs[key].length) {
+      delete configs[key]
+    }
+  }
+
+  // Request
+  await notificationStore.updateAppNotificationsConfig({ id, configs })
+
+  // Stop Loading
+  loadings.value.update = false
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    getNotificationsConfig()
+  }, 1000)
+})
 </script>
 
 <template>
   <ApplicationCard action="action" :app="selectedApp" />
 
-  <div class="table-responsive mt-6">
+  <div class="table-responsive">
     <table class="table notification-table">
       <thead>
         <tr>
           <th>Activity</th>
-          <th>App</th>
-          <th>Telegram</th>
-          <th>Email</th>
+
+          <th v-for="(driver, index) in drivers" :key="index">{{ driver.label }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>New Login</td>
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
+        <template v-if="loadings.list">
+          <NotificationConfigLoading v-for="item in 2" :key="item" />
+        </template>
 
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
-
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td>Two Factor Authentication Disabled</td>
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
-
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
-
-          <td>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              />
-            </div>
-          </td>
-        </tr>
+        <template v-else>
+          <tr v-for="(event, index) in filteredEvents" :key="index">
+            <td>{{ event.label }}</td>
+            <td v-for="(driver, i) in drivers" :key="i">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  :disabled="disableSwitchItem(driver)"
+                  v-model="notifications[event.name][driver.name]"
+                  @change="updateConfig"
+                />
+              </div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
