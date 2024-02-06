@@ -121,28 +121,28 @@ watch(partnerListKey, () => {
         <div class="infos mt-6">
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.total_income }}</p>
+            <p class="value">${{ app?.summary?.total_income.toFixed(2) }}</p>
             <p class="title">Total Earning</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.total_withdraws }}</p>
+            <p class="value">${{ app?.summary?.total_withdraws.toFixed(2) }}</p>
             <p class="title">Withdrawn</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.last_month_income }}</p>
+            <p class="value">${{ app?.summary?.last_month_income.toFixed(2) }}</p>
             <p class="title">Earned in {{ getCurrent('MMMM') }}</p>
           </div>
           <!-- end::Item -->
 
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.usd_value }}</p>
+            <p class="value">${{ app?.summary?.usd_value.toFixed(2) }}</p>
             <p class="title">Available</p>
           </div>
           <!-- end::Item -->

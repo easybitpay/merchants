@@ -87,13 +87,13 @@ onMounted(() => {
         <div class="value-infos mb-8">
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.total_income }}</p>
+            <p class="value">${{ app?.summary?.total_income.toFixed(2) }}</p>
             <p class="title">Total Earning</p>
           </div>
           <!-- end::Item -->
           <!-- begin::Item -->
           <div class="item">
-            <p class="value">${{ app?.summary?.total_withdraws }}</p>
+            <p class="value">${{ app?.summary?.total_withdraws.toFixed(2) }}</p>
             <p class="title">Withdrawn</p>
           </div>
           <!-- end::Item -->

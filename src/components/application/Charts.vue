@@ -544,7 +544,7 @@ onMounted(() => {
               ]"
             >
               <p class="value" :style="`color: ${balances[0].color ? balances[0].color : ''}`">
-                ${{ balances[0].balance }}
+                ${{ balances[0].balance.toFixed(2) }}
               </p>
               <p class="title">{{ balances[0].symbol }}</p>
             </div>
@@ -558,7 +558,7 @@ onMounted(() => {
               ]"
             >
               <p class="value" :style="`color: ${balances[1].color ? balances[1].color : ''}`">
-                ${{ balances[1].balance }}
+                ${{ balances[1].balance.toFixed(2) }}
               </p>
               <p class="title">{{ balances[1].symbol }}</p>
             </div>
