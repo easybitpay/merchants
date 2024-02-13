@@ -20,7 +20,7 @@ const props = defineProps({
 })
 
 const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
-if (sandbox) {
+if (sandbox || props.sandbox) {
   document.body.classList.add('sandbox')
 }
 
