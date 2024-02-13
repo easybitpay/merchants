@@ -262,7 +262,7 @@ export const usePayStore = defineStore('pay', () => {
   async function fakePayment(payload) {
     try {
       // Request
-      await api.get(`invoices/pay-fake/${payload.code}/${payload.token_id}`)
+      await api.get(`invoices/pay-fake/${payload.code}/${payload.token_id}/${payload.amount}`)
 
       //
       return true

@@ -45,12 +45,13 @@ const store = usePayStore()
 const route = useRoute()
 const router = useRouter()
 const { iconImage, storageImage } = useIconImage()
-const { cancelPayment, cancelLoading, redirectPaymentStatus, fakePayment, fakePayLoading } =
-  useRedirectPayment(props.sandbox)
+const { cancelPayment, cancelLoading, redirectPaymentStatus } = useRedirectPayment(props.sandbox)
 
 // Refs
 const loading = ref(false)
 const interval = ref(null)
+const assumePayment = ref('')
+const fakePayLoading = ref(false)
 
 // Computeds
 const invoiceCode = computed(() => route.params.id)
@@ -93,6 +94,28 @@ const back = () => {
     name: props.sandbox ? 'select-coin-sandbox' : 'select-coin',
     params: { id: invoiceCode.value }
   })
+}
+
+/**
+ * Fake Payment & Redirect
+ */
+const fakePayment = async (token_id) => {
+  // start loading
+  fakePayLoading.value = true
+
+  // set variable
+  const code = invoiceCode.value
+  const amount = assumePayment.value || selectedNetwork.value.amount_remain
+
+  // request
+  await store.fakePayment({ code, token_id, amount }).then((res) => {
+    if (res) {
+      payment_check_status()
+    }
+  })
+
+  // start loading
+  fakePayLoading.value = false
 }
 
 /**
@@ -296,6 +319,29 @@ onUnmounted(() => {
         </template>
       </div>
       <!-- end::Address -->
+
+      <!-- begin::Assume Payment -->
+      <div class="w-100 position-relative d-flex align-items-center" v-if="sandbox">
+        <Skeletor width="100%" height="40px" class="rounded" v-if="loading" />
+
+        <template v-else>
+          <input
+            type="text"
+            class="form-control ps-9"
+            v-model="assumePayment"
+            placeholder="Assume payment"
+          />
+
+          <!-- begin::Icon -->
+          <img
+            :src="iconImage(selectedCoin.symbol)"
+            :alt="selectedCoin.symbol"
+            class="small-coin-icon position-absolute start-8px"
+          />
+          <!-- end::Icon -->
+        </template>
+      </div>
+      <!-- end::Assume Payment -->
     </div>
   </div>
   <!-- end::Qr Code -->
@@ -345,7 +391,9 @@ onUnmounted(() => {
       {{
         fakePayLoading
           ? 'Loading...'
-          : `Assume ${selectedNetwork.amount_remain} ${selectedCoin.symbol} is paid`
+          : `Assume ${assumePayment || selectedNetwork.amount_remain} ${
+              selectedCoin.symbol
+            } is paid`
       }}
     </button>
     <!-- end::Fake Payment -->

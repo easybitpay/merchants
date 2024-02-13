@@ -13,7 +13,6 @@ export default function useRedirectPayment(sandbox) {
   // const paymentTransactions = computed(() => store.getters.getPaymentTransactions);
 
   const cancelLoading = ref(false)
-  const fakePayLoading = ref(false)
 
   /**
    * Cancel Payment & Redirect
@@ -33,26 +32,7 @@ export default function useRedirectPayment(sandbox) {
     cancelLoading.value = false
   }
 
-  /**
-   * Fake Payment & Redirect
-   */
-  const fakePayment = async (token_id) => {
-    // start loading
-    fakePayLoading.value = true
 
-    // set variable
-    const code = invoiceCode.value
-
-    // request
-    await store.fakePayment({ code, token_id }).then((res) => {
-      if (res) {
-        redirectPaymentStatus(10)
-      }
-    })
-
-    // start loading
-    fakePayLoading.value = false
-  }
 
   const redirectPaymentStatus = (code) => {
     // const transactionsCount = paymentTransactions.value.length;
@@ -107,7 +87,5 @@ export default function useRedirectPayment(sandbox) {
     redirect,
     convertCodeToStatus,
     convertCodeToColor,
-    fakePayLoading,
-    fakePayment
   }
 }
