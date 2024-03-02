@@ -236,11 +236,14 @@ const payment_check_status = async () => {
   })
 }
 
-const shortenAddress = (address, startChars = 8, endChars = 8) => {
-  if (address) {
-    let addressLength = address.length
-    return `${address.substring(0, startChars)}...${address.substring(addressLength - endChars)}`
-  }
+const getWithoutLast = (address) => {
+  let stringWithoutLast10 = address.substring(0, address.length - 10)
+  return stringWithoutLast10
+}
+
+const getLastEight = (address) => {
+  let last10Characters = address.substring(address.length - 10)
+  return last10Characters
 }
 
 onMounted(() => {
@@ -324,24 +327,23 @@ onUnmounted(() => {
         <Skeletor width="100%" height="40px" class="rounded" v-if="loading" />
 
         <template v-else>
-          <input
-            type="text"
-            class="form-control ps-9 cursor-pointer d-none d-sm-block"
-            :value="paymentDetail.walletAddress"
-            readonly
-          />
-
-          <input
-            type="text"
-            class="form-control ps-9 cursor-pointer d-block d-sm-none"
-            :value="shortenAddress(paymentDetail.walletAddress)"
-            readonly
-          />
+          <div class="form-control px-9 cursor-pointer d-flex align-items-center">
+            <span class="ellipsis">{{ getWithoutLast(paymentDetail.walletAddress) }}</span>
+            <span>{{ getLastEight(paymentDetail.walletAddress) }}</span>
+          </div>
 
           <!-- begin::Icon -->
           <inline-svg
             src="media/icons/icons/wireless.svg"
             class="position-absolute start-8px svg-icon-primary"
+          ></inline-svg>
+          <!-- end::Icon -->
+
+          <!-- begin::Icon -->
+          <inline-svg
+            @click="copy(paymentDetail.walletAddress)"
+            src="media/icons/icons/copy.svg"
+            class="position-absolute end-8px svg-icon-gray-500 cursor-pointer"
           ></inline-svg>
           <!-- end::Icon -->
         </template>
