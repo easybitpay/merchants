@@ -236,6 +236,10 @@ const payment_check_status = async () => {
   })
 }
 
+const shortenAddress = (address, startChars = 8, endChars = 8) => {
+  return `${address.substring(0, startChars)}...${address.substring(42 - endChars)}`
+}
+
 onMounted(() => {
   get_payment_detail()
 })
@@ -310,14 +314,24 @@ onUnmounted(() => {
       <!-- end::Coin & Price -->
 
       <!-- begin::Address -->
-      <div class="w-100 position-relative d-flex align-items-center mb-4" @click="copy(paymentDetail.walletAddress)">
+      <div
+        class="w-100 position-relative d-flex align-items-center mb-4"
+        @click="copy(paymentDetail.walletAddress)"
+      >
         <Skeletor width="100%" height="40px" class="rounded" v-if="loading" />
 
         <template v-else>
           <input
             type="text"
-            class="form-control ps-9 cursor-pointer"
+            class="form-control ps-9 cursor-pointer d-none d-sm-block"
             :value="paymentDetail.walletAddress"
+            readonly
+          />
+
+          <input
+            type="text"
+            class="form-control ps-9 cursor-pointer d-block d-sm-none"
+            :value="shortenAddress(paymentDetail.walletAddress)"
             readonly
           />
 
@@ -369,7 +383,7 @@ onUnmounted(() => {
         :navigation="true"
         :pagination="{ clickable: true }"
         :modules="modules"
-        class="primary-navigation small-navigation close-side"
+        class="primary-navigation small-navigation close-side w-100"
       >
         <SwiperSlide v-for="(item, index) in paymentTransactions" :key="index">
           <div class="item min-w-initial p-0">
@@ -381,7 +395,9 @@ onUnmounted(() => {
                 {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
               </span>
             </p>
-            <p class="value text-break min-w-initial fs-8 cursor-pointer" @click="copy(item.hash)">{{ item.hash }}</p>
+            <p class="value text-break min-w-initial fs-8 cursor-pointer" @click="copy(item.hash)">
+              {{ item.hash }}
+            </p>
           </div>
         </SwiperSlide>
       </Swiper>

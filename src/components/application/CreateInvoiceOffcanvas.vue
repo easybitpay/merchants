@@ -921,7 +921,7 @@ onMounted(() => {
 
               <!-- begin::Link -->
               <div class="w-100 position-relative d-flex align-items-center mb-4">
-                <input type="text" class="form-control px-9" :value="invoiceLink" readonly />
+                <input type="text" class="form-control px-9 cursor-pointer" :value="invoiceLink" readonly @click="copy" />
 
                 <!-- begin::Icon -->
                 <inline-svg
