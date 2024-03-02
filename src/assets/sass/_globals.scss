@@ -805,6 +805,12 @@ body.sandbox.email-verify {
 .application-card {
     transition: box-shadow linear .3s;
 
+    &:has(.partners) {
+        .type {
+            display: none;
+        }
+    }
+
     .type {
         display: flex;
         align-items: center;
@@ -817,16 +823,16 @@ body.sandbox.email-verify {
     }
 
     .partners {
-        display: none;
+        display: flex;
     }
 
     &.have-partners:hover {
         .type {
-            display: none;
+            display: flex;
         }
 
         .partners {
-            display: flex;
+            display: none;
         }
     }
 
