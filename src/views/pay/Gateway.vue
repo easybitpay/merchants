@@ -15,6 +15,9 @@ import useRedirectPayment from '@/hooks/useRedirectPayment'
 // Components
 import PayCountDown from '../../components/globals/PayCountDown.vue'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
@@ -94,6 +97,14 @@ const back = () => {
     name: props.sandbox ? 'select-coin-sandbox' : 'select-coin',
     params: { id: invoiceCode.value }
   })
+}
+
+/**
+ * Copy
+ */
+const copy = (text) => {
+  navigator.clipboard.writeText(text)
+  appendAlert('Copied to clipboard', 'success')
 }
 
 /**
@@ -299,13 +310,13 @@ onUnmounted(() => {
       <!-- end::Coin & Price -->
 
       <!-- begin::Address -->
-      <div class="w-100 position-relative d-flex align-items-center mb-4">
+      <div class="w-100 position-relative d-flex align-items-center mb-4" @click="copy(paymentDetail.walletAddress)">
         <Skeletor width="100%" height="40px" class="rounded" v-if="loading" />
 
         <template v-else>
           <input
             type="text"
-            class="form-control ps-9"
+            class="form-control ps-9 cursor-pointer"
             :value="paymentDetail.walletAddress"
             readonly
           />
@@ -370,7 +381,7 @@ onUnmounted(() => {
                 {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
               </span>
             </p>
-            <p class="value text-break min-w-initial fs-8">{{ item.hash }}</p>
+            <p class="value text-break min-w-initial fs-8 cursor-pointer" @click="copy(item.hash)">{{ item.hash }}</p>
           </div>
         </SwiperSlide>
       </Swiper>

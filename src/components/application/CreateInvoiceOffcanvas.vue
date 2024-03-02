@@ -20,6 +20,9 @@ import MultiSelectDropdown from '../globals/MultiSelectDropdown.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Emit
 const emit = defineEmits(['refresh', 'resetData'])
 
@@ -362,10 +365,11 @@ const createInvoice = async () => {
 
 const copy = () => {
   navigator.clipboard.writeText(invoiceLink.value)
+  appendAlert('Copied to clipboard', 'success')
 }
 
 const copyAndClose = () => {
-  navigator.clipboard.writeText(invoiceLink.value)
+  copy()
   closeOffcanvas()
 }
 
@@ -930,7 +934,7 @@ onMounted(() => {
                 <inline-svg
                   @click="copy"
                   src="media/icons/icons/copy.svg"
-                  class="position-absolute end-8px svg-icon-gray-500"
+                  class="position-absolute end-8px svg-icon-gray-500 cursor-pointer"
                 ></inline-svg>
                 <!-- end::Icon -->
               </div>

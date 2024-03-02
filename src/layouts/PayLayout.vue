@@ -61,7 +61,7 @@ onBeforeMount(() => {
 <template>
   <div :class="`pay-layout type-${paymentThemeID}`">
     <!-- begin::Main Box -->
-    <div class="d-flex flex-column flex-root z-2">
+    <div class="d-flex flex-column flex-root z-2 overflow-auto">
       <div class="d-flex flex-column flex-root justify-content-center">
         <!-- begin::Container -->
         <div class="container d-flex flex-column align-items-center pb-8 pt-8">

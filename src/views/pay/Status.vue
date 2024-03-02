@@ -11,6 +11,9 @@ import { usePayStore } from '@/stores/pay'
 // Hooks
 import useRedirectPayment from '@/hooks/useRedirectPayment'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
@@ -42,6 +45,14 @@ const query = computed(() => route.query)
 const paymentTransactions = computed(() => store.getPaymentTransactions)
 
 // Functions
+
+/**
+ * Copy
+ */
+const copy = (text) => {
+  navigator.clipboard.writeText(text)
+  appendAlert('Copied to clipboard', 'success')
+}
 
 const minAndSec = (value) => {
   var minutes = Math.floor(parseInt(value, 10) / 60)
@@ -122,7 +133,9 @@ onMounted(() => {
               {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
             </span>
           </p>
-          <p class="value text-break min-w-initial fs-8">{{ item.hash }}</p>
+          <p class="value text-break min-w-initial fs-8 cursor-pointer" @click="copy(item.hash)">
+            {{ item.hash }}
+          </p>
         </div>
       </SwiperSlide>
     </Swiper>

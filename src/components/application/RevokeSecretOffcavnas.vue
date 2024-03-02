@@ -16,6 +16,9 @@ import { helpers, required } from '@vuelidate/validators'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // ----- START ----- //
 
 // Generals
@@ -101,6 +104,7 @@ const getNewSecret = async () => {
 
 const copyAndClose = () => {
   navigator.clipboard.writeText(secret.value)
+  appendAlert('Copied to clipboard', 'success')
   closeOffcanvas()
 }
 

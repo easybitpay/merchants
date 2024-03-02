@@ -57,7 +57,7 @@ const startAlert = (item) => {
   // Create Alert Item For Timer Type
   wrapper.innerHTML = [
     `<div class="progress mb-2" role="progressbar" aria-label="Danger example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 4px">`,
-    `<div class="progress-bar bg-danger" style="--transition-time: ${time}s; width: 0%"></div>`,
+    `<div class="progress-bar bg-${item.color}" style="--transition-time: ${time}s; width: 0%"></div>`,
     `</div>`,
     `<div class="alert alert-shadow alert-${item.color} alert-dismissible bg-${
       colorToBg[item.color]
