@@ -237,7 +237,10 @@ const payment_check_status = async () => {
 }
 
 const shortenAddress = (address, startChars = 8, endChars = 8) => {
-  return `${address.substring(0, startChars)}...${address.substring(42 - endChars)}`
+  if (address) {
+    let addressLength = address.length
+    return `${address.substring(0, startChars)}...${address.substring(addressLength - endChars)}`
+  }
 }
 
 onMounted(() => {
