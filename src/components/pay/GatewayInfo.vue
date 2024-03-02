@@ -26,7 +26,7 @@ const payLoading = computed(() => store.payLoading)
   <div
     :class="`card ${
       payLoading && !invoiceDetail.base_token ? 'gradient-loading-box' : 'gradient-image-box'
-    } border-gray-200 h-156px rounded mb-11`"
+    } border-gray-200 min-h-156px rounded mb-11`"
     :style="`--background: url(${
       invoiceDetail?.app?.banner
         ? storageImage(invoiceDetail?.app?.banner)
@@ -35,11 +35,11 @@ const payLoading = computed(() => store.payLoading)
   >
     <div class="card-body d-flex flex-column justify-content-between p-4 h-100">
       <!-- begin::Gateway Logo -->
-      <inline-svg src="/media/images/logo/Logo.svg" height="27" width="137"></inline-svg>
+      <inline-svg src="/media/images/logo/Logo.svg" width="137" class="mb-4"></inline-svg>
       <!-- end::Gateway Logo -->
 
       <!-- begin::Bottom Box -->
-      <div class="d-flex align-items-end justify-content-between gap-4 flex-wrap">
+      <div class="d-flex flex-column flex-sm-row align-items-sm-end justify-content-sm-between gap-4">
         <!-- begin::Left Side -->
         <div class="d-flex align-items-end gap-4">
           <!-- begin::Logo -->
@@ -74,11 +74,9 @@ const payLoading = computed(() => store.payLoading)
                 <Skeletor width="150px" height="26px" class="rounded-0" />
               </template>
               <template v-else>
-             
                 {{ invoiceDetail.amount ? invoiceDetail.amount : userInputs.amount || 0 }}
                 {{ invoiceDetail.base_token }}
               </template>
-              
             </h2>
           </div>
         </div>
