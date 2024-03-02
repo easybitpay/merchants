@@ -126,23 +126,23 @@ const signOut = () => {
  */
 const searchApps = () => {
   // Get Apps Items
-  let appItems = document.querySelectorAll(".app-item");
+  let appItems = document.querySelectorAll('.app-item')
 
   // Remove All Apps
-  appItems.forEach(app => {
-    let appName = app.querySelector("span").innerHTML;
+  appItems.forEach((app) => {
+    let appName = app.querySelector('span').innerHTML
 
     // Remove All
     app.classList.add('d-none')
 
     if (search.value) {
       if (appName.includes(search.value)) {
-        app.classList.remove("d-none");
+        app.classList.remove('d-none')
       }
-    }else {
+    } else {
       app.classList.remove('d-none')
     }
-  });
+  })
 }
 
 watch(sandbox, () => {
@@ -223,12 +223,28 @@ watch(search, () => {
               <div class="box">
                 <router-link
                   :to="{ name: 'application-overview', params: { id: app.id } }"
-                  :class="[{ 'item app-item': true }, { active: checkActive('application', app.id) }]"
+                  :class="[
+                    { 'item app-item': true },
+                    { active: checkActive('application', app.id) }
+                  ]"
                   v-for="app in appList"
                   :key="app.id"
                 >
                   <div>
-                    <div class="w-8px h-8px rounded-circle bg-success"></div>
+                    <img
+                      :src="
+                        app.logo
+                          ? storageImage(app.logo, 20)
+                          : '/media/images/banner/default-app.png'
+                      "
+                      :alt="app.name"
+                      class="border border-success border-2"
+                      style="border-radius: 6.5px; object-fit: cover;"
+                      height="20"
+                      width="20"
+                    />
+
+                    <!-- <div class="w-8px h-8px rounded-circle bg-success"></div> -->
                   </div>
 
                   <span>{{ app.name }}</span>
@@ -259,13 +275,13 @@ watch(search, () => {
             :to="{ name: 'notification' }"
             :class="[{ link: true }, { active: checkActive('notification') }]"
           > -->
-            <!-- begin::icon -->
-            <!-- <div>
+          <!-- begin::icon -->
+          <!-- <div>
               <inline-svg src="media/icons/icons/notification.svg" class="icon"></inline-svg>
             </div> -->
-            <!-- end::icon -->
+          <!-- end::icon -->
 
-            <!-- <span>Notif Center</span> -->
+          <!-- <span>Notif Center</span> -->
           <!-- </router-link> -->
           <!-- end::Link -->
 
