@@ -133,5 +133,9 @@ watch(selectedSort, () => {
         </tbody>
       </table>
     </div>
+
+  </div>
+  <div class="mt-10 d-flex justify-content-center" v-if="!loadings.list && !history.length">
+    <inline-svg src="media/images/nothing-to-show.svg"></inline-svg>
   </div>
 </template>
