@@ -69,6 +69,7 @@ const btnText = computed(() => {
 })
 
 const disableConfirm = computed(() => {
+  if (!currentUser.value.merchant.two_factor_enabled) return false
   if (loading.value || +form.value.amount < +minimumWithdrawAmount.value) return true
   return false
 })
