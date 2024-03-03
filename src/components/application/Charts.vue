@@ -294,15 +294,16 @@ const getAppTokenBalance = async () => {
       let array = []
       for (let i = 0; i < res.length; i++) {
         const element = res[i]
-        if (+element.balance) {
+        if (+element.balance_usd_value) {
           array.push({
             ...element.token,
-            balance: +element.balance
+            balance: +element.balance,
+            balance_usd_value: +element.balance_usd_value,
           })
         }
       }
       let sorted = array.sort((a, b) => {
-        if (a.balance > b.balance) {
+        if (a.balance_usd_value > b.balance_usd_value) {
           return -1
         } else {
           return 1
@@ -390,7 +391,7 @@ const getAppBalanceChart = async (page) => {
  * Balance To Percent
  */
 const convertAmountToPercent = (balance) => {
-  const total = balances.value.reduce((acc, obj) => acc + +obj.balance, 0)
+  const total = balances.value.reduce((acc, obj) => acc + +obj.balance_usd_value, 0)
   return ((+balance * 100) / total).toFixed(0)
 }
 
@@ -513,19 +514,19 @@ onMounted(() => {
               :class="[
                 { item: true },
                 { active: selectedLine === `${item.symbol} (${item?.network?.name})` },
-                { 'p-0': convertAmountToPercent(item.balance) < 40 }
+                { 'p-0': convertAmountToPercent(item.balance_usd_value) < 40 }
               ]"
               v-for="(item, index) in balances"
               :key="index"
-              :style="`width: ${convertAmountToPercent(item.balance)}%; background-color: ${
+              :style="`width: ${convertAmountToPercent(item.balance_usd_value)}%; background-color: ${
                 item.color ? item.color : ''
               }`"
             >
               <img :src="iconImage(item.symbol)" alt="item" :id="`image_${item.symbol}`" hidden />
               <span class="d-none d-sm-block">
                 {{
-                  convertAmountToPercent(item.balance) > 40
-                    ? `${convertAmountToPercent(item.balance)}%`
+                  convertAmountToPercent(item.balance_usd_value) > 40
+                    ? `${convertAmountToPercent(item.balance_usd_value)}%`
                     : ''
                 }}
               </span>
@@ -558,7 +559,7 @@ onMounted(() => {
               ]"
             >
               <p class="value" :style="`color: ${balances[1].color ? balances[1].color : ''}`">
-                ${{ balances[1].balance.toFixed(2) }}
+                ${{ balances[1].balance_usd_value.toFixed(2) }}
               </p>
               <p class="title">{{ balances[1].symbol }}</p>
             </div>
