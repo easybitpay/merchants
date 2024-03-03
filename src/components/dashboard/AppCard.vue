@@ -48,7 +48,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    class="card border-purple-500 rounded h-100 min-h-481px gradient-image-box"
+    :class="`card border-app-${app.settings.color} rounded h-100 min-h-481px gradient-image-box`"
     :style="`--background: url(${
       app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
     })`"
@@ -76,7 +76,7 @@ onMounted(() => {
         <!-- end::Type -->
 
         <!-- begin::Name -->
-        <h2 class="mb-0 text-purple-500">{{ app.name }}</h2>
+        <h2 :class="`mb-0 text-app-${app.settings.color}`">{{ app.name }}</h2>
         <!-- end::Name -->
       </div>
       <!-- end::Top -->

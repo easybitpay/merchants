@@ -28,7 +28,7 @@ const selectedApp = computed(() => store.selectedApp)
         class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-6 gap-md-8"
       >
         <!-- begin::Title -->
-        <h3 class="m-0 text-indigo-400 lh-24px">{{ selectedApp.type == 1 ? 'API' : 'LINK' }}</h3>
+        <h3 :class="`m-0 text-app-${selectedApp.settings.color} lh-24px`">{{ selectedApp.type == 1 ? 'API' : 'LINK' }}</h3>
         <!-- end::Title -->
 
         <!-- begin::Api & Action -->

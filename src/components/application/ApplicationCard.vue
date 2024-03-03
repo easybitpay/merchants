@@ -111,7 +111,7 @@ watch(partnerListKey, () => {
         <!-- end::Share Type -->
 
         <!-- begin::Name -->
-        <h2 class="name text-indigo-400 neue-machina">
+        <h2 :class="`name text-app-${app.settings.color} neue-machina`">
           <img src="/media/icons/icons/stop.png" alt="stop" />
           {{ app.name }}
         </h2>

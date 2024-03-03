@@ -4,47 +4,57 @@
 // Text colors
 // [data-bs-theme='light'] {
 
-    @each $name,
-    $color in $theme-text-colors {
+@each $name,
+$color in $theme-text-colors {
 
-        // Base
-        .text-#{$name} {
+    // Base
+    .text-#{$name} {
+        color: $color !important;
+    }
+
+    // Hover
+    .text-hover-#{$name} {
+        cursor: pointer;
+
+        &:hover {
             color: $color !important;
-        }
 
-        // Hover
-        .text-hover-#{$name} {
-            cursor: pointer;
-
-            &:hover {
+            i {
                 color: $color !important;
-
-                i {
-                    color: $color !important;
-                }
-
-                .svg-icon {
-                    path {
-                        stroke: $color;
-                    }
-                }
             }
-        }
 
-        // Active Parent
-        .active-box {
-            .active-parent-text-#{$name} {
-                color: $color;
-            }
-        }
-
-        // Placeholder
-        .placeholder-#{$name} {
-            &::placeholder {
-                color: $color;
+            .svg-icon {
+                path {
+                    stroke: $color;
+                }
             }
         }
     }
+
+    // Active Parent
+    .active-box {
+        .active-parent-text-#{$name} {
+            color: $color;
+        }
+    }
+
+    // Placeholder
+    .placeholder-#{$name} {
+        &::placeholder {
+            color: $color;
+        }
+    }
+}
+
+@each $name,
+$color in $app-colors {
+
+    // Base
+    .text-app-#{$name} {
+        color: $color !important;
+    }
+}
+
 // }
 
 // [data-bs-theme='dark'] {

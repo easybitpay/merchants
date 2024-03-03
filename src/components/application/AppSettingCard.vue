@@ -82,7 +82,7 @@ const addCoverFile = async (e) => {
 
 <template>
   <div
-    class="card gradient-image-box border-purple-500"
+    :class="`card gradient-image-box border-app-${selectedApp.settings.color}`"
     :style="`--background: url(${
       selectedApp.banner ? storageImage(selectedApp.banner) : '/media/images/banner/auth-bg.jpg'
     })`"
@@ -101,7 +101,7 @@ const addCoverFile = async (e) => {
         <!-- begin::Type & Name -->
         <div>
           <p class="mb-2">as {{ $filters.capitalize(selectedApp.share_type) }}</p>
-          <h2 class="mb-0 text-success lh-1">{{ selectedApp.name }}</h2>
+          <h2 :class="`mb-0 text-app-${selectedApp.settings.color} lh-1`">{{ selectedApp.name }}</h2>
         </div>
         <!-- end::Type & Name -->
 

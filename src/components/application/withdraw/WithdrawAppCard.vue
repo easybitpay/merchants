@@ -60,7 +60,7 @@ const selectBalance = (balance) => {
       <p class="fs-7 text-gray-600 ls-base mb-0">Available in</p>
 
       <!-- begin::Name -->
-      <h2 class="name text-success neue-machina">{{ selectedApp.name }}</h2>
+      <h2 :class="`name text-app-${selectedApp.settings.color} neue-machina`">{{ selectedApp.name }}</h2>
       <!-- end::Name -->
 
       <!-- begin::Info -->

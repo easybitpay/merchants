@@ -238,7 +238,7 @@ watch(search, () => {
                           : '/media/images/banner/default-app.png'
                       "
                       :alt="app.name"
-                      class="border border-success border-2 rounded"
+                      :class="`border border-app-${app.settings.color} border-2 rounded`"
                       style="object-fit: cover; padding: 1px"
                       height="20"
                       width="20"

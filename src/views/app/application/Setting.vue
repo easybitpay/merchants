@@ -1,4 +1,7 @@
 <script setup>
+// Vue
+import { ref } from 'vue'
+
 // Component
 import AppSettingCard from '../../../components/application/AppSettingCard.vue'
 import AppInfo from '../../../components/application/setting/AppInfo.vue'
@@ -7,7 +10,7 @@ import AvailableCoin from '../../../components/application/setting/AvailableCoin
 import CustomCoin from '../../../components/application/setting/CustomCoin.vue'
 import CustomerFeeShare from '../../../components/application/setting/CustomerFeeShare.vue'
 import GatewayTheme from '../../../components/application/setting/GatewayTheme.vue'
-import { ref } from 'vue'
+import AppColor from '../../../components/application/setting/AppColor.vue'
 
 // ----- START ----- //
 
@@ -31,9 +34,11 @@ const refreshAvailableCoins = () => {
 
   <ChangeAppStatus />
 
-  <AvailableCoin :key="availableCoinsRefreshKey"/>
+  <AppColor />
 
-  <CustomCoin @refreshAvailableCoins="refreshAvailableCoins"/>
+  <AvailableCoin :key="availableCoinsRefreshKey" />
+
+  <CustomCoin @refreshAvailableCoins="refreshAvailableCoins" />
 
   <CustomerFeeShare />
 

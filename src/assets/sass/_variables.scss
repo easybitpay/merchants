@@ -334,6 +334,16 @@ $theme-colors: (
 ) !default;
 // scss-docs-end theme-colors-map
 
+// scss custom variables
+$app-colors: (
+  'orange':  #FFB74D,
+  'green':   #3DD598,
+  'purple':  #9575CD,
+  'red':     #D96C6C,
+  'lime':    #C0D53D,
+  'blue':    #6CB2D9
+);
+
 // scss custom variable
 @function map-collect($maps...) {
   $collection: ();
