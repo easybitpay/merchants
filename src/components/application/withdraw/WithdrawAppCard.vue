@@ -8,6 +8,12 @@ import { useAppStore } from '@/stores/app'
 // Hook
 import useIconImage from '@/hooks/useIconImage'
 
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue'
+
+// Import Swiper styles
+import 'swiper/css'
+
 // Props
 const props = defineProps({
   balances: {
@@ -71,25 +77,24 @@ const selectBalance = (balance) => {
         </template>
 
         <template v-else>
-          <template v-if="balances.length">
-            <!-- begin::Item -->
-            <div
-              class="item cursor-pointer"
+          <Swiper :slidesPerView="'auto'" :freeMode="true" v-if="balances.length" class="mySwiper w-100">
+            <SwiperSlide
               v-for="(item, index) in balances"
               :key="index"
               @click="selectBalance(item)"
             >
-              <p class="value">
-                {{
-                  Number(item.balance)
-                    .toFixed(item.decimals)
-                    .replace(/\.?0+$/, '')
-                }}
-              </p>
-              <p class="title cursor-pointer">{{ item.symbol }} ({{ item.network.name }})</p>
-            </div>
-            <!-- end::Item -->
-          </template>
+              <div class="item cursor-pointer">
+                <p class="value">
+                  {{
+                    Number(item.balance)
+                      .toFixed(item.decimals)
+                      .replace(/\.?0+$/, '')
+                  }}
+                </p>
+                <p class="title cursor-pointer">{{ item.symbol }} ({{ item.network.name }})</p>
+              </div>
+            </SwiperSlide>
+          </Swiper>
 
           <template v-else>
             <div class="item cursor-pointer">
