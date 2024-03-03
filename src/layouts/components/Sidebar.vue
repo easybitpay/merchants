@@ -238,8 +238,8 @@ watch(search, () => {
                           : '/media/images/banner/default-app.png'
                       "
                       :alt="app.name"
-                      class="border border-success border-2"
-                      style="border-radius: 6.5px; object-fit: cover;"
+                      class="border border-success border-2 rounded"
+                      style="object-fit: cover; padding: 1px"
                       height="20"
                       width="20"
                     />
