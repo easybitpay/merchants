@@ -392,7 +392,7 @@ const getAppBalanceChart = async (page) => {
  */
 const convertAmountToPercent = (balance) => {
   const total = balances.value.reduce((acc, obj) => acc + +obj.balance_usd_value, 0)
-  return ((+balance * 100) / total).toFixed(0)
+  return ((+balance * 100) / total).toFixed(1)
 }
 
 const detectImageColor = async () => {
