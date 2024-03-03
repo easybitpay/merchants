@@ -66,6 +66,10 @@ const props = defineProps({
   width: {
     Type: String,
     default: '100'
+  },
+  grouped: {
+    type: String,
+    required: false
   }
 })
 
@@ -148,7 +152,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="`dropdown w-${width}`" id="selectDropdown">
+  <div :class="`dropdown w-${width} ${grouped ? 'grouped-dropdown' : ''}`" id="selectDropdown">
     <a
       :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
@@ -167,6 +171,12 @@ onMounted(() => {
         ></inline-svg>
       </div>
       <!-- end::Icon -->
+
+      <!-- begin::Grouped -->
+      <span class="d-none d-sm-block text-start" style="min-width: 130px" v-if="grouped">{{
+        grouped
+      }}</span>
+      <!-- end::Grouped -->
 
       <!-- begin::Show Selected -->
       <div
@@ -201,7 +211,11 @@ onMounted(() => {
       <!-- begin::Show Placeholder -->
       <div
         v-else
-        :class="[{ 'select-dropdown-text-placeholder text-start': true }, { 'with-svg': svgIcon }]"
+        :class="[
+          { 'select-dropdown-text-placeholder text-start': true },
+          { 'd-block d-sm-none': grouped },
+          { 'with-svg': svgIcon }
+        ]"
       >
         <span class="text-gray-600 ellipsis" style="--ellipsis-width: 100%">
           {{ placeholder }}

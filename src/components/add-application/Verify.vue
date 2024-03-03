@@ -95,7 +95,7 @@ onMounted(() => {
           <!-- begin::Logo -->
           <img
             :src="appInfo.logo ? showPreview(appInfo.logo) : '/media/images/banner/default-app.png'"
-            class="img-fluid"
+            class="img-fluid rounded-1"
             width="40"
           />
           <!-- end::Logo -->

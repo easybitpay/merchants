@@ -137,6 +137,8 @@ const submitForm = async () => {
     let setting = {}
     setting.need_name = generalForm.value.need_name
     setting.need_email = generalForm.value.need_email
+    setting.color = props.appInfo.color
+    
 
     if (props.appInfo.type.type == 2) setting.amount = amountForm.value.amount
 
@@ -150,6 +152,13 @@ const submitForm = async () => {
     fd.append('redirect_url', generalForm.value.redirect_url)
     fd.append('base_token_id', base_token.value.id)
     fd.append('available_tokens', availableCoinsString)
+    if (props.appInfo.logo) {
+      fd.append('logo', props.appInfo.logo)
+    }
+    if (props.appInfo.banner) {
+      fd.append('banner', props.appInfo.banner)
+    }
+
 
     if (id) {
       await store.updateApp({ id, fd })
@@ -245,18 +254,17 @@ onMounted(() => {
 
     <!-- begin::Base Coin -->
     <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="redirect-url">Base Coin</label>
-        <SelectDropdown
-          show="name"
-          width="initial"
-          showImage
-          showCoinNetwork
-          :items="tokens"
-          :selected="base_token"
-          @change="toggleBaseToken"
-        />
-      </div>
+      <SelectDropdown
+        show="name"
+        width="initial"
+        grouped="Base Coin"
+        placeholder="Base Coin"
+        showImage
+        showCoinNetwork
+        :items="tokens"
+        :selected="base_token"
+        @change="toggleBaseToken"
+      />
 
       <div class="invalid-feedback form-control" v-if="vGeneral$.baseCoin.$errors.length">
         <span> {{ vGeneral$.baseCoin.$errors[0].$message }}</span>
@@ -266,18 +274,17 @@ onMounted(() => {
 
     <!-- begin::Available Coins -->
     <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="redirect-url">Available Token</label>
-        <MultiSelectDropdown
-          show="name"
-          width="initial"
-          showImage
-          showCoinNetwork
-          :items="tokens"
-          :selected="available_tokens"
-          @change="toggleAvialableToken"
-        />
-      </div>
+      <MultiSelectDropdown
+        show="name"
+        width="initial"
+        grouped="Available Token"
+        placeholder="Available Token"
+        showImage
+        showCoinNetwork
+        :items="tokens"
+        :selected="available_tokens"
+        @change="toggleAvialableToken"
+      />
 
       <div class="invalid-feedback form-control" v-if="vGeneral$.availableCoins.$errors.length">
         <span> {{ vGeneral$.availableCoins.$errors[0].$message }}</span>

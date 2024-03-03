@@ -168,6 +168,26 @@
             width: calc(100% - 1.5rem - 23px - 10px)
         }
     }
+
+    &.grouped-dropdown {
+        @media (min-width: 576px) {
+            .select-dropdown-text-placeholder {
+                width: calc(100% - 1.5rem - 10px - 130px);
+        
+                &.with-svg {
+                    width: calc(100% - 1.5rem - 23px - 10px - 130px)
+                }
+            }
+
+            .multi-select-dropdown-text-content {
+                width: calc(100% - 1.5rem - 20px - 10px - 130px);
+        
+                &.with-svg {
+                    width: calc(100% - 1.5rem - 20px - 10px - 23px - 130px)
+                }
+            }
+        }
+    }
 }
 
 

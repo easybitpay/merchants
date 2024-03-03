@@ -5,6 +5,9 @@ import { computed, ref, onMounted } from 'vue'
 // Hooks
 import useForm from '@/hooks/useForm.js'
 
+// Components
+import SelectColorDropdown from '../globals/SelectColorDropdown.vue'
+
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
@@ -35,7 +38,8 @@ const bannerInputClick = () => {
 const form = ref({
   name: null,
   site_url: null,
-  customer_fee_percent: 0
+  customer_fee_percent: 0,
+  color: null
 })
 
 const rules = {
@@ -44,6 +48,9 @@ const rules = {
   },
   site_url: {
     required: helpers.withMessage('Site url is required', required)
+  },
+  color: {
+    required: helpers.withMessage('App color is required', required)
   }
 }
 
@@ -57,6 +64,14 @@ const v$ = useVuelidate(rules, form)
  */
 const showPreview = (file) => {
   return URL.createObjectURL(file)
+}
+
+/**
+ * Toggle Color
+ * @param {color} color
+ */
+ const toggleColor = (color) => {
+  form.value.color = color
 }
 
 /**
@@ -138,7 +153,7 @@ onMounted(() => {
     <div class="position-relative mb-6">
       <div class="grouped-input form-control">
         <label for="app-name">App name</label>
-        <input type="text" id="app-name" v-model="form.name" />
+        <input type="text" id="app-name" placeholder="App name" v-model="form.name" />
       </div>
 
       <div class="invalid-feedback form-control" v-if="v$.name.$errors.length">
@@ -151,7 +166,7 @@ onMounted(() => {
     <div class="position-relative mb-6">
       <div class="grouped-input form-control">
         <label for="site-url">Site URL</label>
-        <input type="text" id="site-url" v-model="form.site_url" />
+        <input type="text" id="site-url" placeholder="Site URL" v-model="form.site_url" />
       </div>
 
       <div class="invalid-feedback form-control" v-if="v$.site_url.$errors.length">
@@ -159,6 +174,16 @@ onMounted(() => {
       </div>
     </div>
     <!-- end::Site URL -->
+
+    <!-- begin::Color -->
+    <div class="position-relative mb-6">
+      <SelectColorDropdown :selected="form.color" @change="toggleColor" />
+
+      <div class="invalid-feedback form-control" v-if="v$.color.$errors.length">
+        <span> {{ v$.color.$errors[0].$message }}</span>
+      </div>
+    </div>
+    <!-- end::Color -->
 
     <!-- begin::Icon & Banner Card -->
     <div
@@ -171,7 +196,7 @@ onMounted(() => {
         <!-- begin::Logo -->
         <img
           :src="logo ? showPreview(logo) : '/media/images/banner/default-app.png'"
-          class="img-fluid mb-12"
+          class="img-fluid mb-12 rounded-1"
           width="38"
         />
         <!-- end::Logo -->

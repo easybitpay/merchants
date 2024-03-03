@@ -129,7 +129,7 @@ textarea {
 
     label {
         align-self: center;
-        width: 130px;
+        min-width: 130px;
         font-size: 1rem;
         color: $gray-600;
     }
@@ -150,28 +150,6 @@ textarea {
         }
     }
 
-    .dropdown {
-        width: calc(100% - 130px) !important;
-
-        .dropdown-toggle {
-            min-height: 100%;
-            border: 0;
-            padding: 0;
-        }
-
-        .dropdown-menu {
-            &::after {
-                display: none !important;
-            }
-
-            &::before {
-                display: none !important;
-            }
-
-
-        }
-    }
-
     @media (min-width: 576px) {
         input:not(.form-check-input) {
             &::placeholder {
@@ -185,8 +163,12 @@ textarea {
             display: none;
         }
 
-        .dropdown {
-            width: 100% !important;
+        input:not(.form-check-input) {
+            width: 100%;
+            &::placeholder {
+                font-family: 'Roboto';
+                font-weight: 400;
+            }
         }
     }
 }
