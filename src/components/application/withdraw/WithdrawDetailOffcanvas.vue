@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 // Hooks
 import useForm from '@/hooks/useForm.js'
@@ -25,7 +26,8 @@ const emit = defineEmits(['updateWithdrawList'])
 // ----- START ----- //
 
 // Generals
-const store = useAppStore()
+const appStore = useAppStore()
+const authStore = useAuthStore()
 const { showFeedBacks } = useForm()
 const { convertDate } = useConvertDate()
 
@@ -36,7 +38,32 @@ const loadings = ref({
 })
 
 // Computeds
-const selectedWithdrawItem = computed(() => store.selectedWithdrawItem)
+const currentUser = computed(() => authStore.currentUser)
+
+const selectedWithdrawItem = computed(() => appStore.selectedWithdrawItem)
+
+const confimationCodes = computed(() => {
+  return selectedWithdrawItem.value.confirmation_code
+    ? Object.values(selectedWithdrawItem.value.confirmation_code)
+    : []
+})
+
+const confirmedByMe = computed(() => {
+  let codes = confimationCodes.value
+  let myId = currentUser.value.merchant.id
+
+  if (codes.length) {
+    for (let i = 0; i < codes.length; i++) {
+      const element = codes[i]
+
+      if (element.id == myId) {
+        return element.is_permitted
+      }
+    }
+  } else {
+    return false
+  }
+})
 
 // Vuelidate
 const form = ref({
@@ -70,7 +97,7 @@ const convertStatusToColor = (status) => {
  * Reset Form
  */
 const resetForm = () => {
-  store.setSelectedWithdrawItem({})
+  appStore.setSelectedWithdrawItem({})
   form.value = {
     email_code: null,
     two_factor_code: null
@@ -91,7 +118,7 @@ const closeOffcanvas = () => {
  */
 const sendEmail = () => {
   const id = selectedWithdrawItem.value.id
-  store.withdrawResendEmail(id)
+  appStore.withdrawResendEmail(id)
 }
 
 /**
@@ -109,7 +136,7 @@ const confirmWithdraw = async () => {
     const content = { ...form.value }
 
     // Request
-    await store.confirmWithdraw({ id, content }).then((res) => {
+    await appStore.confirmWithdraw({ id, content }).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()
@@ -250,67 +277,97 @@ onMounted(() => {
               </div>
               <!-- end::Info -->
 
-              <!-- begin::Spacer -->
-              <div class="border-bottom border-gray-400 w-100 my-4"></div>
-              <!-- end::Spacer -->
-
-              <!-- begin::Email Code -->
-              <div class="w-100 position-relative d-flex align-items-center mb-4">
-                <input
-                  type="text"
-                  class="form-control ps-9 placeholder-gray-500"
-                  placeholder="Inter confirmation code From Your Email"
-                  v-model="form.email_code"
-                />
-
-                <div class="invalid-feedback form-control" v-if="v$.email_code.$errors.length">
-                  <span> {{ v$.email_code.$errors[0].$message }}</span>
+              <template v-if="confimationCodes && confimationCodes.length > 1">
+                <!-- begin::Spacer -->
+                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <!-- end::Spacer -->
+                <!-- begin::Info -->
+                <div class="auto-infos">
+                  <!-- begin::Item -->
+                  <div class="item" v-for="(item, index) in confimationCodes" :key="index">
+                    <p class="title">
+                      <inline-svg
+                        :src="`media/icons/${
+                          item.is_permitted ? 'icons/valid-form.svg' : 'shapes/timing_gray.svg'
+                        }`"
+                        :class="[{ 'svg-icon-primary': item.is_permitted }]"
+                        height="24px"
+                      ></inline-svg>
+                    </p>
+                    <p class="value">
+                      {{ item.first_name }}
+                      {{ item.last_name }}
+                    </p>
+                  </div>
+                  <!-- end::Item -->
                 </div>
+                <!-- end::Info -->
+              </template>
 
-                <!-- begin::Icon -->
-                <inline-svg
-                  src="media/icons/icons/lock.svg"
-                  class="position-absolute start-8px svg-icon-primary"
-                ></inline-svg>
-                <!-- end::Icon -->
+              <template v-if="!confirmedByMe">
+                <!-- begin::Spacer -->
+                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <!-- end::Spacer -->
 
-                <!-- begin::Send Again -->
-                <button
-                  type="button"
-                  class="btn btn-sm btn-primary h-24px ls-base position-absolute end-8px"
-                >
-                  <CountDown
-                    :key="selectedWithdrawItem.id"
-                    :showText="false"
-                    :emidiate="false"
-                    @isRestarted="sendEmail"
+                <!-- begin::Email Code -->
+                <div class="w-100 position-relative d-flex align-items-center mb-4">
+                  <input
+                    type="text"
+                    class="form-control ps-9 placeholder-gray-500"
+                    placeholder="Inter confirmation code From Your Email"
+                    v-model="form.email_code"
                   />
-                </button>
-                <!-- end::Send Again -->
-              </div>
-              <!-- end::Email Code -->
 
-              <!-- begin::2FA Code -->
-              <div class="w-100 position-relative d-flex align-items-center mb-4">
-                <input
-                  type="text"
-                  class="form-control ps-9 placeholder-gray-500"
-                  placeholder="Inter confirmation code From Your Authenticator"
-                  v-model="form.two_factor_code"
-                />
+                  <div class="invalid-feedback form-control" v-if="v$.email_code.$errors.length">
+                    <span> {{ v$.email_code.$errors[0].$message }}</span>
+                  </div>
 
-                <div class="invalid-feedback form-control" v-if="v$.two_factor_code.$errors.length">
-                  <span> {{ v$.two_factor_code.$errors[0].$message }}</span>
+                  <!-- begin::Icon -->
+                  <inline-svg
+                    src="media/icons/icons/lock.svg"
+                    class="position-absolute start-8px svg-icon-primary"
+                  ></inline-svg>
+                  <!-- end::Icon -->
+
+                  <!-- begin::Send Again -->
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary h-24px ls-base position-absolute end-8px"
+                  >
+                    <CountDown
+                      :key="selectedWithdrawItem.id"
+                      :showText="false"
+                      :emidiate="false"
+                      @isRestarted="sendEmail"
+                    />
+                  </button>
+                  <!-- end::Send Again -->
                 </div>
+                <!-- end::Email Code -->
 
-                <!-- begin::Icon -->
-                <inline-svg
-                  src="media/icons/icons/lock.svg"
-                  class="position-absolute start-8px svg-icon-primary"
-                ></inline-svg>
-                <!-- end::Icon -->
-              </div>
-              <!-- end::2FA Code -->
+                <!-- begin::2FA Code -->
+                <div class="w-100 position-relative d-flex align-items-center mb-4">
+                  <input
+                    type="text"
+                    class="form-control ps-9 placeholder-gray-500"
+                    placeholder="Inter confirmation code From Your Authenticator"
+                    v-model="form.two_factor_code"
+                  />
+  
+                  <div class="invalid-feedback form-control" v-if="v$.two_factor_code.$errors.length">
+                    <span> {{ v$.two_factor_code.$errors[0].$message }}</span>
+                  </div>
+  
+                  <!-- begin::Icon -->
+                  <inline-svg
+                    src="media/icons/icons/lock.svg"
+                    class="position-absolute start-8px svg-icon-primary"
+                  ></inline-svg>
+                  <!-- end::Icon -->
+                </div>
+                <!-- end::2FA Code -->
+              </template>
+
             </div>
             <!-- end::Content -->
           </div>
@@ -318,7 +375,7 @@ onMounted(() => {
         <!-- end::Content Card -->
 
         <!-- begin::Action Card -->
-        <div class="d-flex gap-4">
+        <div class="d-flex gap-4" v-if="!confirmedByMe">
           <div class="d-none d-md-flex">
             <div
               class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"

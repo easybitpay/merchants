@@ -97,10 +97,10 @@ body {
         }
 
         .offcanvas.offcanvas-bottom.show:not(.hiding) {
-            bottom: 80px;
+            padding-bottom: 80px;
 
             @media (max-width: 600px) {
-                bottom: 114px;
+                padding-bottom: 114px;
             }
         }
     }
@@ -114,10 +114,10 @@ body.sandbox.email-verify {
     }
 
     .offcanvas.offcanvas-bottom.show:not(.hiding) {
-        bottom: 164px;
+        padding-bottom: 164px;
 
         @media (max-width: 576px) {
-            bottom: 243px;
+            padding-bottom: 243px;
         }
     }
 

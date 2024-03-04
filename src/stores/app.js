@@ -469,6 +469,21 @@ export const useAppStore = defineStore('app', () => {
   }
 
   /**
+   * Confirm Withdarw
+   * @param {id} payload
+   */
+  async function cancelWithdraw(payload) {
+    try {
+      let { data } = await api.post(`withdrawals/${payload}/cancel`)
+
+      //
+      return data.result
+    } catch (error) {
+      return false
+    }
+  }
+
+  /**
    * Get Withdraw List
    * @param {page} payload
    */
@@ -563,11 +578,15 @@ export const useAppStore = defineStore('app', () => {
    */
   async function updateCustomToken(payload) {
     try {
-      const { data } = await api.post(`tokens/update-custom/${payload.app_id}/${payload.id}`, payload.fd, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const { data } = await api.post(
+        `tokens/update-custom/${payload.app_id}/${payload.id}`,
+        payload.fd,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      })
+      )
 
       //
       return data
@@ -663,6 +682,7 @@ export const useAppStore = defineStore('app', () => {
     setSelectedWithdrawItem,
     withdrawResendEmail,
     confirmWithdraw,
+    cancelWithdraw,
     getAppWithdraws,
     getFAQList,
     getCustomTokensList,

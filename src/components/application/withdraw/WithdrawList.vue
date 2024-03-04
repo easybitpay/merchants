@@ -13,7 +13,7 @@ import useSortTable from '@/hooks/useSortTable'
 
 // Components
 import PaginationCard from '../../globals/PaginationCard.vue'
-import WithdrawItemVue from './WithdrawItem.vue'
+import WithdrawItem from './WithdrawItem.vue'
 import WithdrawItemLoading from '../../loadings/WithdrawItemLoading.vue'
 
 // ----- START ----- //
@@ -74,6 +74,20 @@ const get_app_withdraws = async (page) => {
   loadings.value.pagination = false
 }
 
+/**
+ * Update Withdraw Item
+ */
+const updateItem = (item) => {
+  for (let i = 0; i < history.value.length; i++) {
+    const element = history.value[i]
+    if (element.id == item.id) {
+      history.value[i] = item
+
+      break
+    }
+  }
+}
+
 onMounted(async () => {
   await get_app_withdraws(1)
 
@@ -110,7 +124,7 @@ watch(selectedSort, () => {
             <th sortKey="token">Token</th>
             <th sortKey="fee">Fee</th>
             <th sortKey="status">Status</th>
-            <th></th>
+            <th class="ps-0"></th>
           </tr>
         </thead>
         <tbody>
@@ -119,7 +133,12 @@ watch(selectedSort, () => {
           </template>
 
           <template v-else>
-            <WithdrawItemVue v-for="item in history" :key="item.id" :item="item" />
+            <WithdrawItem
+              v-for="item in history"
+              :key="item.id"
+              :item="item"
+              @updateItem="updateItem"
+            />
 
             <!-- begin::Show More -->
             <tr class="collapsed show-more" v-if="lastPage > currentPage">
