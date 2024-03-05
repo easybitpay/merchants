@@ -104,7 +104,10 @@ const getNewSecret = async () => {
 
 const copyAndClose = () => {
   navigator.clipboard.writeText(secret.value)
-  appendAlert('Copied to clipboard', 'success')
+  appendAlert('Copied to clipboard', {
+    color: 'success',
+    type: 'alert'
+  })
   closeOffcanvas()
 }
 
@@ -248,7 +251,9 @@ onMounted(() => {
             <div
               class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
             >
-              <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
+              <inline-svg
+                :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
+              ></inline-svg>
             </div>
           </div>
           <div class="card border-0 mb-6 w-100">

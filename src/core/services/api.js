@@ -72,10 +72,16 @@ api.interceptors.response.use(
     if (status != 401) {
       if (errors) {
         for (const [key, value] of Object.entries(errors)) {
-          appendAlert(value[0], 'danger')
+          appendAlert(value[0], {
+            color: 'danger',
+            type: 'alert'
+          })
         }
       } else {
-        appendAlert(message, 'danger')
+        appendAlert(message, {
+          color: 'danger',
+          type: 'alert'
+        })
       }
     } else {
       const pageRoute = window.location.hash.split('#/')[1]

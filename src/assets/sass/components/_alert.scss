@@ -3,6 +3,7 @@
     left: 0;
     right: 0;
     display: flex;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
     bottom: 24px;
@@ -10,13 +11,16 @@
 
     &.pending-list {
         .alert-shadow {
-            .first, .last {
+
+            .first,
+            .last {
                 opacity: 1;
             }
 
             .first {
                 bottom: -7px;
             }
+
             .last {
                 bottom: -14px;
             }
@@ -26,9 +30,14 @@
     .alert-wraper {
         max-width: 792px;
         width: 100%;
+        display: none;
 
-        .progress-bar {
-            animation: fillProgressBar var(--transition-time) linear forwards;
+        &.active {
+            display: block;
+
+            .progress-bar {
+                animation: fillProgressBar var(--transition-time) linear forwards;
+            }
         }
     }
 }
@@ -37,6 +46,7 @@
     from {
         width: 0%;
     }
+
     to {
         width: 100%;
     }
@@ -45,7 +55,7 @@
 .alert-shadow {
     position: relative;
     border-radius: 1.25rem;
-    
+
     .first {
         opacity: 0;
         position: absolute;

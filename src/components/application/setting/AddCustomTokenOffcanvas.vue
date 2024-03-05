@@ -24,7 +24,6 @@ import Dropzone from '../../globals/Dropzone.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
-
 // Props
 const props = defineProps({
   selectedCoinInfo: {
@@ -169,7 +168,10 @@ const getContractInfo = async () => {
         step.value = 2
 
         if (res.exists) {
-          appendAlert('Coin existed', 'warning')
+          appendAlert('Coin existed', {
+            color: 'warning',
+            type: 'alert'
+          })
         }
       }
     })
@@ -221,7 +223,7 @@ const addCustomToken = async () => {
     }
 
     // Request
-    await store.createCustomToken({app_id, fd}).then((res) => {
+    await store.createCustomToken({ app_id, fd }).then((res) => {
       if (res) {
         resetForm()
         closeOffcanvas()
@@ -277,7 +279,11 @@ onMounted(() => {
           <div class="d-flex gap-4">
             <div>
               <div class="svg-holder">
-                <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('custom-coin')}.svg`" width="26" height="39"></inline-svg>
+                <inline-svg
+                  :src="`media/icons/shapes/${$filters.shapeStatus('custom-coin')}.svg`"
+                  width="26"
+                  height="39"
+                ></inline-svg>
               </div>
             </div>
 
@@ -490,7 +496,9 @@ onMounted(() => {
           <div
             class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
           >
-            <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
+            <inline-svg
+              :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
+            ></inline-svg>
           </div>
         </div>
         <div class="card border-0 mb-6 w-100">

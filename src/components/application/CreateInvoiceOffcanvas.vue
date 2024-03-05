@@ -311,9 +311,9 @@ const createInvoice = async () => {
   let content = {
     app_id: selectedApp.value.id,
     send_email: form.value.send_email,
-    base_token_id: base_token.value.id,
+    base_token_id: base_token.value.id
   }
-  const customer_info =  {
+  const customer_info = {
     name: form.value.name,
     email: form.value.email
   }
@@ -349,7 +349,6 @@ const createInvoice = async () => {
   } else {
     content.amount = `${form.value.amount}`
   }
-  
 
   // Request
   await store.createCustomInvoice(content).then((res) => {
@@ -365,7 +364,10 @@ const createInvoice = async () => {
 
 const copy = () => {
   navigator.clipboard.writeText(invoiceLink.value)
-  appendAlert('Copied to clipboard', 'success')
+  appendAlert('Copied to clipboard', {
+    color: 'success',
+    type: 'alert'
+  })
 }
 
 const copyAndClose = () => {
@@ -921,7 +923,13 @@ onMounted(() => {
 
               <!-- begin::Link -->
               <div class="w-100 position-relative d-flex align-items-center mb-4">
-                <input type="text" class="form-control px-9 cursor-pointer" :value="invoiceLink" readonly @click="copy" />
+                <input
+                  type="text"
+                  class="form-control px-9 cursor-pointer"
+                  :value="invoiceLink"
+                  readonly
+                  @click="copy"
+                />
 
                 <!-- begin::Icon -->
                 <inline-svg

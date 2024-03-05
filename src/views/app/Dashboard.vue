@@ -15,7 +15,7 @@ import LastTransactions from '../../components/dashboard/LastTransactions.vue'
 // ----- START ----- //
 
 // Generals
-const store = useAppStore();
+const store = useAppStore()
 
 // Computeds
 const appList = computed(() => store.appList)
@@ -32,7 +32,7 @@ const appList = computed(() => store.appList)
     </div>
 
     <div class="col-xl-5 col-xxl-3" v-if="appList.length">
-      <AppCard :app="appList[0]"/>
+      <AppCard :app="appList[0]" />
     </div>
   </div>
 

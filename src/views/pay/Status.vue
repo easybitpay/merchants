@@ -51,7 +51,10 @@ const paymentTransactions = computed(() => store.getPaymentTransactions)
  */
 const copy = (text) => {
   navigator.clipboard.writeText(text)
-  appendAlert('Copied to clipboard', 'success')
+  appendAlert('Copied to clipboard', {
+    color: 'success',
+    type: 'alert'
+  })
 }
 
 const minAndSec = (value) => {

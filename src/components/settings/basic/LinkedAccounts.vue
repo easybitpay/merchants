@@ -30,10 +30,13 @@ const currentUser = computed(() => authStore.currentUser)
  * Disconnect Telegram Account
  */
 const disconnectTelegram = async () => {
-  notificationStore.disconnectTelegram().then(res => {
+  notificationStore.disconnectTelegram().then((res) => {
     if (res) {
       authStore.chengeTelegramChatID(false)
-      appendAlert('Telegram disconnected successfully!', 'success')
+      appendAlert('Telegram disconnected successfully!', {
+        color: 'success',
+        type: 'alert'
+      })
     }
   })
 }

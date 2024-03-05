@@ -48,16 +48,25 @@ const showCancelWithdraw = (status) => {
 /**
  * Cancel Withdraw
  */
-const cancelWithdraw = async () => {
+const cancelWithdraw = () => {
   // Set Variable
   let id = props.item.id
 
-  // Request
-  await store.cancelWithdraw(id).then((res) => {
-    if (res) {
-      emit('updateItem', res)
-      appendAlert('Withdraw cancelled', 'success')
-    }
+  // Wait For Accept
+  appendAlert(`Cancel withdraw ${id}. Are you sure? `, {
+    color: 'danger',
+    type: 'action',
+    acceptButtonText: 'Delete'
+  }).then(() => {
+    store.cancelWithdraw(id).then((res) => {
+      if (res) {
+        emit('updateItem', res)
+        appendAlert('Withdraw cancelled', {
+          color: 'success',
+          type: 'alert'
+        })
+      }
+    })
   })
 }
 
@@ -92,8 +101,8 @@ const openWithdrawVerify = () => {
     </td>
     <td class="text-end ps-0">
       <div class="d-flex justify-content-end h-24px gap-2">
+        <!-- v-if="showCancelWithdraw(item.status)" -->
         <inline-svg
-          v-if="showCancelWithdraw(item.status)"
           @click="cancelWithdraw"
           src="media/icons/icons/trash.svg"
           class="svg-icon-danger cursor-pointer"

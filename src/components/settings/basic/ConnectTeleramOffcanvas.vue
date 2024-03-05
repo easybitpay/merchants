@@ -43,7 +43,10 @@ const checkTelegramConnect = async () => {
   // Request
   await notificationStore.checkTelegramStatus().then((res) => {
     if (res) {
-      appendAlert('Telegram connected successfully!', 'success')
+      appendAlert('Telegram connected successfully!', {
+        color: 'success',
+        type: 'alert'
+      })
       authStore.chengeTelegramChatID(true)
       closeOffcanvas()
     }
@@ -70,7 +73,10 @@ const setDefaultValues = () => {
 
 const copy = (text) => {
   navigator.clipboard.writeText(text)
-  appendAlert('Copied to clipboard', 'success')
+  appendAlert('Copied to clipboard', {
+    color: 'success',
+    type: 'alert'
+  })
 }
 
 onMounted(() => {
