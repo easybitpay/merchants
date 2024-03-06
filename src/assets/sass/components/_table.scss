@@ -322,3 +322,12 @@
         }
     }
 }
+
+.floating-icons {
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    right: 0;
+    top: 14px;
+    background-color: $body-bg;
+}

@@ -92,7 +92,12 @@ watch(selectedSort, () => {
   <ApplicationCard action="action" :app="selectedApp" />
 
   <div class="accordion mt-10" id="transAccordion">
-    <div class="table-responsive accordion-table">
+    <div class="table-responsive accordion-table position-relative">
+      <div class="floating-icons">
+        <RouterLink :to="{name: 'search-transaction', params: {id: selectedApp.id}}">
+          <inline-svg src="media/icons/icons/Scale.svg"></inline-svg>
+        </RouterLink>
+      </div>
       <table class="table pb-4">
         <thead>
           <tr transaction-sortable sortable>

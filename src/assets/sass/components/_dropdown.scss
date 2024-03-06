@@ -171,6 +171,9 @@
 
     &.grouped-dropdown {
         @media (min-width: 576px) {
+            .select-dropdown-text-content {
+                width: calc(100% - 1.5rem - 10px - 130px);
+            }
             .select-dropdown-text-placeholder {
                 width: calc(100% - 1.5rem - 10px - 130px);
         

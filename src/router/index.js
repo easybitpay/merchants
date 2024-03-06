@@ -79,6 +79,11 @@ const router = createRouter({
           ]
         },
         {
+          path: '/search-transaction/:id',
+          name: 'search-transaction',
+          component: () => import('@/views/app/application/TransactionFocusMode.vue')
+        },
+        {
           path: '/settings',
           name: 'settings',
           redirect: '/settings/basic',
