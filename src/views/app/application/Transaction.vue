@@ -5,6 +5,9 @@ import { onMounted, watch, computed, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Router
+import { useRoute, useRouter } from 'vue-router'
+
 // Bootstrap
 import { Tooltip } from 'bootstrap'
 
@@ -112,6 +115,8 @@ const searchColumnKeys = [
 
 // Generals
 const store = useAppStore()
+const route = useRoute()
+const router = useRouter()
 const { startCheckSort, selectedSort } = useSortTable()
 
 // Refs
@@ -236,6 +241,7 @@ const filterSearchTimeOut = () => {
 const changeShowSearchStatus = () => {
   showSearch.value = !showSearch.value
   search.value = ''
+  setSearchQuery()
 }
 
 /**
@@ -248,7 +254,25 @@ const searchTimeOut = () => {
   }
   searchTimeOutRef.value = setTimeout(() => {
     get_app_invoices(1)
+    setSearchQuery()
   }, 800)
+}
+
+const checkRouteSearchQuery = () => {
+  const searchQuery = route.query.search
+
+  if (searchQuery) {
+    showSearch.value = true
+    search.value = searchQuery
+  }
+}
+
+const setSearchQuery = () => {
+  router.push({
+    name: 'application-transaction',
+    params: { id: selectedApp.value.id },
+    query: { search: search.value }
+  })
 }
 
 const createSearchColumnArray = () => {
@@ -325,6 +349,9 @@ const get_app_invoices = async (page) => {
 
 onMounted(async () => {
   getAppTokens()
+
+  checkRouteSearchQuery()
+
   await get_app_invoices(1)
 
   startCheckSort('transaction')
