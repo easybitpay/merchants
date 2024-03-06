@@ -236,9 +236,6 @@ const filterSearchTimeOut = () => {
 const changeShowSearchStatus = () => {
   showSearch.value = !showSearch.value
   search.value = ''
-  if (!showSearch.value && !search.value) {
-    get_app_invoices(1)
-  }
 }
 
 /**
@@ -339,6 +336,12 @@ onMounted(async () => {
 
 watch(selectedSort, () => {
   get_app_invoices(1)
+})
+
+watch(search, async (newVal, oldVal) => {
+  if (!newVal && oldVal) {
+    get_app_invoices(1)
+  }
 })
 </script>
 <template>
