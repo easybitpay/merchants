@@ -39,11 +39,11 @@ const searchConditions = [
     title: 'Not like'
   },
   {
-    key: '<',
+    key: '>',
     title: 'More than'
   },
   {
-    key: '>',
+    key: '<',
     title: 'Less than'
   }
 ]
