@@ -236,6 +236,7 @@ const filterSearchTimeOut = () => {
 const changeShowSearchStatus = () => {
   showSearch.value = !showSearch.value
   search.value = ''
+  get_app_invoices(1)
 }
 
 /**
