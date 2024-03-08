@@ -2,6 +2,10 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR;
 
+git pull origin main
+
+npm i --force
+
 npm run build
 if [ -d "dist" ]; then
     echo "Build Successfull."
