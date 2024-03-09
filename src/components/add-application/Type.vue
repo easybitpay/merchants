@@ -43,7 +43,7 @@ const convertTypeToIcon = (type) => {
  * send data to parent for store
  */
 const submitForm = () => {
-  if (selectedType.value) {
+  if (selectedType.value.type) {
     // Set Variable
     const content = {
       type: selectedType.value
@@ -63,13 +63,13 @@ onMounted(() => {
 
 <template>
   <!-- begin::Title -->
-  <div class="mb-10">
+  <div class="mb-10 px-6">
     <h4 class="text-primary mb-2 neue-machina fw-normal">Choose Gateway Type</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
 
-  <div class="d-flex flex-column gap-6">
+  <div class="d-flex flex-column gap-6 px-6">
     <!-- begin::Item -->
     <div
       :class="`card rounded-xl cursor-pointer ${

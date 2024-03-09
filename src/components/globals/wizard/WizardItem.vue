@@ -21,13 +21,13 @@ const props = defineProps({
         { 'wizard-active': step === activeStep }
       ]"
     >
-      <div class="card-body p-0">
-        <div class="wizard-data p-6" v-show="step === activeStep">
+      <div class="card-body px-0 py-6">
+        <div class="wizard-data" v-show="step === activeStep">
           <slot></slot>
         </div>
 
         <!-- begin::Info Show -->
-        <div class="wizard-info p-6 px-xl-0" v-if="step != activeStep">
+        <div class="wizard-info p-6 py-0 px-xl-0" v-if="step != activeStep">
           <div>
             <div class="svg-holder svg-holder-sm">
               <inline-svg

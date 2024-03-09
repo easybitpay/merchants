@@ -72,13 +72,13 @@ onMounted(() => {
 
 <template>
   <!-- begin::Title -->
-  <div class="mb-10">
+  <div class="mb-10 px-6">
     <h4 class="text-primary mb-2 neue-machina fw-normal">Verify</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
 
-  <div>
+  <div class="px-6">
     <!-- begin::Spacer -->
     <div class="border-bottom border-gray-400 w-100 mb-4"></div>
     <!-- end::Spacer -->

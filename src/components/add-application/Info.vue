@@ -141,13 +141,13 @@ onMounted(() => {
 
 <template>
   <!-- begin::Title -->
-  <div class="mb-10">
+  <div class="mb-10 px-6">
     <h4 class="text-primary mb-2 neue-machina fw-normal">Base information</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
 
-  <form @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm" class="px-6">
     <button type="submit" hidden></button>
     <!-- begin::App Name -->
     <div class="position-relative mb-6">
@@ -242,7 +242,7 @@ onMounted(() => {
     <!-- end::Icon & Banner Card -->
   </form>
   <!-- begin::Fee Share -->
-  <div class="w-100">
+  <div class="w-100 px-6">
     <div class="mb-10">
       <h4 class="text-primary mb-2 neue-machina fw-normal">Customer Fee Share</h4>
       <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>

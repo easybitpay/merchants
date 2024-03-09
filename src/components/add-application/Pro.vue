@@ -195,13 +195,13 @@ onMounted(() => {
 
 <template>
   <!-- begin::Title -->
-  <div class="mb-10">
+  <div class="mb-10 px-6">
     <h4 class="text-primary mb-2 neue-machina fw-normal">Pro information</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
 
-  <form @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm" class="px-6">
     <button type="submit" hidden></button>
     <!-- begin::Callback URL -->
     <div class="position-relative mb-6">
