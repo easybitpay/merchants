@@ -6,12 +6,8 @@ import { computed, onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 
-// Hooks
-import useForm from '@/hooks/useForm.js'
-
-// Vuelidate
-import useVuelidate from '@vuelidate/core'
-import { helpers, required } from '@vuelidate/validators'
+// Components
+import VOtpInput from 'vue3-otp-input'
 
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
@@ -24,29 +20,16 @@ import { appendAlert } from '@/assets/js/Alerts'
 // Generals
 const appStore = useAppStore()
 const authStore = useAuthStore()
-const { showFeedBacks } = useForm()
 
 // Refs
 const step = ref(1)
 const secret = ref('')
 const loading = ref(false)
+const otpInputValue = ref('')
 
 // Computeds
 const selectedApp = computed(() => appStore.selectedApp)
 const currentUser = computed(() => authStore.currentUser)
-
-// Vuelidate
-const form = ref({
-  code: null
-})
-
-const rules = {
-  code: {
-    required: helpers.withMessage('2FA code is required', required)
-  }
-}
-
-const v$ = useVuelidate(rules, form)
 
 // Functions
 
@@ -56,10 +39,7 @@ const v$ = useVuelidate(rules, form)
 const resetForm = () => {
   step.value = 1
   secret.value = ''
-  form.value = {
-    code: null
-  }
-  v$.value.$reset()
+  otpInputValue.value = ''
 }
 
 /**
@@ -73,22 +53,26 @@ const closeOffcanvas = () => {
 /**
  * Get New Secret
  */
-const getNewSecret = async () => {
+
+const checkCallNewSecret = () => {
+  let content = {}
+  const enable_2fa = currentUser.value.merchant.two_factor_enabled
+
+  if (enable_2fa) {
+    if (otpInputValue.value.length == 6) {
+      content.code = otpInputValue.value
+      getNewSecret(content)
+    }
+  } else {
+    getNewSecret(content)
+  }
+}
+const getNewSecret = async (content) => {
   // Start Loading
   loading.value = true
 
   // Set Variables
-  let content = {}
-  const enable_2fa = currentUser.value.merchant.two_factor_enabled
   let app_id = selectedApp.value.id
-
-  // Validation Form
-  if (enable_2fa) {
-    const result = await v$.value.$validate()
-    if (result) {
-      content.code = form.value.code
-    }
-  }
 
   // Request
   await appStore.revokeSecret({ app_id, content }).then((res) => {
@@ -138,7 +122,7 @@ onMounted(() => {
         class="d-block mx-auto mb-4 cursor-pointer svg-icon-primary"
       ></inline-svg>
 
-      <form @submit.prevent="getNewSecret">
+      <form @submit.prevent="checkCallNewSecret">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4 min-h-354px">
           <div class="card-body pb-lg-22">
@@ -177,31 +161,27 @@ onMounted(() => {
               </p>
 
               <!-- begin::OTP -->
+
               <div
                 class="mt-8 pt-8 border-top border-gray-200"
                 v-if="step === 1 && currentUser?.merchant?.two_factor_enabled"
               >
-                <!-- begin::2FA Code -->
-                <div class="w-100 position-relative d-flex align-items-center mb-4">
-                  <input
-                    type="text"
-                    class="form-control ps-9 placeholder-gray-500"
-                    placeholder="Inter confirmation code From Your Authenticator"
-                    v-model="form.code"
-                  />
-
-                  <div class="invalid-feedback form-control" v-if="v$.code.$errors.length">
-                    <span> {{ v$.code.$errors[0].$message }}</span>
+                <!-- begin::OTP -->
+                <div class="d-flex align-items-center justify-content-center">
+                  <div class="otp-input otp-input-center otp-input-small-gap">
+                    <VOtpInput
+                      ref="otpInput"
+                      input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
+                      separator=""
+                      :num-inputs="6"
+                      :should-auto-focus="true"
+                      input-type="numeric"
+                      v-model:value="otpInputValue"
+                      @on-complete="checkCallNewSecret"
+                    />
                   </div>
-
-                  <!-- begin::Icon -->
-                  <inline-svg
-                    src="media/icons/icons/lock.svg"
-                    class="position-absolute start-8px svg-icon-primary"
-                  ></inline-svg>
-                  <!-- end::Icon -->
                 </div>
-                <!-- end::2FA Code -->
+                <!-- end::OTP -->
               </div>
               <!-- end::OTP -->
 

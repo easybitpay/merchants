@@ -85,6 +85,14 @@ input[type="number"] {
             gap: 1.5rem;
         }
     }
+
+    @media (max-width: 576px) {
+        &.otp-input-small-gap {
+            >div {
+                gap: .75rem;
+            }
+        }
+    }
 }
 
 textarea {
@@ -165,6 +173,7 @@ textarea {
 
         input:not(.form-check-input) {
             width: 100%;
+
             &::placeholder {
                 font-family: 'Roboto';
                 font-weight: 400;
