@@ -40,7 +40,7 @@ onMounted(() => {
       <!-- begin::Title -->
 
       <!-- begin::Title -->
-      <div class="lh-24px ls-base mb-6 custom-scroll overflow-auto mh-596px px-6">
+      <div class="lh-24px ls-base custom-scroll overflow-auto mh-644px px-6">
         <p>
           Welcome to Easybitpay! We provide a cryptocurrency payment gateway service that allows
           merchants to accept various cryptocurrencies, including Bitcoin, Ethereum, Tether, and
@@ -154,7 +154,7 @@ onMounted(() => {
       <!-- end::Text -->
     </div>
 
-    <div class="px-6">
+    <div class="px-6 mt-6">
       <div class="form-check">
         <input
           class="form-check-input cursor-pointer"
