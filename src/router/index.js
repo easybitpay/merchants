@@ -190,6 +190,7 @@ const router = createRouter({
         }
       ]
     },
+
     /**
      * Pay Sandbox Layout
      */
@@ -219,6 +220,22 @@ const router = createRouter({
         }
       ]
     },
+
+    /**
+     * Widgets
+     */
+    {
+      path: '/',
+      component: () => import('@/layouts/Widgets.vue'),
+      children: [
+        {
+          path: '/stake',
+          name: 'stake',
+          component: () => import('@/views/widgets/Stake.vue')
+        }
+      ]
+    },
+
     {
       // the 404 route, when none of the above matches
       path: '/404',
