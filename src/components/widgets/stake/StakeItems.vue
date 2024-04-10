@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 // Store
 import { useConnectWalletStore } from '@/stores/connectWallet'
@@ -76,7 +76,7 @@ const redeem = async () => {
       [props.item.id, redeemAmount.value],
       (res) => {
         if (res) {
-          stakeProfile.value = res
+          console.log(res);
         }
       },
       true
@@ -102,12 +102,12 @@ const redeem = async () => {
     </td>
     <td>
       <div class="max-content h-32px d-flex align-items-center">
-        {{ item.redeemedTokens || '-' }}
+        {{ item.redeemedAmount ? fromSun(item.redeemedAmount, +decimals) : '-' }}
       </div>
     </td>
     <td>
       <div class="max-content h-32px d-flex align-items-center">
-        {{ item.receivedTokens ? fromSun(item.receivedTokens * price, +decimals - 12) : '-' }}
+        {{ item.receivedTokens ? fromSun((item.receivedTokens - item.redeemedTokens) * price, +decimals - 12) : '-' }}
       </div>
     </td>
     <td>
