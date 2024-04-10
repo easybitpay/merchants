@@ -22,6 +22,10 @@ export const useStakeStore = defineStore('stake', () => {
         const element = data.result[i];
         list.push({
           ...element.token,
+          contract_version: element.contract_version,
+          contract_id: element.id,
+          contract_name: element.name,
+          status: element.status,
           stake_contract_address: element.stake_contract_address
         })
       }

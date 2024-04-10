@@ -23,6 +23,10 @@ const props = defineProps({
     type: Number,
     required: true
   },
+  symbol: {
+    type: String,
+    required: true
+  },
   decimals: {
     type: String,
     required: true
@@ -50,15 +54,15 @@ const loading = ref(false)
 const walletAddress = computed(() => connectWalletStore.walletAddress)
 
 const calculatedRedeem = computed(() => {
-  let receiveTokens = props.item.receivedTokens;
-  let decimals = props.decimals;
+  let receiveTokens = props.item.receivedTokens
+  let decimals = props.decimals
   let percent = +redeemAmount.value
   let price = props.price
   let total = fromSun(receiveTokens * price, +decimals - 12)
 
   let amount = (percent * total) / 100
 
-  return amount 
+  return amount
 })
 
 // Functions
@@ -76,7 +80,7 @@ const redeem = async () => {
       [props.item.id, redeemAmount.value],
       (res) => {
         if (res) {
-          console.log(res);
+          console.log(res)
         }
       },
       true
@@ -92,7 +96,7 @@ const redeem = async () => {
   <tr class="collapsed">
     <td>
       <div class="h-32px d-flex align-items-center">
-        {{ item.stakeAmount ? fromSun(+item.stakeAmount, +decimals) : '-' }}
+        {{ item.stakeAmount ? `${fromSun(+item.stakeAmount, +decimals)} ${symbol}` : '-' }}
       </div>
     </td>
     <td>
@@ -102,12 +106,19 @@ const redeem = async () => {
     </td>
     <td>
       <div class="max-content h-32px d-flex align-items-center">
-        {{ item.redeemedAmount ? fromSun(item.redeemedAmount, +decimals) : '-' }}
+        {{ item.redeemedAmount ? `${fromSun(item.redeemedAmount, +decimals)} ${symbol}` : '-' }}
       </div>
     </td>
     <td>
       <div class="max-content h-32px d-flex align-items-center">
-        {{ item.receivedTokens ? fromSun((item.receivedTokens - item.redeemedTokens) * price, +decimals - 12) : '-' }}
+        {{
+          item.receivedTokens
+            ? `${fromSun(
+                (item.receivedTokens - item.redeemedTokens) * price,
+                +decimals - 12
+              )} ${symbol}`
+            : '-'
+        }}
       </div>
     </td>
     <td>

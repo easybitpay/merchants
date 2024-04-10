@@ -56,6 +56,8 @@ const loadings = ref({
 const walletAddress = computed(() => connectWalletStore.walletAddress)
 const connectedNetwork = computed(() => connectWalletStore.connectedNetwork)
 const btnDisable = computed(() => {
+  if (selectedCoin.value.status == 0) return true
+
   if (loadings.value.wallet || loadings.value.network || loadings.value.stake) return true
 
   if (+form.value.amount > +tokenBalanace.value) return true
@@ -64,6 +66,8 @@ const btnDisable = computed(() => {
 })
 
 const btnText = computed(() => {
+  if (selectedCoin.value.status == 0) return 'Just Redeem'
+
   if (loadings.value.wallet || loadings.value.network || loadings.value.stake) return 'Loading...'
 
   if (!walletAddress.value) return 'Connect your wallet'
@@ -258,7 +262,7 @@ const getStakeProfile = async (id) => {
     [id],
     (res) => {
       if (res) {
-        console.log(res);
+        console.log(res)
         userStakeProfiles.value.push({
           ...res,
           id,
@@ -418,7 +422,8 @@ onMounted(() => {
                 <!-- begin::Input Box -->
                 <div class="w-100 position-relative">
                   <SelectDropdown
-                    show="name"
+                    show="contract_name"
+                    check="contract_id"
                     :placeholder="walletAddress ? 'Staking Coin' : 'Connect Your Wallet'"
                     showImage
                     showCoinNetwork
@@ -533,6 +538,7 @@ onMounted(() => {
             :item="item"
             :price="stakeTokenPrice"
             :decimals="selectedCoin.decimals"
+            :symbol="selectedCoin.symbol"
             :constractAddress="selectedCoin.stake_contract_address"
           />
         </template>
