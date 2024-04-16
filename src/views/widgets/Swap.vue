@@ -235,9 +235,9 @@ const getTokenInBalanceInterval = () => {
 
   if (tokenIn.value.address) {
     getTokenInBalance()
-    // tokenInBalanceInterval.value = setInterval(() => {
-    //   getTokenInBalance()
-    // }, 15000)
+    tokenInBalanceInterval.value = setInterval(() => {
+      getTokenInBalance()
+    }, 15000)
   }
 }
 
@@ -271,9 +271,9 @@ const getTokenOutBalanceInterval = () => {
 
   if (tokenOut.value.address) {
     getTokenOutBalance()
-    // tokenOutBalanceInterval.value = setInterval(() => {
-    //   getTokenOutBalance()
-    // }, 15000)
+    tokenOutBalanceInterval.value = setInterval(() => {
+      getTokenOutBalance()
+    }, 15000)
   }
 }
 
