@@ -465,6 +465,8 @@ onMounted(() => {
                     type="number"
                     class="form-control"
                     placeholder="Amount"
+                    min="0.000000000000000001"
+                    step="0.000000000000000001"
                     v-model="form.amount"
                   />
                   <p class="fs-9 mt-1" v-if="selectedCoin.symbol">

@@ -57,8 +57,6 @@ export default function useCallContract() {
         })
       }
     } catch (error) {
-      
-      console.log(error.message.message)
       appendAlert(error.message, {
         color: 'danger',
         type: 'alert'

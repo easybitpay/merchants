@@ -232,6 +232,11 @@ const router = createRouter({
           path: '/stake',
           name: 'stake',
           component: () => import('@/views/widgets/Stake.vue')
+        },
+        {
+          path: '/swap',
+          name: 'swap',
+          component: () => import('@/views/widgets/Swap.vue')
         }
       ]
     },
