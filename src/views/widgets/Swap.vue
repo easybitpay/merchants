@@ -105,6 +105,7 @@ const pairPrice = computed(() => {
     tokenIn.value.address == '0x0000000000000000000000000000000000000000'
       ? selectedNetwork.value.weth
       : tokenIn.value.address
+
   let addressOut =
     tokenOut.value.address == '0x0000000000000000000000000000000000000000'
       ? selectedNetwork.value.weth

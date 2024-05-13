@@ -18,16 +18,19 @@ export const useStakeStore = defineStore('stake', () => {
       //
       let list = []
 
-      for (let i = 0; i < data.result.length; i++) {
-        const element = data.result[i];
-        list.push({
-          ...element.token,
-          contract_version: element.contract_version,
-          contract_id: element.id,
-          contract_name: element.name,
-          status: element.status,
-          stake_contract_address: element.stake_contract_address
-        })
+      for (let i = 0; i < data.result.coins.length; i++) {
+        const coins = data.result.coins[i]
+        for (let i = 0; i < coins.providers.length; i++) {
+          const element = coins.providers[i]
+          list.push({
+            ...element.token,
+            contract_version: element.contract_version,
+            contract_id: element.id,
+            contract_name: element.name,
+            status: element.status,
+            stake_contract_address: element.stake_contract_address
+          })
+        }
       }
 
       return list
