@@ -182,7 +182,7 @@ const get_payment_detail = async () => {
     }
   }
 
-  await store[`${appType == 1 ? 'getPaymentDetails' : 'getAppPeymentDetail'}`]({
+  await store[`${appType == 1 ? 'getPaymentDetails' : 'getAppPaymentDetail'}`]({
     incoiceID,
     params,
     content
