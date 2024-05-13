@@ -363,6 +363,8 @@ const createInvoice = async () => {
 }
 
 const copy = () => {
+  console.log('navigator', navigator);
+  console.log('clipboard', navigator.clipboard);
   navigator.clipboard.writeText(invoiceLink.value)
   appendAlert('Copied to clipboard', {
     color: 'success',
