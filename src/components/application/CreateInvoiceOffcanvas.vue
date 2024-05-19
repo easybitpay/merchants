@@ -48,7 +48,7 @@ const invoiceLink = ref('')
 // Comouteds
 const selectedApp = computed(() => store.selectedApp)
 const totalAmount = computed(() => {
-  const total = state.amountDetails.reduce((acc, obj) => acc + +obj.price, 0)
+  const total = state.amountDetails.reduce((acc, obj) => acc + +obj.value, 0)
 
   if (total) return total
   return '00.00'
@@ -70,8 +70,8 @@ const form = ref({
 const state = reactive({
   amountDetails: [
     {
-      name: null,
-      price: null
+      title: null,
+      value: null
     }
   ]
 })
@@ -100,10 +100,10 @@ const amountRules = {
 const amountDetailRules = {
   amountDetails: {
     $each: helpers.forEach({
-      name: {
-        required: helpers.withMessage('Name is required', required)
+      title: {
+        required: helpers.withMessage('Title is required', required)
       },
-      price: {
+      value: {
         required: helpers.withMessage('Price is required', required)
       }
     })
@@ -135,8 +135,8 @@ const changeTotalStep = () => {
  */
 const addNewAmountDetail = () => {
   state.amountDetails.push({
-    name: null,
-    price: null
+    title: null,
+    value: null
   })
 }
 
@@ -208,8 +208,8 @@ const resetForm = () => {
   }
   state.amountDetails = [
     {
-      name: null,
-      price: null
+      title: null,
+      value: null
     }
   ]
 
@@ -248,8 +248,8 @@ const setDefaultValues = () => {
 
   state.amountDetails = [
     {
-      name: null,
-      price: null
+      title: null,
+      value: null
     }
   ]
 }
@@ -315,7 +315,7 @@ const createInvoice = async () => {
   let customer_info = {
     name: form.value.name,
     email: form.value.email,
-    send_email: form.value.send_email,
+    send_email: form.value.send_email
   }
 
   if (form.value.client_order_identifier) {
@@ -326,7 +326,7 @@ const createInvoice = async () => {
     customer_info.description = form.value.description
   }
 
-  content.customer_info =  JSON.stringify(customer_info)
+  content.customer_info = JSON.stringify(customer_info)
 
   let array = []
   for (let i = 0; i < available_tokens.value.length; i++) {
@@ -337,14 +337,8 @@ const createInvoice = async () => {
   let string = array.toString()
   content.available_tokens = string
 
-  let items = {}
   if (form.value.need_detail) {
-    for (let i = 0; i < state.amountDetails.length; i++) {
-      const element = state.amountDetails[i]
-      items[element.name] = element.price
-    }
-
-    content.invoice_items = JSON.stringify(items)
+    content.invoice_items = JSON.stringify(state.amountDetails)
     content.amount = `${totalAmount.value}`
   } else {
     content.amount = `${form.value.amount}`
@@ -694,20 +688,20 @@ onMounted(() => {
                               type="text"
                               class="form-control placeholder-gray-600"
                               placeholder="Enter Your Item Name"
-                              v-model="input.name"
+                              v-model="input.title"
                             />
 
                             <div
                               class="invalid-feedback form-control"
                               v-if="
-                                vAmountDetail$.amountDetails.$each.$response.$errors[index].name
+                                vAmountDetail$.amountDetails.$each.$response.$errors[index].title
                                   .length
                               "
                             >
                               <span>
                                 {{
                                   vAmountDetail$.amountDetails.$each.$response.$errors[index]
-                                    .name[0].$message
+                                    .title[0].$message
                                 }}
                               </span>
                             </div>
@@ -723,20 +717,20 @@ onMounted(() => {
                               step="0.01"
                               class="form-control placeholder-gray-600"
                               placeholder="Enter Your Item Price"
-                              v-model="input.price"
+                              v-model="input.value"
                             />
 
                             <div
                               class="invalid-feedback form-control"
                               v-if="
-                                vAmountDetail$.amountDetails.$each.$response.$errors[index].price
+                                vAmountDetail$.amountDetails.$each.$response.$errors[index].value
                                   .length
                               "
                             >
                               <span>
                                 {{
                                   vAmountDetail$.amountDetails.$each.$response.$errors[index]
-                                    .price[0].$message
+                                    .value[0].$message
                                 }}
                               </span>
                             </div>
@@ -848,11 +842,11 @@ onMounted(() => {
                         </td>
                         <td>
                           <div class="max-content">
-                            {{ item.name }}
+                            {{ item.title }}
                           </div>
                         </td>
                         <td class="text-end">
-                          <div class="max-content">{{ item.price }} {{ base_token.symbol }}</div>
+                          <div class="max-content">{{ item.value }} {{ base_token.symbol }}</div>
                         </td>
                       </tr>
 
