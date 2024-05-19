@@ -51,7 +51,7 @@ const { iconImage, storageImage } = useIconImage()
 const { cancelPayment, cancelLoading, redirectPaymentStatus } = useRedirectPayment(props.sandbox)
 
 // Refs
-const loading = ref(false)
+const loading = ref(true)
 const interval = ref(null)
 const assumePayment = ref('')
 const fakePayLoading = ref(false)
@@ -344,7 +344,6 @@ onUnmounted(() => {
 
           <!-- begin::Icon -->
           <inline-svg
-            @click="copy(paymentDetail.walletAddress)"
             src="media/icons/icons/copy.svg"
             class="position-absolute end-8px svg-icon-gray-500 cursor-pointer"
           ></inline-svg>

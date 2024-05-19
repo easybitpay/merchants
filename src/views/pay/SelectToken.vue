@@ -55,7 +55,7 @@ const invoiceCode = computed(() => store.getInvoiceCode)
 const invoiceDetail = computed(() => store.getInvoiceDetail)
 const userInputs = computed(() => store.getUserInputs)
 const paymentTransactions = computed(() => store.getPaymentTransactions)
-const customerInfo = computed(() => invoiceDetail.value.customer_info)
+const customerInfo = computed(() => invoiceDetail.value.customer_info || {})
 const payLoading = computed(() => store.payLoading)
 
 const paidAmount = computed(() => {
