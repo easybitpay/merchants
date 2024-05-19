@@ -479,46 +479,46 @@ watch(search, async (newVal, oldVal) => {
   </div>
   <!-- end::Search Collapse -->
 
-  <div class="accordion mt-10" id="transAccordion">
+  <div class="accordion mt-10 position-relative" id="transAccordion">
+    <!-- begin::Search Input -->
+    <div class="table-search-box z-1" v-if="showSearch">
+      <input
+        type="text"
+        class="form-control placeholder-gray-600"
+        placeholder="What, You are loking for?"
+        v-model="search"
+        @input="searchTimeOut"
+      />
+    </div>
+    <!-- end::Search Input -->
+
+    <!-- begin::Floating Icons -->
+    <div class="floating-icons">
+      <!-- begin::Search & Close Icon -->
+      <inline-svg
+        @click="changeShowSearchStatus()"
+        :src="`media/icons/icons/${showSearch ? 'close' : 'search'}.svg`"
+        class="cursor-pointer svg-icon-gray-700"
+        width="24"
+        height="24"
+      ></inline-svg>
+      <!-- end::Search & Close Icon -->
+
+      <!-- begin::Expand -->
+      <inline-svg
+        src="media/icons/icons/Scale.svg"
+        class="cursor-pointer"
+        data-bs-toggle="collapse"
+        href="#filterCollapse"
+        role="button"
+        aria-expanded="false"
+        aria-controls="filterCollapse"
+      ></inline-svg>
+      <!-- end::Expand -->
+    </div>
+    <!-- end::Floating Icons -->
+
     <div class="table-responsive accordion-table position-relative">
-      <!-- begin::Search Input -->
-      <div class="table-search-box" v-if="showSearch">
-        <input
-          type="text"
-          class="form-control placeholder-gray-600"
-          placeholder="What, You are loking for?"
-          v-model="search"
-          @input="searchTimeOut"
-        />
-      </div>
-      <!-- end::Search Input -->
-
-      <!-- begin::Floating Icons -->
-      <div class="floating-icons">
-        <!-- begin::Search & Close Icon -->
-        <inline-svg
-          @click="changeShowSearchStatus()"
-          :src="`media/icons/icons/${showSearch ? 'close' : 'search'}.svg`"
-          class="cursor-pointer svg-icon-gray-700"
-          width="24"
-          height="24"
-        ></inline-svg>
-        <!-- end::Search & Close Icon -->
-
-        <!-- begin::Expand -->
-        <inline-svg
-          src="media/icons/icons/Scale.svg"
-          class="cursor-pointer"
-          data-bs-toggle="collapse"
-          href="#filterCollapse"
-          role="button"
-          aria-expanded="false"
-          aria-controls="filterCollapse"
-        ></inline-svg>
-        <!-- end::Expand -->
-      </div>
-      <!-- end::Floating Icons -->
-
       <!-- begin::Table -->
       <table class="table pb-4">
         <thead>

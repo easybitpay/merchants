@@ -61,8 +61,10 @@ const itemFilledPercent = (mustPay, paid) => {
     <td>
       <div class="max-content">{{ item.amount }} {{ item.base_token.symbol }}</div>
     </td>
-    <td :class="`text-${convertStatusToColor(item.status)}`">
-      {{ convertStatusToText(item.status) }}
+    <td>
+      <div :class="`max-content text-${convertStatusToColor(item.status)}`"> 
+        {{ convertStatusToText(item.status) }}
+      </div>
     </td>
     <td class="text-end">
       <div class="w-24px h-24px">
