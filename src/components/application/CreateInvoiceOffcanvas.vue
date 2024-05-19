@@ -20,6 +20,9 @@ import MultiSelectDropdown from '../globals/MultiSelectDropdown.vue'
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
+// Deciamals
+import { Decimal } from 'decimal.js'
+
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
@@ -48,9 +51,16 @@ const invoiceLink = ref('')
 // Comouteds
 const selectedApp = computed(() => store.selectedApp)
 const totalAmount = computed(() => {
-  const total = state.amountDetails.reduce((acc, obj) => acc + +obj.value, 0)
+  let total = new Decimal(0)
 
-  if (total) return total
+  for (let i = 0; i < state.amountDetails.length; i++) {
+    const element = state.amountDetails[i]
+    total = total.plus(+element.value)
+  }
+
+  let calculated = +total.toString()
+
+  if (calculated) return calculated
   return '00.00'
 })
 
