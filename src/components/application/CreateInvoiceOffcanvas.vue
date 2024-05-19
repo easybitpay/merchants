@@ -310,15 +310,23 @@ const createInvoice = async () => {
   // Set Variables
   let content = {
     app_id: selectedApp.value.id,
-    send_email: form.value.send_email,
     base_token_id: base_token.value.id
   }
-  const customer_info = {
+  let customer_info = {
     name: form.value.name,
-    email: form.value.email
+    email: form.value.email,
+    send_email: form.value.send_email,
   }
 
-  content.customer_info = JSON.stringify(customer_info)
+  if (form.value.client_order_identifier) {
+    customer_info.client_order_identifier = form.value.client_order_identifier
+  }
+
+  if (form.value.description) {
+    customer_info.description = form.value.description
+  }
+
+  content.customer_info =  JSON.stringify(customer_info)
 
   let array = []
   for (let i = 0; i < available_tokens.value.length; i++) {
@@ -328,14 +336,6 @@ const createInvoice = async () => {
 
   let string = array.toString()
   content.available_tokens = string
-
-  if (form.value.client_order_identifier) {
-    content.client_order_identifier = form.value.client_order_identifier
-  }
-
-  if (form.value.description) {
-    content.description = form.value.description
-  }
 
   let items = {}
   if (form.value.need_detail) {
