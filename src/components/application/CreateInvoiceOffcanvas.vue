@@ -254,6 +254,19 @@ const setDefaultValues = () => {
   ]
 }
 
+const removeItem = (index) => {
+  state.amountDetails.splice(index, 1)
+
+  if (!state.amountDetails.length) {
+    state.amountDetails = [
+      {
+        title: null,
+        value: null
+      }
+    ]
+  }
+}
+
 /**
  * Get Customer Info
  */
@@ -661,85 +674,93 @@ onMounted(() => {
               </p>
 
               <div
-                :class="[
-                  { 'mh-156px custom-scroll overflow-auto': true },
-                  { 'pe-4': state.amountDetails.length > 3 }
-                ]"
+                :class="`mh-200px mh-md-170px custom-scroll overflow-y-auto row-gap-6 d-flex flex-column ${
+                  state.amountDetails.length > 1 && state.amountDetails.length <= 3
+                    ? 'pe-4 pe-md-0'
+                    : ''
+                } ${state.amountDetails.length > 3 ? 'pe-4' : ''}`"
               >
-                <div class="table-responsive">
-                  <table class="table amount-table">
-                    <thead>
-                      <tr>
-                        <th class="min-w-30px w-30px"></th>
-                        <th class="min-w-250px w-250px"></th>
-                        <th class="min-w-250px w-250px"></th>
-                      </tr>
-                    </thead>
+                <div
+                  class="d-flex align-items-start gap-2"
+                  v-for="(input, index) in state.amountDetails"
+                  :key="index"
+                >
+                  <div>
+                    <span class="w-40px h-40px d-flex align-items-center justify-content-start">
+                      {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
+                    </span>
+                  </div>
 
-                    <tbody>
-                      <tr v-for="(input, index) in state.amountDetails" :key="index">
-                        <td class="text-gray-800 fs-6">
-                          {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
-                        </td>
-                        <td>
-                          <!-- begin::Name -->
-                          <div class="w-100 position-relative d-flex align-items-center">
-                            <input
-                              type="text"
-                              class="form-control placeholder-gray-600"
-                              placeholder="Enter Your Item Name"
-                              v-model="input.title"
-                            />
+                  <div class="w-100">
+                    <div class="row gy-4">
+                      <div class="col-md-6">
+                        <!-- begin::Name -->
+                        <div class="w-100 position-relative d-flex align-items-center">
+                          <input
+                            type="text"
+                            class="form-control placeholder-gray-600"
+                            placeholder="Enter Your Item Name"
+                            v-model="input.title"
+                          />
 
-                            <div
-                              class="invalid-feedback form-control"
-                              v-if="
-                                vAmountDetail$.amountDetails.$each.$response.$errors[index].title
-                                  .length
-                              "
-                            >
-                              <span>
-                                {{
-                                  vAmountDetail$.amountDetails.$each.$response.$errors[index]
-                                    .title[0].$message
-                                }}
-                              </span>
-                            </div>
+                          <div
+                            class="invalid-feedback form-control"
+                            v-if="
+                              vAmountDetail$.amountDetails.$each.$response.$errors[index].title
+                                .length
+                            "
+                          >
+                            <span>
+                              {{
+                                vAmountDetail$.amountDetails.$each.$response.$errors[index].title[0]
+                                  .$message
+                              }}
+                            </span>
                           </div>
-                          <!-- end::Name -->
-                        </td>
-                        <td>
-                          <!-- begin::Price -->
-                          <div class="w-100 position-relative d-flex align-items-center">
-                            <input
-                              type="number"
-                              min="0.01"
-                              step="0.01"
-                              class="form-control placeholder-gray-600"
-                              placeholder="Enter Your Item Price"
-                              v-model="input.value"
-                            />
+                        </div>
+                        <!-- end::Name -->
+                      </div>
 
-                            <div
-                              class="invalid-feedback form-control"
-                              v-if="
-                                vAmountDetail$.amountDetails.$each.$response.$errors[index].value
-                                  .length
-                              "
-                            >
-                              <span>
-                                {{
-                                  vAmountDetail$.amountDetails.$each.$response.$errors[index]
-                                    .value[0].$message
-                                }}
-                              </span>
-                            </div>
+                      <div class="col-md-6">
+                        <!-- begin::Price -->
+                        <div class="w-100 position-relative d-flex align-items-center">
+                          <input
+                            type="number"
+                            min="0.01"
+                            step="0.01"
+                            class="form-control placeholder-gray-600"
+                            placeholder="Enter Your Item Price"
+                            v-model="input.value"
+                          />
+
+                          <div
+                            class="invalid-feedback form-control"
+                            v-if="
+                              vAmountDetail$.amountDetails.$each.$response.$errors[index].value
+                                .length
+                            "
+                          >
+                            <span>
+                              {{
+                                vAmountDetail$.amountDetails.$each.$response.$errors[index].value[0]
+                                  .$message
+                              }}
+                            </span>
                           </div>
-                          <!-- end::Price -->
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        </div>
+                        <!-- end::Price -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="h-40px w-24px d-flex align-items-center justify-content-center">
+                    <inline-svg
+                      :src="`media/icons/icons/close.svg`"
+                      class="cursor-pointer svg-icon-gray-700"
+                      height="24"
+                      @click="removeItem(index)"
+                    ></inline-svg>
+                  </div>
                 </div>
               </div>
 
