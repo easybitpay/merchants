@@ -55,7 +55,7 @@ const invoiceCode = computed(() => store.getInvoiceCode)
 const invoiceDetail = computed(() => store.getInvoiceDetail)
 const userInputs = computed(() => store.getUserInputs)
 const paymentTransactions = computed(() => store.getPaymentTransactions)
-const customerInfo = computed(() => JSON.parse(invoiceDetail.value.customer_info || '{}'))
+const customerInfo = computed(() => invoiceDetail.value.customer_info)
 const payLoading = computed(() => store.payLoading)
 
 const paidAmount = computed(() => {
@@ -322,14 +322,14 @@ onMounted(() => {
       <!-- begin::Item -->
       <div class="item">
         <p class="title">Name</p>
-        <p class="value">{{ JSON.parse(invoiceDetail.customer_info).name || '-' }}</p>
+        <p class="value">{{ invoiceDetail.customer_info.name || '-' }}</p>
       </div>
       <!-- end::Item -->
 
       <!-- begin::Item -->
       <div class="item">
         <p class="title">Email</p>
-        <p class="value">{{ JSON.parse(invoiceDetail.customer_info).email || '-' }}</p>
+        <p class="value">{{ invoiceDetail.customer_info.email || '-' }}</p>
       </div>
       <!-- end::Item -->
     </div>
@@ -367,7 +367,7 @@ onMounted(() => {
 
             <tbody>
               <tr
-                v-for="(value, key, index) in JSON.parse(invoiceDetail.invoice_items)"
+                v-for="(value, key, index) in invoiceDetail.invoice_items"
                 :key="index"
                 class="fs-7"
               >
