@@ -1134,3 +1134,11 @@ body.sandbox.email-verify {
         width: 100%;
     }
 }
+
+.gatway-inputs-width {
+    width: calc(100% - 140px - 1rem);
+
+    @media (width < 768px) {
+        width: 100%;
+    }
+}

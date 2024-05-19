@@ -310,7 +310,7 @@ onUnmounted(() => {
     </div>
     <img :src="qrCode" alt="qr-code" width="140" v-else />
 
-    <div class="w-100">
+    <div class="gatway-inputs-width">
       <!-- begin::Coin & Price -->
       <div class="form-control d-flex align-items-center gap-2 ps-2 mb-4">
         <img
