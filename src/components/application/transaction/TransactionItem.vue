@@ -57,7 +57,7 @@ const itemFilledPercent = (mustPay, paid) => {
     <td>
       <div class="max-content">{{ convertDate(item.created_at, 'DD.MMM.YYYY - hh:mm') }}</div>
     </td>
-    <td>{{ item.client_order_identifier || '-' }}</td>
+    <td>{{ item?.customer_info.client_order_identifier || '-' }}</td>
     <td>
       <div class="max-content">{{ item.amount }} {{ item.base_token.symbol }}</div>
     </td>

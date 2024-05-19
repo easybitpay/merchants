@@ -340,9 +340,9 @@ onMounted(() => {
     <!-- end::Spacer -->
   </template>
 
-  <template v-if="invoiceDetail.description">
+  <template v-if="invoiceDetail?.customer_info?.description">
     <p class="text-gray-800">
-      {{ invoiceDetail.description }}
+      {{ invoiceDetail.customer_info.description }}
     </p>
 
     <!-- begin::Spacer -->
