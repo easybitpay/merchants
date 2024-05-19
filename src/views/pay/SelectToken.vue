@@ -367,7 +367,7 @@ onMounted(() => {
 
             <tbody>
               <tr
-                v-for="(value, key, index) in invoiceDetail.invoice_items"
+                v-for="(item, index) in invoiceDetail.invoice_items"
                 :key="index"
                 class="fs-7"
               >
@@ -375,10 +375,10 @@ onMounted(() => {
                   {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
                 </td>
                 <td>
-                  <div class="max-content">{{ key }}</div>
+                  <div class="max-content">{{ item.title }}</div>
                 </td>
                 <td class="text-end">
-                  <div class="max-content">{{ value }} {{ invoiceDetail.base_token }}</div>
+                  <div class="max-content">{{ item.value }} {{ invoiceDetail.base_token }}</div>
                 </td>
               </tr>
 
