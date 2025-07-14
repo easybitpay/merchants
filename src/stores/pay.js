@@ -7,6 +7,9 @@ import { ref, computed } from 'vue'
 // Pinia
 import { defineStore } from 'pinia'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Store
 export const usePayStore = defineStore('pay', () => {
   // ----- States -----
@@ -113,6 +116,19 @@ export const usePayStore = defineStore('pay', () => {
       `paymentTransactions_${response.invoiceID}`,
       JSON.stringify(response.transactions)
     )
+
+    if (
+      paymentTransactions.value &&
+      paymentTransactions.value.length < response.transactions.length
+    ) {
+      const audio = new Audio('/media/transaction.mp3')
+      audio.play()
+      appendAlert('New transaction received!', {
+        color: 'success',
+        type: 'alert'
+      })
+    }
+
     paymentTransactions.value = response.transactions
   }
 
@@ -237,6 +253,7 @@ export const usePayStore = defineStore('pay', () => {
       //
       return { tokens_prices, invoice_status }
     } catch (error) {
+      console.log(error)
       return false
     }
   }

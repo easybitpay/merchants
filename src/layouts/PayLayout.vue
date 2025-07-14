@@ -22,6 +22,7 @@ const props = defineProps({
 const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
 if (sandbox || props.sandbox) {
   document.body.classList.add('sandbox')
+  localStorage.setItem('sandbox', true)
 }
 
 // ----- START ----- //
@@ -50,11 +51,13 @@ const changeBG = () => {
 }
 
 onBeforeUnmount(() => {
+  localStorage.removeItem('sandbox')
   payStore.refreshPayStore()
 })
 
 onBeforeMount(() => {
   localStorage.removeItem('paymentThemeID')
+  localStorage.removeItem('sandbox')
 })
 </script>
 

@@ -14,19 +14,6 @@ import useRedirectPayment from '@/hooks/useRedirectPayment'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue'
-
-// Import Swiper styles
-import 'swiper/css'
-
-import 'swiper/css/navigation'
-
-// import required modules
-import { Navigation } from 'swiper/modules'
-
-const modules = [Navigation]
-
 const emit = defineEmits(['changeBG'])
 
 // ----- START ----- //
@@ -120,33 +107,30 @@ onMounted(() => {
   <!-- end::Spacer -->
 
   <!-- begin::Info -->
-  <div class="auto-infos">
-    <Swiper
-      :spaceBetween="0"
-      :navigation="true"
-      :pagination="{ clickable: true }"
-      :modules="modules"
-      class="primary-navigation small-navigation close-side"
-    >
-      <SwiperSlide v-for="(item, index) in paymentTransactions" :key="index">
-        <div class="item min-w-initial p-0">
-          <p class="title d-flex align-items-center gap-2">
-            TaxID
-            <span class="d-flex align-items-center h-24px bg-primary text-white px-2 rounded fs-8">
-              {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }}
-            </span>
-          </p>
-          <p class="value text-break min-w-initial fs-8 cursor-pointer" @click="copy(item.hash)">
-            {{ item.hash }}
-          </p>
-        </div>
-      </SwiperSlide>
-    </Swiper>
+  <div class="auto-infos payment-transactions">
+    <div class="item" v-for="(item, index) in paymentTransactions" :key="index">
+      <p class="title d-flex align-items-center gap-2">
+        TaxID
+        <span class="d-flex align-items-center h-24px bg-primary text-white px-2 rounded fs-8">
+          {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }} ({{
+            item?.token?.tokenInfo?.network?.name
+          }})
+        </span>
+      </p>
+      <a
+        :href="`${item?.token?.tokenInfo?.network?.explorer_address?.hash}${item.hash}`"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="value text-break fs-8 text-hover-primary"
+      >
+        {{ item.hash }}
+      </a>
+    </div>
   </div>
   <!-- end::Info -->
 
   <!-- begin::Action -->
-  <div class="d-flex flex-wrap gap-4 mt-28">
+  <div class="d-flex flex-wrap gap-4 mt-5">
     <button type="button" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
       <inline-svg
         :src="`/media/icons/shapes/${$filters.shapeStatus('print')}.svg`"

@@ -47,7 +47,7 @@ app.config.globalProperties.$filters = {
 
   shapeStatus(icon, status = 'active') {
     if (status === 'active') {
-      const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
+      let sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
 
       if (sandbox) {
         return `${icon}_yellow`
