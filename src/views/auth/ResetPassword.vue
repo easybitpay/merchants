@@ -115,36 +115,27 @@ const submitPassword = async () => {
   // Validate Form
   const result = await v2$.value.$validate()
   if (result) {
-    // Change Step
-    step.value = 3
+    // Validate Size Of Code
+    if (otpInputValue.value.length == 6) {
+      let content = { ...stepTwoForm.value }
+      content.code = otpInputValue.value
+
+      // Start loading
+      loading.value = true
+
+      // Request
+      await store.resetPassword(content).then((res) => {
+        if (res) {
+          step.value = 4
+        }
+      })
+
+      // Stop loading
+      loading.value = false
+    }
   } else {
     showFeedBacks()
     emit('changeBG')
-  }
-}
-
-/**
- * Change User Password
- * send password with code to api
- */
-const changePass = async () => {
-  // Validate Size Of Code
-  if (otpInputValue.value.length == 6) {
-    let content = { ...stepTwoForm.value }
-    content.code = otpInputValue.value
-
-    // Start loading
-    loading.value = true
-
-    // Request
-    await store.resetPassword(content).then((res) => {
-      if (res) {
-        step.value = 4
-      }
-    })
-
-    // Stop loading
-    loading.value = false
   }
 }
 </script>
@@ -215,86 +206,105 @@ const changePass = async () => {
         class="d-flex flex-column justify-content-between min-h-560px"
       >
         <div>
-          <!-- begin::Icon -->
-          <div class="svg-holder">
-            <inline-svg
-              :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
-              width="21"
-              height="32"
-            ></inline-svg>
-          </div>
-          <!-- end::Icon -->
-
-          <!-- begin::Text -->
-          <h4 class="my-6 text-dark">Reset Password</h4>
-
-          <p class="text-gray-700 mb-12 ls-base">
-            By signing up, you confirm that you’ve read
-            <br />
-            and accepted our User Notice and
-            <a href="" class="text-primary"> Privacy Policy.</a>
-          </p>
-          <!-- end::Text -->
-
-          <div data-password-meter="true">
-            <!-- begin::Password -->
-            <div class="mb-3 position-relative d-flex align-items-center">
-              <input
-                :type="showPass1 ? 'text' : 'password'"
-                class="form-control"
-                placeholder="Password"
-                v-model="stepTwoForm.password"
-              />
-              <div class="invalid-feedback form-control" v-if="v2$.password.$errors.length">
-                <span> {{ v2$.password.$errors[0].$message }}</span>
-              </div>
-
-              <!-- begin::Icon -->
+          <div>
+            <!-- begin::Icon -->
+            <div class="svg-holder">
               <inline-svg
-                @click="showPass1 = !showPass1"
-                :src="`media/icons/icons/${showPass1 ? 'hide' : 'show'}.svg`"
-                class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
+                :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
+                width="21"
+                height="32"
               ></inline-svg>
-              <!-- end::Icon -->
             </div>
-            <!-- end::Password -->
+            <!-- end::Icon -->
 
-            <!--begin::Meter-->
-            <div
-              class="d-flex align-items-center gap-7 px-2 mb-6"
-              data-password-meter-control="highlight"
-            >
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-              <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
-            </div>
-            <!--end::Meter-->
+            <!-- begin::Text -->
+            <h4 class="my-6 text-dark">Reset Password</h4>
 
-            <!-- begin::Confirm Password -->
-            <div class="mb-4 position-relative d-flex align-items-center">
-              <input
-                :type="showPass2 ? 'text' : 'password'"
-                class="form-control"
-                placeholder="rePassword"
-                v-model="stepTwoForm.password_confirmation"
-              />
+            <p class="text-gray-700 mb-12 ls-base">
+              A 6-digit confirmation code has been sent
+              <br />
+              to {{ stepOneForm.email }} via Email.
+              <span class="text-primary"> <CountDown @isRestarted="sendEmail" /></span>
+            </p>
+            <!-- end::Text -->
+
+            <div data-password-meter="true">
+              <!-- begin::Password -->
+              <div class="mb-3 position-relative d-flex align-items-center">
+                <input
+                  id="password"
+                  :type="showPass1 ? 'text' : 'password'"
+                  class="form-control"
+                  placeholder="Password"
+                  v-model="stepTwoForm.password"
+                />
+                <div class="invalid-feedback form-control" v-if="v2$.password.$errors.length">
+                  <span> {{ v2$.password.$errors[0].$message }}</span>
+                </div>
+
+                <!-- begin::Icon -->
+                <inline-svg
+                  @click="showPass1 = !showPass1"
+                  :src="`media/icons/icons/${showPass1 ? 'hide' : 'show'}.svg`"
+                  class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
+                ></inline-svg>
+                <!-- end::Icon -->
+              </div>
+              <!-- end::Password -->
+
+              <!--begin::Meter-->
               <div
-                class="invalid-feedback form-control"
-                v-if="v2$.password_confirmation.$errors.length"
+                class="d-flex align-items-center gap-7 px-2 mb-6"
+                data-password-meter-control="highlight"
               >
-                <span> {{ v2$.password_confirmation.$errors[0].$message }} </span>
+                <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+                <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+                <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
+                <div class="flex-grow-1 bg-gray-200 bg-active-primary rounded h-6px"></div>
               </div>
+              <!--end::Meter-->
 
-              <!-- begin::Icon -->
-              <inline-svg
-                @click="showPass2 = !showPass2"
-                :src="`media/icons/icons/${showPass2 ? 'hide' : 'show'}.svg`"
-                class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
-              ></inline-svg>
-              <!-- end::Icon -->
+              <!-- begin::Confirm Password -->
+              <div class="mb-4 position-relative d-flex align-items-center">
+                <input
+                  id="confirmation"
+                  :type="showPass2 ? 'text' : 'password'"
+                  class="form-control"
+                  placeholder="rePassword"
+                  v-model="stepTwoForm.password_confirmation"
+                />
+                <div
+                  class="invalid-feedback form-control"
+                  v-if="v2$.password_confirmation.$errors.length"
+                >
+                  <span> {{ v2$.password_confirmation.$errors[0].$message }} </span>
+                </div>
+
+                <!-- begin::Icon -->
+                <inline-svg
+                  @click="showPass2 = !showPass2"
+                  :src="`media/icons/icons/${showPass2 ? 'hide' : 'show'}.svg`"
+                  class="position-absolute end-16px cursor-pointer svg-icon-gray-700"
+                ></inline-svg>
+                <!-- end::Icon -->
+              </div>
+              <!-- end::Confirm Password -->
             </div>
-            <!-- end::Confirm Password -->
+          </div>
+
+          <div class="mt-4 pt-4 border-top border-gray-200">
+            <div class="otp-input">
+              <VOtpInput
+                ref="otpInput"
+                input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
+                separator=""
+                :num-inputs="6"
+                :should-auto-focus="false"
+                input-type="numeric"
+                v-model:value="otpInputValue"
+                @on-complete="submitPassword"
+              />
+            </div>
           </div>
         </div>
 
@@ -312,8 +322,8 @@ const changePass = async () => {
           <!-- end::Back Action -->
 
           <!-- begin::Submit Action -->
-          <button type="submit" class="btn btn-primary w-100">
-            Reset Password
+          <button type="submit" :disabled="loading" class="btn btn-primary w-100">
+            {{ loading ? 'Loading...' : 'Reset Password' }}
             <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
           </button>
           <!-- end::Submit Action -->
@@ -322,76 +332,8 @@ const changePass = async () => {
       </form>
       <!-- end::Step 2 - Password -->
 
-      <!-- begin::Step 3 - Get OTP -->
+      <!-- begin::Step 3 - Finalize -->
       <div v-if="step === 3" class="d-flex flex-column justify-content-between min-h-560px">
-        <div>
-          <!-- begin::Icon -->
-          <div class="svg-holder">
-            <inline-svg
-              :src="`media/icons/shapes/${$filters.shapeStatus('lock')}.svg`"
-              width="21"
-              height="32"
-            ></inline-svg>
-          </div>
-          <!-- end::Icon -->
-
-          <!-- begin::Text -->
-          <h4 class="my-6 text-dark">Reset Password</h4>
-
-          <p class="text-gray-700 mb-12 ls-base">
-            A 6-digit confirmation code has been sent
-            <br />
-            to {{ stepOneForm.email }} via Email.
-            <span class="text-primary"> <CountDown @isRestarted="sendEmail" /></span>
-          </p>
-          <!-- end::Text -->
-
-          <!-- begin::OTP -->
-          <div class="otp-input">
-            <VOtpInput
-              ref="otpInput"
-              input-classes="form-control p-0 w-40px h-40px w-sm-48px h-sm-48px text-center fs-4"
-              separator=""
-              :num-inputs="6"
-              :should-auto-focus="true"
-              input-type="numeric"
-              v-model:value="otpInputValue"
-              @on-complete="changePass"
-            />
-          </div>
-          <!-- end::OTP -->
-        </div>
-
-        <!-- begin::Actions -->
-        <div class="d-flex gap-4">
-          <!-- begin::Back Action -->
-          <div>
-            <button type="button" class="btn btn-light p-0 w-40px" @click="step = 2">
-              <inline-svg
-                src="media/icons/icons/arrow-left.svg"
-                class="svg-icon-primary"
-              ></inline-svg>
-            </button>
-          </div>
-          <!-- end::Back Action -->
-
-          <!-- begin::Submit Action -->
-          <button
-            type="submit"
-            class="btn btn-primary w-100"
-            @click="changePass"
-            :disabled="loading"
-          >
-            {{ loading ? 'Loading...' : 'Finalize New Password' }}
-          </button>
-          <!-- end::Submit Action -->
-        </div>
-        <!-- end::Actions -->
-      </div>
-      <!-- end::Step 3 - Get OTP -->
-
-      <!-- begin::Step 4 - Get OTP -->
-      <div v-if="step === 4" class="d-flex flex-column justify-content-between min-h-560px">
         <div>
           <!-- begin::Icon -->
           <div class="svg-holder">
@@ -423,7 +365,7 @@ const changePass = async () => {
         <RouterLink :to="{ name: 'login' }" class="btn btn-primary w-100"> Login </RouterLink>
         <!-- end::Go Login -->
       </div>
-      <!-- end::Step 4 - Get OTP -->
+      <!-- end::Step 4 - Finalize -->
     </div>
   </div>
 
