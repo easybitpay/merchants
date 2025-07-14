@@ -122,7 +122,7 @@ const changeTwoFaStatus = async () => {
     }
 
     // Stop Loading
-    loadings.value.login = false
+    loadings.value.submit = false
   } else {
     showFeedBacks()
   }
