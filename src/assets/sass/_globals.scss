@@ -805,12 +805,6 @@ body.sandbox.email-verify {
 .application-card {
     transition: box-shadow linear .3s;
 
-    &:has(.partners) {
-        .type {
-            display: none;
-        }
-    }
-
     .type {
         display: flex;
         align-items: center;
@@ -822,19 +816,6 @@ body.sandbox.email-verify {
         padding: 0 1.25rem;
     }
 
-    .partners {
-        display: flex;
-    }
-
-    &.have-partners:hover {
-        .type {
-            display: flex;
-        }
-
-        .partners {
-            display: none;
-        }
-    }
 
     .name {
         display: flex;
@@ -1137,6 +1118,7 @@ body.sandbox.email-verify {
             border-left: none;
             padding: .5rem 0 !important;
             min-width: initial;
+
             .value {
                 min-width: initial;
                 text-align: left;

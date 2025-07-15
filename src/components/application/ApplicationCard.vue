@@ -86,9 +86,14 @@ watch(partnerListKey, () => {
     >
       <div class="d-flex flex-column align-items-start w-100 overflow-auto">
         <div class="mb-4">
-          <!-- begin::Type -->
-          <span class="type"> {{ convartAppType(app.type) }} </span>
-          <!-- end::Type -->
+          <!-- begin::Logo -->
+          <img
+            :src="app.logo ? storageImage(app.logo, 48) : '/media/images/banner/default-app.png'"
+            :alt="app.name"
+            class="img-fluid rounded-1"
+            width="48"
+          />
+          <!-- end::Logo -->
 
           <!-- begin::Partners -->
           <div class="partners" v-if="holders.length">
