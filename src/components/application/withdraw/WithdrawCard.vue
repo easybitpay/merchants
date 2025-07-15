@@ -20,7 +20,7 @@ import { helpers, required } from '@vuelidate/validators'
 import WAValidator from 'multicoin-address-validator/dist/wallet-address-validator.js'
 
 // Bootstrap
-import { Offcanvas } from 'bootstrap'
+import { Offcanvas, Dropdown } from 'bootstrap'
 
 // Component
 import CoinDropdown from '../../../components/globals/CoinDropdown.vue'
@@ -96,6 +96,14 @@ const rules = {
 const v$ = useVuelidate(rules, form)
 
 // Functions
+
+/**
+ * Open Coin Dropdown
+ */
+const openDropdown = () => {
+  const bsDropdown = new Dropdown('.select-coin-dropdown')
+  bsDropdown.toggle()
+}
 
 /**
  * Toggle Withdraw Token
@@ -230,7 +238,10 @@ watch(
           <div class="d-flex gap-2">
             <div>
               <div class="svg-holder">
-                <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('invoice')}.svg`" height="34"></inline-svg>
+                <inline-svg
+                  :src="`/media/icons/shapes/${$filters.shapeStatus('invoice')}.svg`"
+                  height="34"
+                ></inline-svg>
               </div>
             </div>
 
@@ -265,10 +276,11 @@ watch(
                   <input
                     id="amount"
                     type="number"
-                    class="form-control px-9"
+                    class="form-control px-9 cursor-pointer"
                     placeholder="Amount"
                     v-model="form.amount"
                     readonly
+                    @click="openDropdown()"
                   />
 
                   <div
@@ -294,6 +306,7 @@ watch(
                       v-if="!mainLoading && balances.length"
                       showImage
                       showCoinNetwork
+                      showBalance
                       check="id"
                       :items="balances"
                       :selected="withdrawToken"

@@ -30,6 +30,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showBalance: {
+    type: Boolean,
+    default: false
+  },
   show: {
     type: String,
     default: 'symbol'
@@ -106,7 +110,6 @@ const filteredItems = () => {
       class="dropdown-toggle"
       role="button"
       :disabled="disabled"
-      id="coinDropdownMenuLink"
       data-bs-toggle="dropdown"
       aria-expanded="false"
       data-bs-auto-close="true"
@@ -119,7 +122,11 @@ const filteredItems = () => {
         />
       </div>
 
-      <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('balance-2')}.svg`" height="24" width="24"></inline-svg>
+      <inline-svg
+        :src="`media/icons/shapes/${$filters.shapeStatus('balance-2')}.svg`"
+        height="24"
+        width="24"
+      ></inline-svg>
     </a>
 
     <ul class="dropdown-menu dropdown-menu-end w-100" aria-labelledby="coinDropdownMenuLink">
@@ -158,6 +165,8 @@ const filteredItems = () => {
                 {{ item.network?.name || showNetwork(item.network_id) }}
               </span>
             </div>
+
+            <span v-if="showBalance">{{ item.balance }}</span>
           </a>
         </li>
         <!-- end::Item -->
