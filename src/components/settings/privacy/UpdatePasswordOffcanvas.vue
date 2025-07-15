@@ -34,19 +34,28 @@ const showPass2 = ref(false)
 const showPass3 = ref(false)
 
 // Computeds
-const passwordComputed = computed(() => form.value.password)
+const currentUser = computed(() => store.currentUser)
+const passwordComputed = computed(() => newPasswordForm.value.password)
 
 // Vuelidate
-const form = ref({
-  old_password: null,
+const oldPasswordForm = ref({
+  old_password: null
+})
+
+const oldPasswordRules = {
+  old_password: {
+    required: helpers.withMessage('Current password is required', required)
+  }
+}
+
+const oldPasswordV$ = useVuelidate(oldPasswordRules, oldPasswordForm)
+
+const newPasswordForm = ref({
   password: null,
   confirm_password: null
 })
 
-const rules = {
-  old_password: {
-    required: helpers.withMessage('Current password is required', required)
-  },
+const newPasswordRules = {
   password: {
     required: helpers.withMessage('New password is required', required)
   },
@@ -56,7 +65,7 @@ const rules = {
   }
 }
 
-const v$ = useVuelidate(rules, form)
+const newPasswordV$ = useVuelidate(newPasswordRules, newPasswordForm)
 
 // Functions
 
@@ -64,12 +73,16 @@ const v$ = useVuelidate(rules, form)
  * Reset Form
  */
 const resetForm = () => {
-  form.value = {
-    old_password: null,
+  newPasswordForm.value = {
     password: null,
     confirm_password: null
   }
-  v$.value.$reset()
+  newPasswordV$.value.$reset()
+
+  oldPasswordForm = {
+    old_password: null
+  }
+  oldPasswordV$.value.$reset()
 }
 
 /**
@@ -85,8 +98,14 @@ const closeOffcanvas = () => {
  */
 const updatePassword = async () => {
   // Validion Form
-  const result = await v$.value.$validate()
-  if (result) {
+  let oldPasswordResult = true;
+  const newPasswordResult = await newPasswordV$.value.$validate()
+
+  if (currentUser.value.merchant.password) {
+    oldPasswordResult = await oldPasswordV$.value.$validate()
+  }
+
+  if (oldPasswordResult && newPasswordResult) {
     // Start Loading
     loading.value = true
 
@@ -95,9 +114,9 @@ const updatePassword = async () => {
 
     let fd = new FormData()
     fd.append('_method', 'put')
-    fd.append('old_password', form.value.old_password)
-    fd.append('password', form.value.password)
-    fd.append('confirm_password', form.value.confirm_password)
+    fd.append('old_password', oldPasswordForm.value.old_password)
+    fd.append('password', newPasswordForm.value.password)
+    fd.append('confirm_password', newPasswordForm.value.confirm_password)
 
     // Request
     await store.updatePassword({ fd, updateTime }).then((res) => {
@@ -178,15 +197,18 @@ onMounted(() => {
             <!-- begin::Content -->
             <div>
               <!-- begin::Old Password -->
-              <div class="mb-4 position-relative d-flex align-items-center">
+              <div class="mb-4 position-relative d-flex align-items-center" v-if="currentUser.merchant.password">
                 <input
                   :type="showPass1 ? 'text' : 'password'"
                   class="form-control"
                   placeholder="Current Password"
-                  v-model="form.old_password"
+                  v-model="oldPasswordForm.old_password"
                 />
-                <div class="invalid-feedback form-control" v-if="v$.old_password.$errors.length">
-                  <span> {{ v$.old_password.$errors[0].$message }}</span>
+                <div
+                  class="invalid-feedback form-control"
+                  v-if="oldPasswordV$.old_password.$errors.length"
+                >
+                  <span> {{ oldPasswordV$.old_password.$errors[0].$message }}</span>
                 </div>
 
                 <!-- begin::Icon -->
@@ -206,10 +228,13 @@ onMounted(() => {
                     :type="showPass2 ? 'text' : 'password'"
                     class="form-control"
                     placeholder="New Password"
-                    v-model="form.password"
+                    v-model="newPasswordForm.password"
                   />
-                  <div class="invalid-feedback form-control" v-if="v$.password.$errors.length">
-                    <span> {{ v$.password.$errors[0].$message }}</span>
+                  <div
+                    class="invalid-feedback form-control"
+                    v-if="newPasswordV$.password.$errors.length"
+                  >
+                    <span> {{ newPasswordV$.password.$errors[0].$message }}</span>
                   </div>
 
                   <!-- begin::Icon -->
@@ -240,13 +265,13 @@ onMounted(() => {
                     :type="showPass3 ? 'text' : 'password'"
                     class="form-control"
                     placeholder="rePassword"
-                    v-model="form.confirm_password"
+                    v-model="newPasswordForm.confirm_password"
                   />
                   <div
                     class="invalid-feedback form-control"
-                    v-if="v$.confirm_password.$errors.length"
+                    v-if="newPasswordV$.confirm_password.$errors.length"
                   >
-                    <span> {{ v$.confirm_password.$errors[0].$message }} </span>
+                    <span> {{ newPasswordV$.confirm_password.$errors[0].$message }} </span>
                   </div>
 
                   <!-- begin::Icon -->
