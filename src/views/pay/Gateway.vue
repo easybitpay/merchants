@@ -378,6 +378,11 @@ onUnmounted(() => {
   </div>
   <!-- end::Qr Code -->
 
+  <div class="text-center pt-4">
+    Waiting for payment
+    <span class="spinner-border spinner-border-sm" role="status"></span>
+  </div>
+
   <template v-if="paymentTransactions.length">
     <!-- begin::Spacer -->
     <div class="border-bottom border-gray-400 w-100 mt-10 mb-4"></div>
@@ -389,7 +394,9 @@ onUnmounted(() => {
         <p class="title d-flex align-items-center gap-2">
           TaxID
           <span class="d-flex align-items-center h-24px bg-primary text-white px-2 rounded fs-8">
-            {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }} ({{ item?.token?.tokenInfo?.network?.name }})
+            {{ item.amount }} {{ item?.token?.tokenInfo?.symbol }} ({{
+              item?.token?.tokenInfo?.network?.name
+            }})
           </span>
         </p>
         <a
