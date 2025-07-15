@@ -5,6 +5,9 @@ import { computed, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
+// Alert
+import { appendAlert } from '@/assets/js/Alerts'
+
 // Hook
 import useIconImage from '@/hooks/useIconImage'
 
@@ -40,11 +43,22 @@ const coverInputClick = () => {
  * @param {event} e
  */
 const addIconFile = async (e) => {
+  // Set Variable
+  const maximumSize = 200 * 1024
+  let logo = e.target.files[0]
+
+  if (logo.size > maximumSize) {
+    appendAlert('File size must be less than 200KB', {
+      color: 'danger',
+      type: 'alert'
+    })
+    return
+  }
+
   // Start Loading
   loadings.value.icon = true
 
   // Set Variable
-  let logo = e.target.files[0]
   const id = selectedApp.value.id
 
   let fd = new FormData()
@@ -62,11 +76,22 @@ const addIconFile = async (e) => {
  * @param {event} e
  */
 const addCoverFile = async (e) => {
+  // Set Variable
+  const maximumSize = 200 * 1024
+  let banner = e.target.files[0]
+
+  if (banner.size > maximumSize) {
+    appendAlert('File size must be less than 200KB', {
+      color: 'danger',
+      type: 'alert'
+    })
+    return
+  }
+
   // Start Loading
   loadings.value.banner = true
 
   // Set Variable
-  let banner = e.target.files[0]
   const id = selectedApp.value.id
 
   let fd = new FormData()
@@ -90,7 +115,11 @@ const addCoverFile = async (e) => {
     <div class="card-body d-flex flex-column">
       <!-- begin::Logo -->
       <img
-        :src="selectedApp.logo ? storageImage(selectedApp.logo, 48) : '/media/images/banner/default-app.png'"
+        :src="
+          selectedApp.logo
+            ? storageImage(selectedApp.logo, 48)
+            : '/media/images/banner/default-app.png'
+        "
         :alt="selectedApp.name"
         class="img-fluid mb-10 mb-lg-16 rounded-1"
         width="48"
@@ -101,7 +130,9 @@ const addCoverFile = async (e) => {
         <!-- begin::Type & Name -->
         <div>
           <p class="mb-2">as {{ $filters.capitalize(selectedApp.share_type) }}</p>
-          <h2 :class="`mb-0 text-app-${selectedApp.settings.color} lh-1`">{{ selectedApp.name }}</h2>
+          <h2 :class="`mb-0 text-app-${selectedApp.settings.color} lh-1`">
+            {{ selectedApp.name }}
+          </h2>
         </div>
         <!-- end::Type & Name -->
 
