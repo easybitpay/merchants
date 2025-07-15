@@ -20,6 +20,15 @@ const store = useAppStore()
 // Computeds
 const selectedApp = computed(() => store.selectedApp)
 const { actionShareAllowed } = useActionShareAllowed()
+
+/**
+ * Gateway List Status Converter
+ */
+const convartAppType = (type) => {
+  if (type == '1') return 'API'
+  if (type == '2') return 'Custom'
+  if (type == '3') return 'Donate'
+}
 </script>
 
 <template>
@@ -73,6 +82,10 @@ const { actionShareAllowed } = useActionShareAllowed()
           actionShareAllowed(selectedApp.share_type, 'edit_app') ? 'appInfo_offcanvas' : ''
         "
       />
+      <!-- end::Item -->
+
+      <!-- begin::Item -->
+      <TextColumn title="Gateway Type" :content="convartAppType(selectedApp.type)" />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
