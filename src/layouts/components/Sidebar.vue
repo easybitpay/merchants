@@ -247,7 +247,7 @@ watch(search, () => {
                     <!-- <div class="w-8px h-8px rounded-circle bg-success"></div> -->
                   </div>
 
-                  <span>{{ app.name }}</span>
+                  <span class="ellipsis" style="--ellipsis-width: 100%">{{ app.name }}</span>
                 </router-link>
               </div>
             </div>
