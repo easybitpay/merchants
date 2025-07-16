@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
@@ -100,9 +100,18 @@ const v$ = useVuelidate(rules, form)
 /**
  * Open Coin Dropdown
  */
-const openDropdown = () => {
-  const bsDropdown = new Dropdown('.select-coin-dropdown')
-  bsDropdown.toggle()
+const openDropdown = async () => {
+  setTimeout(() => {
+    const dropdownToggle = document.querySelector('.select-coin-dropdown .dropdown-toggle')
+
+    if (!dropdownToggle) {
+      console.warn('Dropdown not found')
+      return
+    }
+
+    const bsDropdown = Dropdown.getOrCreateInstance(dropdownToggle)
+    bsDropdown.toggle()
+  }, 50) 
 }
 
 /**
