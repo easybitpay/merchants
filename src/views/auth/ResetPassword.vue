@@ -27,7 +27,7 @@ const { showFeedBacks } = useForm()
 const store = useAuthStore()
 
 // Refs
-const step = ref(2)
+const step = ref(1)
 
 const loading = ref(false)
 const otpInputValue = ref('')
