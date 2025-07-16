@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
@@ -100,7 +100,7 @@ const v$ = useVuelidate(rules, form)
 /**
  * Open Coin Dropdown
  */
-const openDropdown = async () => {
+const openDropdown = () => {
   setTimeout(() => {
     const dropdownToggle = document.querySelector('.select-coin-dropdown .dropdown-toggle')
 
