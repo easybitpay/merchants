@@ -27,7 +27,7 @@ const { showFeedBacks } = useForm()
 const store = useAuthStore()
 
 // Refs
-const step = ref(1)
+const step = ref(2)
 
 const loading = ref(false)
 const otpInputValue = ref('')
@@ -293,6 +293,9 @@ const submitPassword = async () => {
           </div>
 
           <div class="mt-4 pt-4 border-top border-gray-200">
+            <p class="text-gray-700 mb-3 ls-base fs-7">
+              Enter verification code here.
+            </p>
             <div class="otp-input">
               <VOtpInput
                 ref="otpInput"
