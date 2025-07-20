@@ -14,6 +14,14 @@ import useRedirectPayment from '@/hooks/useRedirectPayment'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
+// Props
+const props = defineProps({
+
+  isMobile: {
+    type: Boolean
+  }
+})
+
 const emit = defineEmits(['changeBG'])
 
 // ----- START ----- //
@@ -87,7 +95,7 @@ onMounted(() => {
     <!-- end::Item -->
 
     <!-- begin::Item -->
-    <div class="item">
+    <div class="item" v-if="!isMobile">
       <p class="title">Transaction Count</p>
       <p class="value">{{ paymentTransactions.length }}</p>
     </div>
