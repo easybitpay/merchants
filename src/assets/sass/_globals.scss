@@ -799,6 +799,10 @@ body.sandbox.email-verify {
             padding-left: 0;
             border: none;
         }
+
+        &:last-child {
+            padding-right: 0;
+        }
     }
 }
 

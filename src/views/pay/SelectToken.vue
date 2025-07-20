@@ -24,6 +24,9 @@ const props = defineProps({
   sandbox: {
     type: Boolean,
     default: false
+  },
+  isMobile: {
+    type: Boolean
   }
 })
 
@@ -366,11 +369,7 @@ onMounted(() => {
             </thead>
 
             <tbody>
-              <tr
-                v-for="(item, index) in invoiceDetail.invoice_items"
-                :key="index"
-                class="fs-7"
-              >
+              <tr v-for="(item, index) in invoiceDetail.invoice_items" :key="index" class="fs-7">
                 <td>
                   {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
                 </td>
@@ -460,7 +459,7 @@ onMounted(() => {
       <!-- begin::Info -->
       <div class="auto-infos">
         <!-- begin::Item -->
-        <div class="item">
+        <div class="item" v-if="!isMobile">
           <p class="title">Status</p>
           <p :class="`value text-${convertFillToColor}`">{{ filledPercent }}%</p>
         </div>

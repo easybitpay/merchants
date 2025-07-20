@@ -36,6 +36,9 @@ const props = defineProps({
   sandbox: {
     type: Boolean,
     default: false
+  },
+  isMobile: {
+    type: Boolean
   }
 })
 
@@ -262,7 +265,7 @@ onUnmounted(() => {
   <!-- begin::Info -->
   <div class="auto-infos">
     <!-- begin::Item -->
-    <div class="item">
+    <div class="item" v-if="!isMobile">
       <p class="title">Status</p>
       <p :class="`value text-${convertFillToColor}`">{{ filledPercent }}%</p>
     </div>

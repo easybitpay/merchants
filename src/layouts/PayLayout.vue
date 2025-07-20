@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, onBeforeUnmount,onBeforeMount, ref } from 'vue'
+import { computed, onBeforeUnmount, onBeforeMount, ref, onMounted } from 'vue'
 
 // Hooks
 import useIconImage from '@/hooks/useIconImage'
@@ -32,6 +32,7 @@ const store = usePayStore()
 const { storageImage } = useIconImage()
 
 // Refs
+const isMobile = ref(false)
 const errorStatus = ref(false)
 const timeout = ref(null)
 
@@ -49,6 +50,15 @@ const changeBG = () => {
     errorStatus.value = false
   }, 5000)
 }
+
+onMounted(() => {
+  const checkIsMobile = () => {
+    isMobile.value = window.matchMedia('(max-width: 768px)').matches
+  }
+
+  checkIsMobile()
+  window.addEventListener('resize', checkIsMobile)
+})
 
 onBeforeUnmount(() => {
   localStorage.removeItem('sandbox')
@@ -73,7 +83,7 @@ onBeforeMount(() => {
             <div class="card-body">
               <GatewayInfo />
 
-              <RouterView @changeBG="changeBG" />
+              <RouterView :isMobile="isMobile" @changeBG="changeBG" />
             </div>
           </div>
           <!-- end::Card -->
