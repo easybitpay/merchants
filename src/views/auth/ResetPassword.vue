@@ -126,7 +126,7 @@ const submitPassword = async () => {
       // Request
       await store.resetPassword(content).then((res) => {
         if (res) {
-          step.value = 4
+          step.value = 3
         }
       })
 

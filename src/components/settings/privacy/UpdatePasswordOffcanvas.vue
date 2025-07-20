@@ -79,7 +79,7 @@ const resetForm = () => {
   }
   newPasswordV$.value.$reset()
 
-  oldPasswordForm = {
+  oldPasswordForm.value = {
     old_password: null
   }
   oldPasswordV$.value.$reset()
