@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 // Store
@@ -14,8 +14,21 @@ import CreateInvoiceOffcanvas from '../components/application/CreateInvoiceOffca
 const route = useRoute()
 const store = useAppStore()
 
+// Refs
+const createInvoiceRefreshKey = ref(0)
+
+// Computeds
 const appId = computed(() => route.params.id)
 const selectedApp = computed(() => store.selectedApp)
+
+// Functions
+
+/**
+ * Update Create Invoice Component
+ */
+const refreshCreateInvoice = () => {
+  createInvoiceRefreshKey.value++
+}
 
 onMounted(() => {
   store.setSelectedApp(appId.value)
@@ -42,10 +55,10 @@ onMounted(() => {
     </header>
 
     <div class="d-flex flex-column flex-root" v-if="selectedApp.id">
-      <RouterView />
+      <RouterView @refreshCreateInvoice="refreshCreateInvoice" />
     </div>
   </div>
 
   <AddPartnerOffcanvas />
-  <CreateInvoiceOffcanvas />
+  <CreateInvoiceOffcanvas :key="createInvoiceRefreshKey" />
 </template>

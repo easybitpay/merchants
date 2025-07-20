@@ -19,6 +19,9 @@ import GatewayTheme from '../../../components/application/setting/GatewayTheme.v
 import AppColor from '../../../components/application/setting/AppColor.vue'
 import Partners from '../../../components/application/Partners.vue'
 
+// Emit
+const emit = defineEmits(['refreshCreateInvoice'])
+
 // ----- START ----- //
 
 // Generals
@@ -38,6 +41,7 @@ const selectedApp = computed(() => store.selectedApp)
  */
 const refreshAvailableCoins = () => {
   availableCoinsRefreshKey.value++
+  emit('refreshCreateInvoice')
 }
 </script>
 
