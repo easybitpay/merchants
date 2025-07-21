@@ -469,7 +469,7 @@ onMounted(() => {
         <div class="item">
           <p class="title">Amount</p>
           <p class="value">
-            {{ selectedNetwork.amount_remain ? selectedNetwork.amount_remain : 'not Selected' }}
+            {{ selectedNetwork.amount_remain ? selectedNetwork.amount_remain : '-' }}
           </p>
         </div>
         <!-- end::Item -->
@@ -477,7 +477,7 @@ onMounted(() => {
         <!-- begin::Item -->
         <div class="item">
           <p class="title">Coin</p>
-          <p class="value">{{ selectedCoin.symbol || 'not Selected' }}</p>
+          <p class="value">{{ selectedCoin.symbol || '-' }}</p>
         </div>
         <!-- end::Item -->
 
@@ -485,7 +485,7 @@ onMounted(() => {
         <div class="item">
           <p class="title">Netrwok</p>
           <p class="value">
-            {{ selectedNetwork.name ? `${selectedNetwork.name.toUpperCase()}` : 'not Selected' }}
+            {{ selectedNetwork.name ? `${selectedNetwork.name.toUpperCase()}` : '-' }}
           </p>
         </div>
         <!-- end::Item -->
