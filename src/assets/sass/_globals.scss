@@ -652,6 +652,15 @@ body.sandbox.email-verify {
             // overflow: auto;
         }
     }
+
+    @media (max-width: 576px) {
+        &.sidebar-hide {
+            padding-left: 0;
+            #sidebar {
+                left: -72px;
+            }
+        }
+    }
 }
 
 .transition-all {
