@@ -89,7 +89,7 @@ onMounted(async () => {
     @click="changeShowSidebar"
     style="position: fixed; top: 1rem; right: 1rem;"
   >
-    <inline-svg :src="`/media/icons/icons/${showSidebar ? 'close' : 'grid'}.svg`"></inline-svg>
+    <inline-svg :src="`/media/icons/icons/${showSidebar ? 'Scale' : 'grid'}.svg`" width="32px" height="32px" class="svg-icon-primary"></inline-svg>
   </button>
 
   <LockScreen />
