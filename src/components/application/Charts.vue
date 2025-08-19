@@ -339,7 +339,7 @@ const getAppBalanceChart = async (page) => {
         currentPage.value = page
         lastPage.value = res.totalPages
         let list = res.list
-        chartData.value.labels = list.labels
+        chartData.value.labels = list.labels.reverse()
         let datas = []
         let symbols = []
 
@@ -349,7 +349,7 @@ const getAppBalanceChart = async (page) => {
 
           datas.push({
             label: `${element.token.symbol} (${element.token.network.name})`,
-            data: element.data,
+            data: element.data.reverse(),
             borderColor: '',
             backgroundColor: '',
             tension: 0.5,
