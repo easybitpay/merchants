@@ -88,7 +88,7 @@ onBeforeMount(() => {
               <ul class="list-unstyled d-flex align-items-center flex-wrap column-gap-8 row-gap-4 mt-8 mb-0">
                 <li>
                   <a
-                    href="http://easybitpay.com/downloads/easybitpay.apk"
+                    href="https://easybitpay.com/downloads/easybitpay.apk"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="d-flex align-items-center gap-2"
