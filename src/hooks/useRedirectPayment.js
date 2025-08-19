@@ -55,7 +55,7 @@ export default function useRedirectPayment(sandbox) {
   // Redirect
   const redirect = (code) => {
     let message = ''
-    const orderId = invoiceDetail.value?.customer_info?.client_order_identifier || null
+    const orderId = invoiceDetail.value?.client_order_identifier || null
 
     //
     if (code == 1) message = 'Your payment has been expired'

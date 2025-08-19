@@ -342,7 +342,7 @@ const createInvoice = async () => {
   }
 
   if (form.value.client_order_identifier) {
-    customer_info.client_order_identifier = form.value.client_order_identifier
+    content.client_order_identifier = form.value.client_order_identifier
   }
 
   if (form.value.description) {

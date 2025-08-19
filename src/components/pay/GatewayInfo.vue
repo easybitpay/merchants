@@ -86,8 +86,8 @@ const payLoading = computed(() => store.payLoading)
 
         <!-- begin::Invoice ID -->
         <div>
-          <p class="invoice-code mb-2" v-if="invoiceDetail?.customer_info?.client_order_identifier">
-            #{{ invoiceDetail.customer_info.client_order_identifier }}
+          <p class="invoice-code mb-2" v-if="invoiceDetail?.client_order_identifier">
+            #{{ invoiceDetail.client_order_identifier }}
           </p>
 
           <p class="invoice-code">#{{ invoiceCode }}</p>
