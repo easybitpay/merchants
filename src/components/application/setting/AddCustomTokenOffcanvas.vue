@@ -385,7 +385,10 @@ onMounted(() => {
                     :style="`--background: url(${file.preview})`"
                     class="gradient-image-box hover-shadow h-40px border border-gray-300 rounded ps-4 pe-2 d-flex align-items-center justify-content-between text-gray-800 text-hover-primary hover-show-parent"
                   >
-                    <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">{{ file.name }}</p>
+                    <div class="w-50 d-flex align-items-center gap-2">
+                      <img :src="file.preview" :alt="file.name" class="w-24px h-24px">
+                      <p class="mb-0 ellipsis" style="--ellipsis-width: 100%">{{ file.name }}</p>
+                    </div>
 
                     <inline-svg
                       @click="removeFiles(file)"
