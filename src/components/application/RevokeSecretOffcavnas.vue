@@ -142,7 +142,8 @@ onMounted(() => {
                 <h3 class="mb-0 text-gray-900">Revoke Secret</h3>
 
                 <p class="fs-7 mb-0 text-gray-800 ls-base">
-                  Some info may be visible to other people using Google services.
+                  Updating your secret key will require you to update your payment gateway settings
+                  as well.
                 </p>
               </div>
             </div>
@@ -150,14 +151,12 @@ onMounted(() => {
 
             <!-- begin::Content -->
             <div>
-              <p class="text-gray-900 ls-base mb-0">
-                "Existential" redirects here. For the logical sense of the term, see Existential
-                quantification. For other uses, see Existence (disambiguation).For the philosophical
-                position commonly seen as the antonym of existentialism, see Essentialism. Clockwise
-                from top left: Søren Kierkegaard, Simone de Beauvoir, Jean-Paul Sartre, Friedrich
-                NietzscheExistentialism is a form of philosophical inquiry that explores the issue
-                of human existence. Existentialist philosophers explore questions related to the
-                meaning, purpose, and value of human existence.
+              <p class="text-gray-900 ls-base mb-0 text-justify">
+                Please note that changing your secret key will invalidate your previous one. To
+                ensure uninterrupted transactions, you must also update your payment gateway
+                configuration with the new secret key. Failing to do so may cause payment processing
+                errors or failed transactions. Make sure to copy and apply the new key in your
+                gateway settings immediately after updating it here.
               </p>
 
               <!-- begin::OTP -->
