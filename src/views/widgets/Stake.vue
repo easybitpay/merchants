@@ -10,8 +10,8 @@ import { useStakeStore } from '@/stores/stake'
 import { appendAlert } from '@/assets/js/Alerts'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
-import useCallContract from '@/hooks/useCallContract.js'
+import useForm from '@/composables/useForm.js'
+import useCallContract from '@/composables/useCallContract.js'
 
 // UUID For Unique ID
 import { v4 as uuidv4 } from 'uuid'

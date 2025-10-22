@@ -6,8 +6,8 @@ import { onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useIconImage from '@/hooks/useIconImage'
-import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+import useIconImage from '@/composables/useIconImage'
+import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
 
 // Props
 const props = defineProps({

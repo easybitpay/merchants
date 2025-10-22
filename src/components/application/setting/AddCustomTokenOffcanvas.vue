@@ -7,8 +7,8 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
-import useIconImage from '@/hooks/useIconImage'
+import useForm from '@/composables/useForm.js'
+import useIconImage from '@/composables/useIconImage'
 
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'

@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import { Tooltip } from 'bootstrap'
 
 // Hook
-import useSortTable from '@/hooks/useSortTable'
+import useSortTable from '@/composables/useSortTable'
 
 // Components
 import PaginationCard from '../../globals/PaginationCard.vue'

@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useConvertDate from '@/hooks/useConvertDate'
+import useConvertDate from '@/composables/useConvertDate'
 
 // Componets
 import TwoFaOffcanvas from './TwoFaOffcanvas.vue'

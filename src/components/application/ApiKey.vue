@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
 
 // Component
 import RevokeSecretOffcavnas from './RevokeSecretOffcavnas.vue'

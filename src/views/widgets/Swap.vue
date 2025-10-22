@@ -10,7 +10,7 @@ import { useSwapStore } from '@/stores/swap'
 import { appendAlert } from '@/assets/js/Alerts'
 
 // Hooks
-import useCallContract from '@/hooks/useCallContract.js'
+import useCallContract from '@/composables/useCallContract.js'
 
 // Componenets
 import SelectDropdown from '../../components/globals/SelectDropdown.vue'

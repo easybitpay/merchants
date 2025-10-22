@@ -6,7 +6,7 @@ import { computed, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useIconImage from '@/hooks/useIconImage'
+import useIconImage from '@/composables/useIconImage'
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'

@@ -6,8 +6,8 @@ import { onMounted, ref } from 'vue'
 import { useTicketStore } from '@/stores/ticket'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
-import useConvertDate from '@/hooks/useConvertDate.js'
+import useForm from '@/composables/useForm.js'
+import useConvertDate from '@/composables/useConvertDate.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useIconImage from '@/hooks/useIconImage'
+import useIconImage from '@/composables/useIconImage'
 
 // Color Thief
 import ColorThief from 'colorthief'

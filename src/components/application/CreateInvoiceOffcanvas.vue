@@ -6,8 +6,8 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
-import useIconImage from '@/hooks/useIconImage'
+import useForm from '@/composables/useForm.js'
+import useIconImage from '@/composables/useIconImage'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

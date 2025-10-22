@@ -3,7 +3,7 @@
 import { computed, ref, onMounted } from 'vue'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
+import useForm from '@/composables/useForm.js'
 
 // Components
 import SelectColorDropdown from '../globals/SelectColorDropdown.vue'

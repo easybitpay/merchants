@@ -6,7 +6,7 @@ import { computed, ref, onMounted } from 'vue'
 import { useExchangeStore } from '@/stores/exchange'
 
 // Hooks
-import useForm from '@/hooks/useForm.js'
+import useForm from '@/composables/useForm.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

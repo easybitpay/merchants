@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useConvertDate from '@/hooks/useConvertDate.js'
+import useConvertDate from '@/composables/useConvertDate.js'
 
 // Components
 import ValueCard from './ValueCard.vue'

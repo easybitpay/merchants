@@ -3,7 +3,7 @@
 import { ref, onMounted } from 'vue'
 
 // Hook
-import useAccordion from '@/hooks/useAccordion'
+import useAccordion from '@/composables/useAccordion'
 
 // Component
 import PaginationCard from '../../components/globals/PaginationCard.vue'

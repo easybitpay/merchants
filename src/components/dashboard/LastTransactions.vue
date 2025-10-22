@@ -6,8 +6,8 @@ import { onMounted, ref, watch } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useSortTable from '@/hooks/useSortTable'
-import useConvertDate from '@/hooks/useConvertDate'
+import useSortTable from '@/composables/useSortTable'
+import useConvertDate from '@/composables/useConvertDate'
 
 // Components
 import LastTransactionsItemLoading from '../loadings/LastTransactionsItemLoading.vue'

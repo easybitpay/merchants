@@ -6,7 +6,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
+import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
 
 // Bootstrap
 import { Offcanvas } from 'bootstrap'

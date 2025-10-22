@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import moment from 'moment'
 
 // Hooks
-import useConvertDate from '@/hooks/useConvertDate'
+import useConvertDate from '@/composables/useConvertDate'
 
 // Chart Js
 import { Line } from 'vue-chartjs'

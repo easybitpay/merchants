@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useIconImage from '@/hooks/useIconImage'
+import useIconImage from '@/composables/useIconImage'
 
 // Components
 import NewKycOffcanvas from './NewKycOffcanvas.vue'

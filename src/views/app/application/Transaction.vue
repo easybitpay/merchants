@@ -12,7 +12,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Tooltip } from 'bootstrap'
 
 // Hook
-import useSortTable from '@/hooks/useSortTable'
+import useSortTable from '@/composables/useSortTable'
 
 // Component
 import ApplicationCard from '../../../components/application/ApplicationCard.vue'

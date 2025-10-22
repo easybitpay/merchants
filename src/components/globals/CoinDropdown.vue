@@ -3,7 +3,7 @@
 import { computed, ref } from 'vue'
 
 // Hook
-import useIconImage from '@/hooks/useIconImage'
+import useIconImage from '@/composables/useIconImage'
 
 // Store
 import { useAppStore } from '@/stores/app'
