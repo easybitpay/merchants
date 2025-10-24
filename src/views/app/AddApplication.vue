@@ -3,51 +3,36 @@
 import { computed, ref } from 'vue'
 
 // Component
-import WizardItem from '../../components/globals/wizard/WizardItem.vue'
 import Start from '../../components/add-application/Start.vue'
-import Type from '../../components/add-application/Type.vue'
-import Info from '../../components/add-application/Info.vue'
 import Pro from '../../components/add-application/Pro.vue'
+import Info from '../../components/add-application/Info.vue'
 import Verify from '../../components/add-application/Verify.vue'
-import Finish from '../../components/add-application/Finish.vue'
 
 // ----- START ----- //
 const steps = [
   {
-    icon: 'print',
-    title: 'Start',
-    subject: 'Gateway',
+    icon: 'screen',
+    title: 'Gateway Setup',
+    subject: 'Choose type & basic info',
     component: Start
   },
   {
-    icon: 'archive',
-    title: 'Type',
-    subject: 'Gateway',
-    component: Type
-  },
-  {
-    icon: 'deep-view',
-    title: 'Info',
-    subject: 'Gateway',
-    component: Info
-  },
-  {
-    icon: 'tag',
-    title: 'Pro',
-    subject: 'Gateway',
+    icon: 'settings',
+    title: 'Configuration',
+    subject: 'URLs & token settings',
     component: Pro
   },
   {
-    icon: 'camera',
-    title: 'Verify',
-    subject: 'Gateway',
-    component: Verify
+    icon: 'palette',
+    title: 'Customization',
+    subject: 'Branding & appearance',
+    component: Info
   },
   {
-    icon: 'package',
-    title: 'Finish',
-    subject: 'Gateway',
-    component: Finish
+    icon: 'check-circle',
+    title: 'Review & Launch',
+    subject: 'Confirm & create',
+    component: Verify
   }
 ]
 
@@ -59,13 +44,12 @@ const createdAppInfo = ref({})
 
 // Computeds
 const nextButtonText = computed(() => {
-  if (appInfo.value.type && appInfo.value.type.type == 1) {
-    if (activeStep.value === 4) return 'Verify'
+  if (activeStep.value === 3) return 'Create Application'
+  return 'Continue'
+})
 
-    return 'Continue'
-  } else {
-    return 'Continue'
-  }
+const progressPercent = computed(() => {
+  return ((activeStep.value + 1) / steps.length) * 100
 })
 
 // Functions
@@ -76,12 +60,15 @@ const changeLoadingStatus = (status) => {
 const next = () => {
   if (activeStep.value < steps.length - 1) {
     activeStep.value++
+    // Smooth scroll to top when changing steps
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
 const prev = () => {
   if (activeStep.value > 0) {
     activeStep.value--
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
 
@@ -89,7 +76,6 @@ const goNext = (info) => {
   for (const [key, value] of Object.entries(info)) {
     appInfo.value[key] = value
   }
-
   next()
 }
 
@@ -103,66 +89,102 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div class="h-100 d-flex flex-column">
-    <!-- begin::Header -->
-    <h2 class="text-primary fw-normal mb-12 neue-machina">Add Applications</h2>
-    <!-- end::Header -->
+  <div class="premium-wizard-container">
+    <!-- Progress Header -->
+    <div class="premium-progress-bar">
+      <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
+    </div>
 
-    <div class="wizard flex-root">
-      <div class="row gy-6">
-        <WizardItem
-          v-for="(item, index) in steps"
+    <div class="premium-wizard-centered">
+      <!-- Horizontal Step Progress -->
+      <div class="steps-progress-horizontal">
+        <div 
+          v-for="(step, index) in steps" 
           :key="index"
-          :activeStep="activeStep"
-          :step="index"
-          :info="item"
+          class="step-item"
+          :class="{ 
+            'active': index === activeStep, 
+            'completed': index < activeStep 
+          }"
         >
+          <div class="step-circle">
+            <svg v-if="index < activeStep" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M11.5 3.5L5.25 9.75L2.5 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span v-else>{{ index + 1 }}</span>
+          </div>
+          <span class="step-label">{{ step.title }}</span>
+        </div>
+      </div>
+
+      <!-- Content Area with Transition -->
+      <transition name="slide-fade" mode="out-in">
+        <div :key="activeStep" class="step-content-centered">
           <component
-            :is="item.component"
+            :is="steps[activeStep].component"
             @goNext="goNext"
             @setCreatedAppInfo="setCreatedAppInfo"
             @changeLoadingStatus="changeLoadingStatus"
             :appInfo="appInfo"
             :createdAppInfo="createdAppInfo"
           />
-        </WizardItem>
+        </div>
+      </transition>
+
+      <!-- Navigation -->
+      <div class="premium-navigation-centered">
+        <button
+          v-if="activeStep > 0"
+          @click="prev"
+          type="button"
+          class="btn-back"
+        >
+          <inline-svg src="media/icons/icons/arrow-left.svg" width="18" height="18"></inline-svg>
+          <span>Back</span>
+        </button>
+        <div v-else></div>
+
+        <div class="nav-actions">
+          <button
+            v-if="activeStep < 3"
+            @click="$router.push('/apps')"
+            type="button"
+            class="btn-skip"
+          >
+            Skip for now
+          </button>
+          
+          <button
+            @click="submitForm"
+            type="button"
+            class="btn-premium"
+            :disabled="loading"
+            :class="{ loading: loading }"
+          >
+            <span v-if="!loading" class="btn-content">
+              <span>{{ nextButtonText }}</span>
+              <inline-svg 
+                v-if="activeStep < 3"
+                src="media/icons/icons/arrow-right.svg" 
+                width="18" 
+                height="18"
+                class="arrow-icon"
+              ></inline-svg>
+            </span>
+            <span v-else class="btn-loading">
+              <span class="spinner"></span>
+              <span>Processing...</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Help Card at Bottom -->
+      <div class="help-card-bottom">
+        <div class="help-icon-small">💡</div>
+        <span class="help-text-inline">Need help?</span>
+        <a href="#" class="help-link-inline">View documentation →</a>
       </div>
     </div>
-
-    <!-- begin::Actions -->
-    <div class="d-flex flex-wrap gap-4 mt-10">
-      <button type="button" @click="prev" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
-        <inline-svg
-          src="media/icons/icons/arrow-left.svg"
-          :class="activeStep === 0 ? 'svg-icon-gray-500' : 'svg-icon-primary'"
-        ></inline-svg>
-      </button>
-
-      <button
-        :disabled="loading"
-        class="btn btn-primary w-184px"
-        @click="submitForm"
-        v-if="activeStep != 5"
-      >
-        {{ loading ? 'Loading...' : nextButtonText }}
-      </button>
-
-      <RouterLink
-        :to="{ name: 'application-overview', params: { id: createdAppInfo.id } }"
-        v-if="activeStep === 5"
-        class="btn btn-primary w-184px"
-      >
-        Go to App
-      </RouterLink>
-
-      <button
-        class="btn btn-primary w-184px"
-        @click="next"
-        v-if="appInfo?.type?.type == 1 && activeStep === 4"
-      >
-        Skip
-      </button>
-    </div>
-    <!-- end::Actions -->
   </div>
 </template>

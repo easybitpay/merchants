@@ -22,19 +22,58 @@ const appList = computed(() => store.appList)
 </script>
 
 <template>
-  <TwoFaBox />
+  <div class="premium-dashboard-page">
+    <TwoFaBox />
 
-  <ValueCards />
+    <ValueCards />
 
-  <div class="row gy-5 mb-6">
-    <div :class="`col-xl-${appList.length ? '7' : '12'} col-xxl-${appList.length ? '9' : '12'}`">
-      <TrasactionHistory />
+    <div class="dashboard-content-grid" :class="{ 'has-gateway': appList.length }">
+      <div class="chart-section">
+        <TrasactionHistory />
+      </div>
+
+      <div class="gateway-section" v-if="appList.length">
+        <AppCard :app="appList[0]" />
+      </div>
     </div>
 
-    <div class="col-xl-5 col-xxl-3" v-if="appList.length">
-      <AppCard :app="appList[0]" />
-    </div>
+    <LastTransactions />
   </div>
-
-  <LastTransactions />
 </template>
+
+<style scoped lang="scss">
+.premium-dashboard-page {
+  padding: 2rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+  }
+}
+
+.dashboard-content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  &.has-gateway {
+    @media (min-width: 1200px) {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.chart-section {
+  min-width: 0;
+}
+
+.gateway-section {
+  min-width: 0;
+}
+</style>

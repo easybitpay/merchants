@@ -6,8 +6,8 @@ import { computed, onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
-import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
+import useForm from '@/hooks/useForm.js'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

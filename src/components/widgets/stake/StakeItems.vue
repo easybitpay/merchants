@@ -9,9 +9,9 @@ import { useConnectWalletStore } from '@/stores/connectWallet'
 import { appendAlert } from '@/assets/js/Alerts'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
-import useConvertDate from '@/composables/useConvertDate.js'
-import useCallContract from '@/composables/useCallContract.js'
+import useForm from '@/hooks/useForm.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
+import useCallContract from '@/hooks/useCallContract.js'
 
 // Props
 const props = defineProps({

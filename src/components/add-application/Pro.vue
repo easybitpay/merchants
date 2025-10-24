@@ -6,15 +6,14 @@ import { computed, onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
+import useForm from '@/hooks/useForm.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
 // Components
-import SelectDropdown from '../globals/SelectDropdown.vue'
-import MultiSelectDropdown from '../globals/MultiSelectDropdown.vue'
+import CryptoSelect from './CryptoSelect.vue'
 
 // Props
 const props = defineProps({
@@ -187,131 +186,110 @@ const submitForm = async () => {
 }
 
 onMounted(() => {
-  document.addEventListener('submitStep3', function () {
+  document.addEventListener('submitStep1', function () {
     submitForm()
   })
 })
 </script>
 
 <template>
-  <!-- begin::Title -->
-  <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Pro information</h4>
-    <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
+  <div class="modern-step">
+    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Configure integration</h3>
+    <p class="text-gray-600 mb-6 fs-6">Set up webhooks and select supported cryptocurrencies</p>
+
+    <form @submit.prevent="submitForm" class="d-flex flex-column gap-5">
+      <button type="submit" hidden></button>
+      
+      <!-- URLs Section -->
+      <div>
+        <h6 class="text-gray-800 fw-semibold mb-4">Webhook endpoints</h6>
+        <div class="d-flex flex-column gap-4">
+          <div>
+            <label for="callback-url" class="form-label text-gray-700 fw-medium mb-2">
+              Callback URL
+            </label>
+            <input
+              type="text"
+              id="callback-url"
+              class="form-control form-control-modern"
+              placeholder="https://mystore.com/webhooks/callback"
+              v-model="generalForm.callback_url"
+            />
+            <small class="text-gray-500 mt-1 d-block">We'll send payment notifications to this URL</small>
+            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.callback_url.$errors.length">
+              {{ vGeneral$.callback_url.$errors[0].$message }}
+            </div>
+          </div>
+
+          <div>
+            <label for="redirect-url" class="form-label text-gray-700 fw-medium mb-2">
+              Redirect URL
+            </label>
+            <input
+              type="text"
+              id="redirect-url"
+              class="form-control form-control-modern"
+              placeholder="https://mystore.com/payment/success"
+              v-model="generalForm.redirect_url"
+            />
+            <small class="text-gray-500 mt-1 d-block">Users return here after payment</small>
+            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.redirect_url.$errors.length">
+              {{ vGeneral$.redirect_url.$errors[0].$message }}
+            </div>
+          </div>
+
+          <div v-if="appInfo?.type?.type == 2">
+            <label for="amount" class="form-label text-gray-700 fw-medium mb-2">
+              Fixed amount
+            </label>
+            <input
+              type="text"
+              id="amount"
+              class="form-control form-control-modern"
+              placeholder="10.00"
+              v-model="amountForm.amount"
+            />
+            <div class="text-danger mt-2 fs-7" v-if="vAmount$.amount.$errors.length">
+              {{ vAmount$.amount.$errors[0].$message }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tokens Section -->
+      <div>
+        <h6 class="text-gray-800 fw-semibold mb-4">Cryptocurrency settings</h6>
+        <div class="d-flex flex-column gap-4">
+          <div>
+            <label class="form-label text-gray-700 fw-medium mb-2">Base currency</label>
+            <CryptoSelect
+              :items="tokens"
+              :selected="base_token"
+              placeholder="Select base currency"
+              @change="toggleBaseToken"
+            />
+            <small class="text-gray-500 mt-1 d-block">Primary currency for pricing</small>
+            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.baseCoin.$errors.length">
+              {{ vGeneral$.baseCoin.$errors[0].$message }}
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label text-gray-700 fw-medium mb-2">Accepted currencies</label>
+            <CryptoSelect
+              :items="tokens"
+              :selected="available_tokens"
+              placeholder="Select currencies to accept"
+              :multiple="true"
+              @change="toggleAvialableToken"
+            />
+            <small class="text-gray-500 mt-1 d-block">Customers can pay with these currencies</small>
+            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.availableCoins.$errors.length">
+              {{ vGeneral$.availableCoins.$errors[0].$message }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
-  <!-- begin::Title -->
-
-  <form @submit.prevent="submitForm" class="px-6">
-    <button type="submit" hidden></button>
-    <!-- begin::Callback URL -->
-    <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="callback-url">Callback URL</label>
-        <input
-          type="text"
-          id="callback-url"
-          placeholder="Callback URL"
-          v-model="generalForm.callback_url"
-        />
-      </div>
-
-      <div class="invalid-feedback form-control" v-if="vGeneral$.callback_url.$errors.length">
-        <span> {{ vGeneral$.callback_url.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Callback URL -->
-
-    <!-- begin::Redirect URL -->
-    <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="redirect-url">Redirect URL</label>
-        <input
-          type="text"
-          id="redirect-url"
-          placeholder="Redirect URL"
-          v-model="generalForm.redirect_url"
-        />
-      </div>
-
-      <div class="invalid-feedback form-control" v-if="vGeneral$.redirect_url.$errors.length">
-        <span> {{ vGeneral$.redirect_url.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Redirect URL -->
-
-    <!-- begin::Amount -->
-    <div class="position-relative mb-6" v-if="appInfo?.type?.type == 2">
-      <div class="grouped-input form-control">
-        <label for="amount">Amount</label>
-        <input type="text" id="amount" placeholder="Amount" v-model="amountForm.amount" />
-      </div>
-
-      <div class="invalid-feedback form-control" v-if="vAmount$.amount.$errors.length">
-        <span> {{ vAmount$.amount.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Amount -->
-
-    <!-- begin::Base Coin -->
-    <div class="position-relative mb-6">
-      <SelectDropdown
-        show="name"
-        width="initial"
-        grouped="Base Coin"
-        placeholder="Base Coin"
-        showImage
-        showCoinNetwork
-        :items="tokens"
-        :selected="base_token"
-        @change="toggleBaseToken"
-      />
-
-      <div class="invalid-feedback form-control" v-if="vGeneral$.baseCoin.$errors.length">
-        <span> {{ vGeneral$.baseCoin.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Base Coin -->
-
-    <!-- begin::Available Coins -->
-    <div class="position-relative mb-6">
-      <MultiSelectDropdown
-        show="name"
-        width="initial"
-        grouped="Available Token"
-        placeholder="Available Token"
-        showImage
-        showCoinNetwork
-        :items="tokens"
-        :selected="available_tokens"
-        @change="toggleAvialableToken"
-      />
-
-      <div class="invalid-feedback form-control" v-if="vGeneral$.availableCoins.$errors.length">
-        <span> {{ vGeneral$.availableCoins.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Available Coins -->
-
-    <!-- begin::Features -->
-    <div class="d-flex flex-column gap-6" v-if="appInfo?.type?.type == 3">
-      <!-- begin::Item -->
-      <div
-        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-start gap-3 form-check form-switch p-0"
-      >
-        <label class="form-check-label" for="app-feature-1"> Get user's name in pay page </label>
-        <input class="form-check-input m-0" type="checkbox" role="switch" id="app-feature-1" />
-      </div>
-      <!-- begin::Item -->
-
-      <!-- begin::Item -->
-      <div
-        class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-start gap-3 form-check form-switch p-0"
-      >
-        <label class="form-check-label" for="app-feature-2"> Get user's email in pay page </label>
-        <input class="form-check-input m-0" type="checkbox" role="switch" id="app-feature-2" />
-      </div>
-      <!-- begin::Item -->
-    </div>
-    <!-- end::Features -->
-  </form>
 </template>

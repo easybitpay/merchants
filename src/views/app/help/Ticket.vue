@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useTicketStore } from '@/stores/ticket'
 
 // Hooks
-import useAccordion from '@/composables/useAccordion'
+import useAccordion from '@/hooks/useAccordion'
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'

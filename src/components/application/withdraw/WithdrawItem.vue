@@ -3,7 +3,7 @@
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useConvertDate from '@/composables/useConvertDate.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Bootstrap
 import { Offcanvas } from 'bootstrap'

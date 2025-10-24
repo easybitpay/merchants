@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import { appendAlert } from '@/assets/js/Alerts'
 
 // Hook
-import useIconImage from '@/composables/useIconImage'
+import useIconImage from '@/hooks/useIconImage'
 
 // ----- START ----- //
 

@@ -7,15 +7,51 @@ import ExchangeEmbledOffcanvas from '../../components/exchange/ExchangeEmbledOff
 </script>
 
 <template>
-  <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 neue-machina">Exchange</h2>
-  <!-- end::Header -->
+  <div class="premium-exchange-page">
+    <!-- Header -->
+    <div class="page-header">
+      <h2 class="page-title">Instant Exchange</h2>
+      <p class="page-description">Swap crypto assets instantly with real-time exchange rates</p>
+    </div>
 
-  <ExchangeCard />
+    <!-- Exchange Card -->
+    <ExchangeCard />
 
-  <ExchangeEmbedCard />
+    <!-- Embed Card -->
+    <ExchangeEmbedCard />
 
-  <ExchangeReportOffcanvas />
-
-  <ExchangeEmbledOffcanvas />
+    <!-- Offcanvas -->
+    <ExchangeReportOffcanvas />
+    <ExchangeEmbledOffcanvas />
+  </div>
 </template>
+
+<style scoped lang="scss">
+.premium-exchange-page {
+  padding: 2rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+  }
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+.page-description {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+</style>

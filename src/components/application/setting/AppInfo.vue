@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hooks
-import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
+import useActionShareAllowed from '@/hooks/useActionShareAllowed.js'
 
 // Components
 import TextColumn from '../../globals/TextColumn.vue'

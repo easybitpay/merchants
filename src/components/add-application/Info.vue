@@ -3,7 +3,7 @@
 import { computed, ref, onMounted } from 'vue'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
+import useForm from '@/hooks/useForm.js'
 
 // Components
 import SelectColorDropdown from '../globals/SelectColorDropdown.vue'
@@ -36,19 +36,11 @@ const bannerInputClick = () => {
 
 // Vuelidate
 const form = ref({
-  name: null,
-  site_url: null,
   customer_fee_percent: 0,
   color: null
 })
 
 const rules = {
-  name: {
-    required: helpers.withMessage('App name is required', required)
-  },
-  site_url: {
-    required: helpers.withMessage('Site url is required', required)
-  },
   color: {
     required: helpers.withMessage('App color is required', required)
   }
@@ -112,182 +104,120 @@ onMounted(() => {
   document.addEventListener('submitStep2', function () {
     submitForm()
   })
-
-  var range = document.querySelector('.range')
-
-  var thumb = document.querySelector('.range-thumb')
-  var max = parseInt(range.max, 10)
-  var thumbWidth = 101 // Thumb width. See CSS
-
-  range.addEventListener('input', function () {
-    var width = range.offsetWidth
-    var value = parseInt(range.value, 10)
-    var text = value >= max ? '100' : value
-    var positionInPX = (value * (width - thumbWidth)) / max
-
-    thumb.style.left = positionInPX + 'px'
-    thumb.querySelector('.merchant').innerHTML = text
-    thumb.querySelector('.user').innerHTML = 100 - text
-  })
-
-  window.addEventListener('resize', function () {
-    range.dispatchEvent(new Event('input'))
-  })
-
-  // Calculate on load
-  range.dispatchEvent(new Event('input'))
 })
 </script>
 
 <template>
-  <!-- begin::Title -->
-  <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Base information</h4>
-    <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
-  </div>
-  <!-- begin::Title -->
+  <div class="modern-step">
+    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Customize appearance</h3>
+    <p class="text-gray-600 mb-6 fs-6">Personalize your payment gateway with your brand</p>
 
-  <form @submit.prevent="submitForm" class="px-6">
-    <button type="submit" hidden></button>
-    <!-- begin::App Name -->
-    <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="app-name">App name</label>
-        <input type="text" id="app-name" placeholder="App name" v-model="form.name" />
+    <form @submit.prevent="submitForm" class="d-flex flex-column gap-5">
+      <button type="submit" hidden></button>
+      
+      <!-- Brand Color -->
+      <div>
+        <label class="form-label text-gray-700 fw-medium mb-2">Primary color</label>
+        <SelectColorDropdown :selected="form.color" @change="toggleColor" />
+        <small class="text-gray-500 mt-1 d-block">Used for buttons and accents in your gateway</small>
+        <div class="text-danger mt-2 fs-7" v-if="v$.color.$errors.length">
+          {{ v$.color.$errors[0].$message }}
+        </div>
       </div>
 
-      <div class="invalid-feedback form-control" v-if="v$.name.$errors.length">
-        <span> {{ v$.name.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::App Name -->
-
-    <!-- begin::Site URL -->
-    <div class="position-relative mb-6">
-      <div class="grouped-input form-control">
-        <label for="site-url">Site URL</label>
-        <input type="text" id="site-url" placeholder="Site URL" v-model="form.site_url" />
-      </div>
-
-      <div class="invalid-feedback form-control" v-if="v$.site_url.$errors.length">
-        <span> {{ v$.site_url.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Site URL -->
-
-    <!-- begin::Color -->
-    <div class="position-relative mb-6">
-      <SelectColorDropdown :selected="form.color" @change="toggleColor" />
-
-      <div class="invalid-feedback form-control" v-if="v$.color.$errors.length">
-        <span> {{ v$.color.$errors[0].$message }}</span>
-      </div>
-    </div>
-    <!-- end::Color -->
-
-    <!-- begin::Icon & Banner Card -->
-    <div
-      class="card gradient-image-box border-gray-200 mb-13 rounded"
-      :style="`--background: url(${
-        banner ? showPreview(banner) : '/media/images/banner/auth-bg.jpg'
-      })`"
-    >
-      <div class="card-body p-6 pt-4 d-flex flex-column">
-        <!-- begin::Logo -->
-        <img
-          :src="logo ? showPreview(logo) : '/media/images/banner/default-app.png'"
-          class="img-fluid mb-12 rounded-1"
-          width="38"
-        />
-        <!-- end::Logo -->
-
-        <div class="w-100 d-flex flex-wrap gap-4 justify-content-between">
-          <div class="d-flex flex-wrap gap-4 align-items-end justify-content-between">
-            <!-- begin::Status Action -->
-            <div class="d-flex flex-wrap gap-4">
+      <!-- Gateway Preview Card -->
+      <div>
+        <label class="form-label text-gray-700 fw-medium mb-2">Brand assets</label>
+        <div
+          class="position-relative overflow-hidden rounded"
+          style="border: 1px solid #e5e7eb; background-size: cover; background-position: center;"
+          :style="`background-image: url(${
+            banner ? showPreview(banner) : '/media/images/banner/auth-bg.jpg'
+          })`"
+        >
+          <!-- Overlay -->
+          <div style="background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%); padding: 2rem;">
+            <!-- Logo -->
+            <img
+              :src="logo ? showPreview(logo) : '/media/images/banner/default-app.png'"
+              class="rounded-1 mb-4"
+              width="48"
+              style="background: white; padding: 4px;"
+            />
+            
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2 mt-5">
               <input
                 type="file"
                 ref="hiddenChangeLogoInput"
-                className="d-none"
+                class="d-none"
                 @change="addLogoFile"
+                accept="image/*"
               />
-              <button type="button" @click="logoInputClick" class="btn btn-light w-sm-120px">
-                Add Icon
+              <button 
+                type="button" 
+                @click="logoInputClick" 
+                class="btn btn-sm"
+                style="background: rgba(255,255,255,0.95); border: none; font-weight: 500; padding: 0.5rem 1rem;"
+              >
+                <inline-svg src="media/icons/icons/image.svg" class="me-2" width="14" height="14"></inline-svg>
+                {{ logo ? 'Change logo' : 'Upload logo' }}
               </button>
 
               <input
                 type="file"
                 ref="hiddenChangeBannerInput"
-                className="d-none"
+                class="d-none"
                 @change="addBannerFile"
+                accept="image/*"
               />
-              <button type="button" @click="bannerInputClick" class="btn btn-primary w-sm-144px">
-                Add Cover
+              <button 
+                type="button" 
+                @click="bannerInputClick" 
+                class="btn btn-sm"
+                style="background: rgba(255,255,255,0.95); border: none; font-weight: 500; padding: 0.5rem 1rem;"
+              >
+                <inline-svg src="media/icons/icons/image.svg" class="me-2" width="14" height="14"></inline-svg>
+                {{ banner ? 'Change banner' : 'Upload banner' }}
               </button>
             </div>
-            <!-- end::Status Action -->
-          </div>
-
-          <div
-            class="w-40px h-40px d-flex align-items-center justify-content-center rounded bg-white"
-          >
-            <inline-svg
-              :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
-              height="25"
-            ></inline-svg>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- end::Icon & Banner Card -->
-  </form>
-  <!-- begin::Fee Share -->
-  <div class="w-100 px-6">
-    <div class="mb-10">
-      <h4 class="text-primary mb-2 neue-machina fw-normal">Customer Fee Share</h4>
-      <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
-    </div>
-
-    <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
-      <!-- begin::Top -->
-      <inline-svg
-        :src="`/media/icons/shapes/${$filters.shapeStatus('account')}.svg`"
-        width="43"
-        height="48"
-        class="d-none d-sm-block"
-      ></inline-svg>
-
-      <div class="range-div w-100 w-lg-384px">
-        <input
-          type="range"
-          name=""
-          class="range"
-          min="0"
-          max="100"
-          step="5"
-          v-model="form.customer_fee_percent"
-          @change="checkRangeUpdate"
-        />
-        <span class="range-thumb">
-          <span class="merchant"></span>
-          <span class="text-dark mx-2">|</span>
-          <span class="user"></span>
-        </span>
+        <small class="text-gray-500 mt-2 d-block">Logo: PNG or SVG, max 2MB • Banner: JPG or PNG, 1200x400px recommended</small>
       </div>
 
-      <inline-svg
-        :src="`/media/icons/shapes/${$filters.shapeStatus('chess')}.svg`"
-        width="43"
-        height="48"
-        class="d-none d-sm-block"
-      ></inline-svg>
-      <!-- end::Top -->
-    </div>
-
-    <div class="d-flex align-items-center justify-content-between ls-base">
-      <p class="mb-0">Merchant</p>
-      <p class="mb-0">User</p>
-    </div>
+      <!-- Fee Sharing -->
+      <div>
+        <label class="form-label text-gray-700 fw-medium mb-2">Fee distribution</label>
+        <div class="p-4 rounded" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <div class="text-gray-800 fw-semibold">Merchant</div>
+              <div class="text-gray-600 fs-7">{{ form.customer_fee_percent }}%</div>
+            </div>
+            <div class="text-end">
+              <div class="text-gray-800 fw-semibold">Customer</div>
+              <div class="text-gray-600 fs-7">{{ 100 - form.customer_fee_percent }}%</div>
+            </div>
+          </div>
+          
+          <input
+            type="range"
+            class="form-range"
+            min="0"
+            max="100"
+            step="5"
+            v-model="form.customer_fee_percent"
+            style="cursor: pointer;"
+          />
+          
+          <div class="d-flex justify-content-between mt-2">
+            <small class="text-gray-500">You pay all fees</small>
+            <small class="text-gray-500">Customer pays all fees</small>
+          </div>
+        </div>
+        <small class="text-gray-500 mt-2 d-block">Adjust how transaction fees are split</small>
+      </div>
+    </form>
   </div>
-  <!-- end::Fee Share -->
 </template>

@@ -9,7 +9,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
+import useForm from '@/hooks/useForm.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

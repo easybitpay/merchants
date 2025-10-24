@@ -9,7 +9,7 @@ import { useAppStore } from '@/stores/app'
 import moment from 'moment'
 
 // Hooks
-import useConvertDate from '@/composables/useConvertDate'
+import useConvertDate from '@/hooks/useConvertDate'
 
 // Chart Js
 import { Line } from 'vue-chartjs'
@@ -134,10 +134,13 @@ const chartData = ref({
     {
       label: 'Transactions',
       data: [],
-      borderColor: '#0062FF',
-      backgroundColor: '#0062FF',
-      tension: 0.5,
-      pointStyle: 'circle'
+      borderColor: '#6366f1',
+      backgroundColor: '#6366f1',
+      tension: 0.4,
+      pointStyle: 'circle',
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      borderWidth: 2.5
     }
   ]
 })
@@ -161,14 +164,15 @@ const chartOptions = ref({
         display: false
       },
       grid: {
-        color: '#F1F1F5',
+        color: '#f3f4f6',
         tickColor: ''
       },
       ticks: {
-        padding: 24,
-        color: '#ABB6BA',
+        padding: 16,
+        color: '#9ca3af',
         font: {
-          size: '14px'
+          size: 13,
+          family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
         }
       }
     },
@@ -177,16 +181,16 @@ const chartOptions = ref({
         display: false
       },
       grid: {
-        display: false,
-        drawOnChartArea: false,
-        drawTicks: false
+        color: '#f3f4f6',
+        tickColor: ''
       },
       ticks: {
         maxTicksLimit: 6,
-        padding: 24,
-        color: '#92929D',
+        padding: 16,
+        color: '#9ca3af',
         font: {
-          size: '14px'
+          size: 13,
+          family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
         }
       }
     }
@@ -231,22 +235,48 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded">
-    <div class="card-body p-0">
-      <!-- begin::Header -->
-      <div class="p-6 pb-8">
-        <h4 class="neue-machina mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
-          Transaction History
-          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-        </h4>
-      </div>
-      <!-- end::Header -->
+  <div class="premium-chart-card">
+    <div class="chart-header">
+      <h3 class="chart-title">Transaction History</h3>
+      <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+    </div>
 
-      <!-- begin::Chart -->
-      <div class="h-400px">
-        <Line :key="chartKey" id="my-chart-id" :options="chartOptions" :data="chartData" />
-      </div>
-      <!-- end::Chart -->
+    <div class="chart-container">
+      <Line :key="chartKey" id="my-chart-id" :options="chartOptions" :data="chartData" />
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.premium-chart-card {
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.chart-container {
+  height: 400px;
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+}
+</style>

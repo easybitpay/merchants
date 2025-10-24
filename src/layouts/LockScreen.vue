@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useCrypto from '@/composables/useCrypto.js'
+import useCrypto from '@/hooks/useCrypto.js'
 
 // Component
 import VOtpInput from 'vue3-otp-input'

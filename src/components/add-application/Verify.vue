@@ -3,7 +3,7 @@
 import { onMounted } from 'vue'
 
 // Hook
-import useIconImage from '@/composables/useIconImage'
+import useIconImage from '@/hooks/useIconImage'
 
 // Store
 import { useAppStore } from '@/stores/app'
@@ -64,155 +64,140 @@ const submitForm = async () => {
 }
 
 onMounted(() => {
-  document.addEventListener('submitStep4', function () {
+  document.addEventListener('submitStep3', function () {
     submitForm()
   })
 })
 </script>
 
 <template>
-  <!-- begin::Title -->
-  <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Verify</h4>
-    <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
-  </div>
-  <!-- begin::Title -->
+  <div class="modern-step">
+    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Review and launch</h3>
+    <p class="text-gray-600 mb-6 fs-6">Verify your configuration before creating the gateway</p>
 
-  <div class="px-6">
-    <!-- begin::Spacer -->
-    <div class="border-bottom border-gray-400 w-100 mb-4"></div>
-    <!-- end::Spacer -->
-
-    <!-- begin::Icon & Banner Card -->
-    <div
-      class="card gradient-image-box border-gray-200 h-128px rounded"
-      :style="`--background: url(${
-        appInfo.banner ? showPreview(appInfo.banner) : '/media/images/banner/auth-bg.jpg'
-      })`"
-    >
-      <div class="card-body d-flex align-items-end p-4 h-100">
-        <div class="d-flex align-items-end gap-4">
-          <!-- begin::Logo -->
-          <img
-            :src="appInfo.logo ? showPreview(appInfo.logo) : '/media/images/banner/default-app.png'"
-            class="img-fluid rounded-1"
-            width="40"
-          />
-          <!-- end::Logo -->
-
-          <div>
-            <p class="fs-7 mb-2 text-gray-600 ls-base lh-1">{{ appInfo?.type?.title }}</p>
-
-            <h2 class="mb-0 text-success neue-machina lh-1">{{ appInfo.name }}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- end::Icon & Banner Card -->
-
-    <!-- begin::Spacer -->
-    <div class="border-bottom border-gray-400 w-100 my-4"></div>
-    <!-- end::Spacer -->
-
-    <!-- begin::Info -->
-    <div class="auto-infos">
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">Site URL</p>
-        <p class="value">{{ appInfo.site_url }}</p>
-      </div>
-      <!-- end::Item -->
-    </div>
-    <!-- end::Info -->
-
-    <!-- begin::Spacer -->
-    <div class="border-bottom border-gray-400 w-100 my-4"></div>
-    <!-- end::Spacer -->
-
-    <!-- begin::Info -->
-    <div class="auto-infos">
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">Callback URL</p>
-        <p class="value">{{ appInfo.callback_url }}</p>
-      </div>
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">Redirect URL</p>
-        <p class="value">{{ appInfo.redirect_url }}</p>
-      </div>
-      <!-- end::Item -->
-    </div>
-    <!-- end::Info -->
-
-    <!-- begin::Spacer -->
-    <div class="border-bottom border-gray-400 w-100 my-4"></div>
-    <!-- end::Spacer -->
-
-    <!-- begin::Info -->
-    <div class="auto-infos">
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">{{ appInfo?.type?.type == 1 ? 'Api' : 'Link' }}</p>
-        <p class="value">
-          {{ appInfo?.type?.type == 1 ? createdAppInfo.api_key : createdAppInfo.pay_url }}
-        </p>
-      </div>
-      <!-- end::Item -->
-
-      <!-- begin::Item -->
-      <div class="item" v-if="appInfo?.type?.type == 1">
-        <p class="title">Secret</p>
-        <p class="value">{{ createdAppInfo.private_key }}</p>
-      </div>
-      <!-- end::Item -->
-    </div>
-    <!-- end::Info -->
-
-    <!-- begin::Spacer -->
-    <div class="border-bottom border-gray-400 w-100 my-4"></div>
-    <!-- end::Spacer -->
-
-    <!-- begin::Info -->
-    <div class="auto-infos">
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">Base Token</p>
-        <div class="value" v-if="appInfo.baseCoin">
-          <div class="d-flex gap-2">
+    <div class="d-flex flex-column gap-4">
+      <!-- Gateway Preview -->
+      <div
+        class="position-relative overflow-hidden rounded"
+        style="border: 1px solid #e5e7eb; background-size: cover; background-position: center; height: 140px;"
+        :style="`background-image: url(${
+          appInfo.banner ? showPreview(appInfo.banner) : '/media/images/banner/auth-bg.jpg'
+        })`"
+      >
+        <div style="background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%); height: 100%; display: flex; align-items: flex-end; padding: 1.5rem;">
+          <div class="d-flex align-items-center gap-3">
             <img
-              :src="
-                appInfo?.baseCoin?.logo
-                  ? storageImage(appInfo?.baseCoin?.logo, 32)
-                  : iconImage(appInfo?.baseCoin?.symbol)
-              "
-              :alt="appInfo?.baseCoin?.name"
-              class="small-coin-icon"
+              :src="appInfo.logo ? showPreview(appInfo.logo) : '/media/images/banner/default-app.png'"
+              class="rounded"
+              width="48"
+              style="background: white; padding: 4px;"
             />
+            <div>
+              <div class="text-white-50 fs-7 mb-1">{{ appInfo?.type?.title }}</div>
+              <div class="text-white fw-semibold fs-5">{{ appInfo.name }}</div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- end::Item -->
 
-      <!-- begin::Item -->
-      <div class="item">
-        <p class="title">Available Tokens</p>
-        <div class="value" v-if="appInfo.availableCoins">
-          <div class="d-flex gap-2">
-            <img
-              v-for="(item, index) in appInfo.availableCoins"
-              :key="index"
-              :src="item.logo ? storageImage(item.logo, 32) : iconImage(item.symbol)"
-              :alt="item?.name"
-              class="small-coin-icon"
-            />
+      <!-- Configuration Summary -->
+      <div class="d-flex flex-column gap-3">
+        <!-- General Settings -->
+        <div class="p-4 rounded" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+          <h6 class="text-gray-800 fw-semibold mb-3 fs-6">General</h6>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="text-gray-600 fs-7">Website</span>
+              <span class="text-gray-900 fs-7 fw-medium text-end" style="max-width: 60%; word-break: break-all;">{{ appInfo.site_url }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integration Settings -->
+        <div class="p-4 rounded" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+          <h6 class="text-gray-800 fw-semibold mb-3 fs-6">Integration</h6>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between">
+              <span class="text-gray-600 fs-7">Callback URL</span>
+              <span class="text-gray-900 fs-7 fw-medium text-end" style="max-width: 60%; word-break: break-all;">{{ appInfo.callback_url }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-gray-600 fs-7">Redirect URL</span>
+              <span class="text-gray-900 fs-7 fw-medium text-end" style="max-width: 60%; word-break: break-all;">{{ appInfo.redirect_url }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Credentials (if created) -->
+        <div v-if="createdAppInfo.api_key || createdAppInfo.pay_url" class="p-4 rounded" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+          <h6 class="text-green-800 fw-semibold mb-3 fs-6">
+            <inline-svg src="media/icons/icons/check-circle.svg" width="16" height="16" class="me-2"></inline-svg>
+            Credentials
+          </h6>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex flex-column gap-1">
+              <span class="text-gray-600 fs-7">{{ appInfo?.type?.type == 1 ? 'API Key' : 'Payment Link' }}</span>
+              <code class="bg-white p-2 rounded fs-7 text-gray-900" style="border: 1px solid #e5e7eb; word-break: break-all;">
+                {{ appInfo?.type?.type == 1 ? createdAppInfo.api_key : createdAppInfo.pay_url }}
+              </code>
+            </div>
+            <div v-if="appInfo?.type?.type == 1 && createdAppInfo.private_key" class="d-flex flex-column gap-1">
+              <span class="text-gray-600 fs-7">Secret Key</span>
+              <code class="bg-white p-2 rounded fs-7 text-gray-900" style="border: 1px solid #e5e7eb; word-break: break-all;">
+                {{ createdAppInfo.private_key }}
+              </code>
+            </div>
+          </div>
+          <small class="text-gray-600 d-block mt-2 fs-7">
+            <inline-svg src="media/icons/icons/info-circle.svg" width="14" height="14" class="me-1"></inline-svg>
+            Save these credentials securely. You won't be able to see the secret key again.
+          </small>
+        </div>
+
+        <!-- Cryptocurrency Settings -->
+        <div class="p-4 rounded" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+          <h6 class="text-gray-800 fw-semibold mb-3 fs-6">Cryptocurrencies</h6>
+          <div class="d-flex flex-column gap-3">
+            <div v-if="appInfo.baseCoin">
+              <span class="text-gray-600 fs-7 d-block mb-2">Base currency</span>
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  :src="
+                    appInfo?.baseCoin?.logo
+                      ? storageImage(appInfo?.baseCoin?.logo, 32)
+                      : iconImage(appInfo?.baseCoin?.symbol)
+                  "
+                  :alt="appInfo?.baseCoin?.name"
+                  width="24"
+                  height="24"
+                  class="rounded-circle"
+                />
+                <span class="text-gray-900 fw-medium fs-7">{{ appInfo?.baseCoin?.name }}</span>
+              </div>
+            </div>
+            <div v-if="appInfo.availableCoins">
+              <span class="text-gray-600 fs-7 d-block mb-2">Accepted currencies</span>
+              <div class="d-flex gap-2 flex-wrap">
+                <div 
+                  v-for="(item, index) in appInfo.availableCoins"
+                  :key="index"
+                  class="d-flex align-items-center gap-2 px-2 py-1 rounded"
+                  style="background: white; border: 1px solid #e5e7eb;"
+                >
+                  <img
+                    :src="item.logo ? storageImage(item.logo, 32) : iconImage(item.symbol)"
+                    :alt="item?.name"
+                    width="20"
+                    height="20"
+                    class="rounded-circle"
+                  />
+                  <span class="text-gray-900 fs-7">{{ item?.name }}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- end::Item -->
     </div>
-    <!-- end::Info -->
   </div>
 </template>

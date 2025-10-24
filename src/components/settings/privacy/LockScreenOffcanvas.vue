@@ -6,9 +6,9 @@ import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
-import useCrypto from '@/composables/useCrypto.js'
-import useConvertDate from '@/composables/useConvertDate.js'
+import useForm from '@/hooks/useForm.js'
+import useCrypto from '@/hooks/useCrypto.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

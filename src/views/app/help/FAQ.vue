@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useAccordion from '@/composables/useAccordion'
+import useAccordion from '@/hooks/useAccordion'
 
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from 'swiper/vue'
@@ -65,65 +65,115 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <!-- begin::Categories -->
-  <div v-if="loading || categories.length">
-    <Swiper
-      :slidesPerView="1.2"
-      :spaceBetween="16"
-      :breakpoints="{
-        '450': {
-          slidesPerView: 2
-        },
-        '576': {
-          slidesPerView: 3
-        },
-        '768': {
-          slidesPerView: 4
-        },
-        '1200': {
-          slidesPerView: 5
-        },
-        '1400': {
-          slidesPerView: 6
-        }
-      }"
-      class="mySwiper swiper-tab"
-    >
-      <template v-if="loading">
-        <SwiperSlide v-for="item in 2" :key="item">
-          <CategoryItemLoading />
-        </SwiperSlide>
-      </template>
+  <div class="premium-faq-page">
+    <!-- Categories -->
+    <div v-if="loading || categories.length" class="categories-section">
+      <Swiper
+        :slidesPerView="1.2"
+        :spaceBetween="16"
+        :breakpoints="{
+          '450': {
+            slidesPerView: 2
+          },
+          '576': {
+            slidesPerView: 3
+          },
+          '768': {
+            slidesPerView: 4
+          },
+          '1200': {
+            slidesPerView: 5
+          },
+          '1400': {
+            slidesPerView: 6
+          }
+        }"
+        class="categories-swiper"
+      >
+        <template v-if="loading">
+          <SwiperSlide v-for="item in 6" :key="item">
+            <CategoryItemLoading />
+          </SwiperSlide>
+        </template>
+
+        <template v-else>
+          <SwiperSlide v-for="item in categories" :key="item.id" @click="selectedCategory = item.id">
+            <ItemCategory
+              :active="selectedCategory === item.id"
+              :title="item.title"
+              icon="wallet"
+              :subject="`${item.count} FAQ`"
+            />
+          </SwiperSlide>
+        </template>
+      </Swiper>
+    </div>
+
+    <!-- FAQ List -->
+    <div class="faq-list">
+      <AccordionItemLoading v-if="loading" />
 
       <template v-else>
-        <SwiperSlide v-for="item in categories" :key="item.id" @click="selectedCategory = item.id">
-          <ItemCategory
-            :active="selectedCategory === item.id"
-            :title="item.title"
-            icon="wallet"
-            :subject="`${item.count} FAQ`"
-          />
-        </SwiperSlide>
+        <div class="faq-accordion">
+          <FAQItem v-for="(item, index) in filteredList" :key="index" :item="item" />
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="!filteredList.length" class="empty-state">
+          <inline-svg
+            src="/media/icons/shapes/no-ticket.svg"
+            class="empty-icon"
+          ></inline-svg>
+          <p class="empty-text">No FAQs available for this category</p>
+        </div>
       </template>
-    </Swiper>
-  </div>
-  <!-- end::Categories -->
-
-  <AccordionItemLoading v-if="loading" />
-
-  <template v-else>
-    <!-- begin::Accordion -->
-    <div class="accordion" id="faqAccordion">
-      <FAQItem v-for="(item, index) in filteredList" :key="index" :item="item" />
     </div>
-    <!-- end::Accordion -->
-
-    <!-- begin::No FAQ Image -->
-    <inline-svg
-      v-if="!filteredList.length"
-      src="/media/icons/shapes/no-ticket.svg"
-      class="d-block mx-auto mt-10"
-    ></inline-svg>
-    <!-- end::No FAQ Image -->
-  </template>
+  </div>
 </template>
+
+<style scoped lang="scss">
+.premium-faq-page {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.categories-section {
+  margin-bottom: 2rem;
+}
+
+.categories-swiper {
+  padding: 0.25rem;
+}
+
+.faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  .empty-icon {
+    width: 120px;
+    height: 120px;
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-text {
+    font-size: 0.9375rem;
+    color: #6b7280;
+    margin: 0;
+  }
+}
+</style>

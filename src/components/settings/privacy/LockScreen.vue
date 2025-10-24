@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useConvertDate from '@/composables/useConvertDate.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Componets
 import TextColumn from '../../globals/TextColumn.vue'

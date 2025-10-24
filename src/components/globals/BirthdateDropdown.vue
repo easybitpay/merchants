@@ -3,7 +3,7 @@
 import { onMounted, ref } from 'vue'
 
 // Hooks
-import useConvertDate from '@/composables/useConvertDate.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Props
 const props = defineProps({

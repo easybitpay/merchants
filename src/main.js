@@ -1,3 +1,11 @@
+// Initialize theme before anything else
+const savedTheme = localStorage.getItem('theme')
+if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+  document.querySelector('html').setAttribute('data-bs-theme', savedTheme)
+} else {
+  document.querySelector('html').setAttribute('data-bs-theme', 'light')
+}
+
 const sandbox = JSON.parse(localStorage.getItem('sandbox') || 'false')
 if (sandbox) {
   document.body.classList.add('sandbox')

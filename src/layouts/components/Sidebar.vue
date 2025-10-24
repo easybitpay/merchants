@@ -10,7 +10,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 
 // Hook
-import useIconImage from '@/composables/useIconImage'
+import useIconImage from '@/hooks/useIconImage'
 
 // Components
 import SandboxAlert from '../../components/globals/SandboxAlert.vue'
@@ -160,7 +160,7 @@ watch(search, () => {
     <!-- begin::Logo & Search -->
     <div class="two-side-space w-100">
       <!-- begin::Logo -->
-      <router-link :to="{ name: 'dashboard' }">
+      <router-link :to="{ name: 'dashboard' }" class="logo-link">
         <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
         <inline-svg
           src="media/images/logo/sidebar-collapse-logo.svg"
@@ -204,7 +204,7 @@ watch(search, () => {
                 </div>
                 <!-- end::icon -->
 
-                <span>Applications</span>
+                <span>Gateways</span>
               </router-link>
 
               <!-- begin::icon -->
@@ -315,7 +315,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Setting</span>
+            <span>Settings</span>
           </router-link>
           <!-- end::Link -->
 
@@ -332,7 +332,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Documentation</span>
+            <span>Docs</span>
           </a>
           <!-- end::Link -->
 
@@ -347,7 +347,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Get Help</span>
+            <span>Help</span>
           </router-link>
           <!-- end::Link -->
 
@@ -451,46 +451,24 @@ watch(search, () => {
     </div>
     <!-- end::Links -->
 
-    <!-- begin::User -->
+    <!-- begin::Settings Box -->
     <div class="user-box w-100">
-      <RouterLink :to="{ name: 'settings-basic' }" class="user cursor-pointer">
+      <RouterLink :to="{ name: 'settings' }" class="user cursor-pointer">
         <div>
-          <!-- begin::Image Box -->
-          <div class="w-40px h-40px position-relative">
-            <!-- begin::Image -->
-            <img
-              :src="
-                currentUser?.merchant?.avatar
-                  ? storageImage(currentUser.merchant.avatar)
-                  : '/media/images/banner/auth-bg.jpg'
-              "
-              :alt="currentUser?.merchant?.first_name"
-              class="w-100 h-100 rounded-circle object-cover"
-            />
-            <!-- end::Image -->
-
-            <!-- begin::Bullet -->
-            <div class="w-8px h-8px rounded-circle bg-primary position-absolute bullet"></div>
-            <!-- end::Bullet -->
+          <!-- begin::Icon -->
+          <div class="settings-icon-wrapper">
+            <inline-svg src="media/icons/icons/settings.svg" class="settings-icon"></inline-svg>
           </div>
-          <!-- end::Image Box -->
+          <!-- end::Icon -->
         </div>
 
-        <div>
-          <h6 class="neue-machina fw-light mb-0 lh-1 text-gray-800 name">
-            {{
-              $filters.shortenText(
-                `${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`
-              )
-            }}
-          </h6>
-          <small class="mb-0 lh-1 text-gray-600 balance">
-            {{ currentUser?.total_balance_usd?.toFixed(2) }} $
-          </small>
+        <div class="user-info">
+          <h6 class="user-name">Settings</h6>
+          <small class="user-balance">Manage account</small>
         </div>
       </RouterLink>
     </div>
-    <!-- end::User -->
+    <!-- end::Settings Box -->
   </aside>
 
   <SandboxAlert v-if="sandBoxStatus" />

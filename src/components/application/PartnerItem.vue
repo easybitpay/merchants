@@ -1,6 +1,6 @@
 <script setup>
 // Hook
-import useIconImage from '@/composables/useIconImage'
+import useIconImage from '@/hooks/useIconImage'
 
 // Props
 const props = defineProps({

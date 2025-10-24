@@ -6,7 +6,7 @@ import { onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useConvertDate from '@/composables/useConvertDate.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Components
 import ValueCard from './ValueCard.vue'
@@ -45,41 +45,47 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="row gy-5 mb-6">
-    <div class="col-sm-6 col-xl-3">
-      <ValueCard
-        :loading="loading"
-        image="blue-image"
-        title="Total Earning"
-        :value="summary.total_income"
-      />
-    </div>
+  <div class="premium-value-cards">
+    <ValueCard
+      :loading="loading"
+      iconColor="#3b82f6"
+      title="Total Earning"
+      :value="summary.total_income"
+    />
 
-    <div class="col-sm-6 col-xl-3">
-      <ValueCard
-        :loading="loading"
-        image="warning-image"
-        title="Withdrawn"
-        :value="summary.total_withdraws"
-      />
-    </div>
+    <ValueCard
+      :loading="loading"
+      iconColor="#f59e0b"
+      title="Withdrawn"
+      :value="summary.total_withdraws"
+    />
 
-    <div class="col-sm-6 col-xl-3">
-      <ValueCard
-        :loading="loading"
-        image="purple-image"
-        :title="`Earned in ${getCurrent('MMMM')}`"
-        :value="summary.last_month_income"
-      />
-    </div>
+    <ValueCard
+      :loading="loading"
+      iconColor="#8b5cf6"
+      :title="`Earned in ${getCurrent('MMMM')}`"
+      :value="summary.last_month_income"
+    />
 
-    <div class="col-sm-6 col-xl-3">
-      <ValueCard
-        :loading="loading"
-        image="success-image"
-        title="Available"
-        :value="summary.usd_value"
-      />
-    </div>
+    <ValueCard
+      :loading="loading"
+      iconColor="#10b981"
+      title="Available"
+      :value="summary.usd_value"
+    />
   </div>
 </template>
+
+<style scoped lang="scss">
+.premium-value-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+</style>

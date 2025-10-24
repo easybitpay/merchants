@@ -1,7 +1,7 @@
 <script setup>
 // Hooks
-import useConvertDate from '@/composables/useConvertDate.js'
-import useTrackTransactions from '@/composables/useTrackTransactions.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
+import useTrackTransactions from '@/hooks/useTrackTransactions.js'
 
 // Props
 const props = defineProps({

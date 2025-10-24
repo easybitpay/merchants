@@ -7,8 +7,8 @@ import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 
 // Hooks
-import useForm from '@/composables/useForm.js'
-import useConvertDate from '@/composables/useConvertDate.js'
+import useForm from '@/hooks/useForm.js'
+import useConvertDate from '@/hooks/useConvertDate.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'

@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Hook
-import useIconImage from '@/composables/useIconImage'
+import useIconImage from '@/hooks/useIconImage'
 
 // Components
 import UploadImageOffcanvas from './UploadImageOffcanvas.vue'
