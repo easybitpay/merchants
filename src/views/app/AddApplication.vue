@@ -134,7 +134,7 @@ const submitForm = () => {
       <!-- Navigation -->
       <div class="premium-navigation-centered">
         <button
-          v-if="activeStep > 0"
+          v-if="activeStep === 1 || activeStep === 3"
           @click="prev"
           type="button"
           class="btn-back"
@@ -146,7 +146,7 @@ const submitForm = () => {
 
         <div class="nav-actions">
           <button
-            v-if="activeStep < 3"
+            v-if="activeStep >= 2"
             @click="$router.push('/apps')"
             type="button"
             class="btn-skip"

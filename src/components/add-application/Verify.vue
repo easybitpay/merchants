@@ -45,22 +45,24 @@ const showPreview = (file) => {
  */
 const submitForm = async () => {
   let id = props.createdAppInfo.id
-  if (id) {
-    // Start Loading
-    emit('changeLoadingStatus', true)
-
-    // Request
-    await store.verifyAppDomain(id).then((res) => {
-      if (res) {
-        emit('goNext', {})
-      }
-    })
-
-    // Stop Loading
-    emit('changeLoadingStatus', false)
-  } else {
-    emit('goNext', {})
+  if (!id) {
+    alert('Error: Application ID not found. Please go back and complete the previous steps.')
+    return
   }
+
+  // Start Loading
+  emit('changeLoadingStatus', true)
+
+  // Request
+  const success = await store.verifyAppDomain(id)
+  if (success) {
+    emit('goNext', {})
+  } else {
+    alert('Domain verification failed. Please check your domain configuration and try again.')
+  }
+
+  // Stop Loading
+  emit('changeLoadingStatus', false)
 }
 
 onMounted(() => {
@@ -201,3 +203,70 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+[data-bs-theme="dark"] {
+  .modern-step {
+    h3 {
+      color: #f3f4f6 !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+
+    h6 {
+      color: #e5e7eb !important;
+    }
+
+    div[style*="border: 1px solid #e5e7eb"] {
+      border-color: #2d3233 !important;
+    }
+
+    div[style*="background: #f9fafb"] {
+      background: #1a1d1e !important;
+      border-color: #2d3233 !important;
+    }
+
+    div[style*="background: #f0fdf4"] {
+      background: #064e3b !important;
+      border-color: #065f46 !important;
+    }
+
+    .text-gray-800 {
+      color: #e5e7eb !important;
+    }
+
+    .text-gray-900 {
+      color: #f3f4f6 !important;
+    }
+
+    .text-gray-600 {
+      color: #9ca3af !important;
+    }
+
+    .text-gray-500 {
+      color: #9ca3af !important;
+    }
+
+    .text-green-800 {
+      color: #86efac !important;
+    }
+
+    .text-white-50 {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    code {
+      background: #0f1011 !important;
+      border-color: #2d3233 !important;
+      color: #f3f4f6 !important;
+    }
+
+    div[style*="background: white; border: 1px solid #e5e7eb"] {
+      background: #0f1011 !important;
+      border-color: #2d3233 !important;
+    }
+  }
+}
+</style>

@@ -449,4 +449,61 @@ onMounted(() => {
   font-size: 0.8125rem;
   color: #3b82f6;
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .settings-title {
+    color: #f3f4f6;
+  }
+
+  .settings-subtitle {
+    color: #9ca3af;
+  }
+
+  .settings-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+    }
+  }
+
+  .notification-header {
+    background: #0f1011;
+    border-bottom-color: #2d3233;
+    color: #9ca3af;
+  }
+
+  .notification-row {
+    border-bottom-color: #2d3233;
+
+    &:hover {
+      background: #0f1011;
+    }
+  }
+
+  .activity-cell {
+    color: #f3f4f6;
+  }
+
+  .activity-icon {
+    background: #0f1011;
+    color: #a5b4fc;
+  }
+
+  .telegram-notice {
+    background: #1e3a8a;
+    border-color: #1e40af;
+    color: #bfdbfe;
+  }
+
+  .notice-title {
+    color: #bfdbfe;
+  }
+
+  .notice-subtitle {
+    color: #93c5fd;
+  }
+}
 </style>

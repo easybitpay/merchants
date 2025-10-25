@@ -115,6 +115,27 @@ onMounted(() => {
   flex-direction: column;
 }
 
+[data-bs-theme="dark"] .premium-gateway-card {
+  background: #1a1d1e;
+  border-color: #2d3233;
+
+  .stat-label {
+    color: #889395;
+  }
+
+  .stat-value {
+    color: #e5e9ec;
+  }
+
+  .stat-divider {
+    background: #2d3233;
+  }
+
+  .gateway-stats {
+    border-bottom-color: #2d3233;
+  }
+}
+
 .gateway-banner {
   padding: 1.5rem;
   min-height: 200px;
@@ -122,6 +143,32 @@ onMounted(() => {
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/media/images/banner/auth-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.premium-gateway-card:hover .gateway-banner::before {
+  opacity: 0.4;
 }
 
 .gateway-partners {

@@ -131,4 +131,29 @@ const props = defineProps({
     }
   }
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .premium-value-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .card-label {
+    color: #9ca3af;
+  }
+
+  .card-value {
+    color: #f3f4f6;
+
+    .value-prefix {
+      color: #9ca3af;
+    }
+  }
+}
 </style>

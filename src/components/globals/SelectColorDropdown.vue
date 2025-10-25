@@ -10,7 +10,8 @@ const props = defineProps({
   },
   selected: {
     type: String,
-    required: true
+    required: false,
+    default: null
   },
   btnSize: {
     type: String,
@@ -118,3 +119,31 @@ onMounted(() => {
     <!-- end::Dropdown Menu -->
   </div>
 </template>
+
+<style scoped lang="scss">
+[data-bs-theme="dark"] {
+  .btn {
+    background: #0f1011 !important;
+    border-color: #2d3233 !important;
+    color: #f3f4f6 !important;
+
+    &:hover {
+      background: #1a1d1e !important;
+      border-color: #3d4243 !important;
+    }
+  }
+
+  .text-gray-800 {
+    color: #f3f4f6 !important;
+  }
+
+  .text-gray-600 {
+    color: #9ca3af !important;
+  }
+
+  .dropdown-menu {
+    background: #1a1d1e !important;
+    border-color: #2d3233 !important;
+  }
+}
+</style>

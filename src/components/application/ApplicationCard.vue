@@ -186,15 +186,61 @@ watch(partnerListKey, () => {
   border-radius: 0.75rem;
   padding: 1.5rem;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/media/images/banner/auth-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   &:hover {
     border-color: #d1d5db;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &::before {
+      opacity: 0.12;
+    }
   }
 
   &.is-disabled {
     opacity: 0.6;
     pointer-events: none;
+  }
+}
+
+[data-bs-theme="dark"] .premium-gateway-card {
+  background: #1a1d1e;
+  border-color: #2d3233;
+
+  &::before {
+    opacity: 0.15;
+  }
+
+  &:hover {
+    border-color: #3d4344;
+    box-shadow: 0 4px 12px rgba(31, 117, 255, 0.15);
+
+    &::before {
+      opacity: 0.22;
+    }
   }
 }
 

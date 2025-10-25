@@ -164,12 +164,15 @@ const chartOptions = ref({
         display: false
       },
       grid: {
-        color: '#f3f4f6',
+        display: false, // Hide vertical grid lines for cleaner look
         tickColor: ''
       },
       ticks: {
         padding: 16,
-        color: '#9ca3af',
+        color: (context) => {
+          const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+          return isDark ? '#6b7280' : '#9ca3af'
+        },
         font: {
           size: 13,
           family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
@@ -181,13 +184,20 @@ const chartOptions = ref({
         display: false
       },
       grid: {
-        color: '#f3f4f6',
+        color: (context) => {
+          const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+          return isDark ? 'rgba(45, 50, 51, 0.3)' : 'rgba(243, 244, 246, 0.8)' // Much more subtle
+        },
+        lineWidth: 1,
         tickColor: ''
       },
       ticks: {
         maxTicksLimit: 6,
         padding: 16,
-        color: '#9ca3af',
+        color: (context) => {
+          const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+          return isDark ? '#6b7280' : '#9ca3af'
+        },
         font: {
           size: 13,
           family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
@@ -274,9 +284,39 @@ onMounted(() => {
 
 .chart-container {
   height: 400px;
+  position: relative;
 
   @media (max-width: 768px) {
     height: 300px;
+  }
+}
+
+[data-bs-theme="dark"] .chart-container {
+  // Add subtle gradient background for depth
+  background: linear-gradient(180deg, rgba(26, 29, 30, 0) 0%, rgba(15, 16, 17, 0.3) 100%);
+  border-radius: 0.5rem;
+}
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .premium-chart-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+  }
+
+  .chart-title {
+    color: #f3f4f6;
+  }
+}
+</style>
+
+<style lang="scss">
+// Dark mode for chart grid lines
+[data-bs-theme="dark"] {
+  #my-chart-id {
+    canvas {
+      color: #f3f4f6;
+    }
   }
 }
 </style>

@@ -2,6 +2,9 @@
 // Vue
 import { computed, ref, onMounted } from 'vue'
 
+// Store
+import { useAppStore } from '@/stores/app'
+
 // Hooks
 import useForm from '@/hooks/useForm.js'
 
@@ -12,11 +15,24 @@ import SelectColorDropdown from '../globals/SelectColorDropdown.vue'
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
+// Props
+const props = defineProps({
+  appInfo: {
+    type: Object,
+    required: true
+  },
+  createdAppInfo: {
+    type: Object,
+    required: true
+  }
+})
+
 // Emit
-const emit = defineEmits(['goNext'])
+const emit = defineEmits(['goNext', 'changeLoadingStatus'])
 
 // ----- START ----- //
 const { showFeedBacks } = useForm()
+const store = useAppStore()
 
 // Refs
 const logo = ref(null)
@@ -90,11 +106,51 @@ const submitForm = async () => {
   // Validate Form
   const result = await v$.value.$validate()
   if (result) {
+    // Start Loading
+    emit('changeLoadingStatus', true)
+
+    // Update the app with customization data
+    const id = props.createdAppInfo.id
+    if (id) {
+      let setting = {}
+      setting.color = form.value.color
+      setting.need_name = props.appInfo.need_name || false
+      setting.need_email = props.appInfo.need_email || false
+      if (props.appInfo.type?.type == 2 && props.appInfo.amount) {
+        setting.amount = props.appInfo.amount
+      }
+
+      let fd = new FormData()
+      fd.append('settings', JSON.stringify(setting))
+      fd.append('customer_fee_percent', form.value.customer_fee_percent)
+      
+      if (logo.value) {
+        fd.append('logo', logo.value)
+      }
+      if (banner.value) {
+        fd.append('banner', banner.value)
+      }
+
+      const success = await store.updateApp({ id, fd })
+      if (!success) {
+        alert('Failed to update application customization. Please check your connection and try again.')
+        emit('changeLoadingStatus', false)
+        return
+      }
+    } else {
+      alert('Application ID not found. Please go back and complete the previous step.')
+      emit('changeLoadingStatus', false)
+      return
+    }
+
     // Set Variable
     const content = { ...form.value, logo: logo.value, banner: banner.value }
 
     // Emit
     emit('goNext', content)
+
+    // Stop Loading
+    emit('changeLoadingStatus', false)
   } else {
     showFeedBacks()
   }
@@ -221,3 +277,61 @@ onMounted(() => {
     </form>
   </div>
 </template>
+
+<style scoped lang="scss">
+[data-bs-theme="dark"] {
+  .modern-step {
+    h3 {
+      color: #f3f4f6 !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+
+    .form-label {
+      color: #e5e7eb !important;
+    }
+
+    small {
+      color: #9ca3af !important;
+    }
+
+    div[style*="border: 1px solid #e5e7eb"] {
+      border-color: #2d3233 !important;
+    }
+
+    div[style*="background: #f9fafb"] {
+      background: #1a1d1e !important;
+      border-color: #2d3233 !important;
+    }
+
+    .text-gray-800 {
+      color: #e5e7eb !important;
+    }
+
+    .text-gray-600 {
+      color: #9ca3af !important;
+    }
+
+    .text-gray-500 {
+      color: #9ca3af !important;
+    }
+
+    button[style*="background: rgba(255,255,255,0.95)"] {
+      background: rgba(26, 29, 30, 0.95) !important;
+      color: #f3f4f6 !important;
+    }
+
+    .form-range {
+      &::-webkit-slider-thumb {
+        background: #6366f1;
+      }
+
+      &::-moz-range-thumb {
+        background: #6366f1;
+      }
+    }
+  }
+}
+</style>

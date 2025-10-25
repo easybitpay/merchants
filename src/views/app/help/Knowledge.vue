@@ -1684,4 +1684,259 @@ pre[class*="language-"] {
 .docs-sidebar::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .docs-title {
+    color: #f3f4f6;
+  }
+
+  .docs-subtitle {
+    color: #9ca3af;
+  }
+
+  .info-badge {
+    background: #1e3a8a;
+    border-color: #1e40af;
+    color: #bfdbfe;
+
+    &.success {
+      background: #064e3b;
+      border-color: #065f46;
+      color: #86efac;
+    }
+  }
+
+  .section-title {
+    color: #f3f4f6;
+    border-bottom-color: #2d3233;
+  }
+
+  .subsection {
+    h3 {
+      color: #f3f4f6;
+    }
+
+    h4 {
+      color: #e5e7eb;
+    }
+
+    p {
+      color: #d1d5db;
+    }
+  }
+
+  .env-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    .env-header h4 {
+      color: #f3f4f6;
+    }
+
+    code {
+      background: #0f1011;
+      border-color: #2d3233;
+      color: #a5b4fc;
+    }
+
+    p {
+      color: #9ca3af;
+    }
+  }
+
+  .flow-steps li {
+    color: #d1d5db;
+
+    strong {
+      color: #f3f4f6;
+    }
+  }
+
+  code {
+    background: #1a1d1e;
+    color: #a5b4fc;
+  }
+
+  .code-title {
+    color: #9ca3af;
+  }
+
+  .code-tabs {
+    border-color: #2d3233;
+
+    .tabs-header {
+      background: #1a1d1e;
+      border-bottom-color: #2d3233;
+    }
+
+    .tab-btn {
+      border-right-color: #2d3233;
+      color: #9ca3af;
+
+      &:hover {
+        background: #0f1011;
+        color: #e5e7eb;
+      }
+
+      &.active {
+        background: #0f1011;
+        color: #a5b4fc;
+      }
+    }
+  }
+
+  .warning-box {
+    background: #422006;
+    border-color: #92400e;
+    color: #fbbf24;
+  }
+
+  .info-box {
+    background: #1e3a8a;
+    border-color: #1e40af;
+    color: #bfdbfe;
+  }
+
+  .note-box, .note {
+    background: #1a1d1e;
+    border-left-color: #6366f1;
+    color: #d1d5db;
+  }
+
+  .url-table {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    .url-row {
+      border-bottom-color: #2d3233;
+
+      .url-label {
+        color: #f3f4f6;
+      }
+    }
+  }
+
+  .key-points .key-point {
+    background: #1a1d1e;
+    color: #d1d5db;
+
+    strong {
+      color: #f3f4f6;
+    }
+  }
+
+  .endpoint-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    .endpoint-path {
+      color: #f3f4f6;
+    }
+  }
+
+  .status-badges {
+    .status-badge {
+      &.pending {
+        background: #422006;
+        color: #fbbf24;
+      }
+
+      &.paid {
+        background: #1e3a8a;
+        color: #bfdbfe;
+      }
+
+      &.confirmed {
+        background: #064e3b;
+        color: #86efac;
+      }
+
+      &.failed {
+        background: #7f1d1d;
+        color: #fecaca;
+      }
+    }
+  }
+
+  .params-table {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    .params-header {
+      background: #0f1011;
+      border-bottom-color: #2d3233;
+      color: #9ca3af;
+    }
+
+    .params-row {
+      border-bottom-color: #2d3233;
+    }
+  }
+
+  .security-grid .security-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #6366f1;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    h4 {
+      color: #f3f4f6;
+    }
+
+    p {
+      color: #9ca3af;
+    }
+  }
+
+  .docs-sidebar {
+    .nav-link {
+      color: #9ca3af;
+
+      &:hover {
+        background: #1a1d1e;
+        color: #f3f4f6;
+      }
+
+      &.active {
+        background: #1e3a8a;
+        color: #a5b4fc;
+      }
+    }
+
+    .nav-children {
+      border-left-color: #2d3233;
+    }
+
+    .nav-link-child {
+      color: #6b7280;
+
+      &:hover {
+        background: #1a1d1e;
+        color: #9ca3af;
+      }
+
+      &.active {
+        background: #1e3a8a;
+        color: #a5b4fc;
+      }
+    }
+  }
+
+  .docs-header {
+    border-bottom-color: #2d3233;
+  }
+
+  .docs-sidebar::-webkit-scrollbar-thumb {
+    background: #374151;
+  }
+
+  .docs-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+  }
+}
+
 </style>

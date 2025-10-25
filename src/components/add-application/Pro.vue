@@ -136,7 +136,9 @@ const submitForm = async () => {
     let setting = {}
     setting.need_name = generalForm.value.need_name
     setting.need_email = generalForm.value.need_email
-    setting.color = props.appInfo.color
+    if (props.appInfo.color) {
+      setting.color = props.appInfo.color
+    }
     
 
     if (props.appInfo.type.type == 2) setting.amount = amountForm.value.amount
@@ -160,13 +162,20 @@ const submitForm = async () => {
 
 
     if (id) {
-      await store.updateApp({ id, fd })
+      const success = await store.updateApp({ id, fd })
+      if (!success) {
+        alert('Failed to update application. Please check your connection and try again.')
+        emit('changeLoadingStatus', false)
+        return
+      }
     } else {
-      await store.createApp(fd).then((res) => {
-        if (res) {
-          emit('setCreatedAppInfo', res)
-        }
-      })
+      const res = await store.createApp(fd)
+      if (!res) {
+        alert('Failed to create application. Please check your connection and try again.')
+        emit('changeLoadingStatus', false)
+        return
+      }
+      emit('setCreatedAppInfo', res)
     }
 
     // Change Page
@@ -185,7 +194,15 @@ const submitForm = async () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // Load tokens if not already loaded
+  if (!tokens.value || tokens.value.length === 0) {
+    const success = await store.getTokens()
+    if (!success) {
+      alert('Failed to load cryptocurrencies. Please refresh the page and try again.')
+    }
+  }
+
   document.addEventListener('submitStep1', function () {
     submitForm()
   })
@@ -293,3 +310,45 @@ onMounted(() => {
     </form>
   </div>
 </template>
+
+<style scoped lang="scss">
+[data-bs-theme="dark"] {
+  .modern-step {
+    h3 {
+      color: #f3f4f6 !important;
+    }
+
+    p {
+      color: #9ca3af !important;
+    }
+
+    h6 {
+      color: #e5e7eb !important;
+    }
+
+    .form-label {
+      color: #e5e7eb !important;
+    }
+
+    .form-control-modern {
+      background: #0f1011;
+      border-color: #2d3233;
+      color: #f3f4f6;
+
+      &::placeholder {
+        color: #6b7280;
+      }
+
+      &:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        background: #0f1011;
+      }
+    }
+
+    small {
+      color: #9ca3af !important;
+    }
+  }
+}
+</style>

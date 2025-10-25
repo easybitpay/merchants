@@ -48,9 +48,14 @@ const isActive = (name) => route.name === name
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+[data-bs-theme="dark"] .premium-settings-layout {
+  background: #0f1011;
+}
+
 .settings-container {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .settings-tabs {
@@ -67,6 +72,11 @@ const isActive = (name) => route.name === name
     gap: 0.25rem;
     padding: 0.25rem;
   }
+}
+
+[data-bs-theme="dark"] .settings-tabs {
+  background: #1a1d1e;
+  border-color: #2d3233;
 }
 
 .settings-tab {
@@ -121,7 +131,12 @@ const isActive = (name) => route.name === name
   }
 }
 
-.settings-content {
-  // Content styling handled by individual pages
+[data-bs-theme="dark"] .settings-tab {
+  color: #9ca3af;
+  
+  &:hover {
+    background: #0f1011;
+    color: #e5e7eb;
+  }
 }
 </style>

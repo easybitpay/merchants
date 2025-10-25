@@ -428,4 +428,111 @@ onBeforeUnmount(() => {
   opacity: 0;
   transform: translateY(-4px);
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .crypto-select-trigger {
+    background: #0f1011;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+    }
+
+    &.is-open {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+  }
+
+  .crypto-placeholder {
+    color: #6b7280;
+  }
+
+  .crypto-name {
+    color: #f3f4f6;
+  }
+
+  .crypto-symbol {
+    color: #9ca3af;
+  }
+
+  .crypto-chip {
+    background: #1a1d1e;
+    color: #e5e7eb;
+
+    .chip-remove {
+      color: #9ca3af;
+
+      &:hover {
+        color: #f3f4f6;
+      }
+    }
+  }
+
+  .crypto-chip-more {
+    color: #9ca3af;
+  }
+
+  .crypto-select-arrow {
+    color: #9ca3af;
+  }
+
+  .crypto-select-dropdown {
+    background: #1a1d1e;
+    border-color: #2d3233;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  .crypto-select-search {
+    border-bottom-color: #2d3233;
+
+    .search-icon {
+      color: #6b7280;
+    }
+
+    .crypto-search-input {
+      background: transparent;
+      color: #f3f4f6;
+
+      &::placeholder {
+        color: #6b7280;
+      }
+    }
+  }
+
+  .crypto-select-item {
+    &:hover {
+      background: #0f1011;
+    }
+
+    &.is-selected {
+      background: #1e3a8a;
+
+      .crypto-name {
+        color: #bfdbfe;
+      }
+
+      .crypto-symbol {
+        color: #93c5fd;
+      }
+    }
+
+    .crypto-name {
+      color: #f3f4f6;
+    }
+
+    .crypto-symbol {
+      color: #9ca3af;
+    }
+
+    .crypto-check {
+      color: #a5b4fc;
+    }
+  }
+
+  .crypto-select-empty {
+    color: #6b7280;
+  }
+}
 </style>

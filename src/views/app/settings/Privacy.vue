@@ -749,4 +749,160 @@ onMounted(() => {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .settings-title {
+    color: #f3f4f6;
+  }
+
+  .settings-subtitle {
+    color: #9ca3af;
+  }
+
+  .settings-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+    }
+  }
+
+  .card-title {
+    color: #f3f4f6;
+  }
+
+  .card-description {
+    color: #9ca3af;
+  }
+
+  .security-option {
+    border-color: #2d3233;
+
+    &:hover {
+      background: #0f1011;
+    }
+  }
+
+  .option-icon {
+    background: #0f1011;
+    color: #9ca3af;
+  }
+
+  .option-title {
+    color: #f3f4f6;
+  }
+
+  .option-subtitle {
+    color: #9ca3af;
+  }
+
+  .btn-action {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1a1d1e;
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+  }
+
+  .btn-upload {
+    &:hover {
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+  }
+
+  .session-item {
+    border-color: #2d3233;
+
+    &:hover {
+      background: #0f1011;
+    }
+  }
+
+  .session-icon {
+    background: #0f1011;
+    color: #a5b4fc;
+  }
+
+  .session-device {
+    color: #f3f4f6;
+  }
+
+  .session-ip {
+    color: #9ca3af;
+  }
+
+  .btn-session-remove {
+    color: #9ca3af;
+
+    &:hover {
+      background: #7f1d1d;
+      border-color: #dc2626;
+      color: #fca5a5;
+    }
+  }
+
+  .empty-sessions,
+  .empty-kyc {
+    color: #6b7280;
+
+    svg {
+      opacity: 0.3;
+    }
+
+    small {
+      color: #9ca3af;
+    }
+  }
+
+  .btn-view-more {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #a5b4fc;
+
+    &:hover {
+      background: #1a1d1e;
+      border-color: #374151;
+    }
+  }
+
+  .kyc-item {
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .kyc-preview {
+    background-color: #0f1011;
+  }
+
+  .kyc-type {
+    background: rgba(26, 29, 30, 0.95);
+    color: #f3f4f6;
+  }
+
+  .btn-kyc-delete {
+    border-color: #2d3233;
+    color: #9ca3af;
+
+    &:hover {
+      background: #7f1d1d;
+      border-color: #dc2626;
+      color: #fca5a5;
+    }
+  }
+
+  .loading-spinner {
+    border-color: #2d3233;
+    border-top-color: #6366f1;
+  }
+}
 </style>

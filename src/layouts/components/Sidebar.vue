@@ -306,38 +306,6 @@ watch(search, () => {
         <div class="link-box">
           <!-- begin::Link -->
           <router-link
-            :to="{ name: 'settings' }"
-            :class="[{ link: true }, { active: checkActive('settings') }]"
-          >
-            <!-- begin::icon -->
-            <div>
-              <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
-            </div>
-            <!-- end::icon -->
-
-            <span>Settings</span>
-          </router-link>
-          <!-- end::Link -->
-
-          <!-- begin::Link -->
-          <a
-            href="https://docs.easybitpay.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-          >
-            <!-- begin::icon -->
-            <div>
-              <inline-svg src="media/icons/icons/book.svg" class="icon"></inline-svg>
-            </div>
-            <!-- end::icon -->
-
-            <span>Docs</span>
-          </a>
-          <!-- end::Link -->
-
-          <!-- begin::Link -->
-          <router-link
             :to="{ name: 'help' }"
             :class="[{ link: true }, { active: checkActive('help') }]"
           >
@@ -347,7 +315,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Help</span>
+            <span>Help Center</span>
           </router-link>
           <!-- end::Link -->
 

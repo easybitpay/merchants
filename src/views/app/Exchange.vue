@@ -54,4 +54,14 @@ import ExchangeEmbledOffcanvas from '../../components/exchange/ExchangeEmbledOff
   margin: 0;
   line-height: 1.5;
 }
+
+[data-bs-theme="dark"] {
+  .page-title {
+    color: #f3f4f6;
+  }
+
+  .page-description {
+    color: #9ca3af;
+  }
+}
 </style>

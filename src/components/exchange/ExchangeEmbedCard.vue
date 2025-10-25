@@ -54,6 +54,16 @@
   }
 }
 
+[data-bs-theme="dark"] .premium-embed-card {
+  background: #1a1d1e;
+  border-color: #2d3233;
+
+  &:hover {
+    border-color: #3d4243;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
 .embed-content {
   display: flex;
   align-items: center;
@@ -92,6 +102,10 @@
   line-height: 1.3;
 }
 
+[data-bs-theme="dark"] .embed-title {
+  color: #f3f4f6;
+}
+
 .embed-description {
   font-size: 0.875rem;
   color: #6b7280;
@@ -101,6 +115,10 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+[data-bs-theme="dark"] .embed-description {
+  color: #9ca3af;
 }
 
 .embed-link {
@@ -122,6 +140,14 @@
     svg {
       transform: translateX(2px);
     }
+  }
+}
+
+[data-bs-theme="dark"] .embed-link {
+  color: #60a5fa;
+
+  &:hover {
+    color: #3b82f6;
   }
 }
 

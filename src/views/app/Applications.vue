@@ -92,6 +92,16 @@ const appLoading = computed(() => store.appLoading)
   margin: 0;
 }
 
+[data-bs-theme="dark"] {
+  .premium-page-title {
+    color: #f3f4f6;
+  }
+
+  .premium-page-subtitle {
+    color: #9ca3af;
+  }
+}
+
 .btn-premium-primary {
   display: inline-flex;
   align-items: center;
@@ -153,6 +163,22 @@ const appLoading = computed(() => store.appLoading)
     color: #6b7280;
     margin: 0 0 2rem 0;
     max-width: 400px;
+  }
+}
+
+[data-bs-theme="dark"] .premium-empty-state {
+  .empty-icon svg {
+    rect, path, circle {
+      stroke: #4b5563;
+    }
+  }
+
+  .empty-title {
+    color: #f3f4f6;
+  }
+
+  .empty-text {
+    color: #9ca3af;
   }
 }
 </style>

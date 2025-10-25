@@ -974,3 +974,275 @@
     }
   }
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .premium-wizard-container {
+    background: linear-gradient(135deg, #0f1011 0%, #1a1d1e 100%);
+  }
+
+  .premium-progress-bar {
+    background: #2d3233;
+  }
+
+  .steps-progress-horizontal {
+    background: #1a1d1e;
+    border: 1px solid #2d3233;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+
+    .step-item {
+      &:not(:last-child)::after {
+        background: #2d3233;
+      }
+
+      .step-circle {
+        background: #0f1011;
+        border-color: #2d3233;
+        color: #6b7280;
+      }
+
+      &.active .step-circle {
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+      }
+
+      .step-label {
+        color: #6b7280;
+      }
+
+      &.active .step-label {
+        color: #a5b4fc;
+      }
+
+      &.completed .step-label {
+        color: #9ca3af;
+      }
+    }
+  }
+
+  .step-content-centered {
+    background: #1a1d1e;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .premium-step {
+    .question-title {
+      color: #f3f4f6;
+    }
+
+    .question-subtitle {
+      color: #9ca3af;
+    }
+
+    .question-label {
+      color: #e5e7eb;
+    }
+  }
+
+  .premium-option {
+    background: #0f1011;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+      background: #1a1d1e;
+    }
+
+    &.selected {
+      border-color: #4f46e5;
+      background: #1e3a8a;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    .option-check {
+      border-color: #374151;
+    }
+
+    .option-icon-circle {
+      background: linear-gradient(135deg, #1a1d1e 0%, #2d3233 100%);
+      color: #9ca3af;
+    }
+
+    &.selected .option-icon-circle {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+    }
+
+    .option-title {
+      color: #f3f4f6;
+    }
+
+    .option-desc {
+      color: #9ca3af;
+    }
+  }
+
+  .premium-input {
+    color: #f3f4f6;
+    background: #0f1011;
+    border-color: #2d3233;
+
+    &::placeholder {
+      color: #6b7280;
+    }
+
+    &:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    }
+
+    &.error {
+      border-color: #ef4444;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+      }
+    }
+  }
+
+  .input-with-icon .input-icon {
+    color: #6b7280;
+  }
+
+  .premium-checkbox {
+    .checkbox-mark {
+      border-color: #374151;
+      background: #0f1011;
+    }
+
+    .checkbox-label {
+      color: #e5e7eb;
+    }
+
+    .text-link {
+      color: #a5b4fc;
+    }
+  }
+
+  .premium-navigation-centered {
+    border-top-color: #2d3233;
+  }
+
+  .btn-skip {
+    color: #9ca3af;
+
+    &:hover {
+      color: #a5b4fc;
+      background: #0f1011;
+    }
+  }
+
+  .btn-back {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1a1d1e;
+      border-color: #374151;
+    }
+  }
+
+  .premium-modal {
+    background: #1a1d1e;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+
+  .modal-header-premium {
+    border-bottom-color: #2d3233;
+
+    h3 {
+      color: #f3f4f6;
+    }
+
+    .modal-close {
+      background: #0f1011;
+      color: #9ca3af;
+
+      &:hover {
+        background: #2d3233;
+        color: #f3f4f6;
+      }
+    }
+  }
+
+  .modal-body-premium {
+    p {
+      color: #d1d5db;
+    }
+
+    h6 {
+      color: #f3f4f6;
+    }
+  }
+
+  .modal-footer-premium {
+    border-top-color: #2d3233;
+  }
+
+  .btn-secondary-premium {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1a1d1e;
+      border-color: #374151;
+    }
+  }
+
+  .help-card-bottom {
+    .help-text-inline {
+      color: #9ca3af;
+    }
+
+    .help-link-inline {
+      color: #a5b4fc;
+    }
+  }
+
+  .preview-card {
+    background: #1a1d1e;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .preview-header {
+    .preview-title {
+      color: #f3f4f6;
+    }
+
+    .preview-subtitle {
+      color: #9ca3af;
+    }
+  }
+
+  .gateway-preview-frame {
+    border-color: #2d3233;
+  }
+
+  .preview-stats {
+    background: #0f1011;
+
+    .stat-item span {
+      color: #9ca3af;
+    }
+
+    .stat-icon {
+      background: #1a1d1e;
+      border-color: #2d3233;
+      color: #6b7280;
+    }
+  }
+
+  .preview-info {
+    border-top-color: #2d3233;
+
+    .info-item {
+      background: #0f1011;
+      color: #e5e7eb;
+
+      .info-icon {
+        color: #9ca3af;
+      }
+    }
+  }
+}

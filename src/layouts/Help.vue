@@ -47,6 +47,10 @@ const isActive = (name) => route.name === name
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+[data-bs-theme="dark"] .premium-help-layout {
+  background: #0f1011;
+}
+
 .help-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -66,6 +70,11 @@ const isActive = (name) => route.name === name
     gap: 0.25rem;
     padding: 0.25rem;
   }
+}
+
+[data-bs-theme="dark"] .help-tabs {
+  background: #1a1d1e;
+  border-color: #2d3233;
 }
 
 .help-tab {
@@ -120,7 +129,12 @@ const isActive = (name) => route.name === name
   }
 }
 
-.help-content {
-  // Content styling handled by individual pages
+[data-bs-theme="dark"] .help-tab {
+  color: #9ca3af;
+  
+  &:hover {
+    background: #0f1011;
+    color: #e5e7eb;
+  }
 }
 </style>

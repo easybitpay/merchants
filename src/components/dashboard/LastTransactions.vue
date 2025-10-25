@@ -292,4 +292,77 @@ watch(selectedSort, () => {
     font-size: 0.75rem;
   }
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .premium-transactions-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+  }
+
+  .transactions-title {
+    color: #f3f4f6;
+  }
+
+  .transactions-table {
+    thead {
+      tr {
+        border-bottom-color: #2d3233;
+      }
+
+      th {
+        color: #9ca3af;
+
+        &:hover {
+          color: #e5e7eb;
+        }
+      }
+    }
+
+    tbody {
+      tr:hover {
+        background-color: #0f1011;
+      }
+
+      td {
+        color: #e5e7eb;
+        border-bottom-color: #2d3233;
+      }
+    }
+  }
+
+  .id-badge {
+    color: #a5b4fc;
+  }
+
+  .code-text {
+    color: #e5e7eb;
+  }
+
+  .date-text {
+    color: #9ca3af;
+  }
+
+  .amount-text {
+    color: #f3f4f6;
+  }
+
+  .status-badge {
+    &.status-success {
+      background: #064e3b;
+      color: #86efac;
+    }
+
+    &.status-warning {
+      background: #422006;
+      color: #fbbf24;
+    }
+
+    &.status-expired {
+      background: #1a1d1e;
+      color: #9ca3af;
+      border: 1px solid #2d3233;
+    }
+  }
+}
 </style>

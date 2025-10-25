@@ -479,4 +479,128 @@ const profile = computed(() => JSON.parse(currentUser.value?.merchant?.profile |
   color: #6b7280;
   margin: 0.75rem 0 0 0;
 }
+
+// ===== DARK MODE STYLES =====
+[data-bs-theme="dark"] {
+  .settings-title {
+    color: #f3f4f6;
+  }
+
+  .settings-subtitle {
+    color: #9ca3af;
+  }
+
+  .settings-card {
+    background: #1a1d1e;
+    border-color: #2d3233;
+
+    &:hover {
+      border-color: #374151;
+    }
+  }
+
+  .card-title {
+    color: #f3f4f6;
+  }
+
+  .card-description {
+    color: #9ca3af;
+  }
+
+  .profile-card {
+    background: linear-gradient(135deg, #1a1d1e 0%, #0f1011 100%);
+  }
+
+  .profile-avatar {
+    border-color: #2d3233;
+  }
+
+  .profile-name {
+    color: #f3f4f6;
+  }
+
+  .profile-email {
+    color: #9ca3af;
+  }
+
+  .btn-change-photo {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #e5e7eb;
+
+    &:hover {
+      border-color: #6366f1;
+      color: #a5b4fc;
+      background: #1a1d1e;
+    }
+  }
+
+  .btn-edit {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #e5e7eb;
+
+    &:hover {
+      background: #1a1d1e;
+      border-color: #374151;
+    }
+
+    svg {
+      color: #9ca3af;
+    }
+  }
+
+  .info-item {
+    border-bottom-color: #2d3233;
+  }
+
+  .info-label {
+    color: #9ca3af;
+  }
+
+  .info-value {
+    color: #f3f4f6;
+  }
+
+  .info-value-with-badge > span:first-child {
+    color: #f3f4f6;
+  }
+
+  .badge-verified {
+    background: #064e3b;
+    color: #86efac;
+
+    svg {
+      color: #10b981;
+    }
+  }
+
+  .badge-unverified {
+    background: #422006;
+    color: #fbbf24;
+  }
+
+  .language-dropdown-btn {
+    background: #0f1011;
+    border-color: #2d3233;
+    color: #f3f4f6;
+
+    &:hover {
+      border-color: #374151;
+    }
+
+    &:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+  }
+
+  .language-icon {
+    color: #9ca3af;
+  }
+
+  .language-note {
+    color: #9ca3af;
+  }
+}
 </style>
