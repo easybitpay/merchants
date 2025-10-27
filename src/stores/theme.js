@@ -1,5 +1,5 @@
 // Vue
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 // Pinia
 import { defineStore } from 'pinia'
@@ -8,6 +8,9 @@ import { defineStore } from 'pinia'
 export const useThemeStore = defineStore('theme', () => {
   // ----- States -----
   const theme = ref('light')
+
+  // ----- Computed -----
+  const isDark = computed(() => theme.value === 'dark')
 
   // ----- Functions -----
 
@@ -64,6 +67,7 @@ export const useThemeStore = defineStore('theme', () => {
 
   return {
     theme,
+    isDark,
     initTheme,
     toggleTheme,
     setTheme

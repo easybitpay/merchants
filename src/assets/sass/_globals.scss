@@ -551,6 +551,109 @@ body.sandbox.email-verify {
             }
         }
 
+        // Theme toggle box
+        .theme-toggle-box {
+            padding: 0 1.5rem 1.5rem;
+
+            .theme-toggle-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .theme-toggle-switch {
+                cursor: pointer;
+                user-select: none;
+
+                .toggle-slider {
+                    position: relative;
+                    display: inline-block;
+                    width: 64px;
+                    height: 32px;
+                    background-color: #e5e7eb;
+                    border-radius: 34px;
+                    transition: background-color 0.3s ease;
+                    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+
+                    .toggle-thumb {
+                        position: absolute;
+                        top: 4px;
+                        left: 4px;
+                        width: 24px;
+                        height: 24px;
+                        background-color: #ffffff;
+                        border-radius: 50%;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                        z-index: 2;
+                    }
+
+                    .toggle-icon {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: opacity 0.3s ease;
+                        z-index: 1;
+                        pointer-events: none;
+
+                        svg {
+                            display: block;
+                        }
+
+                        &.toggle-icon-left {
+                            left: 7px;
+                            opacity: 0.3;
+                            
+                            svg {
+                                stroke: #f59e0b;
+                            }
+                        }
+
+                        &.toggle-icon-right {
+                            right: 7px;
+                            opacity: 1;
+                            
+                            svg {
+                                stroke: #64748b;
+                            }
+                        }
+                    }
+
+                    // When dark mode is active
+                    &.is-dark {
+                        background-color: #1e293b;
+
+                        .toggle-thumb {
+                            left: 36px;
+                        }
+
+                        .toggle-icon-left {
+                            opacity: 1;
+                        }
+
+                        .toggle-icon-right {
+                            opacity: 0.3;
+                        }
+                    }
+                }
+
+                &:hover .toggle-slider {
+                    .toggle-thumb {
+                        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+                    }
+                }
+
+                &:active .toggle-slider {
+                    .toggle-thumb {
+                        width: 28px;
+                    }
+                }
+            }
+        }
+
         &.collapsed {
             width: 72px;
             padding: 1.625rem 0 0;
@@ -1338,6 +1441,32 @@ body.sandbox.email-verify {
 
                     .user-balance {
                         color: #abb6ba;
+                    }
+                }
+            }
+
+            .theme-toggle-box {
+                .theme-toggle-switch {
+                    .toggle-slider {
+                        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+
+                        .toggle-thumb {
+                            background-color: #f1f5f9;
+                        }
+
+                        .toggle-icon {
+                            &.toggle-icon-left {
+                                svg {
+                                    stroke: #fbbf24;
+                                }
+                            }
+
+                            &.toggle-icon-right {
+                                svg {
+                                    stroke: #94a3b8;
+                                }
+                            }
+                        }
                     }
                 }
             }

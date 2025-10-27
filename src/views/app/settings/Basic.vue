@@ -210,9 +210,9 @@ const profile = computed(() => JSON.parse(currentUser.value?.merchant?.profile |
 
 <style scoped lang="scss">
 .premium-settings-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 100%;
+  width: 100%;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 

@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Hook
 import useIconImage from '@/hooks/useIconImage'
@@ -34,11 +35,13 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const appStore = useAppStore()
+const themeStore = useThemeStore()
 const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
 const sandbox = ref(sandBoxStatus.value)
 const emailVerifyAlert = computed(() => authStore.emailVerifyAlert)
+const isDark = computed(() => themeStore.isDark)
 
 // Refs
 const search = ref('')
@@ -119,6 +122,13 @@ const signOut = () => {
   localStorage.setItem('prevAuthAction', 'Sign out')
   authStore.logout()
   window.location.reload()
+}
+
+/**
+ * Toggle Theme
+ */
+const toggleTheme = () => {
+  themeStore.toggleTheme()
 }
 
 /**
@@ -418,6 +428,31 @@ watch(search, () => {
       </div>
     </div>
     <!-- end::Links -->
+
+    <!-- begin::Theme Toggle -->
+    <div class="theme-toggle-box w-100">
+      <div class="theme-toggle-wrapper">
+        <div class="theme-toggle-switch" @click.stop="toggleTheme">
+          <span class="toggle-slider" :class="{ 'is-dark': isDark }">
+            <span class="toggle-thumb"></span>
+            <span class="toggle-icon toggle-icon-left">
+              <!-- Sun Icon -->
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M20.66 7l-1.73 1M5.07 17l-1.73 1M2 12h2M20 12h2M5.07 7l-1.73-1M18.93 17l1.73 1"/>
+              </svg>
+            </span>
+            <span class="toggle-icon toggle-icon-right">
+              <!-- Moon Icon -->
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- end::Theme Toggle -->
 
     <!-- begin::Settings Box -->
     <div class="user-box w-100">

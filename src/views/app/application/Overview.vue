@@ -22,7 +22,7 @@ const selectedApp = computed(() => store.selectedApp)
 
 <template>
   <ApplicationCard action="action" :app="selectedApp" />
-
+  
   <ApiKey />
 
   <Charts />

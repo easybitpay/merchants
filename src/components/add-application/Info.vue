@@ -23,7 +23,8 @@ const props = defineProps({
   },
   createdAppInfo: {
     type: Object,
-    required: true
+    required: false,
+    default: () => ({})
   }
 })
 
@@ -57,9 +58,7 @@ const form = ref({
 })
 
 const rules = {
-  color: {
-    required: helpers.withMessage('App color is required', required)
-  }
+  // No validation rules - all fields are optional for this step
 }
 
 const v$ = useVuelidate(rules, form)
@@ -106,14 +105,19 @@ const submitForm = async () => {
   // Validate Form
   const result = await v$.value.$validate()
   if (result) {
-    // Start Loading
-    emit('changeLoadingStatus', true)
+    // Check if any customization was provided
+    const hasCustomization = form.value.color || logo.value || banner.value || form.value.customer_fee_percent > 0
+    
+    if (hasCustomization && props.createdAppInfo?.id) {
+      // Start Loading
+      emit('changeLoadingStatus', true)
 
-    // Update the app with customization data
-    const id = props.createdAppInfo.id
-    if (id) {
+      // Update the app with customization data
+      const id = props.createdAppInfo.id
       let setting = {}
-      setting.color = form.value.color
+      if (form.value.color) {
+        setting.color = form.value.color
+      }
       setting.need_name = props.appInfo.need_name || false
       setting.need_email = props.appInfo.need_email || false
       if (props.appInfo.type?.type == 2 && props.appInfo.amount) {
@@ -122,7 +126,9 @@ const submitForm = async () => {
 
       let fd = new FormData()
       fd.append('settings', JSON.stringify(setting))
-      fd.append('customer_fee_percent', form.value.customer_fee_percent)
+      if (form.value.customer_fee_percent > 0) {
+        fd.append('customer_fee_percent', form.value.customer_fee_percent)
+      }
       
       if (logo.value) {
         fd.append('logo', logo.value)
@@ -137,27 +143,23 @@ const submitForm = async () => {
         emit('changeLoadingStatus', false)
         return
       }
-    } else {
-      alert('Application ID not found. Please go back and complete the previous step.')
+
+      // Stop Loading
       emit('changeLoadingStatus', false)
-      return
     }
 
     // Set Variable
     const content = { ...form.value, logo: logo.value, banner: banner.value }
 
-    // Emit
+    // Emit - proceed to next step regardless of whether customization was applied
     emit('goNext', content)
-
-    // Stop Loading
-    emit('changeLoadingStatus', false)
   } else {
     showFeedBacks()
   }
 }
 
 onMounted(() => {
-  document.addEventListener('submitStep2', function () {
+  document.addEventListener('submitStep3', function () {
     submitForm()
   })
 })
@@ -165,20 +167,20 @@ onMounted(() => {
 
 <template>
   <div class="modern-step">
-    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Customize appearance</h3>
-    <p class="text-gray-600 mb-6 fs-6">Personalize your payment gateway with your brand</p>
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <h3 class="text-gray-900 mb-0 fw-semibold" style="font-size: 1.25rem;">Customize appearance</h3>
+      <span class="badge bg-light text-gray-600 px-2 py-1" style="font-size: 0.75rem; font-weight: 500;">Optional</span>
+    </div>
+    <p class="text-gray-600 mb-6 fs-6">Personalize your payment gateway with your brand colors and logos. You can skip this and customize later from settings.</p>
 
     <form @submit.prevent="submitForm" class="d-flex flex-column gap-5">
       <button type="submit" hidden></button>
       
       <!-- Brand Color -->
-      <div>
+      <div v-if="false">
         <label class="form-label text-gray-700 fw-medium mb-2">Primary color</label>
         <SelectColorDropdown :selected="form.color" @change="toggleColor" />
         <small class="text-gray-500 mt-1 d-block">Used for buttons and accents in your gateway</small>
-        <div class="text-danger mt-2 fs-7" v-if="v$.color.$errors.length">
-          {{ v$.color.$errors[0].$message }}
-        </div>
       </div>
 
       <!-- Gateway Preview Card -->
@@ -272,7 +274,9 @@ onMounted(() => {
             <small class="text-gray-500">Customer pays all fees</small>
           </div>
         </div>
-        <small class="text-gray-500 mt-2 d-block">Adjust how transaction fees are split</small>
+        <small class="text-gray-500 mt-2 d-block">
+          Choose who pays transaction fees. Example: If set to 50%, a $100 payment with 2% fee ($2) splits the fee—you pay $1, customer pays $101.
+        </small>
       </div>
     </form>
   </div>
@@ -281,12 +285,31 @@ onMounted(() => {
 <style scoped lang="scss">
 [data-bs-theme="dark"] {
   .modern-step {
-    h3 {
+    h3, .text-gray-900 {
       color: #f3f4f6 !important;
     }
 
-    p {
+    p, .text-gray-600 {
       color: #9ca3af !important;
+    }
+
+    .text-gray-700 {
+      color: #d1d5db !important;
+    }
+
+    .text-gray-800 {
+      color: #e5e7eb !important;
+    }
+
+    .text-gray-500 {
+      color: #9ca3af !important;
+    }
+
+    .badge {
+      &.bg-light {
+        background-color: #2d3233 !important;
+        color: #9ca3af !important;
+      }
     }
 
     .form-label {
@@ -295,6 +318,16 @@ onMounted(() => {
 
     small {
       color: #9ca3af !important;
+    }
+
+    // Override all inline white/light backgrounds
+    .p-4.rounded,
+    .rounded,
+    div[class*="rounded"] {
+      &[style*="background"] {
+        background: #1a1d1e !important;
+        border-color: #2d3233 !important;
+      }
     }
 
     div[style*="border: 1px solid #e5e7eb"] {
@@ -306,31 +339,31 @@ onMounted(() => {
       border-color: #2d3233 !important;
     }
 
-    .text-gray-800 {
-      color: #e5e7eb !important;
-    }
-
-    .text-gray-600 {
-      color: #9ca3af !important;
-    }
-
-    .text-gray-500 {
-      color: #9ca3af !important;
-    }
-
     button[style*="background: rgba(255,255,255,0.95)"] {
       background: rgba(26, 29, 30, 0.95) !important;
       color: #f3f4f6 !important;
     }
 
     .form-range {
+      &::-webkit-slider-track {
+        background: #2d3233;
+      }
+
       &::-webkit-slider-thumb {
         background: #6366f1;
+      }
+
+      &::-moz-range-track {
+        background: #2d3233;
       }
 
       &::-moz-range-thumb {
         background: #6366f1;
       }
+    }
+
+    img[style*="background: white"] {
+      background: #2d3233 !important;
     }
   }
 }

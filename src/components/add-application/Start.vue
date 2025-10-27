@@ -107,12 +107,13 @@ onMounted(() => {
   <div class="premium-step">
     <div class="question-header">
       <h2 class="question-title">Let's create your payment gateway</h2>
-      <p class="question-subtitle">Answer a few quick questions and we'll have you set up in minutes.</p>
+      <p class="question-subtitle">Tell us about your business to get started.</p>
     </div>
 
     <!-- Gateway Type Selection -->
     <div class="question-block">
       <label class="question-label">What type of gateway do you need?</label>
+      <p class="question-helper">Choose the option that best fits your use case</p>
       <div class="premium-options">
         <label 
           v-for="(item, index) in types"
@@ -149,7 +150,8 @@ onMounted(() => {
 
     <!-- Application Name -->
     <div class="question-block">
-      <label for="appName" class="question-label">What's the name of your application?</label>
+      <label for="appName" class="question-label">What's the name of your business or application?</label>
+      <p class="question-helper">This will be displayed to your customers during checkout</p>
       <input
         type="text"
         class="premium-input"
@@ -160,13 +162,14 @@ onMounted(() => {
       />
       <div v-if="errors.name" class="input-error">
         <i class="bi bi-exclamation-circle me-1"></i>
-        App name is required
+        Business name is required
       </div>
     </div>
 
     <!-- Website URL -->
     <div class="question-block">
-      <label for="siteUrl" class="question-label">Where is your website hosted?</label>
+      <label for="siteUrl" class="question-label">What's your website URL?</label>
+      <p class="question-helper">We'll use this to verify your domain ownership</p>
       <div class="input-with-icon">
         <i class="bi bi-globe input-icon"></i>
         <input
@@ -234,3 +237,18 @@ onMounted(() => {
     </Teleport>
   </div>
 </template>
+
+<style scoped lang="scss">
+.question-helper {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: -0.25rem 0 0.75rem 0;
+  line-height: 1.5;
+}
+
+[data-bs-theme="dark"] {
+  .question-helper {
+    color: #9ca3af;
+  }
+}
+</style>

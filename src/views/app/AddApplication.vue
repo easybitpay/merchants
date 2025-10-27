@@ -5,8 +5,10 @@ import { computed, ref } from 'vue'
 // Component
 import Start from '../../components/add-application/Start.vue'
 import Pro from '../../components/add-application/Pro.vue'
+import CryptoSetup from '../../components/add-application/CryptoSetup.vue'
 import Info from '../../components/add-application/Info.vue'
 import Verify from '../../components/add-application/Verify.vue'
+import DomainVerify from '../../components/add-application/DomainVerify.vue'
 
 // ----- START ----- //
 const steps = [
@@ -18,21 +20,33 @@ const steps = [
   },
   {
     icon: 'settings',
-    title: 'Configuration',
-    subject: 'URLs & token settings',
+    title: 'Integration',
+    subject: 'Webhooks & preferences',
     component: Pro
+  },
+  {
+    icon: 'currency-dollar',
+    title: 'Currencies',
+    subject: 'Select cryptocurrencies',
+    component: CryptoSetup
   },
   {
     icon: 'palette',
     title: 'Customization',
-    subject: 'Branding & appearance',
+    subject: 'Branding (Optional)',
     component: Info
   },
   {
-    icon: 'check-circle',
-    title: 'Review & Launch',
-    subject: 'Confirm & create',
+    icon: 'document-text',
+    title: 'Review',
+    subject: 'Check configuration',
     component: Verify
+  },
+  {
+    icon: 'shield-check',
+    title: 'Domain Verification',
+    subject: 'Verify ownership',
+    component: DomainVerify
   }
 ]
 
@@ -44,7 +58,10 @@ const createdAppInfo = ref({})
 
 // Computeds
 const nextButtonText = computed(() => {
-  if (activeStep.value === 3) return 'Create Application'
+  if (activeStep.value === 2) return 'Create Gateway'
+  if (activeStep.value === 3) return 'Save & Continue'
+  if (activeStep.value === 4) return 'Continue to Verification'
+  if (activeStep.value === 5) return 'Verify & Launch'
   return 'Continue'
 })
 
@@ -119,7 +136,7 @@ const submitForm = () => {
 
       <!-- Content Area with Transition -->
       <transition name="slide-fade" mode="out-in">
-        <div :key="activeStep" class="step-content-centered">
+        <div :key="activeStep" class="step-content-centered" style="min-height: 500px;">
           <component
             :is="steps[activeStep].component"
             @goNext="goNext"
@@ -134,7 +151,7 @@ const submitForm = () => {
       <!-- Navigation -->
       <div class="premium-navigation-centered">
         <button
-          v-if="activeStep === 1 || activeStep === 3"
+          v-if="activeStep > 0 && activeStep !== 3"
           @click="prev"
           type="button"
           class="btn-back"
@@ -146,12 +163,12 @@ const submitForm = () => {
 
         <div class="nav-actions">
           <button
-            v-if="activeStep >= 2"
-            @click="$router.push('/apps')"
+            v-if="activeStep === 3"
+            @click="next"
             type="button"
             class="btn-skip"
           >
-            Skip for now
+            Skip customization
           </button>
           
           <button
@@ -164,7 +181,7 @@ const submitForm = () => {
             <span v-if="!loading" class="btn-content">
               <span>{{ nextButtonText }}</span>
               <inline-svg 
-                v-if="activeStep < 3"
+                v-if="activeStep < 5"
                 src="media/icons/icons/arrow-right.svg" 
                 width="18" 
                 height="18"

@@ -12,9 +12,6 @@ import useForm from '@/hooks/useForm.js'
 import useVuelidate from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 
-// Components
-import CryptoSelect from './CryptoSelect.vue'
-
 // Props
 const props = defineProps({
   appInfo: {
@@ -36,19 +33,10 @@ const emit = defineEmits(['goNext', 'changeLoadingStatus', 'setCreatedAppInfo'])
 const store = useAppStore()
 const { showFeedBacks } = useForm()
 
-// Refs
-const base_token = ref({})
-const available_tokens = ref([])
-
-// Computeds
-const tokens = computed(() => store.tokens)
-
 // Vuelidate
 const generalForm = ref({
   callback_url: '',
   redirect_url: '',
-  baseCoin: null,
-  availableCoins: null,
   need_name: false,
   need_email: false
 })
@@ -63,12 +51,6 @@ const generalRules = {
   },
   redirect_url: {
     required: helpers.withMessage('Redirect url is required', required)
-  },
-  baseCoin: {
-    required: helpers.withMessage('Bse coin is required', required)
-  },
-  availableCoins: {
-    required: helpers.withMessage('Availabe coins is required', required)
   }
 }
 
@@ -81,36 +63,12 @@ const amountRules = {
 const vGeneral$ = useVuelidate(generalRules, generalForm)
 const vAmount$ = useVuelidate(amountRules, amountForm)
 
-// Functions
-
-/**
- * Toggle Base Coin
- * @param {token} token
- */
-const toggleBaseToken = (token) => {
-  base_token.value = token
-  generalForm.value.baseCoin = token.id
-}
-
-/**
- * Toggle Available Coins
- * @param {tokens} tokens
- */
-const toggleAvialableToken = (tokens) => {
-  available_tokens.value = tokens
-  if (tokens.length) {
-    generalForm.value.availableCoins = `${tokens.length}`
-  } else {
-    generalForm.value.availableCoins = null
-  }
-}
-
 /**
  * Submit Form
  * send data to parent for store
  */
 const submitForm = async () => {
-  // Validion Form
+  // Validate Form
   const generalResult = await vGeneral$.value.$validate()
   let amountResult = true
 
@@ -119,90 +77,18 @@ const submitForm = async () => {
   }
 
   if (generalResult && amountResult) {
-    // Start Loading
-    emit('changeLoadingStatus', true)
-
-    // Set Variables
-    let array = []
-    for (let i = 0; i < available_tokens.value.length; i++) {
-      const token = available_tokens.value[i]
-      array.push(token.id)
-    }
-
-    let availableCoinsString = array.toString()
-
-    const id = props.createdAppInfo.id
-
-    let setting = {}
-    setting.need_name = generalForm.value.need_name
-    setting.need_email = generalForm.value.need_email
-    if (props.appInfo.color) {
-      setting.color = props.appInfo.color
-    }
-    
-
-    if (props.appInfo.type.type == 2) setting.amount = amountForm.value.amount
-
-    let fd = new FormData()
-    fd.append('settings', JSON.stringify(setting))
-    fd.append('type', props.appInfo.type.type)
-    fd.append('name', props.appInfo.name)
-    fd.append('site_url', props.appInfo.site_url)
-    fd.append('customer_fee_percent', props.appInfo.customer_fee_percent)
-    fd.append('callback_url', generalForm.value.callback_url)
-    fd.append('redirect_url', generalForm.value.redirect_url)
-    fd.append('base_token_id', base_token.value.id)
-    fd.append('available_tokens', availableCoinsString)
-    if (props.appInfo.logo) {
-      fd.append('logo', props.appInfo.logo)
-    }
-    if (props.appInfo.banner) {
-      fd.append('banner', props.appInfo.banner)
-    }
-
-
-    if (id) {
-      const success = await store.updateApp({ id, fd })
-      if (!success) {
-        alert('Failed to update application. Please check your connection and try again.')
-        emit('changeLoadingStatus', false)
-        return
-      }
-    } else {
-      const res = await store.createApp(fd)
-      if (!res) {
-        alert('Failed to create application. Please check your connection and try again.')
-        emit('changeLoadingStatus', false)
-        return
-      }
-      emit('setCreatedAppInfo', res)
-    }
-
-    // Change Page
+    // Pass data to next step (Step 3 - Currency Selection)
     const content = {
       ...generalForm.value,
-      ...amountForm.value,
-      baseCoin: base_token.value,
-      availableCoins: available_tokens.value
+      ...amountForm.value
     }
     emit('goNext', content)
-
-    // Stop Loading
-    emit('changeLoadingStatus', false)
   } else {
     showFeedBacks()
   }
 }
 
 onMounted(async () => {
-  // Load tokens if not already loaded
-  if (!tokens.value || tokens.value.length === 0) {
-    const success = await store.getTokens()
-    if (!success) {
-      alert('Failed to load cryptocurrencies. Please refresh the page and try again.')
-    }
-  }
-
   document.addEventListener('submitStep1', function () {
     submitForm()
   })
@@ -211,19 +97,21 @@ onMounted(async () => {
 
 <template>
   <div class="modern-step">
-    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Configure integration</h3>
-    <p class="text-gray-600 mb-6 fs-6">Set up webhooks and select supported cryptocurrencies</p>
+    <h3 class="text-gray-900 mb-2 fw-semibold" style="font-size: 1.25rem;">Integration setup</h3>
+    <p class="text-gray-600 mb-6 fs-6">Configure webhooks and payment preferences</p>
 
     <form @submit.prevent="submitForm" class="d-flex flex-column gap-5">
       <button type="submit" hidden></button>
       
       <!-- URLs Section -->
       <div>
-        <h6 class="text-gray-800 fw-semibold mb-4">Webhook endpoints</h6>
+        <h6 class="text-gray-800 fw-semibold mb-3">Webhook endpoints</h6>
+        <p class="text-gray-600 mb-4 fs-7">We'll send payment notifications to these URLs</p>
         <div class="d-flex flex-column gap-4">
           <div>
             <label for="callback-url" class="form-label text-gray-700 fw-medium mb-2">
               Callback URL
+              <span class="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -232,7 +120,7 @@ onMounted(async () => {
               placeholder="https://mystore.com/webhooks/callback"
               v-model="generalForm.callback_url"
             />
-            <small class="text-gray-500 mt-1 d-block">We'll send payment notifications to this URL</small>
+            <small class="text-gray-500 mt-1 d-block">Receive real-time payment status updates</small>
             <div class="text-danger mt-2 fs-7" v-if="vGeneral$.callback_url.$errors.length">
               {{ vGeneral$.callback_url.$errors[0].$message }}
             </div>
@@ -240,7 +128,8 @@ onMounted(async () => {
 
           <div>
             <label for="redirect-url" class="form-label text-gray-700 fw-medium mb-2">
-              Redirect URL
+              Success redirect URL
+              <span class="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -249,7 +138,7 @@ onMounted(async () => {
               placeholder="https://mystore.com/payment/success"
               v-model="generalForm.redirect_url"
             />
-            <small class="text-gray-500 mt-1 d-block">Users return here after payment</small>
+            <small class="text-gray-500 mt-1 d-block">Where customers return after successful payment</small>
             <div class="text-danger mt-2 fs-7" v-if="vGeneral$.redirect_url.$errors.length">
               {{ vGeneral$.redirect_url.$errors[0].$message }}
             </div>
@@ -258,6 +147,7 @@ onMounted(async () => {
           <div v-if="appInfo?.type?.type == 2">
             <label for="amount" class="form-label text-gray-700 fw-medium mb-2">
               Fixed amount
+              <span class="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -273,38 +163,28 @@ onMounted(async () => {
         </div>
       </div>
 
-      <!-- Tokens Section -->
+      <!-- Customer Information -->
       <div>
-        <h6 class="text-gray-800 fw-semibold mb-4">Cryptocurrency settings</h6>
-        <div class="d-flex flex-column gap-4">
-          <div>
-            <label class="form-label text-gray-700 fw-medium mb-2">Base currency</label>
-            <CryptoSelect
-              :items="tokens"
-              :selected="base_token"
-              placeholder="Select base currency"
-              @change="toggleBaseToken"
-            />
-            <small class="text-gray-500 mt-1 d-block">Primary currency for pricing</small>
-            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.baseCoin.$errors.length">
-              {{ vGeneral$.baseCoin.$errors[0].$message }}
-            </div>
-          </div>
-
-          <div>
-            <label class="form-label text-gray-700 fw-medium mb-2">Accepted currencies</label>
-            <CryptoSelect
-              :items="tokens"
-              :selected="available_tokens"
-              placeholder="Select currencies to accept"
-              :multiple="true"
-              @change="toggleAvialableToken"
-            />
-            <small class="text-gray-500 mt-1 d-block">Customers can pay with these currencies</small>
-            <div class="text-danger mt-2 fs-7" v-if="vGeneral$.availableCoins.$errors.length">
-              {{ vGeneral$.availableCoins.$errors[0].$message }}
-            </div>
-          </div>
+        <h6 class="text-gray-800 fw-semibold mb-3">Customer information</h6>
+        <p class="text-gray-600 mb-4 fs-7">Choose what information to collect from customers</p>
+        <div class="d-flex flex-column gap-3">
+          <label class="custom-checkbox-container">
+            <input type="checkbox" v-model="generalForm.need_name" />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              <span class="checkbox-title">Request customer name</span>
+              <span class="checkbox-desc">Collect full name during checkout</span>
+            </span>
+          </label>
+          
+          <label class="custom-checkbox-container">
+            <input type="checkbox" v-model="generalForm.need_email" />
+            <span class="checkmark"></span>
+            <span class="checkbox-label">
+              <span class="checkbox-title">Request email address</span>
+              <span class="checkbox-desc">Send payment receipts and updates</span>
+            </span>
+          </label>
         </div>
       </div>
     </form>
@@ -312,6 +192,89 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+.custom-checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+
+  &:hover {
+    border-color: #d1d5db;
+    background: #f9fafb;
+  }
+
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .checkmark {
+      background-color: #6366f1;
+      border-color: #6366f1;
+
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s;
+    margin-top: 0.125rem;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 5px;
+      top: 1px;
+      width: 6px;
+      height: 11px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .checkbox-label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .checkbox-title {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .checkbox-desc {
+      font-size: 0.8125rem;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+  }
+}
+
+.question-helper {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: -0.25rem 0 0.75rem 0;
+  line-height: 1.5;
+}
+
 [data-bs-theme="dark"] {
   .modern-step {
     h3 {
@@ -349,6 +312,35 @@ onMounted(async () => {
     small {
       color: #9ca3af !important;
     }
+  }
+
+  .custom-checkbox-container {
+    border-color: #2d3233;
+    background: #1a1d1e;
+
+    &:hover {
+      border-color: #374151;
+      background: #0f1011;
+    }
+
+    .checkmark {
+      background-color: #0f1011;
+      border-color: #4b5563;
+    }
+
+    .checkbox-label {
+      .checkbox-title {
+        color: #f3f4f6;
+      }
+
+      .checkbox-desc {
+        color: #9ca3af;
+      }
+    }
+  }
+
+  .question-helper {
+    color: #9ca3af;
   }
 }
 </style>

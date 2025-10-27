@@ -26,12 +26,26 @@
 
 // Centered Layout
 .premium-wizard-centered {
-  max-width: 920px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 1rem 2rem 0.75rem;
+  padding: 1rem 3rem 0.75rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 1440px) {
+    max-width: 1200px;
+    padding: 1rem 2.5rem 0.75rem;
+  }
+  
+  @media (max-width: 1200px) {
+    max-width: 960px;
+    padding: 1rem 2rem 0.75rem;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem 0.75rem;
+  }
 }
 
 // Horizontal Step Progress
@@ -39,12 +53,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
   margin-bottom: 1.75rem;
-  padding: 1rem 2rem;
+  padding: 1.25rem 2.5rem;
   background: white;
   border-radius: 1rem;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  
+  @media (max-width: 768px) {
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+  }
   
   .step-item {
     display: flex;
@@ -53,7 +72,7 @@
     gap: 0.5rem;
     position: relative;
     flex: 1;
-    max-width: 140px;
+    max-width: 160px;
     
     &:not(:last-child)::after {
       content: '';
@@ -141,9 +160,13 @@
 .step-content-centered {
   background: white;
   border-radius: 1.25rem;
-  padding: 1.5rem 2.25rem;
+  padding: 2.5rem 3rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   flex: 1;
+  
+  @media (max-width: 1200px) {
+    padding: 2rem 2.5rem;
+  }
   
   @media (max-width: 768px) {
     padding: 1.5rem 1.5rem;
@@ -1243,6 +1266,128 @@
       .info-icon {
         color: #9ca3af;
       }
+    }
+  }
+
+  // Modern Step Dark Mode
+  .modern-step {
+    h3, .text-gray-900 {
+      color: #f3f4f6 !important;
+    }
+
+    p, .text-gray-600 {
+      color: #9ca3af !important;
+    }
+
+    .text-gray-700 {
+      color: #d1d5db !important;
+    }
+
+    .text-gray-800 {
+      color: #e5e7eb !important;
+    }
+
+    .text-gray-500 {
+      color: #9ca3af !important;
+    }
+
+    .text-blue-800 {
+      color: #93c5fd !important;
+    }
+
+    .text-green-800 {
+      color: #86efac !important;
+    }
+
+    .badge.bg-light {
+      background: #2d3233 !important;
+      color: #9ca3af !important;
+    }
+
+    .form-label {
+      color: #e5e7eb !important;
+    }
+
+    small {
+      color: #9ca3af !important;
+    }
+
+    // Form elements
+    .form-range {
+      &::-webkit-slider-track {
+        background: #2d3233;
+      }
+
+      &::-webkit-slider-thumb {
+        background: #6366f1;
+      }
+
+      &::-moz-range-track {
+        background: #2d3233;
+      }
+
+      &::-moz-range-thumb {
+        background: #6366f1;
+      }
+    }
+
+    // Containers with borders
+    div[style*="border: 1px solid #e5e7eb"],
+    .rounded[style*="border: 1px solid #e5e7eb"] {
+      border-color: #2d3233 !important;
+    }
+
+    div[style*="background: #f9fafb"] {
+      background: #1a1d1e !important;
+      border-color: #2d3233 !important;
+    }
+
+    // Success/Green containers
+    div[style*="background: #f0fdf4"] {
+      background: #064e3b !important;
+      border-color: #065f46 !important;
+    }
+
+    // Info/Blue containers
+    div[style*="background: #eff6ff"] {
+      background: #1e3a8a !important;
+      border-color: #1e40af !important;
+    }
+
+    // Code blocks
+    code {
+      background: #0f1011 !important;
+      border-color: #2d3233 !important;
+      color: #f3f4f6 !important;
+    }
+
+    // Buttons with custom background
+    button[style*="background: rgba(255,255,255"] {
+      background: rgba(26, 29, 30, 0.95) !important;
+      color: #f3f4f6 !important;
+    }
+
+    // Alert boxes
+    .alert-info {
+      background: #1e3a8a !important;
+      border-color: #1e40af !important;
+      color: #bfdbfe !important;
+    }
+
+    // Rounded circles with bg-primary
+    .rounded-circle.bg-primary {
+      background: #3b82f6 !important;
+    }
+
+    // Badge with bg-light
+    .badge.bg-light {
+      background: #2d3233 !important;
+      color: #e5e7eb !important;
+    }
+
+    // Image with white background
+    img[style*="background: white"] {
+      background: #2d3233 !important;
     }
   }
 }
