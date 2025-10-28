@@ -48,4 +48,11 @@
     font-size: 20px;
     font-size: $font-size-lg;
     font-weight: 500;
+
+    .line {
+        width: 2px;
+        height: 20px;
+        margin: 0 .5rem;
+        background: $gray-900;
+    }
 }

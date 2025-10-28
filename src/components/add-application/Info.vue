@@ -270,7 +270,7 @@ onMounted(() => {
         />
         <span class="range-thumb">
           <span class="merchant"></span>
-          <span class="text-dark mx-2">|</span>
+          <span class="line"></span>
           <span class="user"></span>
         </span>
       </div>

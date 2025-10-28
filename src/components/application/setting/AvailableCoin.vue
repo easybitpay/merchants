@@ -228,7 +228,6 @@ onMounted(() => {
               placeholder="Select Your Main Coin"
               show="name"
               showImage
-              btnSize="sm"
               showCoinNetwork
               :items="tokens"
               :selected="base_token"
@@ -258,7 +257,6 @@ onMounted(() => {
               placeholder="Select Your Can Pay Coin"
               show="name"
               showImage
-              btnSize="sm"
               showCoinNetwork
               :items="tokens"
               :selected="available_tokens"
