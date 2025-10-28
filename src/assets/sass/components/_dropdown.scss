@@ -201,6 +201,9 @@
     font-weight: 400;
     padding-left: 1rem;
     padding-right: 1rem;
+    &:hover {
+        transform: none;
+    }
 
     &:not(.btn-sm) {
         font-size: 1rem;
