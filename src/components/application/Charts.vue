@@ -298,7 +298,7 @@ const getAppTokenBalance = async () => {
           array.push({
             ...element.token,
             balance: +element.balance,
-            balance_usd_value: +element.balance_usd_value,
+            balance_usd_value: +element.balance_usd_value
           })
         }
       }
@@ -424,7 +424,7 @@ onMounted(() => {
       col-xxl-${loadings.balance || balances.length ? '9' : '12'}`"
     >
       <!-- begin::Balance History -->
-      <div class="card border-gray-200 rounded-4">
+      <div class="card">
         <div class="card-body p-0">
           <img
             v-for="(item, index) in chartImage"
@@ -437,7 +437,7 @@ onMounted(() => {
 
           <!-- begin::Header -->
           <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
-            <h4 class="neue-machina mb-0 text-gray-900 d-flex align-items-center gap-3 fw-normal">
+            <h4 class="mb-0 text-gray-900 d-flex align-items-center gap-3 fw-normal">
               <inline-svg
                 :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
               ></inline-svg>
@@ -489,12 +489,12 @@ onMounted(() => {
     <div class="col-lg-5 col-xl-4 col-xxl-3" v-if="loadings.balance || balances.length">
       <BankLoading v-if="loadings.balance" />
       <div
-        class="card border-gray-200 rounded-4 h-100 bank-card"
+        class="card h-100 bank-card"
         v-if="!loadings.balance && balances.length"
       >
         <div class="card-body d-flex flex-column">
           <!-- begin::Header -->
-          <h4 class="neue-machina mb-6 text-gray-900 d-flex gap-3 fw-normal">
+          <h4 class="mb-6 text-gray-900 d-flex gap-3 fw-normal">
             <inline-svg
               :src="`media/icons/shapes/${$filters.shapeStatus('graph')}.svg`"
               height="24px"
@@ -518,9 +518,9 @@ onMounted(() => {
               ]"
               v-for="(item, index) in balances"
               :key="index"
-              :style="`width: ${convertAmountToPercent(item.balance_usd_value)}%; background-color: ${
-                item.color ? item.color : ''
-              }`"
+              :style="`width: ${convertAmountToPercent(
+                item.balance_usd_value
+              )}%; background-color: ${item.color ? item.color : ''}`"
             >
               <img :src="iconImage(item.symbol)" alt="item" :id="`image_${item.symbol}`" hidden />
               <span class="d-none d-sm-block">

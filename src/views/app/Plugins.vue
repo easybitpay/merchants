@@ -4,12 +4,13 @@ import PluginCard from '../../components/plugin/PluginCard.vue'
 </script>
 <template>
   <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 neue-machina">Plugin</h2>
+  <div class="page-header">
+    <h1 class="title">Plugin</h1>
+    <p class="description">
+      Latest clicks/conversions. Where you currently have the logo for merchant
+    </p>
+  </div>
   <!-- end::Header -->
-
-  <!-- begin::text -->
-  <p class="mb-6">Latest clicks/conversions. Where you currently have the logo for merchant</p>
-  <!-- end::text -->
 
   <!-- begin::Cards -->
   <div class="d-flex flex-column gap-6">

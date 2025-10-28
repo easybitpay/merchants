@@ -105,7 +105,7 @@ const submitForm = () => {
 <template>
   <div class="h-100 d-flex flex-column">
     <!-- begin::Header -->
-    <h2 class="text-primary fw-normal mb-12 neue-machina">Add Applications</h2>
+    <h2 class="text-primary fw-normal mb-12">Add Applications</h2>
     <!-- end::Header -->
 
     <div class="wizard flex-root">

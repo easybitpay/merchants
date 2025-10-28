@@ -138,7 +138,6 @@ const submitForm = async () => {
     setting.need_name = generalForm.value.need_name
     setting.need_email = generalForm.value.need_email
     setting.color = props.appInfo.color
-    
 
     if (props.appInfo.type.type == 2) setting.amount = amountForm.value.amount
 
@@ -158,7 +157,6 @@ const submitForm = async () => {
     if (props.appInfo.banner) {
       fd.append('banner', props.appInfo.banner)
     }
-
 
     if (id) {
       await store.updateApp({ id, fd })
@@ -196,7 +194,7 @@ onMounted(() => {
 <template>
   <!-- begin::Title -->
   <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Pro information</h4>
+    <h4 class="text-primary mb-2 fw-normal">Pro information</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->

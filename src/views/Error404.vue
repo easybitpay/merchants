@@ -17,8 +17,8 @@
             <!-- <h1 class="text-center text-danger">Seems there is nothing here</h1> -->
 
             <div>
-                <h1 class="text-center mb-0" style="font-size: 5rem;">404</h1>
-                <p class="mb-0 text-center">Seems there is nothing here</p>
+              <h1 class="text-center mb-0" style="font-size: 5rem">404</h1>
+              <p class="mb-0 text-center">Seems there is nothing here</p>
             </div>
 
             <RouterLink class="btn btn-primary w-100" to="/"> Back to home </RouterLink>
@@ -31,9 +31,7 @@
 
     <!-- begin::Copyright -->
     <div>
-      <small class="text-white text-center neue-machina fw-light d-block mb-4">
-        2023 © easybitpay
-      </small>
+      <small class="text-white text-center fw-light d-block mb-4"> 2023 © easybitpay </small>
     </div>
     <!-- end::Copyright -->
   </div>

@@ -8,7 +8,7 @@ import ExchangeEmbledOffcanvas from '../../components/exchange/ExchangeEmbledOff
 
 <template>
   <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 neue-machina">Exchange</h2>
+  <h2 class="text-primary fw-normal mb-12">Exchange</h2>
   <!-- end::Header -->
 
   <ExchangeCard />

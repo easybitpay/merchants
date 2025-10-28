@@ -497,7 +497,7 @@ onMounted(() => {
       <div class="d-flex gap-4">
         <div class="d-none d-md-flex">
           <div
-            class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+            class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
           >
             <inline-svg
               :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"

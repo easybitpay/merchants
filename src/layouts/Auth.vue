@@ -36,9 +36,7 @@ const changeBG = () => {
 
     <!-- begin::Copyright -->
     <div>
-      <small class="text-white text-center neue-machina fw-light d-block mb-4">
-        2023 © easybitpay
-      </small>
+      <small class="text-white text-center fw-light d-block mb-4"> 2023 © easybitpay </small>
     </div>
     <!-- end::Copyright -->
   </div>

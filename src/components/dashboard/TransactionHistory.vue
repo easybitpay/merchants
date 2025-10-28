@@ -231,11 +231,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded">
+  <div class="card">
     <div class="card-body p-0">
       <!-- begin::Header -->
       <div class="p-6 pb-8">
-        <h4 class="neue-machina mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
+        <h4 class="mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
           Transaction History
           <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
         </h4>

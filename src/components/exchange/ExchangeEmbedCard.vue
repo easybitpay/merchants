@@ -9,7 +9,11 @@
       <div class="d-flex align-items-center gap-4">
         <div>
           <div class="svg-holder svg-holder-sm">
-            <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('embed')}.svg`" width="33" height="29"></inline-svg>
+            <inline-svg
+              :src="`/media/icons/shapes/${$filters.shapeStatus('embed')}.svg`"
+              width="33"
+              height="29"
+            ></inline-svg>
           </div>
         </div>
         <p class="mb-0">
@@ -24,7 +28,7 @@
 
       <!-- begin::Action -->
       <button
-        class="btn btn-primary w-100 w-md-175px w-lg-200px w-xl-225px neue-machina fw-nomral"
+        class="btn btn-primary w-100 w-md-175px w-lg-200px w-xl-225px fw-nomral"
         data-bs-toggle="offcanvas"
         data-bs-target="#exchangeEmbed_offcanvas"
         aria-controls="exchangeEmbed_offcanvas"

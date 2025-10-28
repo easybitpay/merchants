@@ -465,7 +465,7 @@ watch(search, () => {
                   : '/media/images/banner/auth-bg.jpg'
               "
               :alt="currentUser?.merchant?.first_name"
-              class="w-100 h-100 rounded-circle object-cover"
+              class="w-100 h-100 rounded-1 object-cover"
             />
             <!-- end::Image -->
 
@@ -477,7 +477,7 @@ watch(search, () => {
         </div>
 
         <div>
-          <h6 class="neue-machina fw-light mb-0 lh-1 text-gray-800 name">
+          <h6 class="fw-light mb-0 lh-1 text-gray-800 name">
             {{
               $filters.shortenText(
                 `${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`

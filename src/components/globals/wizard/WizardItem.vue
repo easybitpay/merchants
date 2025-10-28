@@ -40,14 +40,14 @@ const props = defineProps({
           </div>
 
           <div class="text-center">
-            <h5 class="mb-2 text-gray-800 neue-machina fw-normal">{{ info.title }}</h5>
+            <h5 class="mb-2 text-gray-800   fw-normal">{{ info.title }}</h5>
             <small class="text-gray-500 ls-base">{{ info.subject }}</small>
           </div>
 
           <h5
             :class="`mb-0 mb-xl-2 text-${
               step < activeStep ? 'primary' : 'gray-500'
-            } neue-machina fw-normal text-center`"
+            }   fw-normal text-center`"
           >
             0{{ step + 1 }}
           </h5>

@@ -36,7 +36,7 @@ onMounted(() => {
 </script>
 <template>
   <div id="navbar-layout" class="h-100 d-flex flex-column">
-    <header class="d-flex flex-nowrap column-gap-8 row-gap-4 mb-12">
+    <header>
       <RouterLink :to="{ name: 'application-overview', params: { id: appId } }">
         {{ selectedApp.name }}
       </RouterLink>

@@ -1,5 +1,5 @@
 .tooltipElement {
-    border-radius: 1rem;
+    border-radius: $border-radius-sm;
     color: $white;
     pointer-events: none;
     position: absolute;
@@ -9,7 +9,7 @@
     p {
         font-size: $h5-font-size;
         margin: 0;
-        font-family: 'neue machina';
+        // font-family: 'neue machina';
     }
 
     .triangle {

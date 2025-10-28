@@ -48,7 +48,7 @@ onMounted(() => {
 </script>
 <template>
   <div
-    :class="`card border-app-${app.settings.color} rounded h-100 min-h-481px gradient-image-box`"
+    :class="`card border-app-${app.settings.color} h-100 min-h-481px gradient-image-box`"
     :style="`--background: url(${
       app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
     })`"

@@ -36,7 +36,7 @@ onMounted(() => {
   <div class="d-flex flex-column justify-content-between flex-root h-100">
     <div>
       <!-- begin::Title -->
-      <h4 class="text-primary mb-6 neue-machina fw-normal px-6">Start</h4>
+      <h4 class="text-primary mb-6 fw-normal px-6">Start</h4>
       <!-- begin::Title -->
 
       <!-- begin::Title -->

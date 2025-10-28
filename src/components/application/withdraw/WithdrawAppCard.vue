@@ -60,7 +60,7 @@ const selectBalance = (balance) => {
       <p class="fs-7 text-gray-600 ls-base mb-0">Available in</p>
 
       <!-- begin::Name -->
-      <h2 :class="`name text-app-${selectedApp.settings.color} neue-machina`">{{ selectedApp.name }}</h2>
+      <h2 :class="`name text-app-${selectedApp.settings.color}  `">{{ selectedApp.name }}</h2>
       <!-- end::Name -->
 
       <!-- begin::Info -->
@@ -77,7 +77,12 @@ const selectBalance = (balance) => {
         </template>
 
         <template v-else>
-          <Swiper :slidesPerView="'auto'" :freeMode="true" v-if="balances.length" class="mySwiper w-100">
+          <Swiper
+            :slidesPerView="'auto'"
+            :freeMode="true"
+            v-if="balances.length"
+            class="mySwiper w-100"
+          >
             <SwiperSlide
               v-for="(item, index) in balances"
               :key="index"

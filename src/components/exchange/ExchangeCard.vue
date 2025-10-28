@@ -357,7 +357,7 @@ onMounted(() => {
             <button
               type="submit"
               :disabled="loadings.submit"
-              class="btn btn-primary w-100 neue-machina fs-4 fw-normal mt-10"
+              class="btn btn-primary w-100 fs-4 fw-normal mt-10"
             >
               {{ loadings.submit ? 'Loading...' : 'Submit' }}
             </button>

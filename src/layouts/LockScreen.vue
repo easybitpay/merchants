@@ -88,7 +88,11 @@ onMounted(() => {
             <div class="card">
               <div class="card-body">
                 <!-- begin::Icon -->
-                <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('unlock')}.svg`" width="30" height="48"></inline-svg>
+                <inline-svg
+                  :src="`/media/icons/shapes/${$filters.shapeStatus('unlock')}.svg`"
+                  width="30"
+                  height="48"
+                ></inline-svg>
                 <!-- end::Icon -->
 
                 <!-- begin::Text -->
@@ -138,9 +142,7 @@ onMounted(() => {
 
       <!-- begin::Copyright -->
       <div>
-        <small class="text-white text-center neue-machina fw-light d-block mb-4">
-          2023 © easybitpay
-        </small>
+        <small class="text-white text-center fw-light d-block mb-4"> 2023 © easybitpay </small>
       </div>
       <!-- end::Copyright -->
     </div>
