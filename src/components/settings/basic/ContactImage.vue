@@ -23,19 +23,30 @@ const currentUser = computed(() => store.currentUser)
 
 <template>
   <!-- begin::Contact Image -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Contact Image</h4>
+  <div class="card mb-6 change-image-card">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title">Profile</h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">Your photo and personal details</p>
+      </div>
+
+      <button
+        class="btn btn-sm btn-light w-150px"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#uploadAvatar_offcanvas"
+        aria-controls="uploadAvatar_offcanvas"
+      >
+        Change Photo
+      </button>
+    </div>
+    <!-- end::Head -->
 
     <!-- begin::Content -->
-    <div class="d-flex align-items-center gap-4">
-      <div>
-        <div class="h-40px w-40px">
+    <div class="card-body d-flex align-items-center gap-4">
+
+        <div class="h-80px w-80px">
           <img
             :src="
               currentUser?.merchant?.avatar
@@ -46,23 +57,14 @@ const currentUser = computed(() => store.currentUser)
             class="h-100 w-100 object-cover"
             style="border-radius: 6px"
           />
-        </div>
+      
       </div>
 
-      <div class="d-flex justify-content-start">
-        <div
-          class="w-100 w-lg-initial d-flex justify-content-between justify-content-lg-start text-break text-hover-primary hover-sm-show-parent lh-24px"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#uploadAvatar_offcanvas"
-          aria-controls="uploadAvatar_offcanvas"
-        >
-          Change Profile Photo
-
-          <inline-svg
-            src="media/icons/icons/arrow-right.svg"
-            class="svg-icon-primary hover-show-target d-none d-sm-block ms-0 ms-lg-16"
-          ></inline-svg>
-        </div>
+      <div class="text">
+        <h6 class="name">
+          {{ currentUser?.merchant?.first_name }} {{ currentUser?.merchant?.last_name }}
+        </h6>
+        <p class="email">{{ currentUser?.merchant?.email }}</p>
       </div>
     </div>
     <!-- end::Content -->

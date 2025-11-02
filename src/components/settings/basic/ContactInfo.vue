@@ -7,6 +7,8 @@ import { useAuthStore } from '@/stores/auth'
 
 // Components
 import ContactInfoOffcanvas from './ContactInfoOffcanvas.vue'
+import EmailVerifyOffcanvas from './EmailVerifyOffcanvas.vue'
+import PhoneVerifyOffcanvas from './PhoneVerifyOffcanvas.vue'
 import TextColumn from '../../globals/TextColumn.vue'
 
 // ----- START ----- //
@@ -16,49 +18,69 @@ const store = useAuthStore()
 
 // Computeds
 const currentUser = computed(() => store.currentUser)
-const profile = computed(() => JSON.parse(currentUser.value?.merchant?.profile || '{}'))
 </script>
 
 <template>
-  <!-- begin::Contact Info -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Contact info</h4>
+  <!-- begin::Basic Info -->
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title">Contact Information</h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">Manage your email and phone number</p>
+      </div>
+
+      <button
+        class="btn btn-sm btn-light w-150px"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#contactInfo_offcanvas"
+        aria-controls="contactInfo_offcanvas"
+      >
+        Edit
+      </button>
+    </div>
+    <!-- end::Head -->
 
     <!-- begin::Content -->
-    <div class="d-flex flex-column gap-4">
+    <div class="card-body">
       <!-- begin::Item -->
       <TextColumn
-        title="Name"
-        :content="`${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`"
-        canvasId="contactInfo_offcanvas"
+        title="Email address"
+        :value="currentUser?.merchant?.email"
+        :badge="{
+          text: `${!currentUser?.merchant?.email_verified_at ? 'Not' : ''} Verified`,
+          color: currentUser?.merchant?.email_verified_at ? 'green' : 'red',
+          icon: currentUser?.merchant?.email_verified_at ? 'ok' : 'close',
+          offcanvas: !currentUser?.merchant?.email_verified_at ? 'emailVerify_offcanvas' : ''
+        }"
       />
       <!-- end::Item -->
 
-      <!-- begin::Item -->
-      <TextColumn
-        title="Birthday"
-        :content="profile.birth_date || 'Not Set'"
-        canvasId="contactInfo_offcanvas"
-      />
-      <!-- end::Item -->
+      <div class="divider"></div>
 
       <!-- begin::Item -->
       <TextColumn
-        title="Gender"
-        :content="profile.gender || 'Not Set'"
-        canvasId="contactInfo_offcanvas"
+        title="Phone number"
+        :value="currentUser?.merchant?.phone"
+        :badge="
+          currentUser?.merchant?.phone
+            ? {
+                text: `${!currentUser?.merchant?.phone_verified_at ? 'Not' : ''} Verified`,
+                color: currentUser?.merchant?.phone_verified_at ? 'green' : 'red',
+                icon: currentUser?.merchant?.email_verified_at ? 'ok' : 'close',
+                offcanvas: !currentUser?.merchant?.phone_verified_at ? 'phoneVerify_offcanvas' : ''
+              }
+            : null
+        "
       />
       <!-- end::Item -->
     </div>
     <!-- end::Content -->
   </div>
-  <!-- end::Contact Info -->
+  <!-- end::Basic Info -->
 
   <ContactInfoOffcanvas />
+  <EmailVerifyOffcanvas />
+  <PhoneVerifyOffcanvas />
 </template>

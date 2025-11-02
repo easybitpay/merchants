@@ -84,6 +84,7 @@ onMounted(() => {
       <!-- end::Item -->
 
       <!-- begin::Item -->
+       {{ passSetedDate }}
       <TextColumn
         v-if="passSetedDate"
         title="Lock screen Passcode"

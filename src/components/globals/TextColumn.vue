@@ -4,57 +4,38 @@ const props = defineProps({
     type: String,
     required: true
   },
-  content: {
+  value: {
     type: String
   },
-  loading: {
-    type: Boolean
-  },
-  canvasId: {
-    type: String,
-    required: false
-  },
-  titleCanvas: {
+  badge: {
     type: Object,
     required: false
   }
 })
 </script>
+
 <template>
-  <div class="row ls-base">
-    <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-800 lh-24px">
-      {{ title }}
+  <div class="text-column">
+    <p class="title">{{ title }}</p>
+    <p class="value">
+      {{ value || 'Not Set' }}
+
       <span
-        class="text-primary cursor-pointer fs-8"
-        v-if="titleCanvas"
-        data-bs-toggle="offcanvas"
-        :data-bs-target="`#${titleCanvas.id}`"
-        :aria-controls="titleCanvas.id"
+        v-if="badge"
+        :class="`bg-${badge.color}-100 text-${badge.color}-700 fs-9 py-1 px-2 ms-2`"
+        style="border-radius: 0.25rem"
+        :data-bs-toggle="badge.offcanvas ? 'offcanvas' : ''"
+        :data-bs-target="badge.offcanvas ? `#${badge.offcanvas}` : ''"
+        :aria-controls="badge.offcanvas ? badge.offcanvas : ''"
       >
-        {{ titleCanvas.title }}
-      </span>
-    </div>
-
-    <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
-      <div
-        :class="[
-          {
-            'w-100 w-lg-initial d-flex justify-content-between justify-content-lg-start text-break': true
-          },
-          { 'text-hover-primary hover-sm-show-parent': canvasId }
-        ]"
-        :data-bs-toggle="canvasId ? 'offcanvas' : ''"
-        :data-bs-target="canvasId ? `#${canvasId}` : ''"
-        :aria-controls="canvasId ? `${canvasId}` : ''"
-      >
-        {{ content }}
-
         <inline-svg
-          v-if="canvasId"
-          src="media/icons/icons/arrow-right.svg"
-          class="svg-icon-primary hover-show-target d-sm-block d-none ms-0 ms-lg-16"
+          v-if="badge.icon"
+          :src="`media/icons/icons/${badge.icon}.svg`"
+          :class="`w-10px svg-icon-${badge.color}-500 me-1`"
         ></inline-svg>
-      </div>
-    </div>
+
+        {{ badge.text }}
+      </span>
+    </p>
   </div>
 </template>

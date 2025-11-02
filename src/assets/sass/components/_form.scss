@@ -125,9 +125,17 @@ textarea {
     .form-check-input {
         margin-left: -2.5rem;
         margin-top: 0;
+        height: 18px;
 
         &:checked~.form-check-label {
             color: $primary;
+        }
+    }
+
+    &.form-switch-lg {
+        .form-check-input {
+            width: 48px;
+            height: 28px;
         }
     }
 }

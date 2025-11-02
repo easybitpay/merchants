@@ -32,7 +32,7 @@ const appList = computed(() => store.appList)
     </div>
 
     <div class="col-xl-5 col-xxl-3" v-if="appList.length">
-      <AppCard :app="appList[3]" />
+      <AppCard :app="appList[0]" />
     </div>
   </div>
 

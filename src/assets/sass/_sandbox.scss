@@ -133,7 +133,7 @@
 
     .main-container #main #navbar-layout header a:hover,
     .main-container #main #navbar-layout header a.router-link-exact-active {
-        color: $primary;
+        background-color: $primary;
     }
 
     .scroll-spy .child {

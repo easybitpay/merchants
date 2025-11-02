@@ -201,6 +201,7 @@
     font-weight: 400;
     padding-left: 1rem;
     padding-right: 1rem;
+    border-color: $dropdown-border-color !important;
     &:hover {
         transform: none;
     }

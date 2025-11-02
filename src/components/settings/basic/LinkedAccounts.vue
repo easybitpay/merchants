@@ -50,17 +50,18 @@ onMounted(() => {
 
 <template>
   <!-- begin::Linked Accounts -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Linked Account</h4>
-
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title">Linked Accounts</h6>
+        <p class="desc">Connect your social accounts</p>
+      </div>
+    </div>
+    <!-- end::Head -->
 
     <!-- begin::Content -->
-    <div class="d-flex flex-wrap gap-6">
+    <div class="card-body d-flex flex-wrap gap-6">
       <!-- begin::Item -->
       <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
         <!-- begin::Logo -->

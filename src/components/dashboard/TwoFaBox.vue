@@ -19,7 +19,7 @@ const currentUser = computed(() => authStore.currentUser)
     <div class="card-body d-flex flex-column flex-md-row align-items-center gap-6">
       <div class="d-flex flex-column flex-md-row align-items-center gap-6 flex-grow-1">
         <div
-          class="min-w-48px w-48px h-48px bg-primary rounded-1 shadow text-white d-flex align-items-center justify-content-center"
+          class="min-w-48px w-48px h-48px bg-primary rounded-1 text-white d-flex align-items-center justify-content-center"
         >
           <inline-svg src="/media/icons/icons/lock.svg"></inline-svg>
         </div>
@@ -34,7 +34,7 @@ const currentUser = computed(() => authStore.currentUser)
         </div>
       </div>
 
-      <RouterLink :to="{ name: 'settings-privacy' }" class="btn btn-primary max-content">
+      <RouterLink :to="{ name: 'settings-privacy' }" class="btn btn-primary max-content animation">
         Active Now
         <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
       </RouterLink>

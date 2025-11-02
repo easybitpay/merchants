@@ -1,0 +1,44 @@
+.card {
+  .card-header {
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0;
+
+    .title {
+      color: $gray-900;
+      margin-bottom: 0.25rem;
+    }
+    .desc {
+      font-size: $font-size-sm;
+      margin-bottom: 0;
+    }
+  }
+
+  .card-body {
+    border: none;
+  }
+}
+
+.change-image-card {
+  .text {
+    .name {
+      color: $gray-900;
+      margin-bottom: 0.25rem;
+    }
+
+    .email {
+      margin-bottom: 0;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.language-info-card {
+  .dropdown {
+    .dropdown-menu::before , .dropdown-menu::after {
+      background-color: $white !important;
+    } 
+  }
+}
