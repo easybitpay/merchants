@@ -2,10 +2,8 @@
 // Componets
 import PageHeader from '../../../components/globals/PageHeader.vue'
 import Authentication from '../../../components/settings/privacy/Authentication.vue'
-import TwoFa from '../../../components/settings/privacy/SignIn.vue'
-import KYC from '../../../components/settings/privacy/KYC.vue'
+// import KYC from '../../../components/settings/privacy/KYC.vue'
 import LastSignIn from '../../../components/settings/privacy/LastSignIn.vue'
-import LockScreen from '../../../components/settings/privacy/LockScreen.vue'
 
 // ----- START ----- //
 </script>
@@ -17,11 +15,7 @@ import LockScreen from '../../../components/settings/privacy/LockScreen.vue'
   />
   <Authentication />
 
-  <TwoFa />
-
   <LastSignIn />
 
-  <KYC />
-
-  <LockScreen />
+  <!-- <KYC /> -->
 </template>

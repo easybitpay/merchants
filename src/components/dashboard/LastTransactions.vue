@@ -99,14 +99,14 @@ watch(selectedSort, () => {
 
       <!-- begin::Table -->
       <div class="table-responsive">
-        <table class="table simple-table align-middle table-hover">
+        <table class="table simple-table align-middle">
           <thead>
             <tr class="space-icon" lastInvoices-sortable sortable>
-              <th sortKey="id" class="min-w-70px">ID</th>
-              <th sortKey="code" class="min-w-200px">CODE</th>
-              <th sortKey="created_at" class="min-w-200px">DATE</th>
-              <th sortKey="amount" class="min-w-200px">AMOUNT</th>
-              <th sortKey="status" class="min-w-200px">STATUS</th>
+              <th sortKey="id" class="min-w-70px">id</th>
+              <th sortKey="code" class="min-w-200px">code</th>
+              <th sortKey="created_at" class="min-w-200px">date</th>
+              <th sortKey="amount" class="min-w-200px">amount</th>
+              <th sortKey="status" class="min-w-200px">status</th>
             </tr>
           </thead>
           <tbody>

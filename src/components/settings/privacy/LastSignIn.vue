@@ -6,7 +6,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 // Components
-import LastSignInLoading from '../../loadings/LastSignInLoading.vue'
+import ContentColumn from '../../globals/ContentColumn.vue'
 
 // ----- START ----- //
 
@@ -54,62 +54,53 @@ onMounted(() => {
 
 <template>
   <!-- begin::Last Sign in -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Your Last Signed</h4>
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title">Active Sessions</h6>
 
-    <p class="mb-6 text-gray-800">Where you’re signed in</p>
-    <!-- end::Title -->
+        <p class="desc">Devices currently signed into your account</p>
+      </div>
+    </div>
+    <!-- end::Header -->
 
     <!-- begin::Content -->
-    <div class="d-flex flex-column gap-2">
-      <LastSignInLoading v-if="loading" />
+    <div class="card-body d-flex flex-column gap-4">
+      <!-- begin::Loading -->
+      <template v-if="loading">
+        <ContentColumn v-for="item in 2" :key="item" textLoading iconLoading />
+      </template>
+      <!-- end::Loading -->
 
       <!-- begin::Item -->
-      <div
-        class="row ls-base text-gray-800 text-hover-primary hover-sm-show-parent"
+      <ContentColumn
         v-for="item in filteredList"
         :key="item.id"
+        :title="item.type"
+        :value="item.ip"
+        :textIcon="item.type.charAt(0)"
+        class="hover-sm-show-parent"
       >
-        <div
-          class="col-4 col-sm-6 col-md-4 col-lg-3 col-xl-2 lh-24px d-flex justify-content-between"
-        >
-          {{ item.type }}
-
-          <div class="d-none d-sm-block">
-            <span
-              class="d-flex align-items-center justify-content-center rounded-circle w-24px h-24px bg-gray-200 text-primary"
-            >
-              <small>{{ item.type.charAt(0) }}</small>
-            </span>
-          </div>
-        </div>
-
-        <div
-          class="col-8 col-sm-6 col-md-4 col-lg-3 col-xl-2 lh-24px d-flex justify-content-end justify-content-sm-between"
-        >
-          {{ item.ip }}
-
-          <inline-svg
-            src="media/icons/icons/trash.svg"
-            height="24"
-            class="svg-icon-danger hover-show-target d-none d-sm-block"
-          ></inline-svg>
-        </div>
-      </div>
+        <inline-svg
+          src="media/icons/icons/trash.svg"
+          height="24"
+          class="svg-icon-danger hover-show-target"
+        ></inline-svg>
+      </ContentColumn>
       <!-- end::Item -->
+
+      <!-- begin::View More -->
+      <button
+        v-if="filteredList.length < list.length"
+        class="btn btn-light"
+        @click="showCount = showCount + 2"
+      >
+        View more
+      </button>
+      <!-- end::View More -->
     </div>
     <!-- end::Content -->
-
-    <!-- begin::View More -->
-    <div class="row" v-if="filteredList.length < list.length">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-        <button class="btn bg-gray-200 text-primary w-100 mt-6" @click="showCount = showCount + 2">
-          View more
-        </button>
-      </div>
-    </div>
-    <!-- end::View More -->
   </div>
   <!-- end::Last Sign in -->
 </template>

@@ -1,8 +1,7 @@
 <script setup>
 const props = defineProps({
   title: {
-    type: String,
-    required: true
+    type: String
   },
   value: {
     type: String
@@ -12,20 +11,33 @@ const props = defineProps({
   },
   textIcon: {
     type: String
+  },
+  textLoading: {
+    type: Boolean
+  },
+  iconLoading: {
+    type: Boolean
   }
 })
 </script>
 
 <template>
   <div class="content-column">
+    <Skeletor v-if="iconLoading" class="rounded-1" size="40px" />
     <div class="icon-box" v-if="svgIcon || textIcon">
       <inline-svg v-if="svgIcon" :src="`media/icons/icons/${svgIcon}.svg`"></inline-svg>
+
+      <span v-if="textIcon">{{ textIcon }}</span>
     </div>
 
     <div class="text-box">
-      <p class="title">{{ title }}</p>
+      <p class="title">
+        <Skeletor v-if="textLoading" class="rounded-0" width="100px" />
+        <template v-else>{{ title }}</template>
+      </p>
       <p class="value">
-        {{ value }}
+        <Skeletor v-if="textLoading" class="rounded-0" width="70px" />
+        <template v-else> {{ value }} </template>
       </p>
     </div>
 
