@@ -24,6 +24,7 @@ const props = defineProps({
 
 <template>
   <div class="card">
+    
     <div class="card-body d-flex align-items-center gap-3">
       <div
         :class="`w-48px h-48px bg-${color} rounded-1 shadow text-white d-flex align-items-center justify-content-center`"
@@ -31,7 +32,7 @@ const props = defineProps({
         <inline-svg src="media/icons/icons/plus.svg"></inline-svg>
       </div>
 
-      <div class="d-flex flex-column justify-content-between">
+      <div class="d-flex flex-column justify-content-between flex-grow-1">
         <p class="mb-2 fs-8 text-gray-600">
           <Skeletor class="rounded-0 mw-100px w-100" v-if="loading" />
 

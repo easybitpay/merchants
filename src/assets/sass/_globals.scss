@@ -411,7 +411,8 @@ body.sandbox.email-verify {
         position: relative;
         min-width: max-content;
         cursor: pointer;
-        font-size: $font-size-sm;
+        // font-size: $font-size-sm;
+        font-size: .9375rem;
 
         // transition: all linear .3s;
         span {
@@ -1209,6 +1210,9 @@ body.sandbox.email-verify {
     margin-bottom: 0;
     color: $gray-900;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
 

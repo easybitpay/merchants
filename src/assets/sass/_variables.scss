@@ -49,7 +49,7 @@ $grays-text: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$blue:    #4d43e0 !default;
+$blue:    #1F75FF !default;
 $indigo:  #2B388F !default;
 $purple:  #9575CD !default;
 $pink:    #d63384 !default;
@@ -89,15 +89,15 @@ $color-contrast-dark:      $black !default;
 $color-contrast-light:     $white !default;
 
 // fusv-disable
-$blue-100: #f2f1ff !default;
-$blue-200: #c8c4ff !default;
-$blue-300: #9e97ff !default;
-$blue-400: #756aff !default;
+$blue-100: #F2F4FF !default;
+$blue-200: #BDCBFF !default;
+$blue-300: #88A8FF !default;
+$blue-400: #548BFF !default;
 $blue-500: $blue !default;
-$blue-600: #3e36b3 !default;
-$blue-700: #2f2886 !default;
-$blue-800: #201a59 !default;
-$blue-900: #120c2d !default;
+$blue-600: #0A5EC9 !default;
+$blue-700: #024A93 !default;
+$blue-800: #00345C !default;
+$blue-900: #001826 !default;
 
 $indigo-100: #F4F2FF !default;
 $indigo-200: #CAC7FD !default;
@@ -498,6 +498,7 @@ $position-values: (
   0: 0,
   8px: 8px,
   16px: 16px,
+  18px: 18px,
   50: 50%,
   100: 100%
 ) !default;
@@ -973,7 +974,7 @@ $input-padding-y-sm:                    0 !default;
 $input-padding-x-sm:                    1rem !default;
 $input-font-size-sm:                    $input-btn-font-size-sm !default;
 
-$input-padding-y-lg:                    $input-btn-padding-y-lg !default;
+$input-padding-y-lg:                    0 !default;
 $input-padding-x-lg:                    $input-btn-padding-x-lg !default;
 $input-font-size-lg:                    $input-btn-font-size-lg !default;
 
@@ -1677,12 +1678,12 @@ $toast-header-border-color:         $toast-border-color !default;
 // Badges
 
 // scss-docs-start badge-variables
-$badge-font-size:                   .75em !default;
-$badge-font-weight:                 $font-weight-bold !default;
+$badge-font-size:                   .8125rem !default;
+$badge-font-weight:                 500 !default;
 $badge-color:                       $white !default;
-$badge-padding-y:                   .35em !default;
-$badge-padding-x:                   .65em !default;
-$badge-border-radius:               var(--#{$prefix}border-radius) !default;
+$badge-padding-y:                   .25rem !default;
+$badge-padding-x:                   .625rem !default;
+$badge-border-radius:               $border-radius-xs !default;
 // scss-docs-end badge-variables
 
 

@@ -22,7 +22,7 @@ const props = defineProps({
 
       <span
         v-if="badge"
-        :class="`bg-${badge.color}-100 text-${badge.color}-700 fs-9 py-1 px-2 ms-2`"
+        :class="`badge badge-${badge.color} d-flex align-items-center g-1`"
         style="border-radius: 0.25rem"
         :data-bs-toggle="badge.offcanvas ? 'offcanvas' : ''"
         :data-bs-target="badge.offcanvas ? `#${badge.offcanvas}` : ''"
@@ -31,7 +31,7 @@ const props = defineProps({
         <inline-svg
           v-if="badge.icon"
           :src="`media/icons/icons/${badge.icon}.svg`"
-          :class="`w-10px svg-icon-${badge.color}-500 me-1`"
+          :class="`w-10px svg-icon-${badge.color} me-1`"
         ></inline-svg>
 
         {{ badge.text }}

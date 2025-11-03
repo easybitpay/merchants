@@ -18,6 +18,14 @@ import WAValidator from 'multicoin-address-validator/dist/wallet-address-validat
 // Component
 import CoinDropdown from '../../components/globals/CoinDropdown.vue'
 
+// Constants
+const features = [
+  'Real-time exchange rates',
+  'Secure blockchain transactions',
+  'Low network fees',
+  'No hidden charges'
+]
+
 // ----- START ----- //
 
 // Generals
@@ -150,6 +158,9 @@ const getTokens = async () => {
     if (res) {
       sendTokens.value = res.sendTokens
       receiveTokens.value = res.receiveTokens
+
+      toggleSendToken(res.sendTokens[0])
+      toggleReceiveToken(res.receiveTokens[0])
     }
   })
 
@@ -214,165 +225,201 @@ onMounted(() => {
 </script>
 <template>
   <!-- begin::Content -->
-  <div class="card border-cyan-500">
-    <div class="card-body">
+  <div class="card">
+    <div class="card-body p-0">
       <div class="row gy-5">
         <!-- begin::Form Box -->
-        <div class="col-xl-5">
-          <!-- begin::Icon -->
-          <inline-svg
-            :src="`/media/icons/shapes/${$filters.shapeStatus('cards')}.svg`"
-            width="51"
-            height="48"
-          ></inline-svg>
-          <!-- end::Icon -->
+        <div class="col-lg-5 order-1 order-xl-0">
+          <div class="p-6 pe-lg-0">
+            <!-- begin::Form -->
+            <form @submit.prevent="exchange">
+              <!-- begin::Send -->
+              <div class="d-flex flex-column align-items-start gap-2">
+                <!-- begin::Label -->
+                <label for="send" class="fs-7 fw-medium label">You send</label>
+                <!-- end::Label -->
 
-          <!-- begin::Title -->
-          <h4 class="mt-6 mb-2 fw-normal lh-1 text-gray-900">Instance Exchange</h4>
-          <!-- end::Title -->
+                <!-- begin::Input Box -->
+                <div class="w-100 position-relative d-flex align-items-center">
+                  <input
+                    id="send"
+                    type="number"
+                    class="form-control form-control-lg fs-1 fw-medium"
+                    placeholder="0.00"
+                    v-model="form.sendAmount"
+                  />
 
-          <!-- begin::Subject -->
-          <p class="mb-0">Some info may be visible to other people</p>
-          <!-- end::Subject -->
+                  <div
+                    class="invalid-feedback form-control form-control-lg"
+                    v-if="v$.sendAmount.$errors.length || v$.sendTokenId.$errors.length"
+                  >
+                    <span>
+                      {{ sendTokenError }}
+                    </span>
+                  </div>
 
-          <!-- begin::Form -->
-          <form @submit.prevent="exchange" class="mt-11">
-            <!-- begin::Send -->
-            <div
-              class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center row-gap-2 column-gap-4 mb-8"
-            >
-              <!-- begin::Label -->
-              <div>
-                <label for="send" class="w-100 w-sm-104px text-gray-900"> You send </label>
-              </div>
-              <!-- end::Label -->
+                  <div class="position-absolute end-18px d-flex align-items-center gap-3">
+                    <h5 class="m-0 pb-1">
+                      {{ selectedSendToken.symbol }}
+                    </h5>
 
-              <!-- begin::Input Box -->
-              <div class="w-100 position-relative d-flex align-items-center">
-                <input
-                  id="send"
-                  type="number"
-                  class="form-control px-9"
-                  placeholder="Amount"
-                  v-model="form.sendAmount"
-                />
-
-                <div
-                  class="invalid-feedback form-control"
-                  v-if="v$.sendAmount.$errors.length || v$.sendTokenId.$errors.length"
-                >
-                  <span>
-                    {{ sendTokenError }}
-                  </span>
+                    <CoinDropdown
+                      showImage
+                      showCoinNetwork
+                      check="id"
+                      :items="sendTokens"
+                      :selected="selectedSendToken"
+                      @change="toggleSendToken"
+                    />
+                  </div>
                 </div>
+                <!-- end::Input Box -->
 
-                <!-- begin::Icon -->
-                <inline-svg
-                  src="media/icons/icons/arrow-forward.svg"
-                  class="position-absolute start-8px"
-                ></inline-svg>
-                <!-- end::Icon -->
-
-                <CoinDropdown
-                  class="position-absolute end-8px"
-                  showImage
-                  showCoinNetwork
-                  check="id"
-                  :items="sendTokens"
-                  :selected="selectedSendToken"
-                  @change="toggleSendToken"
-                />
+                <!-- begin::Badge -->
+                <span class="badge badge-primary">
+                  Network: {{ selectedSendToken?.network?.name }}
+                </span>
+                <!-- end::Badge -->
               </div>
-              <!-- end::Input Box -->
-            </div>
-            <!-- end::Send -->
-
-            <!-- begin::Receive -->
-            <div
-              class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center row-gap-2 column-gap-4 mb-8"
-            >
-              <!-- begin::Label -->
-              <div>
-                <label for="receive" class="w-100 w-sm-104px text-gray-900"> You Recieve </label>
-              </div>
-              <!-- end::Label -->
-
-              <!-- begin::Input Box -->
-              <div class="w-100 position-relative d-flex align-items-center">
-                <input
-                  id="receive"
-                  type="number"
-                  class="form-control px-9"
-                  placeholder="Amount"
-                  :value="receiveAmount"
-                  readonly
-                />
-
-                <div class="invalid-feedback form-control" v-if="v$.receiveTokenId.$errors.length">
-                  <span> {{ v$.receiveTokenId.$errors[0].$message }}</span>
-                </div>
-
-                <!-- begin::Icon -->
-                <inline-svg
-                  src="media/icons/icons/arrow-backward.svg"
-                  class="position-absolute start-8px"
-                ></inline-svg>
-                <!-- end::Icon -->
-
-                <CoinDropdown
-                  class="position-absolute end-8px"
-                  showImage
-                  showCoinNetwork
-                  check="id"
-                  :items="receiveTokens"
-                  :selected="selectedReceiveToken"
-                  @change="toggleReceiveToken"
-                />
-              </div>
-              <!-- end::Input Box -->
-            </div>
-            <!-- end::Receive -->
-
-            <!-- begin::Receive Address -->
-            <div class="w-100 position-relative d-flex align-items-center">
-              <input
-                id="send"
-                type="text"
-                class="form-control"
-                placeholder="Recipient’s address"
-                v-model="form.receiveAddress"
-                @change="validateAddress"
-              />
+              <!-- end::Send -->
 
               <div
-                class="invalid-feedback form-control"
-                v-if="v$.receiveAddress.$errors.length || (addressValidFlag && !validAddress)"
+                class="divider d-flex align-items-center justify-content-center position-relative my-10"
               >
-                <span> {{ receiveAddressError }}</span>
+                <div
+                  class="min-w-48px w-48px h-48px bg-primary shadow rounded-1 text-white d-flex align-items-center justify-content-center"
+                >
+                  <inline-svg
+                    src="/public/media/icons/icons/arrow-down.svg"
+                    class="svg-icon-white"
+                  ></inline-svg>
+                </div>
               </div>
-            </div>
-            <!-- end::Receive Address -->
 
-            <!-- begin::Submit -->
-            <button
-              type="submit"
-              :disabled="loadings.submit"
-              class="btn btn-primary w-100 fs-4 fw-normal mt-10"
-            >
-              {{ loadings.submit ? 'Loading...' : 'Submit' }}
-            </button>
-            <!-- end::Submit -->
-          </form>
-          <!-- end::Form -->
+              <!-- begin::Receive -->
+              <div class="d-flex flex-column align-items-start gap-2">
+                <!-- begin::Label -->
+                <label for="receive" class="fs-7 fw-medium label"> You Recieve </label>
+                <!-- end::Label -->
+
+                <!-- begin::Input Box -->
+                <div class="w-100 position-relative d-flex align-items-center">
+                  <input
+                    id="receive"
+                    type="number"
+                    class="form-control form-control-lg fs-1 fw-medium"
+                    placeholder="0.00"
+                    :value="receiveAmount"
+                    readonly
+                  />
+
+                  <div
+                    class="invalid-feedback form-control form-control-lg fs-1 fw-medium"
+                    v-if="v$.receiveTokenId.$errors.length"
+                  >
+                    <span> {{ v$.receiveTokenId.$errors[0].$message }}</span>
+                  </div>
+
+                  <div class="position-absolute end-18px d-flex align-items-center gap-3">
+                    <h5 class="m-0 pb-1">
+                      {{ selectedReceiveToken.symbol }}
+                    </h5>
+
+                    <CoinDropdown
+                      showImage
+                      showCoinNetwork
+                      check="id"
+                      :items="receiveTokens"
+                      :selected="selectedReceiveToken"
+                      @change="toggleReceiveToken"
+                    />
+                  </div>
+                </div>
+                <!-- end::Input Box -->
+
+                <!-- begin::Badge -->
+                <span class="badge badge-primary">
+                  Network: {{ selectedReceiveToken?.network?.name }}
+                </span>
+                <!-- end::Badge -->
+              </div>
+              <!-- end::Receive -->
+
+              <!-- begin::Receive Address -->
+              <div class="d-flex flex-column align-items-start gap-2 mt-6">
+                <!-- begin::Label -->
+                <label for="address" class="fs-7 fw-medium label"> Recipient Address </label>
+                <!-- end::Label -->
+
+                <!-- begin::Input Box -->
+                <div class="w-100 position-relative d-flex align-items-center">
+                  <input
+                    id="address"
+                    type="text"
+                    class="form-control roboto-mono"
+                    placeholder="Enter recipient's wallet address"
+                    v-model="form.receiveAddress"
+                    @change="validateAddress"
+                  />
+
+                  <div
+                    class="invalid-feedback form-control"
+                    v-if="v$.receiveAddress.$errors.length || (addressValidFlag && !validAddress)"
+                  >
+                    <span class="roboto-mono"> {{ receiveAddressError }}</span>
+                  </div>
+                </div>
+                <!-- end::Input Box -->
+              </div>
+              <!-- end::Receive Address -->
+
+              <!-- begin::Submit -->
+              <button
+                type="submit"
+                :disabled="loadings.submit"
+                class="btn btn-primary w-100 animation h-45px mt-10"
+              >
+                {{ loadings.submit ? 'Loading...' : 'Submit' }}
+              </button>
+              <!-- end::Submit -->
+            </form>
+            <!-- end::Form -->
+          </div>
         </div>
         <!-- end::Form Box -->
 
-        <div class="col-xl-7 min-h-300px">
+        <div class="col-lg-7 min-h-500px">
           <div
-            class="card-linear-background rounded h-100 p-6 d-flex flex-column align-item-start justify-content-end text-white fs-7 ls-base"
+            class="card-linear-background rounded-1 h-100 p-6 d-flex flex-column align-item-start text-white"
             style="--background: url(/media/images/banner/auth-bg.jpg)"
           >
-            <template v-if="selectedSendToken.symbol && selectedReceiveToken.symbol">
+            <div
+              class="w-65px h-65px bg-white rounded-1 shadow d-flex align-items-center justify-content-center mb-6"
+            >
+              <inline-svg
+                :src="`/media/icons/shapes/${$filters.shapeStatus('cards')}.svg`"
+                height="40"
+              ></inline-svg>
+            </div>
+
+            <h3 class="mb-1">Instant Crypto Swaps</h3>
+
+            <p class="mb-10 fs-7">
+              Exchange digital assets in seconds with competitive rates and low fees. Your swap is
+              processed instantly on the blockchain.
+            </p>
+
+            <div class="d-flex flex-column gap-3">
+              <p
+                v-for="(item, index) in features"
+                :key="index"
+                class="fs-7 mb-0 d-flex align-items-center gap-4"
+              >
+                <inline-svg src="media/icons/icons/ok.svg"></inline-svg>
+                {{ item }}
+              </p>
+            </div>
+            <!-- <template v-if="selectedSendToken.symbol && selectedReceiveToken.symbol">
               <p class="mb-0">
                 You will send {{ form.sendAmount || 0 }} of {{ selectedSendToken.symbol }} in
                 {{ selectedSendToken?.network?.name }} network
@@ -381,7 +428,7 @@ onMounted(() => {
                 and will get {{ receiveAmount || 0 }} of {{ selectedReceiveToken.symbol }} in
                 {{ selectedReceiveToken?.network?.name }} network
               </p>
-            </template>
+            </template> -->
           </div>
         </div>
       </div>

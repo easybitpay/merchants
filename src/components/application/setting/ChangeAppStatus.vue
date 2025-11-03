@@ -47,22 +47,24 @@ const changeAppStatus = async () => {
 </script>
 <template>
   <!-- begin::Change App Status -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">
-      {{ selectedApp.status == 1 ? 'Deactivate' : 'Activate' }} App
-    </h4>
+  <div class="card mb-6 pb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title">
+          {{ selectedApp.status == 1 ? 'Deactivate' : 'Activate' }} App
+        </h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">
+          Some info may be visible to other people using Google services.
+        </p>
+      </div>
 
-    <!-- begin::Add Coin -->
-    <button :disabled="btnDisable" @click="changeAppStatus" class="btn btn-primary px-5 w-160px">
-      {{ loading ? 'Loading...' : selectedApp.status == 1 ? 'Deactive' : 'Active' }}
-    </button>
-    <!-- end::Add Coin -->
+      <button :disabled="btnDisable" @click="changeAppStatus" class="btn btn-sm btn-light w-150px">
+        {{ loading ? 'Loading...' : selectedApp.status == 1 ? 'Deactive' : 'Active' }}
+      </button>
+    </div>
+    <!-- end::Header -->
   </div>
   <!-- end::Change App Status -->
 </template>

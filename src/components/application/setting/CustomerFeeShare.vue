@@ -88,20 +88,22 @@ onMounted(() => {
 
 <template>
   <!-- begin::Customer Fee Share -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900 d-flex align-items-center gap-3">
-      Customer Fee Share
-      <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-    </h4>
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title d-flex align-items-center gap-3">
+          Customer Fee Share
+          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+        </h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">Some info may be visible to other people using Google services.</p>
+      </div>
+    </div>
+    <!-- end::Header -->
 
     <!-- begin::Content -->
-    <div class="d-flex flex-column align-items-start">
+    <div class="card-body d-flex flex-column align-items-start">
       <div class="w-100 w-lg-initial">
         <div class="d-flex align-items-end justify-content-between gap-7 mb-4">
           <!-- begin::Top -->
@@ -141,8 +143,8 @@ onMounted(() => {
         </div>
 
         <div class="d-flex align-items-center justify-content-between text-gray-800 ls-base">
-          <p class="mb-0">Merchant</p>
-          <p class="mb-0">User</p>
+          <p class="mb-0 fw-medium">Merchant</p>
+          <p class="mb-0 fw-medium">User</p>
         </div>
       </div>
     </div>

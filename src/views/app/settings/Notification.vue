@@ -8,7 +8,6 @@ import { useNotificationStore } from '@/stores/notification'
 
 // Components
 import PageHeader from '../../../components/globals/PageHeader.vue'
-import NotificationConfigLoading from '../../../components/loadings/NotificationConfigLoading.vue'
 
 // ----- START ----- //
 
@@ -22,7 +21,7 @@ const events = ref([])
 const notifications = ref({})
 
 const loadings = ref({
-  list: false,
+  list: true,
   update: false
 })
 
@@ -154,16 +153,6 @@ onMounted(() => {
             <template v-if="loadings.list">
               <tr v-for="item in 2" :key="item">
                 <td><Skeletor class="rounded-0 w-200px" /></td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <Skeletor class="rounded-3" style="width: 48px; height: 28px" />
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <Skeletor class="rounded-3" style="width: 48px; height: 28px" />
-                  </div>
-                </td>
               </tr>
             </template>
 

@@ -7,6 +7,10 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+.label {
+    color: $gray-900;
+}
+
 .form-control {
     letter-spacing: -.02rem;
     height: 2.875rem;
@@ -14,6 +18,9 @@ input[type="number"] {
 
     &.form-control-sm {
         height: 2rem;
+    }
+    &.form-control-lg {
+        height: 4.375rem;
     }
 }
 

@@ -16,6 +16,7 @@ import { helpers, required } from '@vuelidate/validators'
 // Components
 import SelectDropdown from '../../globals/SelectDropdown.vue'
 import MultiSelectDropdown from '../../globals/MultiSelectDropdown.vue'
+import ContentColumn from '../../globals/ContentColumn.vue'
 
 // ----- START ----- //
 
@@ -57,10 +58,10 @@ const v$ = useVuelidate(rules, form)
  */
 const getAppTokens = async () => {
   // Start Loading
-  loading.value = true;
+  loading.value = true
 
   // Request
-  await store.getAppTokens(selectedApp.value.id).then(res => {
+  await store.getAppTokens(selectedApp.value.id).then((res) => {
     if (res) {
       tokens.value = res
     }
@@ -204,75 +205,69 @@ onMounted(() => {
 </script>
 <template>
   <!-- begin::Available Coins -->
-  <div class="mb-12">
+  <div class="card mb-6">
     <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900 d-flex align-items-center gap-3">
-      Available Coin
-      <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-    </h4>
+    <div class="card-header">
+      <div>
+        <h6 class="title d-flex align-items-center gap-3">
+          Available Coin
+          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+        </h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
+        <p class="desc">Some info may be visible to other people using Google services.</p>
+      </div>
+    </div>
     <!-- end::Title -->
 
     <!-- begin::Content -->
-    <div class="d-flex flex-column gap-4">
+    <div class="card-body d-flex flex-column gap-4">
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-900 lh-24px">Main Coin</div>
+      <ContentColumn title="Main Coin" value="Main payable coin" svgIcon="card">
+        <div class="w-100 mw-264px position-relative d-flex align-items-center">
+          <SelectDropdown
+            placeholder="Select Your Main Coin"
+            show="name"
+            showImage
+            showCoinNetwork
+            :items="tokens"
+            :selected="base_token"
+            @change="toggleBaseToken"
+            @update="checkBaseTokensUpdate"
+            :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
+          />
 
-        <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
-          <div class="w-100 w-lg-264px position-relative d-flex align-items-center">
-            <SelectDropdown
-              placeholder="Select Your Main Coin"
-              show="name"
-              showImage
-              showCoinNetwork
-              :items="tokens"
-              :selected="base_token"
-              @change="toggleBaseToken"
-              @update="checkBaseTokensUpdate"
-              :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
-            />
-
-            <div
-              class="invalid-feedback form-control form-control-sm"
-              v-if="v$.baseCoin.$errors.length"
-            >
-              <span> {{ v$.baseCoin.$errors[0].$message }}</span>
-            </div>
+          <div
+            class="invalid-feedback form-control form-control-sm"
+            v-if="v$.baseCoin.$errors.length"
+          >
+            <span> {{ v$.baseCoin.$errors[0].$message }}</span>
           </div>
         </div>
-      </div>
+      </ContentColumn>
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="row ls-base">
-        <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2 text-gray-900 lh-24px">Can pay Coins</div>
-
-        <div class="col-sm-7 col-md-8 col-lg-9 col-xl-10 d-flex justify-content-start">
-          <div class="w-100 w-lg-264px position-relative d-flex align-items-center">
-            <MultiSelectDropdown
-              placeholder="Select Your Can Pay Coin"
-              show="name"
-              showImage
-              showCoinNetwork
-              :items="tokens"
-              :selected="available_tokens"
-              @change="toggleAvialableToken"
-              @update="checkAvailableTokensUpdate"
-              :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
-            />
-            <div
-              class="invalid-feedback form-control form-control-sm"
-              v-if="v$.availableCoins.$errors.length"
-            >
-              <span> {{ v$.availableCoins.$errors[0].$message }}</span>
-            </div>
+      <ContentColumn title="Can pay Coins" value="Other payable coins" svgIcon="card">
+        <div class="w-100 mw-264px position-relative d-flex align-items-center">
+          <MultiSelectDropdown
+            placeholder="Select Your Can Pay Coin"
+            show="name"
+            showImage
+            showCoinNetwork
+            :items="tokens"
+            :selected="available_tokens"
+            @change="toggleAvialableToken"
+            @update="checkAvailableTokensUpdate"
+            :disabled="loading || !actionShareAllowed(selectedApp.share_type, 'edit_app')"
+          />
+          <div
+            class="invalid-feedback form-control form-control-sm"
+            v-if="v$.availableCoins.$errors.length"
+          >
+            <span> {{ v$.availableCoins.$errors[0].$message }}</span>
           </div>
         </div>
-      </div>
+      </ContentColumn>
       <!-- end::Item -->
     </div>
     <!-- end::Content -->

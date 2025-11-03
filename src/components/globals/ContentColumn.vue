@@ -12,6 +12,9 @@ const props = defineProps({
   textIcon: {
     type: String
   },
+  imageIcon: {
+    type: String
+  },
   textLoading: {
     type: Boolean
   },
@@ -24,8 +27,10 @@ const props = defineProps({
 <template>
   <div class="content-column">
     <Skeletor v-if="iconLoading" class="rounded-1" size="40px" />
-    <div class="icon-box" v-if="svgIcon || textIcon">
+    <div class="icon-box" v-if="svgIcon || textIcon || imageIcon">
       <inline-svg v-if="svgIcon" :src="`media/icons/icons/${svgIcon}.svg`"></inline-svg>
+
+      <img :src="imageIcon" class="h-24px"/>
 
       <span v-if="textIcon">{{ textIcon }}</span>
     </div>

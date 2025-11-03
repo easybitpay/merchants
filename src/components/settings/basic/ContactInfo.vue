@@ -50,7 +50,7 @@ const currentUser = computed(() => store.currentUser)
         :value="currentUser?.merchant?.email"
         :badge="{
           text: `${!currentUser?.merchant?.email_verified_at ? 'Not' : ''} Verified`,
-          color: currentUser?.merchant?.email_verified_at ? 'green' : 'red',
+          color: currentUser?.merchant?.email_verified_at ? 'success' : 'danger',
           icon: currentUser?.merchant?.email_verified_at ? 'ok' : 'close',
           offcanvas: !currentUser?.merchant?.email_verified_at ? 'emailVerify_offcanvas' : ''
         }"
@@ -67,7 +67,7 @@ const currentUser = computed(() => store.currentUser)
           currentUser?.merchant?.phone
             ? {
                 text: `${!currentUser?.merchant?.phone_verified_at ? 'Not' : ''} Verified`,
-                color: currentUser?.merchant?.phone_verified_at ? 'green' : 'red',
+                color: currentUser?.merchant?.phone_verified_at ? 'success' : 'danger',
                 icon: currentUser?.merchant?.email_verified_at ? 'ok' : 'close',
                 offcanvas: !currentUser?.merchant?.phone_verified_at ? 'phoneVerify_offcanvas' : ''
               }
