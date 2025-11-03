@@ -5,7 +5,7 @@
   <div class="card border-gray-200">
     <div class="card-body p-4">
       <!-- begin::Icon -->
-      <Skeletor size="33px" circle />
+      <Skeletor size="33px" />
       <!-- end::Icon -->
 
       <!-- begin::Title -->

@@ -412,7 +412,7 @@ body.sandbox.email-verify {
         min-width: max-content;
         cursor: pointer;
         // font-size: $font-size-sm;
-        font-size: .9375rem;
+        font-size: 0.9375rem;
 
         // transition: all linear .3s;
         span {
@@ -1070,11 +1070,11 @@ body.sandbox.email-verify {
 
     .title {
       color: $gray-800;
-      font-family: 'Neue Machina';
+      font-size: 1rem;
     }
 
     .subject {
-      color: $gray-500;
+      color: $gray-700;
     }
   }
 
@@ -1091,6 +1091,10 @@ body.sandbox.email-verify {
 
   &:hover {
     box-shadow: 0px 36px 37px -22px $gray-400;
+  }
+
+  &.active {
+    background-color: $blue-100;
   }
 }
 
