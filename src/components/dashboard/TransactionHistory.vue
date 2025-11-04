@@ -232,16 +232,16 @@ onMounted(() => {
 
 <template>
   <div class="card">
-    <div class="card-body p-0">
-      <!-- begin::Header -->
-      <div class="p-6 pb-8">
-        <h4 class="mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
-          Transaction History
-          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-        </h4>
-      </div>
-      <!-- end::Header -->
+    <!-- begin::Header -->
+    <div class="card-header pb-6">
+      <h6 class="title mb-0 d-flex align-items-center gap-3">
+        Transaction History
+        <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+      </h6>
+    </div>
+    <!-- end::Header -->
 
+    <div class="card-body p-0">
       <!-- begin::Chart -->
       <div class="h-400px">
         <Line :key="chartKey" id="my-chart-id" :options="chartOptions" :data="chartData" />

@@ -29,20 +29,10 @@ const list = ref([])
  * Convert Status Code To Color
  */
 const convertStatusToColor = (status) => {
-  if (status == 0) return 'yellow-700'
-  if (status == 1 || status == 2) return 'gray-700'
-  if (status == 10) return 'green-700'
+  if (status == 0) return 'warning'
+  if (status == 1 || status == 2) return 'gray-600'
+  if (status == 10) return 'success'
 }
-
-/**
- * Convert Status Code To BG Color
- */
-const convertStatusToBgColor = (status) => {
-  if (status == 0) return 'yellow-200'
-  if (status == 1 || status == 2) return 'gray-200'
-  if (status == 10) return 'green-200'
-}
-
 /**
  * Convert Status Code To Text
  */
@@ -92,11 +82,14 @@ watch(selectedSort, () => {
 
 <template>
   <div class="card">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title mb-0">Your Last Transaction</h6>
+      </div>
+    </div>
+    <!-- end::Header -->
     <div class="card-body">
-      <!-- begin::Header -->
-      <h4 class="mb-9 text-gray-900 fw-normal">Your Last Transaction</h4>
-      <!-- end::Header -->
-
       <!-- begin::Table -->
       <div class="table-responsive">
         <table class="table simple-table align-middle">
@@ -131,14 +124,9 @@ watch(selectedSort, () => {
                   </div>
                 </td>
                 <td>
-                  <div
-                    :class="`text-${convertStatusToColor(item.status)} bg-${convertStatusToBgColor(
-                      item.status
-                    )} d-inline-flex fs-8 fw-medium py-1 px-3`"
-                    style="border-radius: .4rem;"
-                  >
+                  <span :class="`badge badge-${convertStatusToColor(item.status)}`">
                     {{ convertStatusToText(item.status) }}
-                  </div>
+                  </span>
                 </td>
               </tr>
             </template>
@@ -146,6 +134,10 @@ watch(selectedSort, () => {
         </table>
       </div>
       <!-- end::Table -->
+
+      <div class="mt-10 d-flex justify-content-center" v-if="!loading && !list.length">
+        <inline-svg src="media/images/nothing-to-show.svg"></inline-svg>
+      </div>
     </div>
   </div>
 </template>
