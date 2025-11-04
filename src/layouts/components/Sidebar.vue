@@ -204,7 +204,7 @@ watch(search, () => {
                 </div>
                 <!-- end::icon -->
 
-                <span>Applications</span>
+                <span>Gateways</span>
               </router-link>
 
               <!-- begin::icon -->
@@ -315,7 +315,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Get Help</span>
+            <span>Help Center</span>
           </router-link>
           <!-- end::Link -->
 

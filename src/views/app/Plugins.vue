@@ -1,15 +1,15 @@
 <script setup>
 // Component
+import PageHeader from '../../components/globals/PageHeader.vue'
 import PluginCard from '../../components/plugin/PluginCard.vue'
 </script>
 <template>
   <!-- begin::Header -->
-  <div class="page-header">
-    <h1 class="title">Plugin</h1>
-    <p class="description">
-      Latest clicks/conversions. Where you currently have the logo for merchant
-    </p>
-  </div>
+
+  <PageHeader
+    title="Plugin"
+    description="Latest clicks/conversions. Where you currently have the logo for merchant"
+  />
   <!-- end::Header -->
 
   <!-- begin::Cards -->
