@@ -390,7 +390,7 @@ watch(search, () => {
                   <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
                 </div>
 
-                <span class="fs-6">Lock</span>
+                <span class="fs-8">Lock</span>
               </a>
 
               <a class="item cursor-pointer" @click="signOut">
@@ -398,7 +398,7 @@ watch(search, () => {
                   <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
                 </div>
 
-                <span class="fs-6">Sign out</span>
+                <span class="fs-8">Sign out</span>
               </a>
             </div>
           </div>

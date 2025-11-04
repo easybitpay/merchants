@@ -131,7 +131,6 @@
         background: $primary;
     }
 
-    .main-container #main #navbar-layout header a:hover,
     .main-container #main #navbar-layout header a.router-link-exact-active {
         background-color: $primary;
     }
@@ -154,6 +153,10 @@
     .category-card.active .card-body .title,
     .category-card:hover .card-body .title {
         color: $primary;
+    }
+
+    .category-card.active {
+        background-color: $yellow-100;
     }
 
     .accordion-item.accordion-active,
