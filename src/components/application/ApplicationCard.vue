@@ -40,7 +40,6 @@ const convartAppType = (type) => {
     :class="[
       { 'card background-image application-card': true },
       { disabled: app.status != 1 },
-      { 'have-partners': holders.length }
     ]"
     :style="`--background: url(${
       app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'

@@ -4,7 +4,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     border-bottom: 0;
+    gap: .5rem;
 
     .title {
       color: $gray-900;

@@ -14,9 +14,13 @@ const props = defineProps({
 
 <template>
   <div class="page-header">
-    <h1 class="title">{{ title }}</h1>
-    <p class="description" v-if="description">
-      {{ description }}
-    </p>
+    <div>
+      <h1 class="title">{{ title }}</h1>
+      <p class="description" v-if="description">
+        {{ description }}
+      </p>
+    </div>
+
+    <slot></slot>
   </div>
 </template>

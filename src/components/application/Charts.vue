@@ -425,6 +425,29 @@ onMounted(() => {
     >
       <!-- begin::Balance History -->
       <div class="card">
+        <!-- begin::Header -->
+        <div class="card-header pb-6">
+          <div>
+            <div class="d-flex align-items-center gap-3">
+              <inline-svg
+                :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
+              ></inline-svg>
+
+              <h6 class="title d-flex align-items-center gap-3 mb-0">
+                Balance History
+
+                <span
+                  v-if="loadings.chart"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                ></span>
+              </h6>
+            </div>
+          </div>
+          <div id="legend-container"></div>
+        </div>
+        <!-- end::Header -->
+
         <div class="card-body p-0">
           <img
             v-for="(item, index) in chartImage"
@@ -434,25 +457,6 @@ onMounted(() => {
             :id="`chart_${item}`"
             hidden
           />
-
-          <!-- begin::Header -->
-          <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
-            <h4 class="mb-0 text-gray-900 d-flex align-items-center gap-3 fw-normal">
-              <inline-svg
-                :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
-              ></inline-svg>
-
-              Balance History
-
-              <span
-                v-if="loadings.chart"
-                class="spinner-border spinner-border-sm"
-                role="status"
-              ></span>
-            </h4>
-            <div id="legend-container"></div>
-          </div>
-          <!-- end::Header -->
 
           <!-- begin::Chart -->
           <div class="w-100 d-flex flex-column flex-sm-row gap-4">
@@ -488,13 +492,10 @@ onMounted(() => {
     <!-- begin::Bank -->
     <div class="col-lg-5 col-xl-4 col-xxl-3" v-if="loadings.balance || balances.length">
       <BankLoading v-if="loadings.balance" />
-      <div
-        class="card h-100 bank-card"
-        v-if="!loadings.balance && balances.length"
-      >
-        <div class="card-body d-flex flex-column">
+      <div class="card h-100 bank-card" v-if="!loadings.balance && balances.length">
+        <div class="card-header">
           <!-- begin::Header -->
-          <h4 class="mb-6 text-gray-900 d-flex gap-3 fw-normal">
+          <h6 class="title mb-0 d-flex gap-3">
             <inline-svg
               :src="`media/icons/shapes/${$filters.shapeStatus('graph')}.svg`"
               height="24px"
@@ -502,9 +503,10 @@ onMounted(() => {
             ></inline-svg>
 
             Bank
-          </h4>
+          </h6>
           <!-- end::Header -->
-
+        </div>
+        <div class="card-body d-flex flex-column">
           <!-- begin::Amount Columns -->
           <div
             :class="[{ 'd-flex flex-root amount-columns': true }, { 'active-item': selectedLine }]"
