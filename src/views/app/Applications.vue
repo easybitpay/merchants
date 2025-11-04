@@ -23,7 +23,11 @@ const appLoading = computed(() => store.appLoading)
   <div class="d-flex flex-column gap-6">
     <ApplicationCardLoading v-if="appLoading" />
     <!-- begin::Item -->
-    <ApplicationCard v-for="app in appList" :key="app.id" :app="app" />
+    <div class="row gy-4">
+      <div class="col-xl-6" v-for="app in appList" :key="app.id">
+        <ApplicationCard :app="app" />
+      </div>
+    </div>
     <!-- end::Item -->
   </div>
 

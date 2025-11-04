@@ -837,119 +837,105 @@ body.sandbox.email-verify {
 
 .application-card {
   transition: box-shadow linear 0.3s;
+  border: none;
 
-  .type {
-    display: flex;
-    align-items: center;
-    height: 1.5rem;
-    background-color: $gray-500;
-    color: $white;
-    border-radius: $border-radius;
-    font-weight: 500;
-    padding: 0 1.25rem;
-  }
+  .card-body {
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all linear 0.3s;
+    border-radius: inherit;
+    border: 1px solid $border-color;
 
-  .name {
-    display: flex;
-    align-items: baseline;
-    line-height: 2rem;
-    margin-bottom: 0;
-    gap: 0.25rem;
-
-    img {
-      display: none;
-    }
-  }
-
-  &.disabled {
-    .name {
-      color: $danger !important;
-
-      img {
-        display: block;
-      }
-    }
-
-    .infos {
-      .item {
-        .value {
-          color: $gray-700;
-        }
-      }
-    }
-  }
-
-  .infos {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    overflow: auto;
-    padding: 1px 0;
-
-    .item {
-      padding: 0 1.5rem;
-      border-left: 1px solid $gray-500;
+    .info-action-box {
       display: flex;
-      flex-flow: column;
       align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 1rem;
 
-      .value {
-        font-size: $font-size-lg;
-        margin-bottom: 0.5rem;
-        color: $gray-800;
-        font-family: 'neue machina';
-      }
+      .main-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
 
-      .title {
-        color: $gray-500;
-        letter-spacing: 0.006rem;
-        font-size: $font-size-sm;
-        margin-bottom: 0;
-        line-height: 1rem;
-        min-width: 96px;
-        text-align: center;
-      }
-
-      &:first-child {
-        padding-left: 0;
-        border: none;
-      }
-    }
-
-    &:has(.swiper) {
-      .swiper-slide {
-        width: initial;
-
-        &:not(:first-child) {
-          border-left: 1px solid $gray-500;
+        img {
+          width: 48px;
+          min-width: 48px;
         }
 
-        &:first-child {
-          .item {
-            padding-left: 0;
+        .info {
+          width: calc(100% - 48px - 1rem);
+          .name {
+            color: $gray-900;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .other {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0;
+            font-size: $font-size-sm;
+            color: $gray-600;
           }
         }
       }
 
-      .item:first-child {
-        padding-left: 1.5rem;
+      &:has(.enter-btn) {
+        .main-info {
+          width: calc(100% - 120px - 1rem);
+        }
+      }
+      &:has(.share-btn) {
+        .main-info {
+          width: calc(100% - 40px - 1rem);
+        }
+      }
+    }
+
+    .infos {
+      border-top: 1px solid $border-color;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      .item {
+        text-align: center;
+        .value {
+          color: $gray-900;
+          margin-bottom: 0.25rem;
+          font-size: $h6-font-size;
+          font-weight: 600;
+        }
+        .title {
+          font-size: $font-size-sm;
+          margin-bottom: 0;
+        }
       }
     }
   }
 
   &:hover {
     box-shadow: 0px 38px 30px -39px $gray-400;
+
+    .card-body {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
   }
 
-  @media (min-width: 992px) {
-    .enter-btn {
-      opacity: 0;
-      transition: all linear 0.3s;
-    }
-
-    &:hover {
-      .enter-btn {
-        opacity: 1;
+  @media (width < 768px) {
+    .card-body {
+      .info-action-box {
+        &:has(.enter-btn) {
+          .main-info {
+            width: 100%;
+          }
+        }
+        &:has(.share-btn) {
+          .main-info {
+            width: calc(100% - 40px - 1rem);
+          }
+        }
       }
     }
   }
