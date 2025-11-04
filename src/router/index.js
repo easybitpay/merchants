@@ -170,18 +170,23 @@ const router = createRouter({
      * Widgets
      */
     {
-      path: '/',
+      path: '/widget',
       component: () => import('@/layouts/Widgets.vue'),
       children: [
         {
-          path: '/stake',
-          name: 'stake',
+          path: 'stake',
+          name: 'widget-stake',
           component: () => import('@/views/widgets/Stake.vue')
         },
         {
-          path: '/swap',
-          name: 'swap',
+          path: 'swap',
+          name: 'widget-swap',
           component: () => import('@/views/widgets/Swap.vue')
+        },
+        {
+          path: 'exchange',
+          name: 'widget-exchange',
+          component: () => import('@/views/widgets/Exchange.vue')
         }
       ]
     },

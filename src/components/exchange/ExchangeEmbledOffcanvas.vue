@@ -1,19 +1,55 @@
 <script setup>
 // Vue
-import { onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 // Prism
 import Prism from 'prismjs'
 
+// Constants
+const steps = [
+  'Customize the widget configuration above',
+  'Copy the embed code below',
+  "Paste the code into your website's HTML",
+  'The widget will appear on your site with exchange functionality'
+]
+
 // ----- START ----- //
-const JS = `<iframe width="1280" height="720" src="https://www.youtube.com/embed/uIkJg7mPhng"
-  title="Modeling, UV Unwrapping and Texturing Tutorial #31 | Detergent Bottle"
-  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-  gyroscope; picture-in-picture; web-share" allowfullscreen>
-</iframe>`
+
+const embedCode = ref({
+  width: '600',
+  height: '700',
+  theme: 'light',
+  radius: '12'
+})
+
+const JS = computed(() => {
+  return `<iframe 
+  width="${embedCode.value.width}" 
+  height="${embedCode.value.height}" 
+  src="https://panel.easybitpay.com/#/widget/exchange?merchant=YOUR_MERCHANT_ID&theme=${embedCode.value.theme}"
+  title="Crypto Exchange Widget"
+  frameborder="0"
+  style="border-radius: ${embedCode.value.radius}px;"
+  allow="clipboard-write"
+  loading="lazy">
+</iframe>
+`
+})
+
+// Functions
+const changeTheme = (theme) => {
+  embedCode.value.theme = theme;
+  setTimeout(() => {
+    refreshPrism()
+  }, 1);
+}
+
+const refreshPrism = () => {
+  Prism.highlightAll()
+}
 
 onMounted(() => {
-  Prism.highlightAll()
+  refreshPrism()
 })
 </script>
 
@@ -48,60 +84,114 @@ onMounted(() => {
             </div>
 
             <div class="mb-10">
-              <h3 class="mb-0 text-gray-900">Exchange Embed</h3>
+              <h3 class="mb-0 text-gray-900">Exchange Widget Embed</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">Two-factor authentication</p>
+              <p class="fs-7 mb-0 text-gray-800 ls-base">
+                Integrate exchange widget into your website
+              </p>
             </div>
           </div>
           <!-- end::Header -->
 
           <!-- begin::Content -->
           <div>
-            <!-- begin::Steps Table -->
-            <table class="w-100 text-gray-800 ls-base mb-4">
-              <tbody>
-                <!-- begin::Row -->
-                <tr>
-                  <td class="pe-2">
-                    <div class="max-content">Step 1</div>
-                  </td>
-                  <td>Copy Code Blow Step</td>
-                </tr>
-                <!-- end::Row -->
+            <!-- begin::Customize -->
+            <h6 class="text-gray-900 mb-3">Configuration</h6>
 
-                <!-- begin::Row -->
-                <tr>
-                  <td class="pe-2">
-                    <div class="max-content">Step 2</div>
-                  </td>
-                  <td>Go to the social post or webpage you’d like to embed.</td>
-                </tr>
-                <!-- end::Row -->
+            <div class="row gy-4">
+              <div class="col-sm-6">
+                <label for="width" class="fs-8 mb-1">Width (px)</label>
+                <input
+                  id="width"
+                  type="text"
+                  class="form-control form-control-sm"
+                  v-model="embedCode.width"
+                  @input="refreshPrism"
+                />
+              </div>
 
-                <!-- begin::Row -->
-                <tr>
-                  <td class="pe-2">
-                    <div class="max-content">Step 3</div>
-                  </td>
-                  <td>Generate the embed code using the post’s options.</td>
-                </tr>
-                <!-- end::Row -->
+              <div class="col-sm-6">
+                <label for="height" class="fs-8 mb-1">Height (px)</label>
+                <input
+                  id="height"
+                  type="text"
+                  class="form-control form-control-sm"
+                  v-model="embedCode.height"
+                  @input="refreshPrism"
+                />
+              </div>
 
-                <!-- begin::Row -->
-                <tr>
-                  <td class="pe-2">
-                    <div class="max-content">Step 4</div>
-                  </td>
-                  <td>
-                    If applicable, customize the embed post, such as the height and width of the
-                  </td>
-                </tr>
-                <!-- end::Row -->
-              </tbody>
-            </table>
-            <!-- end::Steps Table -->
+              <div class="col-sm-6">
+                <label for="width" class="fs-8 mb-1">Theme</label>
+                <div class="dropdown">
+                  <button
+                    class="dropdown-toggle w-100 form-control form-control-sm fs-8 d-flex align-items-center"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {{ embedCode.theme }}
+                  </button>
+                  <ul class="dropdown-menu w-100">
+                    <li @click="changeTheme('light')">
+                      <a
+                        :class="[
+                          { 'dropdown-item': true },
+                          { active: embedCode.theme === 'light' }
+                        ]"
+                      >
+                        Light
+                      </a>
+                    </li>
+                    <li @click="changeTheme('dark')">
+                      <a
+                        :class="[{ 'dropdown-item': true }, { active: embedCode.theme === 'dark' }]"
+                      >
+                        Dark
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-            <pre class="language-javascript"><code>{{ JS }}</code></pre>
+              <div class="col-sm-6">
+                <label for="radius" class="fs-8 mb-1">Border radius (px)</label>
+                <input
+                  id="radius"
+                  type="text"
+                  class="form-control form-control-sm"
+                  v-model="embedCode.radius"
+                  @input="refreshPrism"
+                />
+              </div>
+            </div>
+            <!-- end::Customize -->
+
+            <!-- begin::Steps -->
+            <div class="mt-6">
+              <h6 class="text-gray-900 mb-3">Steps</h6>
+
+              <table class="w-100 text-gray-800 ls-base">
+                <tbody>
+                  <!-- begin::Row -->
+                  <tr v-for="(item, index) in steps" :key="index" class="fs-7">
+                    <td class="pe-2">
+                      <div class="max-content text-primary">Step {{ index + 1 }}</div>
+                    </td>
+                    <td>{{ item }}</td>
+                  </tr>
+                  <!-- end::Row -->
+                </tbody>
+              </table>
+            </div>
+            <!-- end::Steps -->
+
+            <!-- begin::Code -->
+            <div class="mt-6">
+              <h6 class="text-gray-900 mb-3">Code</h6>
+              <pre class="language-html" style="max-height: 300px"><code>{{ JS }}</code></pre>
+            </div>
+            <!-- end::Code -->
           </div>
           <!-- end::Content -->
         </div>
