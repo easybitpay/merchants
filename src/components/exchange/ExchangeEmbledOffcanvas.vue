@@ -84,7 +84,7 @@ onMounted(() => {
             </div>
 
             <div class="mb-10">
-              <h3 class="mb-0 text-gray-900">Exchange Widget Embed</h3>
+              <h3 class="mb-0 text-dark">Exchange Widget Embed</h3>
 
               <p class="fs-7 mb-0 text-gray-800 ls-base">
                 Integrate exchange widget into your website
@@ -96,7 +96,7 @@ onMounted(() => {
           <!-- begin::Content -->
           <div>
             <!-- begin::Customize -->
-            <h6 class="text-gray-900 mb-3">Configuration</h6>
+            <h6 class="text-dark mb-3">Configuration</h6>
 
             <div class="row gy-4">
               <div class="col-sm-6">
@@ -169,7 +169,7 @@ onMounted(() => {
 
             <!-- begin::Steps -->
             <div class="mt-6">
-              <h6 class="text-gray-900 mb-3">Steps</h6>
+              <h6 class="text-dark mb-3">Steps</h6>
 
               <table class="w-100 text-gray-800 ls-base">
                 <tbody>
@@ -188,7 +188,7 @@ onMounted(() => {
 
             <!-- begin::Code -->
             <div class="mt-6">
-              <h6 class="text-gray-900 mb-3">Code</h6>
+              <h6 class="text-dark mb-3">Code</h6>
               <pre class="language-html" style="max-height: 300px"><code>{{ JS }}</code></pre>
             </div>
             <!-- end::Code -->
@@ -213,7 +213,7 @@ onMounted(() => {
           <div
             class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
           >
-            <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+            <p class="offcanvas-action-text">
               Latest clicks/conversions. Are you sure?
             </p>
 

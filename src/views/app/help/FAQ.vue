@@ -109,21 +109,23 @@ onMounted(async () => {
   </div>
   <!-- end::Categories -->
 
-  <AccordionItemLoading v-if="loading" />
+  <div class="mx-auto d-block mw-900px w-100">
+    <AccordionItemLoading v-if="loading" />
 
-  <template v-else>
-    <!-- begin::Accordion -->
-    <div class="accordion" id="faqAccordion">
-      <FAQItem v-for="(item, index) in filteredList" :key="index" :item="item" />
-    </div>
-    <!-- end::Accordion -->
+    <template v-else>
+      <!-- begin::Accordion -->
+      <div class="accordion" id="faqAccordion">
+        <FAQItem v-for="(item, index) in filteredList" :key="index" :item="item" />
+      </div>
+      <!-- end::Accordion -->
 
-    <!-- begin::No FAQ Image -->
-    <inline-svg
-      v-if="!filteredList.length"
-      src="/media/icons/shapes/no-ticket.svg"
-      class="d-block mx-auto mt-10"
-    ></inline-svg>
-    <!-- end::No FAQ Image -->
-  </template>
+      <!-- begin::No FAQ Image -->
+      <inline-svg
+        v-if="!filteredList.length"
+        src="/media/icons/shapes/no-ticket.svg"
+        class="d-block mx-auto mt-10"
+      ></inline-svg>
+      <!-- end::No FAQ Image -->
+    </template>
+  </div>
 </template>

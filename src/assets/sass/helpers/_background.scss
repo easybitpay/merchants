@@ -63,9 +63,12 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border: none;
 
   .card-body {
-    background-color: rgba(255, 255, 255, .75);
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: inherit;
+    border: 1px solid var(--bs-border-color);
   }
 }
 
@@ -82,4 +85,77 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+[data-bs-theme='dark'] {
+  .bg-white {
+    background-color: $gray-900 !important;
+  }
+
+  @each $name, $color in $theme-text-colors {
+    // Base
+    .dark-bg-#{$name} {
+      background-color: $color !important;
+    }
+
+    // Hover
+    .dark-bg-hover-#{$name} {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color !important;
+      }
+    }
+
+    // Active
+    .dark-bg-active-#{$name} {
+      &.active {
+        background-color: $color !important;
+      }
+    }
+
+    // Light
+    .dark-bg-light-#{$name} {
+      background-color: darken($color: $color, $amount: 10);
+    }
+  }
+
+  .two-fa-card {
+    .card-body {
+      background-color: rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  .application-card {
+    .card-body {
+      background-color: rgba(0, 0, 0, 0.9);
+      .info-action-box {
+        .main-info {
+          .info {
+            .name {
+              color: #fff;
+            }
+          }
+        }
+      }
+
+      .infos {
+        .item {
+          .value {
+            color: #fff;
+          }
+          .title {
+            color: $gray-600;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      box-shadow: 0px 38px 30px -39px $gray-800;
+      .card-body {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
 }

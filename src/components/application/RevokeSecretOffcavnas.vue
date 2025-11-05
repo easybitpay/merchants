@@ -139,7 +139,7 @@ onMounted(() => {
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">Revoke Secret</h3>
+                <h3 class="mb-0 text-dark">Revoke Secret</h3>
 
                 <p class="fs-7 mb-0 text-gray-800 ls-base">
                   Updating your secret key will require you to update your payment gateway settings
@@ -151,7 +151,7 @@ onMounted(() => {
 
             <!-- begin::Content -->
             <div>
-              <p class="text-gray-900 ls-base mb-0 text-justify">
+              <p class="text-dark ls-base mb-0 text-justify">
                 Please note that changing your secret key will invalidate your previous one. To
                 ensure uninterrupted transactions, you must also update your payment gateway
                 configuration with the new secret key. Failing to do so may cause payment processing
@@ -239,7 +239,7 @@ onMounted(() => {
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+              <p class="offcanvas-action-text">
                 Latest clicks/conversions. Are you sure?
               </p>
 
@@ -248,7 +248,7 @@ onMounted(() => {
                 <button
                   v-if="step === 1"
                   type="button"
-                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                  class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
                 >

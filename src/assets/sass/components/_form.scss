@@ -45,7 +45,7 @@ input[type='number'] {
 .form-control.is-valid:focus,
 .was-validated .form-control:valid,
 .form-control.is-valid {
-  border-color: $input-border-color;
+  border-color: var(--bs-border-color);
 }
 
 .invalid-feedback {
@@ -195,6 +195,22 @@ textarea {
         font-family: 'Roboto';
         font-weight: 400;
       }
+    }
+  }
+}
+
+[data-bs-theme='dark'] {
+  .form-check-input {
+    --bs-form-check-bg: #050505;
+  }
+
+  .form-control {
+    background-color: #1f1f1f;
+    color: #fff;
+    &:focus {
+      color: #fff;
+      background-color: #1f1f1f;
+      border-color: var(--bs-border-color);
     }
   }
 }

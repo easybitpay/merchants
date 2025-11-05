@@ -96,7 +96,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>
@@ -153,7 +153,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>
@@ -210,7 +210,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>

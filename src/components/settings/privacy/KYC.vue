@@ -95,7 +95,7 @@ onMounted(() => {
   <!-- begin::KYC -->
   <div class="mb-12">
     <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">KYC</h4>
+    <h4 class="mb-2 lh-1 text-dark">KYC</h4>
 
     <p class="mb-6 text-gray-800">
       KYC process includes ID card verification, face verification, document verification such as

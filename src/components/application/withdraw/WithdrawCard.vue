@@ -255,7 +255,7 @@ watch(
             </div>
 
             <div class="mb-6">
-              <h3 class="mb-0 text-gray-900">Withdraw Wallet</h3>
+              <h3 class="mb-0 text-dark">Withdraw Wallet</h3>
 
               <p class="fs-7 mb-0 text-gray-800 ls-base">
                 Some info may be visible to other people
@@ -276,7 +276,7 @@ watch(
               >
                 <!-- begin::Label -->
                 <div>
-                  <label for="amount" class="w-100 w-sm-104px text-gray-900"> Amount </label>
+                  <label for="amount" class="w-100 w-sm-104px text-dark"> Amount </label>
                 </div>
                 <!-- end::Label -->
 
@@ -333,7 +333,7 @@ watch(
               >
                 <!-- begin::Label -->
                 <div>
-                  <label for="address" class="w-100 w-sm-104px text-gray-900"> Address </label>
+                  <label for="address" class="w-100 w-sm-104px text-dark"> Address </label>
                 </div>
                 <!-- end::Label -->
 

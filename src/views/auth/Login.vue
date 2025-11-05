@@ -177,7 +177,7 @@ const checkForNextStep = () => {
           <!-- begin::Text -->
           <h4 class="my-6 text-dark">Login</h4>
 
-          <p class="text-gray-700 mb-12 ls-base">
+          <p class="text-gray-700 dark-text-gray-400 mb-12 ls-base">
             By signing up, you confirm that you’ve read
             <br />
             and accepted our User Notice and
@@ -226,7 +226,7 @@ const checkForNextStep = () => {
           <!-- end::Password -->
 
           <div class="d-flex flex-column flex-sm-row gap-4">
-            <RouterLink :to="{ name: 'reset-password' }" class="btn btn-white text-primary w-100">
+            <RouterLink :to="{ name: 'reset-password' }" class="btn btn-white text-primary no-shadow w-100">
               Forget Password
             </RouterLink>
 

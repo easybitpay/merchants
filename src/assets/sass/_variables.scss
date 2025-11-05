@@ -613,7 +613,7 @@ $border-widths: (
   5: 5px
 ) !default;
 $border-style:                solid !default;
-$border-color:                $gray-300 !default;
+$border-color:                $gray-200 !default;
 $border-color-translucent:    rgba($black, .175) !default;
 // scss-docs-end border-variables
 
@@ -984,7 +984,7 @@ $input-disabled-bg:                     var(--#{$prefix}secondary-bg) !default;
 $input-disabled-border-color:           null !default;
 
 $input-color:                           var(--#{$prefix}gray-800) !default;
-$input-border-color:                    var(--#{$prefix}gray-200) !default;
+$input-border-color:                    var(--#{$prefix}border-color) !default;
 $input-border-width:                    $input-btn-border-width !default;
 $input-box-shadow:                      null !default;
 
@@ -1436,7 +1436,7 @@ $dropdown-spacer:                   .125rem !default;
 $dropdown-font-size:                $font-size-sm !default;
 $dropdown-color:                    var(--#{$prefix}body-color) !default;
 $dropdown-bg:                       var(--#{$prefix}gray-100) !default;
-$dropdown-border-color:             var(--#{$prefix}gray-200) !default;
+$dropdown-border-color:             var(--#{$prefix}border-color) !default;
 $dropdown-border-radius:            $border-radius-xs !default;
 $dropdown-border-width:             var(--#{$prefix}border-width) !default;
 $dropdown-inner-border-radius:      calc(#{$dropdown-border-radius} - #{$dropdown-border-width}) !default; // stylelint-disable-line function-disallowed-list
@@ -1539,7 +1539,7 @@ $card-title-spacer-y:               $spacer * .5 !default;
 $card-title-color:                  null !default;
 $card-subtitle-color:               null !default;
 $card-border-width:                 var(--#{$prefix}border-width) !default;
-$card-border-color:                 var(--#{$prefix}gray-200) !default;
+$card-border-color:                 var(--#{$prefix}border-color) !default;
 $card-border-radius:                var(--#{$prefix}border-radius-sm) !default;
 $card-box-shadow:                   null !default;
 $card-inner-border-radius:          subtract($card-border-radius, $card-border-width) !default;
@@ -1562,7 +1562,7 @@ $accordion-padding-x:                     1.5rem !default;
 $accordion-color:                         var(--#{$prefix}gray-800) !default;
 $accordion-bg:                            var(--#{$prefix}white) !default;
 $accordion-border-width:                  var(--#{$prefix}border-width) !default;
-$accordion-border-color:                  var(--#{$prefix}gray-200) !default;
+$accordion-border-color:                  var(--#{$prefix}border-color) !default;
 $accordion-border-radius:                 0.5rem !default;
 $accordion-inner-border-radius:           0.5rem !default;
 

@@ -30,7 +30,7 @@ const openEditPartner = () => {
 
 <template>
   <!-- begin::Item -->
-  <div class="d-flex gap-4 text-gray-900 text-hover-primary hover-sm-show-parent">
+  <div class="d-flex gap-4 text-dark text-hover-primary hover-sm-show-parent">
     <!-- begin::Info & Image -->
     <div class="d-flex w-100 gap-4">
       <!-- begin::Image Box -->

@@ -297,7 +297,7 @@ body.sandbox.email-verify {
     padding: 1.25rem 0 0;
     border-radius: $border-radius-sm;
     background: $white;
-    border: 1px solid $gray-200;
+    border: 1px solid var(--bs-border-color);
     display: flex;
     flex-flow: column;
     overflow-x: hidden;
@@ -455,7 +455,7 @@ body.sandbox.email-verify {
         span {
           height: 1px;
           width: 100%;
-          background: $gray-200;
+          background: var(--bs-border-color);
           display: block;
           transition: all linear 0.3s;
         }
@@ -475,7 +475,7 @@ body.sandbox.email-verify {
         gap: 0.5rem;
         padding: 0.5rem 1rem 0.5rem 0.5rem;
         border-radius: $border-radius-sm;
-        border: 1px solid $gray-200;
+        border: 1px solid var(--bs-border-color);
         background-color: inherit;
         transition: all linear 0.3s;
 
@@ -578,7 +578,7 @@ body.sandbox.email-verify {
         overflow-x: auto;
         overflow-y: hidden;
         padding: 0.5rem;
-        border: 1px solid $gray-200;
+        border: 1px solid var(--bs-border-color);
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -607,10 +607,6 @@ body.sandbox.email-verify {
           &.router-link-exact-active {
             color: $white;
             background-color: $primary;
-          }
-
-          @media (max-width: 768px) {
-            font-size: $h4-font-size;
           }
         }
       }
@@ -839,14 +835,14 @@ body.sandbox.email-verify {
   transition: box-shadow linear 0.3s;
   border: none;
   &.disabled {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   .card-body {
     background-color: rgba(255, 255, 255, 0.9);
     transition: all linear 0.3s;
     border-radius: inherit;
-    border: 1px solid $border-color;
+    border: 1px solid var(--bs-border-color);
 
     .info-action-box {
       display: flex;
@@ -899,7 +895,7 @@ body.sandbox.email-verify {
     }
 
     .infos {
-      border-top: 1px solid $border-color;
+      border-top: 1px solid var(--bs-border-color);
       margin-top: 1rem;
       padding-top: 1rem;
       .item {
@@ -1191,7 +1187,7 @@ body.sandbox.email-verify {
   margin: 1rem 0;
   width: 100%;
   height: 1px;
-  background-color: $gray-200;
+  background-color: var(--bs-border-color);
 }
 
 .text-column {
@@ -1253,6 +1249,61 @@ body.sandbox.email-verify {
       font-size: $font-size-sm;
       margin-bottom: 0;
       color: $gray-600;
+    }
+  }
+}
+
+[data-bs-theme='dark'] {
+  .main-container {
+    #sidebar {
+      background-color: #272727;
+      border-color: #323232;
+      .links {
+        .link {
+          color: $gray-100;
+        }
+        .collapse-box {
+          .box {
+            .item {
+              color: $gray-200;
+              &.active {
+                background-color: $gray-800;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    #main {
+      #navbar-layout {
+        header {
+          background-color: $gray-900;
+
+          a {
+            &:hover {
+              background-color: $gray-800;
+              color: $gray-200;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .page-header {
+    .title {
+      color: #fff;
+    }
+
+    .description {
+      color: $gray-400;
+    }
+  }
+
+  .text-column {
+    .value {
+      color: #fff;
     }
   }
 }

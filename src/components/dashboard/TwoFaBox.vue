@@ -25,9 +25,9 @@ const currentUser = computed(() => authStore.currentUser)
         </div>
 
         <div class="text-center text-md-start">
-          <p class="text-gray-900 fw-medium mb-2">Enable Two-Factor Authentication</p>
+          <p class="text-dark fw-medium mb-2">Enable Two-Factor Authentication</p>
 
-          <p class="text-gray-700 fs-8 mb-0">
+          <p class="text-gray-700 dark-text-gray-400 fs-8 mb-0">
             Secure your account with an extra layer of protection. Enable 2FA to protect your
             payments and sensitive data.
           </p>

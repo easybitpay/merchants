@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 // Router
 import { useRouter, useRoute } from 'vue-router'
@@ -42,13 +42,34 @@ const emailVerifyAlert = computed(() => authStore.emailVerifyAlert)
 
 // Refs
 const search = ref('')
+const isDark = ref(false)
 
 // Computeds
+const theme = computed(() => (isDark.value ? 'dark' : 'light'))
+
 const appList = computed(() => appStore.appList)
 const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Sign out')
 const currentUser = computed(() => authStore.currentUser)
 
 // Functions
+
+const applyTheme = () => {
+  document.documentElement.setAttribute('data-bs-theme', theme.value)
+}
+
+const checkThemeColor = () => {
+  const savedTheme = localStorage.getItem('theme')
+
+  if (savedTheme) {
+    isDark.value = savedTheme === 'dark'
+  } else {
+    // 2. اگه چیزی ذخیره نشده بود، از سیستم کاربر بپرس
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    isDark.value = prefersDark
+  }
+
+  document.documentElement.setAttribute('data-theme', theme.value)
+}
 
 const checkActive = (checkText, extraCheck = false) => {
   const currentParentUrl = route.path.split('/').filter((x) => x !== '')
@@ -145,8 +166,17 @@ const searchApps = () => {
   })
 }
 
+onMounted(() => {
+  checkThemeColor()
+})
+
 watch(sandbox, () => {
   appStore.setSandBoxStatus(sandbox.value)
+})
+
+watch(isDark, () => {
+  applyTheme()
+  localStorage.setItem('theme', theme.value)
 })
 
 watch(search, () => {
@@ -344,6 +374,32 @@ watch(search, () => {
             </span>
           </div>
           <!-- end::SandBox -->
+
+          <!-- begin::Dark Mode -->
+          <div class="link form-check form-switch">
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span class="d-flex align-items-center justify-content-between w-100">
+              <div>
+                <label class="form-check-label" for="darkmode"> Dark Mode </label>
+              </div>
+
+              <div>
+                <input
+                  class="form-check-input m-0"
+                  type="checkbox"
+                  role="switch"
+                  id="darkmode"
+                  v-model="isDark"
+                />
+              </div>
+            </span>
+          </div>
+          <!-- end::Dark Mode -->
         </div>
         <!-- end::Link Box -->
       </div>
@@ -445,7 +501,7 @@ watch(search, () => {
         </div>
 
         <div>
-          <h6 class="fw-medium mb-0 lh-1 text-gray-800 name">
+          <h6 class="fw-medium mb-0 lh-1 text-gray-800 dark-text-gray-200 name">
             {{
               $filters.shortenText(
                 `${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`

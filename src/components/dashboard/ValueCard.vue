@@ -33,14 +33,14 @@ const props = defineProps({
       </div>
 
       <div class="d-flex flex-column justify-content-between flex-grow-1">
-        <p class="mb-2 fs-8 text-gray-600">
+        <p class="mb-2 fs-8 text-gray-600 dark-text-gray-300">
           <Skeletor class="rounded-0 mw-100px w-100" v-if="loading" />
 
           <template v-else>
             {{ title }}
           </template>
         </p>
-        <p class="mb-0 fs-3 text-gray-800 lh-1 fw-medium">
+        <p class="mb-0 fs-3 text-gray-800 dark-text-gray-200 lh-1 fw-medium">
           <Skeletor class="rounded-0 mw-200px w-100" v-if="loading" />
           <template v-else> {{ valuePrifix }}{{ value }} </template>
         </p>

@@ -62,3 +62,22 @@
     }
   }
 }
+
+.btn-white {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+[data-bs-theme='dark'] {
+  .btn-light {
+    border-color: #404040 !important;
+    background-color: #323232 !important;
+
+    &:hover {
+      background-color: #323232 !important;
+      border-color: #404040 !important;
+      box-shadow: none !important;
+    }
+  }
+}
