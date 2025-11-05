@@ -162,7 +162,7 @@ onMounted(() => {
               <!-- begin::OTP -->
 
               <div
-                class="mt-8 pt-8 border-top border-gray-200"
+                class="mt-8 pt-8 border-top "
                 v-if="step === 1 && currentUser?.merchant?.two_factor_enabled"
               >
                 <!-- begin::OTP -->
@@ -185,7 +185,7 @@ onMounted(() => {
               <!-- end::OTP -->
 
               <!-- begin::Secret Key -->
-              <div class="card rounded border-gray-200 mt-10" v-if="step === 2">
+              <div class="card rounded  mt-10" v-if="step === 2">
                 <div class="card-body p-4 py-sm-2 ps-sm-4 pe-2">
                   <div
                     class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-4 gap-md-6"

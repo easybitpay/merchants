@@ -286,7 +286,7 @@ onMounted(() => {
 
               <!-- begin::Features -->
               <div
-                class="d-flex flex-column gap-4 mt-4 border-top border-gray-200 pt-10 mt-10"
+                class="d-flex flex-column gap-4 mt-4 border-top  pt-10 mt-10"
                 v-if="selectedApp.type == 3"
               >
                 <!-- begin::Item -->

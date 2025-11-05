@@ -419,16 +419,6 @@ onMounted(() => {
                 {{ item }}
               </p>
             </div>
-            <!-- <template v-if="selectedSendToken.symbol && selectedReceiveToken.symbol">
-              <p class="mb-0">
-                You will send {{ form.sendAmount || 0 }} of {{ selectedSendToken.symbol }} in
-                {{ selectedSendToken?.network?.name }} network
-              </p>
-              <p class="mb-0">
-                and will get {{ receiveAmount || 0 }} of {{ selectedReceiveToken.symbol }} in
-                {{ selectedReceiveToken?.network?.name }} network
-              </p>
-            </template> -->
           </div>
         </div>
       </div>

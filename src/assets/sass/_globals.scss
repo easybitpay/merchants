@@ -187,7 +187,7 @@ body.sandbox.email-verify {
   flex-flow: column;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
   // z-index: 1000;
   // background: transparent;
   // backdrop-filter: blur(9px);
@@ -235,9 +235,11 @@ body.sandbox.email-verify {
   top: 0;
   bottom: 0;
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
-  background: rgba($color: $gray-100, $alpha: 0.5);
+  gap: 0.5rem;
+  background-color: rgba($color: $gray-100, $alpha: 0.5);
   backdrop-filter: blur(1px);
   z-index: 2;
   border-radius: inherit;
@@ -1295,6 +1297,10 @@ body.sandbox.email-verify {
     }
   }
 
+  #box-loading {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
   .page-header {
     .title {
       color: #fff;
@@ -1308,6 +1314,50 @@ body.sandbox.email-verify {
   .text-column {
     .value {
       color: #fff;
+    }
+  }
+
+  .category-card {
+    .card-body {
+      .title {
+        color: $gray-200;
+      }
+
+      .subject {
+        color: $gray-600;
+      }
+    }
+
+    &:hover {
+      box-shadow: 0px 36px 37px -22px $gray-800;
+    }
+
+    &.active {
+      background-color: $blue-900;
+      .card-body {
+        .title {
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  .content-column {
+    &:hover {
+      background-color: $gray-1000;
+    }
+    .icon-box {
+      background-color: $gray-800;
+      svg {
+        path {
+          stroke: $gray-300;
+        }
+      }
+    }
+    .text-box {
+      .title {
+        color: #fff;
+      }
     }
   }
 }

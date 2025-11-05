@@ -16,6 +16,7 @@ $gray-600: #889395 !default;
 $gray-700: #666F70 !default;
 $gray-800: #444B4B !default;
 $gray-900: #222626 !default;
+$gray-1000:#1f1f1f !default;
 $black:    #000 !default;
 // scss-docs-end gray-color-variables
 
@@ -30,7 +31,8 @@ $grays: (
   "600": $gray-600,
   "700": $gray-700,
   "800": $gray-800,
-  "900": $gray-900
+  "900": $gray-900,
+  "1000": $gray-1000,
 ) !default;
 // scss-docs-end gray-colors-map
 
@@ -43,7 +45,8 @@ $grays-text: (
   "gray-600": $gray-600,
   "gray-700": $gray-700,
   "gray-800": $gray-800,
-  "gray-900": $gray-900
+  "gray-900": $gray-900,
+  "gray-1000": $gray-1000,
 ) !default;
 // scss-docs-end gray-colors-map
 // fusv-enable

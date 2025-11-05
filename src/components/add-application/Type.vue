@@ -73,7 +73,7 @@ onMounted(() => {
     <!-- begin::Item -->
     <div
       :class="`card rounded-xl cursor-pointer ${
-        selectedType.type === item.type ? 'border-primary shadow' : 'border-gray-200'
+        selectedType.type === item.type ? 'border-primary shadow' : ''
       }`"
       @click="selectedType = item"
       v-for="(item, index) in types"

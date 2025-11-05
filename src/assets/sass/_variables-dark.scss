@@ -1,5 +1,5 @@
 $body-color-dark: $gray-400 !default;
-$body-bg-dark: #1f1f1f !default;
+$body-bg-dark: $gray-1000 !default;
 
 [data-bs-theme='dark'] {
   --bs-border-color: #323232 !important;

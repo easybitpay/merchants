@@ -126,6 +126,13 @@
     }
   }
 
+  .gradient-image-box {
+    background:
+      linear-gradient(90deg, #000 35.33%, rgba(255, 255, 255, 0) 89.34%),
+      var(--background),
+      lightgray 50% / cover no-repeat;
+  }
+
   .application-card {
     .card-body {
       background-color: rgba(0, 0, 0, 0.9);

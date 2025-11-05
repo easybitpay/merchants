@@ -79,8 +79,8 @@ onMounted(async () => {
     <Sidebar @changeSidebarStatus="changeSidebarStatus" :collapsed="!sidebarStatus" />
 
     <main id="main">
-      <MainLoading v-if="true" />
-      <RouterView v-if="false" :key="$route.params.id" />
+      <MainLoading v-if="loading" />
+      <RouterView v-else :key="$route.params.id" />
     </main>
   </div>
 

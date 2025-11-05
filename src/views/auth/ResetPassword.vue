@@ -292,7 +292,7 @@ const submitPassword = async () => {
             </div>
           </div>
 
-          <div class="mt-4 pt-4 border-top border-gray-200">
+          <div class="mt-4 pt-4 border-top ">
             <p class="text-gray-700 mb-3 ls-base fs-7">
               Enter verification code here.
             </p>

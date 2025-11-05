@@ -215,7 +215,7 @@ onMounted(() => {
 
             <!-- begin::Content -->
             <!-- begin::Info -->
-            <div class="border-bottom border-gray-200 pb-8 mb-8">
+            <div class="border-bottom  pb-8 mb-8">
               <p class="mb-6 ls-base">
                 By signing up, you confirm that you’ve readand accepted our User Notice and
                 <span class="text-primary">Privacy Policy.</span>

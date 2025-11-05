@@ -216,7 +216,7 @@ onMounted(() => {
 
               <!-- <div class="dropdown">
                 <button
-                  class="btn px-4 fs-7 bg-gray-100 ls-sm dropdown-toggle w-100 justify-content-between border border-gray-200"
+                  class="btn px-4 fs-7 bg-gray-100 ls-sm dropdown-toggle w-100 justify-content-between border "
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"

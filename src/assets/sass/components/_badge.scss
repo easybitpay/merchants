@@ -13,4 +13,16 @@
       }
     }
   }
+
+  [data-bs-theme='dark'] {
+    .badge-#{$name} {
+      background-color: darken($color: $value, $amount: 40);
+      color: lighten($color: $value, $amount: 20);
+      svg {
+        path {
+          stroke: $value;
+        }
+      }
+    }
+  }
 }

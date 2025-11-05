@@ -55,7 +55,7 @@ onMounted(() => {
 <template>
   <div class="dropdown w-100" id="colorDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100`"
+      :class="`btn btn-${btnSize} bg-gray-100  dropdown-toggle justify-content-between w-100`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"

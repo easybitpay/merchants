@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="card border-gray-200 mt-6">
+  <div class="card  mt-6">
     <div
       class="card-body p-4 d-flex flex-wrap row-gap-4 align-items-center justify-content-between"
     >

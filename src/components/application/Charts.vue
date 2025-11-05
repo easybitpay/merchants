@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Hook
 import useIconImage from '@/composables/useIconImage'
@@ -33,6 +34,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 // Generals
 const store = useAppStore()
+const themeStore = useThemeStore()
 const { iconImage } = useIconImage()
 
 // Refs
@@ -213,55 +215,57 @@ const chartData = ref({
   datasets: []
 })
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    tooltip: {
-      enabled: false,
-      position: 'nearest',
-      external: externalTooltipHandler
-    },
-    htmlLegend: {
-      // ID of the container to put the legend in
-      containerID: 'legend-container'
-    },
-    legend: {
-      display: false
-    }
-  },
-  scales: {
-    x: {
-      border: {
+const chartOptions = computed(() => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        enabled: false,
+        position: 'nearest',
+        external: externalTooltipHandler
+      },
+      htmlLegend: {
+        // ID of the container to put the legend in
+        containerID: 'legend-container'
+      },
+      legend: {
         display: false
-      },
-      grid: {
-        color: '#F1F1F5',
-        tickColor: ''
-      },
-      ticks: {
-        padding: 24,
-        color: '#ABB6BA',
-        font: {
-          size: '14px'
-        }
       }
     },
-    y: {
-      border: {
-        display: false
+    scales: {
+      x: {
+        border: {
+          display: false
+        },
+        grid: {
+          color: `${themeStore.theme === 'dark' ? '#444B4B' : '#F1F1F5'}`,
+          tickColor: ''
+        },
+        ticks: {
+          padding: 24,
+          color: '#ABB6BA',
+          font: {
+            size: '14px'
+          }
+        }
       },
-      grid: {
-        display: false,
-        drawOnChartArea: false,
-        drawTicks: false
-      },
-      ticks: {
-        maxTicksLimit: 6,
-        padding: 24,
-        color: '#92929D',
-        font: {
-          size: '14px'
+      y: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false,
+          drawOnChartArea: false,
+          drawTicks: false
+        },
+        ticks: {
+          maxTicksLimit: 6,
+          padding: 24,
+          color: '#92929D',
+          font: {
+            size: '14px'
+          }
         }
       }
     }
@@ -462,7 +466,7 @@ onMounted(() => {
           <div class="w-100 d-flex flex-column flex-sm-row gap-4">
             <div class="h-400px chart-box">
               <Line
-                :key="chartKey"
+                :key="chartKey && themeStore.theme"
                 id="my-chart-id"
                 :options="chartOptions"
                 :data="chartData"

@@ -63,7 +63,7 @@ onMounted(() => {
     <!-- begin::Content -->
     <div class="card-body d-flex flex-wrap gap-6">
       <!-- begin::Item -->
-      <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
+      <div class="py-2 ps-4 pe-3 bg-white border  rounded-pill">
         <!-- begin::Logo -->
         <inline-svg src="media/icons/companies/google-logo.svg" class="me-7"></inline-svg>
         <!-- end::Logo -->
@@ -79,7 +79,7 @@ onMounted(() => {
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
+      <div class="py-2 ps-4 pe-3 bg-white border  rounded-pill">
         <!-- begin::Logo -->
         <inline-svg src="media/icons/companies/facebook-logo.svg" class="me-7"></inline-svg>
         <!-- end::Logo -->
@@ -95,7 +95,7 @@ onMounted(() => {
       <!-- end::Item -->
 
       <!-- begin::Item -->
-      <div class="py-2 ps-4 pe-3 bg-white border border-gray-200 rounded-pill">
+      <div class="py-2 ps-4 pe-3 bg-white border  rounded-pill">
         <!-- begin::Logo -->
         <inline-svg
           src="media/icons/companies/telegram-logo.svg"

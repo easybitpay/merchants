@@ -37,7 +37,7 @@ const clicked = () => {
 }
 </script>
 <template>
-  <div class="card pagination-card border-gray-200">
+  <div class="card pagination-card ">
     <!-- begin::Shadow -->
     <template v-if="shadows">
       <span class="first"></span>

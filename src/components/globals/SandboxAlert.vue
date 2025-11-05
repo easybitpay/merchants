@@ -17,7 +17,7 @@ const exitSandbox = () => {
 <template>
   <div id="sandbox-alert" class="d-flex gap-4">
     <div class="d-none d-md-flex">
-      <div class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white border border-gray-200">
+      <div class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white border ">
         <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
       </div>
     </div>

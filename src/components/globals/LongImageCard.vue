@@ -24,7 +24,7 @@ const props = defineProps({
   <div
     :style="`--background: url(${background})`"
     :class="`gradient-image-box h-40px border rounded ps-4 pe-2 d-flex align-items-center justify-content-between 
-    ${error ? 'border-danger text-danger' : 'border-gray-300 text-gray-800 text-hover-primary'}
+    ${error ? 'border-danger text-danger' : 'text-gray-800 dark-text-gray-200 text-hover-primary'}
     ${deleteAction ? 'hover-show-parent hover-shadow' : ''}`"
   >
     <p class="mb-0 ellipsis" style="--ellipsis-width: 50%">{{ text }}</p>

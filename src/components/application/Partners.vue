@@ -90,7 +90,7 @@ watch(partnerListKey, () => {
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded-4 mt-6">
+  <div class="card  rounded-4 mt-6">
     <div class="card-body pb-4">
       <!-- begin::Header -->
       <div class="pb-12 d-flex align-items-center justify-content-between flex-wrap gap-4">

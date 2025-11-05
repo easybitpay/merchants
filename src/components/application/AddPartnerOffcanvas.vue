@@ -154,7 +154,7 @@ const addNewPartner = async () => {
 
             <!-- begin::Content -->
             <!-- begin::Info -->
-            <div class="border-bottom border-gray-200 pb-10 mb-10">
+            <div class="border-bottom  pb-10 mb-10">
               <!-- begin::Email -->
               <div class="mb-4 position-relative d-flex align-items-center">
                 <input

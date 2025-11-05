@@ -195,7 +195,7 @@ onMounted(() => {
 <template>
   <div :class="`dropdown w-${width} ${grouped ? 'grouped-dropdown' : ''}`" id="multiSelectDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
+      :class="`btn btn-${btnSize} bg-gray-100  dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"

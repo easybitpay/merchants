@@ -263,7 +263,7 @@
       th {
         padding-left: 1rem;
         padding-right: 1rem;
-        background: var(--bs-gray-100);
+        background: $gray-100;
         border-bottom: 1px solid var(--bs-border-color);
 
         &:first-child {
@@ -353,5 +353,23 @@
   }
   .simple-table tbody tr td {
     border-color: $gray-900 !important;
+  }
+
+  .notification-table {
+    thead {
+      tr {
+        th {
+          background: $gray-1000;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          color: $white;
+        }
+      }
+    }
   }
 }

@@ -90,7 +90,7 @@ const createTicket = async () => {
 </script>
 
 <template>
-  <div class="card rounded-1 border-gray-200 mb-6">
+  <div class="card rounded-1  mb-6">
     <div class="card-body">
       <form @submit.prevent="createTicket" class="d-flex flex-column flex-md-row gap-6">
         <!-- begin::Title -->

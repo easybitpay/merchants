@@ -85,7 +85,7 @@ onMounted(() => {
 
     <!-- begin::Icon & Banner Card -->
     <div
-      class="card gradient-image-box border-gray-200 h-128px rounded"
+      class="card gradient-image-box  h-128px rounded"
       :style="`--background: url(${
         appInfo.banner ? showPreview(appInfo.banner) : '/media/images/banner/auth-bg.jpg'
       })`"

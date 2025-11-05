@@ -205,11 +205,11 @@ textarea {
   }
 
   .form-control {
-    background-color: #1f1f1f;
+    background-color: $gray-1000;
     color: #fff;
     &:focus {
       color: #fff;
-      background-color: #1f1f1f;
+      background-color: $gray-1000;
       border-color: var(--bs-border-color);
     }
   }
