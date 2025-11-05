@@ -195,7 +195,7 @@ onMounted(() => {
 <template>
   <div :class="`dropdown w-${width} ${grouped ? 'grouped-dropdown' : ''}`" id="multiSelectDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100  dropdown-toggle justify-content-between w-100 ${toggleClass}`"
+      :class="`btn btn-${btnSize} bg-gray-100 dark-bg-gray-1000 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"
@@ -223,7 +223,7 @@ onMounted(() => {
       <div
         :class="[
           {
-            'd-flex align-items-center gap-2 text-gray-800 active multi-select-dropdown-text-content': true
+            'd-flex align-items-center gap-2 text-gray-800 dark-text-gray-200 active multi-select-dropdown-text-content': true
           },
           { 'with-svg': svgIcon }
         ]"
@@ -264,7 +264,7 @@ onMounted(() => {
           { 'with-svg': svgIcon }
         ]"
       >
-        <span class="text-gray-600 ellipsis" style="--ellipsis-width: 100%">{{ placeholder }}</span>
+        <span class="text-gray-600 dark-text-gray-400 ellipsis" style="--ellipsis-width: 100%">{{ placeholder }}</span>
       </div>
       <!-- end::Show Placeholder -->
     </a>

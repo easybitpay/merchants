@@ -213,4 +213,11 @@ textarea {
       border-color: var(--bs-border-color);
     }
   }
+
+  .form-check-input[type='radio'] {
+    &:not(:checked) {
+      background-image: url(/media/icons/icons/dark-radio-deactive.svg) !important;
+      background-color: $gray-1000;
+    }
+  }
 }

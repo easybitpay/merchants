@@ -103,7 +103,7 @@ const itemFilledPercent = (mustPay, paid) => {
                 <!-- end::Item -->
                 <!-- begin::Item -->
                 <div class="item">
-                  <p class="value">{{ tran?.invoiceToken?.amount }}</p>
+                  <p class="value ellipsis">{{ tran?.invoiceToken?.amount }}</p>
                   <p class="title">Must Pay</p>
                 </div>
                 <!-- end::Item -->
