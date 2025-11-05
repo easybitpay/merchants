@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAuthStore } from '@/stores/auth'
+import { useThemeStore } from '@/stores/theme'
 
 // Hooks
 import useCrypto from '@/composables/useCrypto.js'
@@ -15,6 +16,7 @@ import VOtpInput from 'vue3-otp-input'
 
 // Generals
 const store = useAuthStore()
+const themeStore = useThemeStore();
 const { decriptCrypto } = useCrypto()
 
 // Refs
@@ -80,7 +82,7 @@ onMounted(() => {
         <!-- begin::Container -->
         <div class="container d-flex flex-column align-items-center pb-8 pt-8">
           <!-- begin::Logo -->
-          <inline-svg src="media/images/logo/Logo.svg" class="mb-6"></inline-svg>
+          <inline-svg :src="`media/images/logo/${themeStore.theme}-main-logo.svg`" class="mb-6"></inline-svg>
           <!-- end::Logo -->
 
           <!-- begin::Card -->

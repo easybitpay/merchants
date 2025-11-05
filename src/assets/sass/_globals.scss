@@ -177,20 +177,23 @@ body.sandbox.email-verify {
 }
 
 #main-loading {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  // position: fixed;
+  // left: 0;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  height: 100%;
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  background: transparent;
-  backdrop-filter: blur(9px);
+  gap: .5rem;
+  // z-index: 1000;
+  // background: transparent;
+  // backdrop-filter: blur(9px);
 
   svg {
-    animation: rotation 5s infinite linear;
+    // animation: rotation 5s infinite linear;
   }
 }
 
@@ -1258,6 +1261,7 @@ body.sandbox.email-verify {
     #sidebar {
       background-color: #272727;
       border-color: #323232;
+
       .links {
         .link {
           color: $gray-100;

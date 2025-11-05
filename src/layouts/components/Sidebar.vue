@@ -1,6 +1,6 @@
 <script setup>
 // Vue
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Router
 import { useRouter, useRoute } from 'vue-router'
@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Hook
 import useIconImage from '@/composables/useIconImage'
@@ -34,6 +35,7 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const appStore = useAppStore()
+const themeStore = useThemeStore();
 const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
@@ -42,34 +44,13 @@ const emailVerifyAlert = computed(() => authStore.emailVerifyAlert)
 
 // Refs
 const search = ref('')
-const isDark = ref(false)
 
 // Computeds
-const theme = computed(() => (isDark.value ? 'dark' : 'light'))
-
 const appList = computed(() => appStore.appList)
 const prevAuthAction = computed(() => localStorage.getItem('prevAuthAction') || 'Sign out')
 const currentUser = computed(() => authStore.currentUser)
 
 // Functions
-
-const applyTheme = () => {
-  document.documentElement.setAttribute('data-bs-theme', theme.value)
-}
-
-const checkThemeColor = () => {
-  const savedTheme = localStorage.getItem('theme')
-
-  if (savedTheme) {
-    isDark.value = savedTheme === 'dark'
-  } else {
-    // 2. اگه چیزی ذخیره نشده بود، از سیستم کاربر بپرس
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    isDark.value = prefersDark
-  }
-
-  document.documentElement.setAttribute('data-theme', theme.value)
-}
 
 const checkActive = (checkText, extraCheck = false) => {
   const currentParentUrl = route.path.split('/').filter((x) => x !== '')
@@ -166,17 +147,8 @@ const searchApps = () => {
   })
 }
 
-onMounted(() => {
-  checkThemeColor()
-})
-
 watch(sandbox, () => {
   appStore.setSandBoxStatus(sandbox.value)
-})
-
-watch(isDark, () => {
-  applyTheme()
-  localStorage.setItem('theme', theme.value)
 })
 
 watch(search, () => {
@@ -191,9 +163,9 @@ watch(search, () => {
     <div class="two-side-space w-100">
       <!-- begin::Logo -->
       <router-link :to="{ name: 'dashboard' }">
-        <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
+        <inline-svg :src="`media/images/logo/${themeStore.theme}-main-logo.svg`" class="logo"></inline-svg>
         <inline-svg
-          src="media/images/logo/sidebar-collapse-logo.svg"
+          :src="`media/images/logo/${themeStore.theme}-collapse-logo.svg`"
           class="logo-collapse"
         ></inline-svg>
       </router-link>
@@ -394,7 +366,7 @@ watch(search, () => {
                   type="checkbox"
                   role="switch"
                   id="darkmode"
-                  v-model="isDark"
+                  v-model="themeStore.isDark"
                 />
               </div>
             </span>

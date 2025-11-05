@@ -1,18 +1,20 @@
 <script setup>
 // Vue
-import { computed, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 
 // Router
 import { useRouter } from 'vue-router'
 
 // Store
 import { useNotificationStore } from '@/stores/notification'
+import { useThemeStore } from '@/stores/theme'
 
 // ----- START ----- //
 
 // Generals
 const notificationStore = useNotificationStore()
 const router = useRouter()
+const themeStore = useThemeStore();
 
 // Computeds
 const newPage = computed(() => notificationStore.newPage)
@@ -23,6 +25,10 @@ watch(newPage, () => {
   if (newPage.value) {
     router.push({ name: newPage.value })
   }
+})
+
+onMounted(() => {
+  themeStore.checkThemeColor()
 })
 </script>
 

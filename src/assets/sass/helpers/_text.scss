@@ -54,7 +54,7 @@
 // }
 
 [data-bs-theme='dark'] {
-  @each $name, $color in $theme-dark-text-colors {
+  @each $name, $color in $theme-text-colors {
     // Base
     .dark-text-#{$name} {
       color: $color !important;
