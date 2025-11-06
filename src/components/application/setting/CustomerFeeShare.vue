@@ -142,7 +142,7 @@ onMounted(() => {
           <!-- end::Top -->
         </div>
 
-        <div class="d-flex align-items-center justify-content-between text-gray-800 ls-base">
+        <div class="d-flex align-items-center justify-content-between text-gray-800 dark-text-gray-400 ls-base">
           <p class="mb-0 fw-medium">Merchant</p>
           <p class="mb-0 fw-medium">User</p>
         </div>

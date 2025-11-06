@@ -44,9 +44,9 @@ const currentUser = computed(() => store.currentUser)
     <!-- end::Head -->
 
     <!-- begin::Content -->
-    <div class="card-body d-flex align-items-center gap-4">
+    <div class="card-body d-flex align-items-center flex-wrap gap-4">
 
-        <div class="h-80px w-80px">
+        <div class="h-80px w-80px min-w-80px">
           <img
             :src="
               currentUser?.merchant?.avatar

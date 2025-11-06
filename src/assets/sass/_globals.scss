@@ -1213,6 +1213,7 @@ body.sandbox.email-verify {
     font-weight: 500;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
   }
 }
@@ -1224,6 +1225,7 @@ body.sandbox.email-verify {
   transition: all ease 0.3s;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   &:hover {
     background-color: $gray-100;

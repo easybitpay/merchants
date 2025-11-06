@@ -1,6 +1,14 @@
 <script setup>
+// Store
+import { useThemeStore } from '@/stores/theme'
+
 // Components
 import PageHeader from '../../../components/globals/PageHeader.vue'
+
+// ----- START ----- //
+
+// Generals
+const themeStore = useThemeStore()
 </script>
 
 <template>
@@ -16,11 +24,19 @@ import PageHeader from '../../../components/globals/PageHeader.vue'
         aria-expanded="false"
         data-bs-offset="0,0"
       >
-        Dark mode
+        {{ $filters.capitalize(themeStore.theme) }} mode
       </button>
       <ul class="dropdown-menu triangle w-100">
-        <li><a class="dropdown-item">Dark mode</a></li>
-        <li><a class="dropdown-item">Light mode</a></li>
+        <li @click="themeStore.isDark = true">
+          <a :class="[{ 'dropdown-item': true }, { active: themeStore.theme === 'dark' }]">
+            Dark mode
+          </a>
+        </li>
+        <li @click="themeStore.isDark = false">
+          <a :class="[{ 'dropdown-item': true }, { active: themeStore.theme === 'light' }]">
+            Light mode
+          </a>
+        </li>
       </ul>
     </div>
     <!-- end::Theme -->

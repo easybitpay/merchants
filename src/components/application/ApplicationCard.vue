@@ -45,7 +45,7 @@ const convartAppType = (type) => {
       app.banner ? storageImage(app.banner) : '/media/images/banner/auth-bg.jpg'
     })`"
   >
-    <div class="card-body">
+    <div :class="`card-body border-app-${app.settings.color}`">
       <!-- begin::Name Action -->
       <div class="info-action-box">
         <!-- begin::Main Info -->
@@ -61,7 +61,7 @@ const convartAppType = (type) => {
 
           <!-- begin::Info -->
           <div class="info">
-            <h6 class="name">{{ app.name }}</h6>
+            <h6 :class="`name text-app-${app.settings.color}`" >{{ app.name }}</h6>
 
             <div class="other">
               <span class="text-primary">

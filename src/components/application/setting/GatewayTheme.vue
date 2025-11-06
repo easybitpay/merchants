@@ -131,7 +131,7 @@ onMounted(() => {
       <div v-for="item in themes" :key="item.id" class="d-flex flex-column align-items-center">
         <!-- begin::Image Box -->
         <div
-          class="w-192px h-216px border border-gray-300 border-hover-primary rounded-3 mb-6 cursor-pointer"
+          class="w-192px h-216px border rounded-3 mb-6 cursor-pointer"
           @click="actionShareAllowed(selectedApp.share_type, 'edit_app') && themePreview(item)"
         >
           <img
@@ -150,7 +150,6 @@ onMounted(() => {
             {
               'border border-2 rounded-1 w-33px h-33px d-flex align-items-center justify-content-center cursor-pointer': true
             },
-            { 'border-gray-400': selectedTheme.id != item.id },
             { 'border-primary bg-primary': selectedTheme.id === item.id }
           ]"
         >
