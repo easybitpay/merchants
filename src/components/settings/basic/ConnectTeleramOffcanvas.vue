@@ -129,7 +129,7 @@ onMounted(() => {
             <div class="mb-10">
               <h3 class="mb-0 text-dark">Connect Telegram</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                 Connect your Telegram account for receive notifications
               </p>
             </div>

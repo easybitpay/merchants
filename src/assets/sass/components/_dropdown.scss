@@ -251,7 +251,7 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        border: 1px solid $gray-300;
+        border: 1px solid var(--bs-border-color);
         border-radius: 12.5px;
 
         &:focus,
@@ -279,7 +279,7 @@
           border-bottom: 0;
           text-align: center;
           caret-color: $primary;
-          border-color: $gray-300;
+          border-color: var(--bs-border-color);
         }
       }
 

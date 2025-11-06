@@ -100,7 +100,7 @@ onMounted(() => {
             <div class="mb-10">
               <h3 class="mb-0 text-dark">Exchange Report</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">Instance Exchange Reciep</p>
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">Instance Exchange Reciep</p>
             </div>
           </div>
           <!-- end::Header -->

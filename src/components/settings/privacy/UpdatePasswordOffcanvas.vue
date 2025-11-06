@@ -187,7 +187,7 @@ onMounted(() => {
               <div class="mb-10">
                 <h3 class="mb-0 text-dark">Update Password</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                   Some info may be visible to other people using Google services.
                 </p>
               </div>

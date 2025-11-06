@@ -86,7 +86,7 @@ onMounted(() => {
             <div class="mb-10">
               <h3 class="mb-0 text-dark">Exchange Widget Embed</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                 Integrate exchange widget into your website
               </p>
             </div>
@@ -178,7 +178,7 @@ onMounted(() => {
                     <td class="pe-2">
                       <div class="max-content text-primary">Step {{ index + 1 }}</div>
                     </td>
-                    <td>{{ item }}</td>
+                    <td class="dark-text-gray-400">{{ item }}</td>
                   </tr>
                   <!-- end::Row -->
                 </tbody>

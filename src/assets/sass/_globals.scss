@@ -306,7 +306,7 @@ body.sandbox.email-verify {
     display: flex;
     flex-flow: column;
     overflow-x: hidden;
-    transition: all linear 0.3s;
+    transition: width linear 0.3s;
     gap: 2.5rem;
 
     .logo {
@@ -331,7 +331,7 @@ body.sandbox.email-verify {
       position: relative;
 
       input {
-        transition: all linear 0.3s;
+        transition: opacity linear 0.3s;
       }
 
       svg {
@@ -462,14 +462,14 @@ body.sandbox.email-verify {
           width: 100%;
           background: var(--bs-border-color);
           display: block;
-          transition: all linear 0.3s;
+          transition: height linear 0.3s;
         }
       }
     }
 
     .user-box {
       padding: 0 1.5rem 1.5rem;
-      transition: all linear 0.3s;
+      transition: padding linear 0.3s;
       display: flex;
       flex-flow: column;
       justify-content: flex-end;
@@ -483,17 +483,20 @@ body.sandbox.email-verify {
         border: 1px solid var(--bs-border-color);
         background-color: inherit;
         transition: all linear 0.3s;
+        transition-property: padding, border-width, gap;
+        transition-duration: 0.3s;
+        transition-timing-function: linear;
 
         .bullet {
           right: 0;
           top: 0;
-          transition: all linear 0.3s;
+          transition: top linear 0.3s;
         }
 
         .name,
         .balance {
           min-width: max-content;
-          transition: all linear 0.3s;
+          transition: opacity linear 0.3s;
         }
       }
     }
@@ -844,7 +847,7 @@ body.sandbox.email-verify {
   }
 
   .card-body {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.8);
     transition: all linear 0.3s;
     border-radius: inherit;
     border: 1px solid var(--bs-border-color);
@@ -1337,6 +1340,19 @@ body.sandbox.email-verify {
       .card-body {
         .title {
           color: $primary;
+        }
+      }
+    }
+  }
+
+  .sandbox {
+    .category-card {
+      &.active {
+        background-color: $yellow-900;
+        .card-body {
+          .title {
+            color: $warning;
+          }
         }
       }
     }

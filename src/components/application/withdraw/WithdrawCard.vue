@@ -257,7 +257,7 @@ watch(
             <div class="mb-6">
               <h3 class="mb-0 text-dark">Withdraw Wallet</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                 Some info may be visible to other people
               </p>
             </div>

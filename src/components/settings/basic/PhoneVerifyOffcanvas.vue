@@ -111,7 +111,7 @@ onMounted(() => {
               <div class="mb-10">
                 <h3 class="mb-0 text-dark">Phone Verify</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">Phone verify authentication</p>
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">Phone verify authentication</p>
               </div>
             </div>
             <!-- end::Header -->

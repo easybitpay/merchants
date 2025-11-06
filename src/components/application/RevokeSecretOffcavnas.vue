@@ -141,7 +141,7 @@ onMounted(() => {
               <div class="mb-10">
                 <h3 class="mb-0 text-dark">Revoke Secret</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                   Updating your secret key will require you to update your payment gateway settings
                   as well.
                 </p>

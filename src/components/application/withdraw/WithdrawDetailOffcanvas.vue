@@ -196,7 +196,7 @@ onMounted(() => {
               <div class="mb-10">
                 <h3 class="mb-0 text-dark">Withdraw Wallet</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">Invoice Preview</p>
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">Invoice Preview</p>
               </div>
             </div>
             <!-- end::Header -->

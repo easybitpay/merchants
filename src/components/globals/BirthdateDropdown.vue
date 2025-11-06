@@ -149,7 +149,7 @@ onMounted(() => {
 <template>
   <div class="dropdown w-100" id="birthdateDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100  dropdown-toggle justify-content-between w-100`"
+      :class="`btn btn-${btnSize} bg-gray-100 dark-bg-gray-1000 dropdown-toggle justify-content-between w-100`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"
@@ -160,7 +160,7 @@ onMounted(() => {
     >
       <!-- begin::Show Selected -->
       <div
-        class="d-flex align-items-center gap-2 text-gray-800 select-dropdown-text-content"
+        class="d-flex align-items-center gap-2 text-gray-800 dark-text-gray-200 select-dropdown-text-content"
         v-if="selected"
       >
         <div

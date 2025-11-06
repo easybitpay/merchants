@@ -134,7 +134,7 @@ onMounted(() => {
             <div class="mb-6">
               <h3 class="mb-0 text-dark">{{ previewTheme.name }}</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                 {{ previewTheme.description }}
               </p>
             </div>
