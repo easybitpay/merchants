@@ -205,13 +205,13 @@ onMounted(() => {
             <div>
               <!-- begin::Wallet Address -->
               <div class="fs-7 ls-sm">
-                <p class="text-gray-600 mb-2">Wallet</p>
-                <p class="text-gray-800 mb-0">{{ selectedWithdrawItem.wallet_address }}</p>
+                <p class="text-gray-600 dak-text-gray-500 mb-2">Wallet</p>
+                <p class="text-gray-800 dark-text-gray-200 mb-0">{{ selectedWithdrawItem.wallet_address }}</p>
               </div>
               <!-- end::Wallet Address -->
 
               <!-- begin::Spacer -->
-              <div class="border-bottom border-gray-400 w-100 my-4"></div>
+              <div class="border-bottom w-100 my-4"></div>
               <!-- end::Spacer -->
 
               <!-- begin::Info -->
@@ -236,7 +236,7 @@ onMounted(() => {
               <!-- end::Info -->
 
               <!-- begin::Spacer -->
-              <div class="border-bottom border-gray-400 w-100 my-4"></div>
+              <div class="border-bottom w-100 my-4"></div>
               <!-- end::Spacer -->
 
               <!-- begin::Info -->
@@ -279,7 +279,7 @@ onMounted(() => {
 
               <template v-if="confimationCodes && confimationCodes.length > 1">
                 <!-- begin::Spacer -->
-                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <div class="border-bottom w-100 my-4"></div>
                 <!-- end::Spacer -->
                 <!-- begin::Info -->
                 <div class="auto-infos">
@@ -306,7 +306,7 @@ onMounted(() => {
 
               <template v-if="!confirmedByMe">
                 <!-- begin::Spacer -->
-                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <div class="border-bottom w-100 my-4"></div>
                 <!-- end::Spacer -->
 
                 <!-- begin::Email Code -->

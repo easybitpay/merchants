@@ -171,14 +171,14 @@ onMounted(() => {
             <div class="mt-6">
               <h6 class="text-dark mb-3">Steps</h6>
 
-              <table class="w-100 text-gray-800 ls-base">
+              <table class="w-100 ls-base">
                 <tbody>
                   <!-- begin::Row -->
                   <tr v-for="(item, index) in steps" :key="index" class="fs-7">
                     <td class="pe-2">
                       <div class="max-content text-primary">Step {{ index + 1 }}</div>
                     </td>
-                    <td class="dark-text-gray-400">{{ item }}</td>
+                    <td>{{ item }}</td>
                   </tr>
                   <!-- end::Row -->
                 </tbody>
