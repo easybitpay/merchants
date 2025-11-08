@@ -6,7 +6,11 @@
 
     <p class="text-gray-800 dark-text-gray-400">Every request must include your gateway key:</p>
 
-    <pre class="p-4 rounded-1 bg-dark text-white"><code>X-API-Key: &lt;YOUR_API_KEY&gt;</code></pre>
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <pre class="text-dark mb-0"><code>X-API-Key: &lt;YOUR_API_KEY&gt;</code></pre>
+      </div>
+    </div>
 
     <div class="alert alert-card alert-warning mb-0" role="alert">
       <span class="fw-bolder">Security Note: </span>

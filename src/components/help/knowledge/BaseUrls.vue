@@ -11,7 +11,7 @@
         >
           <p class="w-120px min-w-120px fw-medium fs-7 text-dark mb-0">Mainnet</p>
 
-          <span class="badge badge-primary dark-bg-gray-100 text-start">
+          <span class="badge badge-primary dark-bg-gray-100 dark-text-primary text-start">
             https://api.easybitpay.com</span
           >
         </div>
@@ -21,7 +21,7 @@
         >
           <p class="w-120px min-w-120px fw-medium fs-7 text-dark mb-0">Sandbox</p>
 
-          <div class="badge badge-primary dark-bg-gray-100 text-start">
+          <div class="badge badge-primary dark-bg-gray-100 dark-text-primary text-start">
             https://api-sandbox.easybitpay.com
           </div>
         </div>

@@ -1,29 +1,53 @@
 .scroll-spy {
+  position: sticky;
+  top: 1rem;
+  width: 240px;
+
+  .nav-link {
+    font-size: $font-size-base;
+    line-height: 28px;
+    letter-spacing: 0.006rem;
+    padding: 0.5rem 0.75rem;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    border-radius: $border-radius-xs;
+    &:hover {
+      color: $gray-900;
+    }
+    &.active {
+      color: $primary;
+      background-color: $blue-100;
+      & + .child {
+        border-color: $primary;
+      }
+    }
+  }
+
+  .child {
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--bs-border-color);
+    gap: 0.3rem;
+
+    .nav-link {
+      padding: 0.375rem 0.75rem;
+      line-height: 1;
+    }
+  }
+}
+
+[data-bs-theme='dark'] {
+  .scroll-spy {
     position: sticky;
     top: 1rem;
     width: 240px;
 
     .nav-link {
-        font-size: $font-size-base;
-        line-height: 28px;
-        letter-spacing: .006rem;
-        &.active {
-            color: $primary;
-            &+ .child {
-                display: flex;
-
-            }
-        }
+      &:hover {
+        color: #fff;
+      }
+      &.active {
+        background-color: #272727;
+      }
     }
-
-    .child {
-        display: none;
-        padding-left: 1.25rem;
-        border-left: 2px solid $primary;
-        gap: .3rem;
-
-        .nav-link {
-            font-size: 1rem;
-        }
-    }
+  }
 }

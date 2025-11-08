@@ -2,7 +2,7 @@
 
 <template>
   <div id="email-verify-alert" class="d-flex gap-4">
-    <div class="card border-warning bg-yellow-100 w-100">
+    <div class="card border-warning bg-yellow-100 dark-bg-dark w-100">
       <div
         class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
       >

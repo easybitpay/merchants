@@ -18,6 +18,7 @@
               type="text"
               value="https://api.easybitpay.com"
               class="form-control form-control-sm mb-3 text-primary"
+              readonly
             />
             <div class="d-flex align-items-center gap-2">
               <p class="fs-8 mb-0">Callback MODE:</p>
@@ -36,6 +37,7 @@
               type="text"
               value="https://api-sandbox.easybitpay.com"
               class="form-control form-control-sm mb-3 text-primary"
+              readonly
             />
             <div class="d-flex align-items-center gap-2">
               <p class="fs-8 mb-0">No real token movement</p>
@@ -69,7 +71,7 @@
       </li>
       <li class="fs-7 text-gray-800 dark-text-gray-400">
         <span class="text-dark fw-medium">Redirect customers</span> to the hosted checkout
-        <span class="badge badge-primary dark-bg-gray-100">payment_url</span>
+        <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">payment_url</span>
       </li>
       <li class="fs-7 text-gray-800 dark-text-gray-400">
         <span class="text-dark fw-medium">Receive callbacks</span> on your callback URL with payment
@@ -77,7 +79,7 @@
       </li>
       <li class="fs-7 text-gray-800 dark-text-gray-400">
         <span class="text-dark fw-medium">Verify </span>callback authenticity using
-        <span class="badge badge-primary dark-bg-gray-100">EVENT_HASH</span> , then update your
+        <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">EVENT_HASH</span> , then update your
         order state
       </li>
     </ol>
@@ -87,13 +89,13 @@
     <h4 class="text-dark mb-4">Tokens</h4>
     <p class="fs-7 text-gray-800 dark-text-gray-400">
       You may pass <span class="text-dark fw-medium">token IDs</span> or
-      <span class="text-dark fw-medium">token names/symbols</span> (e.g,
-      <span class="badge badge-primary dark-bg-gray-100">USDT</span>,
-      <span class="badge badge-primary dark-bg-gray-100">TRX</span>,
-      <span class="badge badge-primary dark-bg-gray-100">USDT-POLYGON</span>,
-      <span class="badge badge-primary dark-bg-gray-100">ECG-Binance</span> ).
+      <span class="text-dark fw-medium">token names/symbols</span> (e.g.,
+      <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">USDT</span>,
+      <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">TRX</span>,
+      <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">USDT-POLYGON</span>,
+      <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">ECG-Binance</span> ).
     </p>
 
-    <p class="fs-7 text-gray-800 dark-text-gray-400 mb-0">Use <span class="badge badge-primary dark-bg-gray-100">available_tokens</span> to restrict which tokens the end-user can choose at checkout.</p>
+    <p class="fs-7 text-gray-800 dark-text-gray-400 mb-0">Use <span class="badge badge-primary dark-bg-gray-100 dark-text-primary">available_tokens</span> to restrict which tokens the end-user can choose at checkout.</p>
   </section>
 </template>
