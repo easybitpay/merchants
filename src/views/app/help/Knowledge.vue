@@ -20,6 +20,7 @@ import Callback from '../../../components/help/knowledge/Callback.vue'
 import Sandbox from '../../../components/help/knowledge/Sandbox.vue'
 import Withdraw from '../../../components/help/knowledge/Withdraw.vue'
 import DataModel from '../../../components/help/knowledge/DataModel.vue'
+import Security from '../../../components/help/knowledge/Security.vue'
 
 const JS = `const options = { 
   method: 'POST',
@@ -77,6 +78,8 @@ onMounted(() => {
         <Withdraw />
 
         <DataModel />
+
+        <Security/>
       </div>
     </div>
 

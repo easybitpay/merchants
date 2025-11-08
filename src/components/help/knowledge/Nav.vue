@@ -94,6 +94,10 @@ const scrollToId = (id) => {
         <a class="nav-link" href="#data-model" @click.prevent="scrollToId('data-model')">
           9. Data Model
         </a>
+
+        <a class="nav-link" href="#security" @click.prevent="scrollToId('security')">
+          10. Security
+        </a>
       </nav>
     </nav>
   </div>
