@@ -13,7 +13,7 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div :class="`col-12 ${step === activeStep ? 'col-xl-6' : 'col-xl'}`">
+  <div :class="`col-12 ${step === activeStep ? 'col-xl-6' : 'col-xl'}`" v-if="step === activeStep">
     <div
       :class="[
         { 'card wizard-item': true },
