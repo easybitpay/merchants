@@ -1744,7 +1744,7 @@ $modal-scale-transform:             scale(1.02) !default;
 $alert-padding-y:               .5rem !default;
 $alert-padding-x:               $spacer !default;
 $alert-margin-bottom:           1rem !default;
-$alert-border-radius:           1.25rem !default;
+$alert-border-radius:           $border-radius-xs !default;
 $alert-link-font-weight:        $font-weight-bold !default;
 $alert-border-width:            var(--#{$prefix}border-width) !default;
 $alert-dismissible-padding-r:   $alert-padding-x * 3 !default; // 3x covers width of x plus default padding on either side

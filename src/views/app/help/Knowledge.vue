@@ -1,9 +1,19 @@
 <script setup>
-import { ScrollSpy } from 'bootstrap'
+// Vue
 import { onMounted } from 'vue'
+
+// Bootstrap
+import { ScrollSpy } from 'bootstrap'
 
 // main.js or another entry point
 import Prism from 'prismjs'
+
+// Components
+import Nav from '../../../components/help/knowledge/Nav.vue'
+import Overview from '../../../components/help/knowledge/Overview.vue'
+import Concept from '../../../components/help/knowledge/Concept.vue'
+import Authentication from '../../../components/help/knowledge/Authentication.vue'
+import BaseUrls from '../../../components/help/knowledge/BaseUrls.vue'
 
 const JS = `const options = { 
   method: 'POST',
@@ -19,9 +29,6 @@ const PHP = `const options = {
     Authorization: 'API_KEY'
 },`
 
-const scrollToId = (id) => {
-  document.getElementById(id).scrollIntoView()
-}
 onMounted(() => {
   const scrollSpy = new ScrollSpy(document.body, {
     target: '#knowledge-nav'
@@ -43,6 +50,16 @@ onMounted(() => {
         data-bs-smooth-scroll="true"
         tabindex="0"
       >
+        <Overview />
+
+        <div class="divider my-10 h-2px"></div>
+
+        <Concept/>
+
+        <Authentication/>
+
+        <BaseUrls/>
+
         <div id="item-1">
           <h3 class="mb-6">Item 1</h3>
           <p class="mb-8">
@@ -167,30 +184,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="d-none d-md-block">
-      <nav id="knowledge-nav" class="scroll-spy">
-        <nav class="nav flex-column gap-2">
-          <a class="nav-link" href="#item-1" @click.prevent="scrollToId('item-1')">Item 1</a>
-          <nav class="nav child flex-column">
-            <a class="nav-link" href="#item-1-1" @click.prevent="scrollToId('item-1-1')">
-              Item 1-1
-            </a>
-            <a class="nav-link" href="#item-1-2" @click.prevent="scrollToId('item-1-2')">
-              Item 1-2
-            </a>
-          </nav>
-          <a class="nav-link" href="#item-2" @click.prevent="scrollToId('item-2')">Item 2</a>
-          <a class="nav-link" href="#item-3" @click.prevent="scrollToId('item-3')">Item 3</a>
-          <nav class="nav child flex-column">
-            <a class="nav-link" href="#item-3-1" @click.prevent="scrollToId('item-3-1')">
-              Item 3-1
-            </a>
-            <a class="nav-link" href="#item-3-2" @click.prevent="scrollToId('item-3-2')">
-              Item 3-2
-            </a>
-          </nav>
-        </nav>
-      </nav>
-    </div>
+    <Nav />
   </div>
 </template>

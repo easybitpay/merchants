@@ -616,6 +616,12 @@ body.sandbox.email-verify {
             color: $white;
             background-color: $primary;
           }
+
+          @media (max-width: 768px) {
+            padding: 0.25rem 0.5rem;
+            font-size: $font-size-sm;
+            border-radius: $border-radius-xs;
+          }
         }
       }
     }
