@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 import useIconImage from '@/composables/useIconImage'
 

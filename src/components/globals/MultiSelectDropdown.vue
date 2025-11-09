@@ -2,7 +2,7 @@
 // Vue
 import { computed, ref, onMounted } from 'vue'
 
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // Store

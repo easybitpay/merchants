@@ -2,7 +2,7 @@
 // Vue
 import { onMounted, ref } from 'vue'
 
-// Hooks
+// Composabless
 import useConvertDate from '@/composables/useConvertDate.js'
 
 // Props

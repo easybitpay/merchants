@@ -5,7 +5,7 @@ import { computed, onMounted, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hook
+// Composables
 import useAccordion from '@/composables/useAccordion'
 
 // Import Swiper Vue.js components

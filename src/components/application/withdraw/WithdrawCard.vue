@@ -9,7 +9,7 @@ import { useAuthStore } from '@/stores/auth'
 // Router
 import { useRouter } from 'vue-router'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 
 // Vuelidate

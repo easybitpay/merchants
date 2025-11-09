@@ -2,7 +2,7 @@
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hooks
+// Composabless
 import useConvertDate from '@/composables/useConvertDate.js'
 
 // Bootstrap

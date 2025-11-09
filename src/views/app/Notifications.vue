@@ -2,7 +2,7 @@
 // Vue
 import { ref, onMounted } from 'vue'
 
-// Hook
+// Composables
 import useAccordion from '@/composables/useAccordion'
 
 // Component

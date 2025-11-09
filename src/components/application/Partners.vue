@@ -5,7 +5,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hooks
+// Composabless
 import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
 
 // Bootstrap

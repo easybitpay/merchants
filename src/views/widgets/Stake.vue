@@ -9,7 +9,7 @@ import { useStakeStore } from '@/stores/stake'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 import useCallContract from '@/composables/useCallContract.js'
 

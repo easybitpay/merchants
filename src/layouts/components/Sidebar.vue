@@ -10,7 +10,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 import { useThemeStore } from '@/stores/theme'
 
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // Components

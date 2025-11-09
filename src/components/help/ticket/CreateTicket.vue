@@ -5,7 +5,7 @@ import { ref } from 'vue'
 // Store
 import { useTicketStore } from '@/stores/ticket'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 
 // Vuelidate

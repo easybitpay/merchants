@@ -9,7 +9,7 @@ import { useSwapStore } from '@/stores/swap'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
-// Hooks
+// Composabless
 import useCallContract from '@/composables/useCallContract.js'
 
 // Componenets
