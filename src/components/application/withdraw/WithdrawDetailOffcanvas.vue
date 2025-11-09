@@ -194,9 +194,9 @@ onMounted(() => {
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">Withdraw Wallet</h3>
+                <h3 class="mb-0 text-dark">Withdraw Wallet</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">Invoice Preview</p>
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">Invoice Preview</p>
               </div>
             </div>
             <!-- end::Header -->
@@ -205,13 +205,13 @@ onMounted(() => {
             <div>
               <!-- begin::Wallet Address -->
               <div class="fs-7 ls-sm">
-                <p class="text-gray-600 mb-2">Wallet</p>
-                <p class="text-gray-800 mb-0">{{ selectedWithdrawItem.wallet_address }}</p>
+                <p class="text-gray-600 dak-text-gray-500 mb-2">Wallet</p>
+                <p class="text-gray-800 dark-text-gray-200 mb-0">{{ selectedWithdrawItem.wallet_address }}</p>
               </div>
               <!-- end::Wallet Address -->
 
               <!-- begin::Spacer -->
-              <div class="border-bottom border-gray-400 w-100 my-4"></div>
+              <div class="border-bottom w-100 my-4"></div>
               <!-- end::Spacer -->
 
               <!-- begin::Info -->
@@ -236,7 +236,7 @@ onMounted(() => {
               <!-- end::Info -->
 
               <!-- begin::Spacer -->
-              <div class="border-bottom border-gray-400 w-100 my-4"></div>
+              <div class="border-bottom w-100 my-4"></div>
               <!-- end::Spacer -->
 
               <!-- begin::Info -->
@@ -279,7 +279,7 @@ onMounted(() => {
 
               <template v-if="confimationCodes && confimationCodes.length > 1">
                 <!-- begin::Spacer -->
-                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <div class="border-bottom w-100 my-4"></div>
                 <!-- end::Spacer -->
                 <!-- begin::Info -->
                 <div class="auto-infos">
@@ -306,7 +306,7 @@ onMounted(() => {
 
               <template v-if="!confirmedByMe">
                 <!-- begin::Spacer -->
-                <div class="border-bottom border-gray-400 w-100 my-4"></div>
+                <div class="border-bottom w-100 my-4"></div>
                 <!-- end::Spacer -->
 
                 <!-- begin::Email Code -->
@@ -378,7 +378,7 @@ onMounted(() => {
         <div class="d-flex gap-4" v-if="!confirmedByMe">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
             >
               <inline-svg
                 :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
@@ -389,7 +389,7 @@ onMounted(() => {
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+              <p class="offcanvas-action-text">
                 Latest clicks/conversions. Are you sure?
               </p>
 
@@ -397,7 +397,7 @@ onMounted(() => {
               <div class="d-flex gap-4 w-100 w-sm-initial">
                 <button
                   type="button"
-                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                  class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
                 >

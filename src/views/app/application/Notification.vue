@@ -24,7 +24,7 @@ const events = ref([])
 const notifications = ref({})
 
 const loadings = ref({
-  list: false,
+  list: true,
   update: false
 })
 
@@ -140,38 +140,48 @@ onMounted(() => {
 <template>
   <ApplicationCard action="action" :app="selectedApp" />
 
-  <div class="table-responsive">
-    <table class="table notification-table">
-      <thead>
-        <tr>
-          <th>Activity</th>
+  <div class="card mt-10">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table simple-table align-middle notification-table">
+          <thead>
+            <tr>
+              <th>Activity</th>
 
-          <th v-for="(driver, index) in drivers" :key="index">{{ driver.label }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-if="loadings.list">
-          <NotificationConfigLoading v-for="item in 2" :key="item" />
-        </template>
+              <th class="w-100px text-center" v-for="(driver, index) in drivers" :key="index">
+                {{ driver.label }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-if="loadings.list">
+              <tr v-for="item in 2" :key="item">
+                <td><Skeletor class="rounded-0 w-200px" /></td>
+              </tr>
+            </template>
 
-        <template v-else>
-          <tr v-for="(event, index) in filteredEvents" :key="index">
-            <td>{{ event.label }}</td>
-            <td v-for="(driver, i) in drivers" :key="i">
-              <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  :disabled="disableSwitchItem(driver)"
-                  v-model="notifications[event.name][driver.name]"
-                  @change="updateConfig"
-                />
-              </div>
-            </td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
+            <template v-else>
+              <tr v-for="(event, index) in filteredEvents" :key="index">
+                <td>{{ event.label }}</td>
+                <td v-for="(driver, i) in drivers" :key="i">
+                  <div class="d-flex justify-content-center">
+                    <div class="form-check form-switch form-switch-lg p-0">
+                      <input
+                        class="form-check-input m-0"
+                        type="checkbox"
+                        role="switch"
+                        :disabled="disableSwitchItem(driver)"
+                        v-model="notifications[event.name][driver.name]"
+                        @change="updateConfig"
+                      />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>

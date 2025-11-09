@@ -103,7 +103,7 @@ const itemFilledPercent = (mustPay, paid) => {
                 <!-- end::Item -->
                 <!-- begin::Item -->
                 <div class="item">
-                  <p class="value">{{ tran?.invoiceToken?.amount }}</p>
+                  <p class="value ellipsis">{{ tran?.invoiceToken?.amount }}</p>
                   <p class="title">Must Pay</p>
                 </div>
                 <!-- end::Item -->
@@ -151,7 +151,7 @@ const itemFilledPercent = (mustPay, paid) => {
                         <div class='mt-10 d-flex align-items-center justify-content-center gap-2'>
                             <img src='https://panel.easybitpay.com/icons/32/color/usdt.png' height='24' width='24' alt='usdt' />
 
-                            <h2 class='neue-machina mb-0 lh-24px text-gray-800'>$1.000</h2>
+                            <h2 class='  mb-0 lh-24px text-gray-800'>$1.000</h2>
                         </div>
                     </div>
                     `"

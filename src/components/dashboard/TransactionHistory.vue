@@ -1,9 +1,10 @@
 <script setup>
 // Vue
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Moment
 import moment from 'moment'
@@ -30,6 +31,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 // Generals
 const store = useAppStore()
+const themeStore = useThemeStore()
 const { convertDate } = useConvertDate()
 
 // Refs
@@ -142,51 +144,53 @@ const chartData = ref({
   ]
 })
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    tooltip: {
-      enabled: false,
-      position: 'nearest',
-      external: externalTooltipHandler
-    },
-    legend: {
-      display: false
-    }
-  },
-  scales: {
-    x: {
-      border: {
+const chartOptions = computed(() => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        enabled: false,
+        position: 'nearest',
+        external: externalTooltipHandler
+      },
+      legend: {
         display: false
-      },
-      grid: {
-        color: '#F1F1F5',
-        tickColor: ''
-      },
-      ticks: {
-        padding: 24,
-        color: '#ABB6BA',
-        font: {
-          size: '14px'
-        }
       }
     },
-    y: {
-      border: {
-        display: false
+    scales: {
+      x: {
+        border: {
+          display: false
+        },
+        grid: {
+          color: `${themeStore.theme === 'dark' ? '#444B4B' : '#F1F1F5'}`,
+          tickColor: ''
+        },
+        ticks: {
+          padding: 24,
+          color: '#ABB6BA',
+          font: {
+            size: '14px'
+          }
+        }
       },
-      grid: {
-        display: false,
-        drawOnChartArea: false,
-        drawTicks: false
-      },
-      ticks: {
-        maxTicksLimit: 6,
-        padding: 24,
-        color: '#92929D',
-        font: {
-          size: '14px'
+      y: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false,
+          drawOnChartArea: false,
+          drawTicks: false
+        },
+        ticks: {
+          maxTicksLimit: 6,
+          padding: 24,
+          color: '#92929D',
+          font: {
+            size: '14px'
+          }
         }
       }
     }
@@ -231,20 +235,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded">
-    <div class="card-body p-0">
-      <!-- begin::Header -->
-      <div class="p-6 pb-8">
-        <h4 class="neue-machina mb-0 text-gray-900 fw-normal d-flex align-items-center gap-3">
-          Transaction History
-          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-        </h4>
-      </div>
-      <!-- end::Header -->
+  <div class="card">
+    <!-- begin::Header -->
+    <div class="card-header pb-6">
+      <h6 class="title mb-0 d-flex align-items-center gap-3">
+        Transaction History
+        <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+      </h6>
+    </div>
+    <!-- end::Header -->
 
+    <div class="card-body p-0">
       <!-- begin::Chart -->
       <div class="h-400px">
-        <Line :key="chartKey" id="my-chart-id" :options="chartOptions" :data="chartData" />
+        <Line
+          :key="chartKey && themeStore.theme"
+          id="my-chart-id"
+          :options="chartOptions"
+          :data="chartData"
+        />
       </div>
       <!-- end::Chart -->
     </div>

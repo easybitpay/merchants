@@ -10,32 +10,12 @@ import useForm from '@/composables/useForm.js'
 
 // Vuelidate
 import useVuelidate from '@vuelidate/core'
-import { helpers, required } from '@vuelidate/validators'
+import { helpers, required, email } from '@vuelidate/validators'
 
 // Bootstrap
 import { Offcanvas } from 'bootstrap'
 
-// Component
-import BirthdateDropdown from '../../globals/BirthdateDropdown.vue'
-import SelectDropdown from '../../globals/SelectDropdown.vue'
-
-const genders = [
-  {
-    title: 'Male',
-    value: 'Male'
-  },
-  {
-    title: 'Femail',
-    value: 'Femail'
-  },
-  {
-    title: 'Rather not say',
-    value: 'Rather not say'
-  }
-]
 // ----- START ----- //
-
-// Generals
 const store = useAuthStore()
 const { showFeedBacks } = useForm()
 
@@ -44,31 +24,17 @@ const loading = ref(false)
 
 // Computeds
 const currentUser = computed(() => store.currentUser)
-const profile = computed(() => JSON.parse(currentUser.value?.merchant?.profile || '{}'))
-
-// Select Dropdown
-const birthdate = ref('')
-const changeBirthdate = (date) => {
-  birthdate.value = date
-}
-
-const gender = ref({})
-const changeGender = (info) => {
-  gender.value = info
-}
 
 // Vuelidate
 const form = ref({
-  first_name: null,
-  last_name: null
+  phone: null,
+  email: null
 })
 
 const rules = {
-  first_name: {
-    required: helpers.withMessage('First name is required', required)
-  },
-  last_name: {
-    required: helpers.withMessage('Last name is required', required)
+  email: {
+    required: helpers.withMessage('Email is required', required),
+    email: helpers.withMessage("Email isn't valid", email)
   }
 }
 
@@ -81,20 +47,8 @@ const v$ = useVuelidate(rules, form)
  */
 const setDefaultValues = () => {
   form.value = {
-    first_name: currentUser.value?.merchant?.first_name || null,
-    last_name: currentUser.value?.merchant?.last_name || null
-  }
-
-  birthdate.value = profile.value.birth_date || ''
-
-  if (profile.value.gender) {
-    for (let i = 0; i < genders.length; i++) {
-      const element = genders[i]
-      if (element.value === profile.value.gender) {
-        gender.value = element
-        break
-      }
-    }
+    phone: currentUser.value?.merchant?.phone || null,
+    email: currentUser.value?.merchant?.email || null
   }
 }
 
@@ -109,24 +63,19 @@ const closeOffcanvas = () => {
 /**
  * Update Profile
  */
-const updateContactInfo = async () => {
-  // Validion Form
+const updateBasicInfo = async () => {
   const result = await v$.value.$validate()
   if (result) {
     // Start Loading
     loading.value = true
 
     // Set Variables
-    let profile = {
-      gender: gender.value.value,
-      birth_date: birthdate.value
-    }
-
     let fd = new FormData()
     fd.append('_method', 'put')
-    fd.append('first_name', form.value.first_name)
-    fd.append('last_name', form.value.last_name)
-    fd.append('profile', JSON.stringify(profile))
+    fd.append('first_name', currentUser.value?.merchant?.first_name || '')
+    fd.append('last_name', currentUser.value?.merchant?.last_name || '')
+    fd.append('email', form.value.email)
+    fd.append('phone', form.value.phone)
 
     // Request
     await store.updateProfile(fd).then((res) => {
@@ -159,7 +108,7 @@ onMounted(() => {
     class="offcanvas offcanvas-bottom w-100 mw-792px"
     tabindex="-1"
     id="contactInfo_offcanvas"
-    aria-labelledby="offcanvasContactInfo"
+    aria-labelledby="offcanvasBasicInfo"
   >
     <div class="offcanvas-body">
       <inline-svg
@@ -169,7 +118,7 @@ onMounted(() => {
         class="d-block mx-auto mb-4 cursor-pointer svg-icon-primary"
       ></inline-svg>
 
-      <form @submit.prevent="updateContactInfo">
+      <form @submit.prevent="updateBasicInfo">
         <!-- begin::Content Card -->
         <div class="card border-0 mb-4 min-h-354px">
           <div class="card-body">
@@ -184,9 +133,9 @@ onMounted(() => {
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">Contact info</h3>
+                <h3 class="mb-0 text-dark">Basic info</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                   Some info may be visible to other people using Google services.
                 </p>
               </div>
@@ -195,64 +144,90 @@ onMounted(() => {
 
             <!-- begin::Content -->
             <div>
-              <div class="row mb-4 gy-4">
-                <!-- begin::First Name -->
-                <div class="col-md-6">
-                  <div class="position-relative d-flex align-items-center">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Your First Name"
-                      v-model="form.first_name"
-                    />
-
-                    <div class="invalid-feedback form-control" v-if="v$.first_name.$errors.length">
-                      <span> {{ v$.first_name.$errors[0].$message }}</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- end::First Name -->
-
-                <!-- begin::Last Name -->
-                <div class="col-md-6">
-                  <div class="position-relative d-flex align-items-center">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Your Last Name"
-                      v-model="form.last_name"
-                    />
-
-                    <div class="invalid-feedback form-control" v-if="v$.last_name.$errors.length">
-                      <span> {{ v$.last_name.$errors[0].$message }}</span>
-                    </div>
-                  </div>
-                </div>
-                <!-- end::Last Name -->
-              </div>
-
-              <!-- begin::Birthdate -->
-              <div class="mb-4">
-                <BirthdateDropdown
-                  placeholder="Enter Your Birthday (YY/MM/DD)"
-                  :selected="birthdate"
-                  @change="changeBirthdate"
+              <!-- begin::Phone -->
+              <div class="mb-4 position-relative d-flex align-items-center">
+                <input
+                  type="text"
+                  class="form-control ps-10 pe-19"
+                  placeholder="Your Phone No."
+                  v-model="form.phone"
                 />
-              </div>
-              <!-- end::Birthdate -->
 
-              <!-- begin::Gender -->
-              <div>
-                <SelectDropdown
-                  placeholder="Gender"
-                  show="title"
-                  check="value"
-                  :items="genders"
-                  :selected="gender"
-                  @change="changeGender"
-                />
+                <!-- begin::Icon -->
+                <inline-svg
+                  src="media/icons/icons/phone.svg"
+                  class="position-absolute start-8px svg-icon-primary"
+                ></inline-svg>
+                <!-- end::Icon -->
+
+                <!-- begin::Icon -->
+                <template v-if="currentUser?.merchant?.phone">
+                  <div
+                    v-if="currentUser?.merchant?.phone_verified_at"
+                    class="w-33px h-24px rounded-3 border border-primary position-absolute end-8px d-flex align-items-center justify-content-center"
+                  >
+                    <inline-svg
+                      src="media/icons/icons/valid-form.svg"
+                      class="svg-icon-primary"
+                      height="18"
+                      width="18"
+                    ></inline-svg>
+                  </div>
+                </template>
+                <!-- end::Icon -->
               </div>
-              <!-- end::Gender -->
+              <!-- end::Phone -->
+
+              <!-- begin::Email -->
+              <div class="mb-0 position-relative d-flex align-items-center">
+                <input
+                  type="email"
+                  class="form-control ps-10 pe-19"
+                  placeholder="Your Email"
+                  v-model="form.email"
+                />
+
+                <div class="invalid-feedback form-control" v-if="v$.email.$errors.length">
+                  <span> {{ v$.email.$errors[0].$message }}</span>
+                </div>
+
+                <!-- begin::Icon -->
+                <inline-svg
+                  src="media/icons/icons/mail.svg"
+                  class="position-absolute start-8px svg-icon-primary"
+                ></inline-svg>
+                <!-- end::Icon -->
+
+                <!-- begin::Icon -->
+                <div
+                  v-if="currentUser?.merchant?.email_verified_at"
+                  class="w-33px h-24px rounded-3 border border-primary position-absolute end-8px d-flex align-items-center justify-content-center"
+                >
+                  <inline-svg
+                    src="media/icons/icons/valid-form.svg"
+                    class="svg-icon-primary"
+                    height="18"
+                    width="18"
+                  ></inline-svg>
+                </div>
+                <!-- end::Icon -->
+              </div>
+              <!-- end::Email -->
+
+              <!-- <div class="dropdown">
+                <button
+                  class="btn px-4 fs-7 bg-gray-100 ls-sm dropdown-toggle w-100 justify-content-between border "
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  UNITED STATE
+                </button>
+                <ul class="dropdown-menu w-100">
+                  <li><a class="dropdown-item">English</a></li>
+                  <li><a class="dropdown-item">English 2</a></li>
+                </ul>
+              </div> -->
             </div>
             <!-- end::Content -->
           </div>
@@ -264,7 +239,7 @@ onMounted(() => {
           <div
             class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
           >
-            <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+            <p class="offcanvas-action-text">
               Latest clicks/conversions. Are you sure?
             </p>
 
@@ -272,7 +247,7 @@ onMounted(() => {
             <div class="d-flex gap-4 w-100 w-sm-initial">
               <button
                 type="button"
-                class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               >

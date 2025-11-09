@@ -175,14 +175,20 @@ onMounted(() => {
             <div class="d-flex gap-4">
               <div>
                 <div class="svg-holder">
-                  <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('2F')}.svg`" width="39" height="38"></inline-svg>
+                  <inline-svg
+                    :src="`/media/icons/shapes/${$filters.shapeStatus('2F')}.svg`"
+                    width="39"
+                    height="38"
+                  ></inline-svg>
                 </div>
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">2F Activation</h3>
+                <h3 class="mb-0 text-dark">2F Activation</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">Two-factor authentication</p>
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
+                  Two-factor authentication
+                </p>
               </div>
             </div>
             <!-- end::Header -->
@@ -190,21 +196,21 @@ onMounted(() => {
             <!-- begin::Content -->
             <div>
               <!-- begin::Steps Table -->
-              <table class="w-100 text-gray-800 ls-base mb-10">
+              <table class="w-100 ls-base mb-10">
                 <tbody>
                   <!-- begin::Row -->
-                  <tr>
+                  <tr class="fs-7">
                     <td class="pe-2">
-                      <div class="max-content">Step 1</div>
+                      <div class="max-content text-primary">Step 1</div>
                     </td>
                     <td>Open the authenticator mobile app</td>
                   </tr>
                   <!-- end::Row -->
 
                   <!-- begin::Row -->
-                  <tr v-if="!currentUser.merchant.two_factor_enabled">
+                  <tr class="fs-7" v-if="!currentUser.merchant.two_factor_enabled">
                     <td class="pe-2">
-                      <div class="max-content">Step 2</div>
+                      <div class="max-content text-primary">Step 2</div>
                     </td>
                     <td>
                       Scan the QR code or enter
@@ -217,9 +223,9 @@ onMounted(() => {
                   <!-- end::Row -->
 
                   <!-- begin::Row -->
-                  <tr>
+                  <tr class="fs-7">
                     <td class="pe-2">
-                      <div class="max-content">
+                      <div class="max-content text-primary">
                         Step {{ currentUser.merchant.two_factor_enabled ? '2' : '3' }}
                       </div>
                     </td>
@@ -277,24 +283,24 @@ onMounted(() => {
         <div class="d-flex gap-4">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
             >
-              <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
+              <inline-svg
+                :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
+              ></inline-svg>
             </div>
           </div>
           <div class="card border-0 mb-6 w-100">
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
-                Latest clicks/conversions. Are you sure?
-              </p>
+              <p class="offcanvas-action-text">Latest clicks/conversions. Are you sure?</p>
 
               <!-- begin::Actions -->
               <div class="d-flex gap-4 w-100 w-sm-initial">
                 <button
                   type="button"
-                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                  class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
                 >

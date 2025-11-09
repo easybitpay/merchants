@@ -7,6 +7,8 @@ import { useRoute } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 
 // Componenets
+import PageHeader from '../components/globals/PageHeader.vue'
+
 import AddPartnerOffcanvas from '../components/application/AddPartnerOffcanvas.vue'
 import CreateInvoiceOffcanvas from '../components/application/CreateInvoiceOffcanvas.vue'
 
@@ -36,9 +38,13 @@ onMounted(() => {
 </script>
 <template>
   <div id="navbar-layout" class="h-100 d-flex flex-column">
-    <header class="d-flex flex-nowrap column-gap-8 row-gap-4 mb-12">
+    <PageHeader
+      :title="selectedApp.name"
+      description="Manage your application settings and view transactions"
+    />
+    <header>
       <RouterLink :to="{ name: 'application-overview', params: { id: appId } }">
-        {{ selectedApp.name }}
+        Overview
       </RouterLink>
       <RouterLink :to="{ name: 'application-transaction', params: { id: appId } }">
         Transaction

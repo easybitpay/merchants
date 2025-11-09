@@ -49,27 +49,27 @@ onMounted(() => {
     <div class="col-sm-6 col-xl-3">
       <ValueCard
         :loading="loading"
-        image="blue-image"
         title="Total Earning"
         :value="summary.total_income"
+        color="primary"
       />
     </div>
 
     <div class="col-sm-6 col-xl-3">
       <ValueCard
         :loading="loading"
-        image="warning-image"
         title="Withdrawn"
         :value="summary.total_withdraws"
+        color="warning"
       />
     </div>
 
     <div class="col-sm-6 col-xl-3">
       <ValueCard
         :loading="loading"
-        image="purple-image"
         :title="`Earned in ${getCurrent('MMMM')}`"
         :value="summary.last_month_income"
+        color="purple"
       />
     </div>
 
@@ -79,6 +79,7 @@ onMounted(() => {
         image="success-image"
         title="Available"
         :value="summary.usd_value"
+        color="success"
       />
     </div>
   </div>

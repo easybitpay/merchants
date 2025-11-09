@@ -3,6 +3,7 @@
 import { computed, ref } from 'vue'
 
 // Component
+import PageHeader from '../../components/globals/PageHeader.vue'
 import WizardItem from '../../components/globals/wizard/WizardItem.vue'
 import Start from '../../components/add-application/Start.vue'
 import Type from '../../components/add-application/Type.vue'
@@ -105,11 +106,18 @@ const submitForm = () => {
 <template>
   <div class="h-100 d-flex flex-column">
     <!-- begin::Header -->
-    <h2 class="text-primary fw-normal mb-12 neue-machina">Add Applications</h2>
+    <PageHeader title="New Gateway" description="Let's create your payment gateway">
+      <!-- begin::Step Count -->
+      <h3 class="text-gray-500 mb-0">
+        <span class="text-primary">Step {{ activeStep + 1 }}</span>
+        of {{ steps.length }}
+      </h3>
+      <!-- end::Step Count -->
+    </PageHeader>
     <!-- end::Header -->
 
     <div class="wizard flex-root">
-      <div class="row gy-6">
+      <div class="row gy-6 justify-content-center">
         <WizardItem
           v-for="(item, index) in steps"
           :key="index"
@@ -130,7 +138,7 @@ const submitForm = () => {
     </div>
 
     <!-- begin::Actions -->
-    <div class="d-flex flex-wrap gap-4 mt-10">
+    <div class="d-flex flex-wrap gap-4 mt-10 justify-content-between">
       <button type="button" @click="prev" class="btn border-0 bg-gray-200 p-0 w-40px h-40px">
         <inline-svg
           src="media/icons/icons/arrow-left.svg"

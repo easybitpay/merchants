@@ -22,7 +22,7 @@ const selectedApp = computed(() => store.selectedApp)
 </script>
 
 <template>
-  <div class="card rounded-4 my-6 border-gray-200">
+  <div class="card my-6">
     <div class="card-body py-4 pe-4">
       <div
         class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-6 gap-md-8"

@@ -154,7 +154,7 @@ onMounted(() => {
 <template>
   <div :class="`dropdown w-${width} ${grouped ? 'grouped-dropdown' : ''}`" id="selectDropdown">
     <a
-      :class="`btn btn-${btnSize} bg-gray-100 border-gray-200 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
+      :class="`btn btn-${btnSize} bg-gray-100 dark-bg-gray-1000 dropdown-toggle justify-content-between w-100 ${toggleClass}`"
       role="button"
       :disabled="disabled"
       id="dropdownMenuLink"
@@ -182,7 +182,7 @@ onMounted(() => {
       <div
         :class="[
           {
-            'd-flex align-items-center gap-2 text-gray-800 active select-dropdown-text-content': true
+            'd-flex align-items-center gap-2 text-gray-800 dark-text-gray-200 active select-dropdown-text-content': true
           },
           { 'with-svg': svgIcon }
         ]"

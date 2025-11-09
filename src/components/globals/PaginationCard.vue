@@ -37,7 +37,7 @@ const clicked = () => {
 }
 </script>
 <template>
-  <div class="card pagination-card border-gray-200">
+  <div class="card pagination-card ">
     <!-- begin::Shadow -->
     <template v-if="shadows">
       <span class="first"></span>
@@ -55,7 +55,7 @@ const clicked = () => {
         <inline-svg src="media/icons/icons/clock.svg" height="24" class="svg-icon-cyan-500"></inline-svg>
         <p
           :class="[
-            { 'mb-0 fs-7 text-gray-900 d-flex align-items-center gap-3': true },
+            { 'mb-0 fs-7 text-dark d-flex align-items-center gap-3': true },
             { 'fw-medium': bold }
           ]"
         >

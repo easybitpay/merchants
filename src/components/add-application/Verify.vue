@@ -73,7 +73,7 @@ onMounted(() => {
 <template>
   <!-- begin::Title -->
   <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Verify</h4>
+    <h4 class="text-primary mb-2 fw-normal">Verify</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
@@ -85,7 +85,7 @@ onMounted(() => {
 
     <!-- begin::Icon & Banner Card -->
     <div
-      class="card gradient-image-box border-gray-200 h-128px rounded"
+      class="card gradient-image-box  h-128px rounded"
       :style="`--background: url(${
         appInfo.banner ? showPreview(appInfo.banner) : '/media/images/banner/auth-bg.jpg'
       })`"
@@ -103,7 +103,7 @@ onMounted(() => {
           <div>
             <p class="fs-7 mb-2 text-gray-600 ls-base lh-1">{{ appInfo?.type?.title }}</p>
 
-            <h2 class="mb-0 text-success neue-machina lh-1">{{ appInfo.name }}</h2>
+            <h2 class="mb-0 text-success lh-1">{{ appInfo.name }}</h2>
           </div>
         </div>
       </div>

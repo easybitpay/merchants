@@ -168,35 +168,37 @@ onMounted(async () => {
   </div>
   <!-- end::Categories -->
 
-  <!-- begin::Create Message -->
-  <CreateTicket :department="selectedDepartment" @addNew="addNew" />
-  <!-- end::Create Message -->
+  <div class="mx-auto d-block mw-900px w-100">
+    <!-- begin::Create Message -->
+    <CreateTicket :department="selectedDepartment" @addNew="addNew" />
+    <!-- end::Create Message -->
 
-  <AccordionItemLoading v-if="loadings.list" />
+    <AccordionItemLoading v-if="loadings.list" />
 
-  <template v-else>
-    <!-- begin::Accordion -->
-    <div class="accordion" id="ticketAccordion">
-      <TicketItem v-for="(item, index) in filteredList" :key="index" :item="item" />
-    </div>
-    <!-- end::Accordion -->
+    <template v-else>
+      <!-- begin::Accordion -->
+      <div class="accordion" id="ticketAccordion">
+        <TicketItem v-for="(item, index) in filteredList" :key="index" :item="item" />
+      </div>
+      <!-- end::Accordion -->
 
-    <!-- begin::No Ticket Image -->
-    <inline-svg
-      v-if="!filteredList.length"
-      src="/media/icons/shapes/no-ticket.svg"
-      class="d-block mx-auto mt-10"
-    ></inline-svg>
-    <!-- end::No Ticket Image -->
+      <!-- begin::No Ticket Image -->
+      <inline-svg
+        v-if="!filteredList.length"
+        src="/media/icons/shapes/no-ticket.svg"
+        class="d-block mx-auto mt-10"
+      ></inline-svg>
+      <!-- end::No Ticket Image -->
 
-    <PaginationCard
-      class="mt-4"
-      v-if="lastPage > currentPage"
-      :bold="false"
-      text="Show More Tickets"
-      :count="totals - list.length"
-      :loading="loadings.pagination"
-      @clicked="getTicketList(currentPage + 2)"
-    />
-  </template>
+      <PaginationCard
+        class="mt-4"
+        v-if="lastPage > currentPage"
+        :bold="false"
+        text="Show More Tickets"
+        :count="totals - list.length"
+        :loading="loadings.pagination"
+        @clicked="getTicketList(currentPage + 2)"
+      />
+    </template>
+  </div>
 </template>

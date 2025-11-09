@@ -145,7 +145,7 @@ const sendReply = async () => {
 
     let file = uploadedFile.value
 
-    if (file.name) {
+    if (file) {
       fd.append('file_path', file)
     }
 

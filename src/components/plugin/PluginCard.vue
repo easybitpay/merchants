@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="card gradient-image-box plugin-card border-gray-200"
+    class="card gradient-image-box plugin-card "
     style="--background: url(/media/images/banner/auth-bg.jpg)"
   >
     <div

@@ -2,10 +2,19 @@
 // Vue
 import { ref } from 'vue'
 
+// Store
+import { useThemeStore } from '@/stores/theme'
+
 // ----- START ----- //
+
+// Generals
+const themeStore = useThemeStore()
+
+// Refs
 const errorStatus = ref(false)
 const timeout = ref(null)
 
+// Funstions
 const changeBG = () => {
   clearTimeout(timeout)
 
@@ -24,7 +33,10 @@ const changeBG = () => {
       <!-- begin::Container -->
       <div class="container d-flex flex-column align-items-center pb-8 pt-8">
         <!-- begin::Logo -->
-        <inline-svg src="media/images/logo/Logo.svg" class="mb-6"></inline-svg>
+        <inline-svg
+          :src="`media/images/logo/${themeStore.theme}-main-logo.svg`"
+          class="mb-6"
+        ></inline-svg>
         <!-- end::Logo -->
 
         <!-- begin::Card -->
@@ -36,9 +48,7 @@ const changeBG = () => {
 
     <!-- begin::Copyright -->
     <div>
-      <small class="text-white text-center neue-machina fw-light d-block mb-4">
-        2023 © easybitpay
-      </small>
+      <small class="text-white text-center fw-light d-block mb-4"> 2023 © easybitpay </small>
     </div>
     <!-- end::Copyright -->
   </div>

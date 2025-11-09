@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div class="card border-gray-200 rounded-4 h-100 bank-card">
+  <div class="card h-100 bank-card">
     <div class="card-body d-flex flex-column">
       <!-- begin::Header -->
       <h4 class="mb-6 d-flex gap-3">

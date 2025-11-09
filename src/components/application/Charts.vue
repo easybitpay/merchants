@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 
 // Store
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Hook
 import useIconImage from '@/composables/useIconImage'
@@ -33,6 +34,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 // Generals
 const store = useAppStore()
+const themeStore = useThemeStore()
 const { iconImage } = useIconImage()
 
 // Refs
@@ -213,55 +215,57 @@ const chartData = ref({
   datasets: []
 })
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    tooltip: {
-      enabled: false,
-      position: 'nearest',
-      external: externalTooltipHandler
-    },
-    htmlLegend: {
-      // ID of the container to put the legend in
-      containerID: 'legend-container'
-    },
-    legend: {
-      display: false
-    }
-  },
-  scales: {
-    x: {
-      border: {
+const chartOptions = computed(() => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        enabled: false,
+        position: 'nearest',
+        external: externalTooltipHandler
+      },
+      htmlLegend: {
+        // ID of the container to put the legend in
+        containerID: 'legend-container'
+      },
+      legend: {
         display: false
-      },
-      grid: {
-        color: '#F1F1F5',
-        tickColor: ''
-      },
-      ticks: {
-        padding: 24,
-        color: '#ABB6BA',
-        font: {
-          size: '14px'
-        }
       }
     },
-    y: {
-      border: {
-        display: false
+    scales: {
+      x: {
+        border: {
+          display: false
+        },
+        grid: {
+          color: `${themeStore.theme === 'dark' ? '#444B4B' : '#F1F1F5'}`,
+          tickColor: ''
+        },
+        ticks: {
+          padding: 24,
+          color: '#ABB6BA',
+          font: {
+            size: '14px'
+          }
+        }
       },
-      grid: {
-        display: false,
-        drawOnChartArea: false,
-        drawTicks: false
-      },
-      ticks: {
-        maxTicksLimit: 6,
-        padding: 24,
-        color: '#92929D',
-        font: {
-          size: '14px'
+      y: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false,
+          drawOnChartArea: false,
+          drawTicks: false
+        },
+        ticks: {
+          maxTicksLimit: 6,
+          padding: 24,
+          color: '#92929D',
+          font: {
+            size: '14px'
+          }
         }
       }
     }
@@ -298,7 +302,7 @@ const getAppTokenBalance = async () => {
           array.push({
             ...element.token,
             balance: +element.balance,
-            balance_usd_value: +element.balance_usd_value,
+            balance_usd_value: +element.balance_usd_value
           })
         }
       }
@@ -424,7 +428,30 @@ onMounted(() => {
       col-xxl-${loadings.balance || balances.length ? '9' : '12'}`"
     >
       <!-- begin::Balance History -->
-      <div class="card border-gray-200 rounded-4">
+      <div class="card">
+        <!-- begin::Header -->
+        <div class="card-header pb-6">
+          <div>
+            <div class="d-flex align-items-center gap-3">
+              <inline-svg
+                :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
+              ></inline-svg>
+
+              <h6 class="title d-flex align-items-center gap-3 mb-0">
+                Balance History
+
+                <span
+                  v-if="loadings.chart"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                ></span>
+              </h6>
+            </div>
+          </div>
+          <div id="legend-container"></div>
+        </div>
+        <!-- end::Header -->
+
         <div class="card-body p-0">
           <img
             v-for="(item, index) in chartImage"
@@ -435,30 +462,11 @@ onMounted(() => {
             hidden
           />
 
-          <!-- begin::Header -->
-          <div class="p-6 pb-8 d-flex align-items-center justify-content-between flex-wrap gap-4">
-            <h4 class="neue-machina mb-0 text-gray-900 d-flex align-items-center gap-3 fw-normal">
-              <inline-svg
-                :src="`media/icons/shapes/${$filters.shapeStatus('transaction')}.svg`"
-              ></inline-svg>
-
-              Balance History
-
-              <span
-                v-if="loadings.chart"
-                class="spinner-border spinner-border-sm"
-                role="status"
-              ></span>
-            </h4>
-            <div id="legend-container"></div>
-          </div>
-          <!-- end::Header -->
-
           <!-- begin::Chart -->
           <div class="w-100 d-flex flex-column flex-sm-row gap-4">
             <div class="h-400px chart-box">
               <Line
-                :key="chartKey"
+                :key="chartKey && themeStore.theme"
                 id="my-chart-id"
                 :options="chartOptions"
                 :data="chartData"
@@ -488,13 +496,10 @@ onMounted(() => {
     <!-- begin::Bank -->
     <div class="col-lg-5 col-xl-4 col-xxl-3" v-if="loadings.balance || balances.length">
       <BankLoading v-if="loadings.balance" />
-      <div
-        class="card border-gray-200 rounded-4 h-100 bank-card"
-        v-if="!loadings.balance && balances.length"
-      >
-        <div class="card-body d-flex flex-column">
+      <div class="card h-100 bank-card" v-if="!loadings.balance && balances.length">
+        <div class="card-header">
           <!-- begin::Header -->
-          <h4 class="neue-machina mb-6 text-gray-900 d-flex gap-3 fw-normal">
+          <h6 class="title mb-0 d-flex gap-3">
             <inline-svg
               :src="`media/icons/shapes/${$filters.shapeStatus('graph')}.svg`"
               height="24px"
@@ -502,9 +507,10 @@ onMounted(() => {
             ></inline-svg>
 
             Bank
-          </h4>
+          </h6>
           <!-- end::Header -->
-
+        </div>
+        <div class="card-body d-flex flex-column">
           <!-- begin::Amount Columns -->
           <div
             :class="[{ 'd-flex flex-root amount-columns': true }, { 'active-item': selectedLine }]"
@@ -518,9 +524,9 @@ onMounted(() => {
               ]"
               v-for="(item, index) in balances"
               :key="index"
-              :style="`width: ${convertAmountToPercent(item.balance_usd_value)}%; background-color: ${
-                item.color ? item.color : ''
-              }`"
+              :style="`width: ${convertAmountToPercent(
+                item.balance_usd_value
+              )}%; background-color: ${item.color ? item.color : ''}`"
             >
               <img :src="iconImage(item.symbol)" alt="item" :id="`image_${item.symbol}`" hidden />
               <span class="d-none d-sm-block">

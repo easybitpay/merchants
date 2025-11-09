@@ -64,7 +64,7 @@ onMounted(() => {
 <template>
   <!-- begin::Title -->
   <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Choose Gateway Type</h4>
+    <h4 class="text-primary mb-2 fw-normal">Choose Gateway Type</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
@@ -73,7 +73,7 @@ onMounted(() => {
     <!-- begin::Item -->
     <div
       :class="`card rounded-xl cursor-pointer ${
-        selectedType.type === item.type ? 'border-primary shadow' : 'border-gray-200'
+        selectedType.type === item.type ? 'border-primary shadow' : ''
       }`"
       @click="selectedType = item"
       v-for="(item, index) in types"

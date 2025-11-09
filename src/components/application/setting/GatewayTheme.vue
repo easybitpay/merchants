@@ -107,25 +107,31 @@ onMounted(() => {
 
 <template>
   <!-- begin::Gateway Theme -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900 d-flex align-items-center gap-3">
-      Gateway Theme
-      <span v-if="loadings.update" class="spinner-border spinner-border-sm" role="status"></span>
-    </h4>
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title d-flex align-items-center gap-3">
+          Gateway Theme
+          <span
+            v-if="loadings.update"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></span>
+        </h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">Some info may be visible to other people using Google services.</p>
+      </div>
+    </div>
+    <!-- end::Header -->
 
     <!-- begin::Content -->
-    <div class="d-flex align-items-center flex-wrap gap-6">
+    <div class="card-body d-flex align-items-center flex-wrap gap-6">
       <!-- begin::Item -->
       <div v-for="item in themes" :key="item.id" class="d-flex flex-column align-items-center">
         <!-- begin::Image Box -->
         <div
-          class="w-192px h-216px border border-gray-300 border-hover-primary rounded-3 mb-6 cursor-pointer"
+          class="w-192px h-216px border rounded-3 mb-6 cursor-pointer"
           @click="actionShareAllowed(selectedApp.share_type, 'edit_app') && themePreview(item)"
         >
           <img
@@ -144,7 +150,6 @@ onMounted(() => {
             {
               'border border-2 rounded-1 w-33px h-33px d-flex align-items-center justify-content-center cursor-pointer': true
             },
-            { 'border-gray-400': selectedTheme.id != item.id },
             { 'border-primary bg-primary': selectedTheme.id === item.id }
           ]"
         >

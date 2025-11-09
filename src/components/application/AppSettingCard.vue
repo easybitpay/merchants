@@ -39,6 +39,15 @@ const coverInputClick = () => {
 }
 
 /**
+ * Gateway List Status Converter
+ */
+const convartAppType = (type) => {
+  if (type == '1') return 'API'
+  if (type == '2') return 'Custom'
+  if (type == '3') return 'Donate'
+}
+
+/**
  * Change App Icon
  * @param {event} e
  */
@@ -107,43 +116,49 @@ const addCoverFile = async (e) => {
 
 <template>
   <div
-    :class="`card gradient-image-box border-app-${selectedApp.settings.color}`"
+    class="card background-image application-card"
     :style="`--background: url(${
       selectedApp.banner ? storageImage(selectedApp.banner) : '/media/images/banner/auth-bg.jpg'
     })`"
   >
-    <div class="card-body d-flex flex-column">
-      <!-- begin::Logo -->
-      <img
-        :src="
-          selectedApp.logo
-            ? storageImage(selectedApp.logo, 48)
-            : '/media/images/banner/default-app.png'
-        "
-        :alt="selectedApp.name"
-        class="img-fluid mb-10 mb-lg-16 rounded-1"
-        width="48"
-      />
-      <!-- end::Logo -->
+    <div :class="`card-body border-app-${selectedApp.settings.color}`">
+      <!-- begin::Name Action -->
+      <div class="info-action-box">
+        <!-- begin::Main Info -->
+        <div class="main-info">
+          <!-- begin::Logo -->
+          <img
+            :src="
+              selectedApp.logo
+                ? storageImage(selectedApp.logo, 48)
+                : '/media/images/banner/default-app.png'
+            "
+            :alt="selectedApp.name"
+            class="img-fluid rounded-1"
+            width="48"
+          />
+          <!-- end::Logo -->
 
-      <div class="d-flex flex-wrap gap-4 align-items-end justify-content-between">
-        <!-- begin::Type & Name -->
-        <div>
-          <p class="mb-2">as {{ $filters.capitalize(selectedApp.share_type) }}</p>
-          <h2 :class="`mb-0 text-app-${selectedApp.settings.color} lh-1`">
-            {{ selectedApp.name }}
-          </h2>
+          <!-- begin::Info -->
+          <div class="info">
+            <h6 :class="`name text-app-${selectedApp.settings.color}`">{{ selectedApp.name }}</h6>
+
+            <div class="other">
+              <span class="text-primary">
+                {{ convartAppType(selectedApp.type) }}
+              </span>
+              <span>•</span>
+              <span>{{ $filters.capitalize(selectedApp.share_type) }}</span>
+            </div>
+          </div>
+          <!-- end::Info -->
         </div>
-        <!-- end::Type & Name -->
+        <!-- end::Main Info -->
 
-        <!-- begin::Status Action -->
-        <div class="d-flex flex-wrap gap-4">
+        <!-- begin::Action -->
+        <div class="d-none d-md-flex gap-4">
           <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
-          <button
-            :disabled="loadings.icon"
-            @click="iconInputClick"
-            class="btn btn-light w-sm-192px"
-          >
+          <button :disabled="loadings.icon" @click="iconInputClick" class="btn btn-light w-140px">
             {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
           </button>
 
@@ -156,13 +171,36 @@ const addCoverFile = async (e) => {
           <button
             :disabled="loadings.banner"
             @click="coverInputClick"
-            class="btn btn-primary w-sm-192px"
+            class="btn btn-primary w-140px"
           >
             {{ loadings.banner ? 'Loading...' : 'Change Cover' }}
           </button>
         </div>
-        <!-- end::Status Action -->
+        <!-- end::Action -->
       </div>
+      <!-- end::Name Action -->
+
+      <!-- begin::Bottom Action -->
+      <div class="bottom-action pt-12 d-flex gap-4 d-md-none">
+        <input type="file" ref="hiddenChangeIconInput" className="d-none" @change="addIconFile" />
+        <button
+          :disabled="loadings.icon"
+          @click="iconInputClick"
+          class="btn btn-sm btn-light w-100"
+        >
+          {{ loadings.icon ? 'Loading...' : 'Change Icon' }}
+        </button>
+
+        <input type="file" ref="hiddenChangeCoverInput" className="d-none" @change="addCoverFile" />
+        <button
+          :disabled="loadings.banner"
+          @click="coverInputClick"
+          class="btn btn-sm btn-primary w-100"
+        >
+          {{ loadings.banner ? 'Loading...' : 'Change Cover' }}
+        </button>
+      </div>
+      <!-- end::Bottom Action -->
     </div>
   </div>
 </template>

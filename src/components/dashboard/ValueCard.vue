@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  image: {
+  color: {
     type: String,
     required: true
   },
@@ -23,22 +23,28 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded">
-    <div class="card-body p-2">
-      <img :src="`/media/images/dashboard/${image}.png`" :alt="title" />
+  <div class="card">
+    
+    <div class="card-body d-flex align-items-center gap-3">
+      <div
+        :class="`w-48px h-48px bg-${color} rounded-1 shadow text-white d-flex align-items-center justify-content-center`"
+      >
+        <inline-svg src="media/icons/icons/plus.svg"></inline-svg>
+      </div>
 
-      <p class="mt-5 mb-2 fs-extra neue-machina text-gray-800 lh-1">
-        <Skeletor class="rounded-0 mw-200px w-100" v-if="loading" />
-        <template v-else> {{ valuePrifix }}{{ value }} </template>
-      </p>
+      <div class="d-flex flex-column justify-content-between flex-grow-1">
+        <p class="mb-2 fs-8 text-gray-600 dark-text-gray-300">
+          <Skeletor class="rounded-0 mw-100px w-100" v-if="loading" />
 
-      <p class="mb-0 text-gray-500">
-        <Skeletor class="rounded-0 mw-100px w-100" v-if="loading" />
-
-        <template v-else>
-          {{ title }}
-        </template>
-      </p>
+          <template v-else>
+            {{ title }}
+          </template>
+        </p>
+        <p class="mb-0 fs-3 text-gray-800 dark-text-gray-200 lh-1 fw-medium">
+          <Skeletor class="rounded-0 mw-200px w-100" v-if="loading" />
+          <template v-else> {{ valuePrifix }}{{ value }} </template>
+        </p>
+      </div>
     </div>
   </div>
 </template>

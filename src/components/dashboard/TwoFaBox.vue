@@ -16,22 +16,28 @@ const currentUser = computed(() => authStore.currentUser)
 
 <template>
   <div class="card border-0 two-fa-card mb-6" v-if="!currentUser.merchant.two_factor_enabled">
-    <div class="card-body pe-md-8">
-      <h1 class="title mt-lg-18 mb-6 text-cyan-500 lh-1">2F Vertification</h1>
+    <div class="card-body d-flex flex-column flex-md-row align-items-center gap-6">
+      <div class="d-flex flex-column flex-md-row align-items-center gap-6 flex-grow-1">
+        <div
+          class="min-w-48px w-48px h-48px bg-primary rounded-1 text-white d-flex align-items-center justify-content-center"
+        >
+          <inline-svg src="/media/icons/icons/lock.svg"></inline-svg>
+        </div>
 
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-4">
-        <p class="info text-white mb-0">
-          Latest clicks/conversions. Where you currently have the logo for merchant, we should
-          instead have a logo that represent the referring traffic sources (ex. Google or Facebook).
-        </p>
+        <div class="text-center text-md-start">
+          <p class="text-dark fw-medium mb-2">Enable Two-Factor Authentication</p>
 
-        <div>
-          <RouterLink :to="{ name: 'settings-privacy' }" class="btn btn-primary w-168px">
-            Active
-            <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
-          </RouterLink>
+          <p class="text-gray-700 dark-text-gray-400 fs-8 mb-0">
+            Secure your account with an extra layer of protection. Enable 2FA to protect your
+            payments and sensitive data.
+          </p>
         </div>
       </div>
+
+      <RouterLink :to="{ name: 'settings-privacy' }" class="btn btn-primary max-content animation">
+        Active Now
+        <inline-svg src="media/icons/icons/arrow-right.svg"></inline-svg>
+      </RouterLink>
     </div>
   </div>
 </template>

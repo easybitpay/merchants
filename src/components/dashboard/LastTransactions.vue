@@ -30,10 +30,9 @@ const list = ref([])
  */
 const convertStatusToColor = (status) => {
   if (status == 0) return 'warning'
-  if (status == 1 || status == 2) return 'gray-500'
+  if (status == 1 || status == 2) return 'gray-600'
   if (status == 10) return 'success'
 }
-
 /**
  * Convert Status Code To Text
  */
@@ -83,21 +82,24 @@ watch(selectedSort, () => {
 
 <template>
   <div class="card">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title mb-0">Your Last Transaction</h6>
+      </div>
+    </div>
+    <!-- end::Header -->
     <div class="card-body">
-      <!-- begin::Header -->
-      <h4 class="neue-machina mb-9 text-gray-900 fw-normal">Your Last Transaction</h4>
-      <!-- end::Header -->
-
       <!-- begin::Table -->
       <div class="table-responsive">
-        <table class="table simple-table">
+        <table class="table simple-table align-middle">
           <thead>
             <tr class="space-icon" lastInvoices-sortable sortable>
-              <th sortKey="id" class="min-w-70px">ID</th>
-              <th sortKey="code" class="min-w-200px">Code</th>
-              <th sortKey="created_at" class="min-w-200px">Date</th>
-              <th sortKey="amount" class="min-w-200px">Amount</th>
-              <th sortKey="status" class="min-w-200px">Status</th>
+              <th sortKey="id" class="min-w-70px">id</th>
+              <th sortKey="code" class="min-w-200px">code</th>
+              <th sortKey="created_at" class="min-w-200px">date</th>
+              <th sortKey="amount" class="min-w-200px">amount</th>
+              <th sortKey="status" class="min-w-200px">status</th>
             </tr>
           </thead>
           <tbody>
@@ -107,20 +109,24 @@ watch(selectedSort, () => {
 
             <template v-else>
               <tr v-for="item in list" :key="item.id">
-                <td>{{ item.id }}</td>
-                <td>{{ item.code }}</td>
+                <td>
+                  <span class="text-primary">#{{ item.id }}</span>
+                </td>
+                <td class="roboto-mono">{{ item.code }}</td>
                 <td>
                   <div class="max-content">
                     {{ convertDate(item.created_at, 'DD.MMM.YYYY - hh:mm') }}
                   </div>
                 </td>
                 <td>
-                  <div class="max-content">{{ item.amount }} {{ item?.baseToken?.symbol }}</div>
+                  <div class="max-content fw-medium">
+                    {{ item.amount }} {{ item?.baseToken?.symbol }}
+                  </div>
                 </td>
                 <td>
-                  <div :class="`max-content text-${convertStatusToColor(item.status)}`">
+                  <span :class="`badge badge-${convertStatusToColor(item.status)}`">
                     {{ convertStatusToText(item.status) }}
-                  </div>
+                  </span>
                 </td>
               </tr>
             </template>
@@ -128,6 +134,10 @@ watch(selectedSort, () => {
         </table>
       </div>
       <!-- end::Table -->
+
+      <div class="mt-10 d-flex justify-content-center" v-if="!loading && !list.length">
+        <inline-svg src="media/images/nothing-to-show.svg"></inline-svg>
+      </div>
     </div>
   </div>
 </template>

@@ -189,9 +189,9 @@ onMounted(() => {
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">App info</h3>
+                <h3 class="mb-0 text-dark">App info</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                   Some info may be visible to other people using Google services.
                 </p>
               </div>
@@ -286,7 +286,7 @@ onMounted(() => {
 
               <!-- begin::Features -->
               <div
-                class="d-flex flex-column gap-4 mt-4 border-top border-gray-200 pt-10 mt-10"
+                class="d-flex flex-column gap-4 mt-4 border-top  pt-10 mt-10"
                 v-if="selectedApp.type == 3"
               >
                 <!-- begin::Item -->
@@ -335,7 +335,7 @@ onMounted(() => {
           <div
             class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
           >
-            <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+            <p class="offcanvas-action-text">
               Latest clicks/conversions. Are you sure?
             </p>
 
@@ -343,7 +343,7 @@ onMounted(() => {
             <div class="d-flex gap-4 w-100 w-sm-initial">
               <button
                 type="button"
-                class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               >

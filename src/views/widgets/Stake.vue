@@ -385,7 +385,7 @@ onMounted(() => {
             </div>
 
             <div class="mb-6" style="width: calc(100% - 40px - 0.5rem)">
-              <h3 class="mb-0 text-gray-900">Stake</h3>
+              <h3 class="mb-0 text-dark">Stake</h3>
 
               <p class="fs-7 mb-0 text-gray-800 ls-base">
                 <span
@@ -415,7 +415,7 @@ onMounted(() => {
               >
                 <!-- begin::Label -->
                 <div>
-                  <label for="coin" class="w-100 w-sm-104px text-gray-900"> Coin </label>
+                  <label for="coin" class="w-100 w-sm-104px text-dark"> Coin </label>
                 </div>
                 <!-- end::Label -->
 
@@ -451,7 +451,7 @@ onMounted(() => {
                 <div>
                   <label
                     for="amount"
-                    class="w-100 w-sm-104px text-gray-900 h-sm-40px d-sm-flex align-items-sm-center"
+                    class="w-100 w-sm-104px text-dark h-sm-40px d-sm-flex align-items-sm-center"
                   >
                     Amount
                   </label>

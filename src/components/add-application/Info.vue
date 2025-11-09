@@ -70,7 +70,7 @@ const showPreview = (file) => {
  * Toggle Color
  * @param {color} color
  */
- const toggleColor = (color) => {
+const toggleColor = (color) => {
   form.value.color = color
 }
 
@@ -142,7 +142,7 @@ onMounted(() => {
 <template>
   <!-- begin::Title -->
   <div class="mb-10 px-6">
-    <h4 class="text-primary mb-2 neue-machina fw-normal">Base information</h4>
+    <h4 class="text-primary mb-2 fw-normal">Base information</h4>
     <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
   </div>
   <!-- begin::Title -->
@@ -187,7 +187,7 @@ onMounted(() => {
 
     <!-- begin::Icon & Banner Card -->
     <div
-      class="card gradient-image-box border-gray-200 mb-13 rounded"
+      class="card gradient-image-box  mb-13 rounded"
       :style="`--background: url(${
         banner ? showPreview(banner) : '/media/images/banner/auth-bg.jpg'
       })`"
@@ -244,7 +244,7 @@ onMounted(() => {
   <!-- begin::Fee Share -->
   <div class="w-100 px-6">
     <div class="mb-10">
-      <h4 class="text-primary mb-2 neue-machina fw-normal">Customer Fee Share</h4>
+      <h4 class="text-primary mb-2 fw-normal">Customer Fee Share</h4>
       <p class="mb-0 ls-base">If you need more info, please check out Help Page.</p>
     </div>
 
@@ -270,7 +270,7 @@ onMounted(() => {
         />
         <span class="range-thumb">
           <span class="merchant"></span>
-          <span class="text-dark mx-2">|</span>
+          <span class="line"></span>
           <span class="user"></span>
         </span>
       </div>

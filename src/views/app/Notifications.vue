@@ -56,7 +56,7 @@ onMounted(() => {
 </script>
 <template>
   <!-- begin::Header -->
-  <h2 class="text-primary fw-normal mb-12 neue-machina">Notifications</h2>
+  <h2 class="text-primary fw-normal mb-12">Notifications</h2>
   <!-- end::Header -->
 
   <!-- begin::text -->
@@ -96,7 +96,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>
@@ -106,13 +106,17 @@ onMounted(() => {
             <!-- begin::Action -->
             <div class="d-flex align-items-center gap-4">
               <!-- begin::Cancel -->
-              <button class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal">
+              <button
+                class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal"
+              >
                 Cancel
               </button>
               <!-- end::Cancel -->
 
               <!-- begin::Delete -->
-              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">Delete</button>
+              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">
+                Delete
+              </button>
               <!-- end::Delete -->
             </div>
             <!-- end::Action -->
@@ -149,7 +153,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>
@@ -159,13 +163,17 @@ onMounted(() => {
             <!-- begin::Action -->
             <div class="d-flex align-items-center gap-4">
               <!-- begin::Cancel -->
-              <button class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal">
+              <button
+                class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal"
+              >
                 Cancel
               </button>
               <!-- end::Cancel -->
 
               <!-- begin::Delete -->
-              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">Delete</button>
+              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">
+                Delete
+              </button>
               <!-- end::Delete -->
             </div>
             <!-- end::Action -->
@@ -202,7 +210,7 @@ onMounted(() => {
               <inline-svg src="media/icons/icons/valid-form.svg"></inline-svg>
 
               <div class="d-flex flex-wrap align-items-end row-gap-2 column-gap-6">
-                <p class="fw-medium fs-7 text-gray-900 mb-0 title">You Joined as partner</p>
+                <p class="fw-medium fs-7 text-dark mb-0 title">You Joined as partner</p>
 
                 <small class="text-gray-500 date"> Yesterday, 07:28 pm </small>
               </div>
@@ -212,13 +220,17 @@ onMounted(() => {
             <!-- begin::Action -->
             <div class="d-flex align-items-center gap-4">
               <!-- begin::Cancel -->
-              <button class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal">
+              <button
+                class="btn btn-sm bg-gray-300 text-danger w-md-104px h-24px ls-base fw-normal"
+              >
                 Cancel
               </button>
               <!-- end::Cancel -->
 
               <!-- begin::Delete -->
-              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">Delete</button>
+              <button class="btn btn-sm btn-danger w-md-104px h-24px ls-base fw-normal">
+                Delete
+              </button>
               <!-- end::Delete -->
             </div>
             <!-- end::Action -->
@@ -243,6 +255,6 @@ onMounted(() => {
   <!-- end::Accordion -->
 
   <!-- begin::Pagination -->
-  <PaginationCard text="All October Notifications"/>
+  <PaginationCard text="All October Notifications" />
   <!-- end::Pagination -->
 </template>

@@ -1,20 +1,28 @@
 .custom-scroll {
+  /* width */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
 
-    /* width */
-    &::-webkit-scrollbar {
-        width: 4px;
-    }
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: $gray-300;
+    width: 2px;
+  }
 
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $primary;
+    border-radius: $border-radius;
+    width: 4px;
+  }
+}
+
+[data-bs-theme='dark'] {
+  .custom-scroll {
     /* Track */
     &::-webkit-scrollbar-track {
-        background: $gray-300;
-        width: 2px;
+      background: $gray-1000;
     }
-
-    /* Handle */
-    &::-webkit-scrollbar-thumb {
-        background: $primary;
-        border-radius: $border-radius;
-        width: 4px;
-    }
+  }
 }

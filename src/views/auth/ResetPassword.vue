@@ -163,7 +163,7 @@ const submitPassword = async () => {
           <!-- begin::Text -->
           <h4 class="my-6 text-dark">Reset Password</h4>
 
-          <p class="text-gray-700 mb-12 ls-base">
+          <p class="text-gray-700 dark-text-gray-400 mb-12 ls-base">
             By signing up, you confirm that you’ve read
             <br />
             and accepted our User Notice and
@@ -292,7 +292,7 @@ const submitPassword = async () => {
             </div>
           </div>
 
-          <div class="mt-4 pt-4 border-top border-gray-200">
+          <div class="mt-4 pt-4 border-top ">
             <p class="text-gray-700 mb-3 ls-base fs-7">
               Enter verification code here.
             </p>

@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router'
 // Store
 import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
+import { useThemeStore } from '@/stores/theme'
 
 // Hook
 import useIconImage from '@/composables/useIconImage'
@@ -34,6 +35,7 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const appStore = useAppStore()
+const themeStore = useThemeStore();
 const { storageImage } = useIconImage()
 
 const sandBoxStatus = computed(() => appStore.sandBoxStatus)
@@ -161,9 +163,9 @@ watch(search, () => {
     <div class="two-side-space w-100">
       <!-- begin::Logo -->
       <router-link :to="{ name: 'dashboard' }">
-        <inline-svg src="media/images/logo/sidebar-main-logo.svg" class="logo"></inline-svg>
+        <inline-svg :src="`media/images/logo/${themeStore.theme}-main-logo.svg`" class="logo"></inline-svg>
         <inline-svg
-          src="media/images/logo/sidebar-collapse-logo.svg"
+          :src="`media/images/logo/${themeStore.theme}-collapse-logo.svg`"
           class="logo-collapse"
         ></inline-svg>
       </router-link>
@@ -204,7 +206,7 @@ watch(search, () => {
                 </div>
                 <!-- end::icon -->
 
-                <span>Applications</span>
+                <span>Gateways</span>
               </router-link>
 
               <!-- begin::icon -->
@@ -306,38 +308,6 @@ watch(search, () => {
         <div class="link-box">
           <!-- begin::Link -->
           <router-link
-            :to="{ name: 'settings' }"
-            :class="[{ link: true }, { active: checkActive('settings') }]"
-          >
-            <!-- begin::icon -->
-            <div>
-              <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
-            </div>
-            <!-- end::icon -->
-
-            <span>Setting</span>
-          </router-link>
-          <!-- end::Link -->
-
-          <!-- begin::Link -->
-          <a
-            href="https://docs.easybitpay.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link"
-          >
-            <!-- begin::icon -->
-            <div>
-              <inline-svg src="media/icons/icons/book.svg" class="icon"></inline-svg>
-            </div>
-            <!-- end::icon -->
-
-            <span>Documentation</span>
-          </a>
-          <!-- end::Link -->
-
-          <!-- begin::Link -->
-          <router-link
             :to="{ name: 'help' }"
             :class="[{ link: true }, { active: checkActive('help') }]"
           >
@@ -347,7 +317,7 @@ watch(search, () => {
             </div>
             <!-- end::icon -->
 
-            <span>Get Help</span>
+            <span>Help Center</span>
           </router-link>
           <!-- end::Link -->
 
@@ -376,6 +346,32 @@ watch(search, () => {
             </span>
           </div>
           <!-- end::SandBox -->
+
+          <!-- begin::Dark Mode -->
+          <div class="link form-check form-switch">
+            <!-- begin::icon -->
+            <div>
+              <inline-svg src="media/icons/icons/settings.svg" class="icon"></inline-svg>
+            </div>
+            <!-- end::icon -->
+
+            <span class="d-flex align-items-center justify-content-between w-100">
+              <div>
+                <label class="form-check-label" for="darkmode"> Dark Mode </label>
+              </div>
+
+              <div>
+                <input
+                  class="form-check-input m-0"
+                  type="checkbox"
+                  role="switch"
+                  id="darkmode"
+                  v-model="themeStore.isDark"
+                />
+              </div>
+            </span>
+          </div>
+          <!-- end::Dark Mode -->
         </div>
         <!-- end::Link Box -->
       </div>
@@ -422,7 +418,7 @@ watch(search, () => {
                   <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
                 </div>
 
-                <span class="fs-6">Lock</span>
+                <span class="fs-8">Lock</span>
               </a>
 
               <a class="item cursor-pointer" @click="signOut">
@@ -430,7 +426,7 @@ watch(search, () => {
                   <div class="w-8px h-8px rounded-circle bg-trasnaprent"></div>
                 </div>
 
-                <span class="fs-6">Sign out</span>
+                <span class="fs-8">Sign out</span>
               </a>
             </div>
           </div>
@@ -465,7 +461,7 @@ watch(search, () => {
                   : '/media/images/banner/auth-bg.jpg'
               "
               :alt="currentUser?.merchant?.first_name"
-              class="w-100 h-100 rounded-circle object-cover"
+              class="w-100 h-100 rounded-1 object-cover"
             />
             <!-- end::Image -->
 
@@ -477,7 +473,7 @@ watch(search, () => {
         </div>
 
         <div>
-          <h6 class="neue-machina fw-light mb-0 lh-1 text-gray-800 name">
+          <h6 class="fw-medium mb-0 lh-1 text-gray-800 dark-text-gray-200 name">
             {{
               $filters.shortenText(
                 `${currentUser?.merchant?.first_name} ${currentUser?.merchant?.last_name}`

@@ -49,20 +49,22 @@ const changeAppColor = async (appColor) => {
 </script>
 <template>
   <!-- begin::App Color -->
-  <div class="mb-12">
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900 d-flex align-items-center gap-3">
-      App color
-      <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
-    </h4>
+  <div class="card mb-6">
+    <!-- begin::Header -->
+    <div class="card-header">
+      <div>
+        <h6 class="title d-flex align-items-center gap-3">
+          App color
+          <span v-if="loading" class="spinner-border spinner-border-sm" role="status"></span>
+        </h6>
 
-    <p class="mb-6 text-gray-800">
-      Some info may be visible to other people using Google services.
-    </p>
-    <!-- end::Title -->
+        <p class="desc">Some info may be visible to other people using Google services.</p>
+      </div>
+    </div>
+    <!-- end::Header -->
 
     <!-- begin::Content -->
-    <div class="d-flex gap-4">
+    <div class="card-body d-flex gap-4">
       <!-- begin::Item -->
       <div
         :class="`w-40px h-40px rounded-1 d-flex align-items-center justify-content-center bg-app-${item}`"

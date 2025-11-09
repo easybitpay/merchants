@@ -127,9 +127,9 @@ onMounted(() => {
             </div>
 
             <div class="mb-10">
-              <h3 class="mb-0 text-gray-900">Connect Telegram</h3>
+              <h3 class="mb-0 text-dark">Connect Telegram</h3>
 
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
+              <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                 Connect your Telegram account for receive notifications
               </p>
             </div>
@@ -204,7 +204,7 @@ onMounted(() => {
       <div class="d-flex gap-4">
         <div class="d-none d-md-flex">
           <div
-            class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+            class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
           >
             <inline-svg
               :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
@@ -215,7 +215,7 @@ onMounted(() => {
           <div
             class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
           >
-            <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+            <p class="offcanvas-action-text">
               Latest clicks/conversions. Are you sure?
             </p>
 
@@ -223,7 +223,7 @@ onMounted(() => {
             <div class="d-flex gap-4 w-100 w-sm-initial">
               <button
                 type="button"
-                class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               >

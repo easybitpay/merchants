@@ -454,7 +454,7 @@ onMounted(() => {
             </div>
 
             <div class="mb-6" style="width: calc(100% - 40px - 0.5rem)">
-              <h3 class="mb-0 text-gray-900">Swap</h3>
+              <h3 class="mb-0 text-dark">Swap</h3>
 
               <p class="fs-7 mb-0 text-gray-800 ls-base">
                 <span
@@ -501,7 +501,7 @@ onMounted(() => {
                 <div>
                   <label
                     for="tokenIn"
-                    class="w-100 w-sm-104px text-gray-900 h-sm-40px d-sm-flex align-items-sm-center"
+                    class="w-100 w-sm-104px text-dark h-sm-40px d-sm-flex align-items-sm-center"
                   >
                     Token In
                   </label>
@@ -566,7 +566,7 @@ onMounted(() => {
                 <div>
                   <label
                     for="tokenOut"
-                    class="w-100 w-sm-104px text-gray-900 h-sm-40px d-sm-flex align-items-sm-center"
+                    class="w-100 w-sm-104px text-dark h-sm-40px d-sm-flex align-items-sm-center"
                   >
                     Token Out
                   </label>

@@ -2,83 +2,167 @@
 // Custom background helpers
 //
 // Background theme light colors
-@each $name,
-$color in $theme-text-colors {
+@each $name, $color in $theme-text-colors {
+  // Base
+  .bg-#{$name} {
+    background-color: $color !important;
+  }
 
-    // Base
-    .bg-#{$name} {
-        background-color: $color !important;
+  // Hover
+  .bg-hover-#{$name} {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color !important;
     }
+  }
 
-    // Hover
-    .bg-hover-#{$name} {
-        cursor: pointer;
-
-        &:hover {
-            background-color: $color !important;
-        }
+  // Active
+  .bg-active-#{$name} {
+    &.active {
+      background-color: $color !important;
     }
+  }
 
-    // Active 
-    .bg-active-#{$name} {
-        &.active {
-            background-color: $color !important;
-        }
-    }
-
-    // Light
-    .bg-light-#{$name} {
-        background-color: lighten($color: $color, $amount: 10);
-    }
+  // Light
+  .bg-light-#{$name} {
+    background-color: lighten($color: $color, $amount: 10);
+  }
 }
 
-@each $name,
-$color in $app-colors {
-    // Base
-    .bg-app-#{$name} {
-        background-color: $color !important;
-    }
+@each $name, $color in $app-colors {
+  // Base
+  .bg-app-#{$name} {
+    background-color: $color !important;
+  }
 }
 
 .gradient-image-box {
-    background: linear-gradient(90deg, #FFF 35.33%, rgba(255, 255, 255, 0.00) 89.34%), var(--background), lightgray 50% / cover no-repeat;
-    background-position: center;
-    background-size: cover;
+  background:
+    linear-gradient(90deg, #fff 35.33%, rgba(255, 255, 255, 0) 89.34%),
+    var(--background),
+    lightgray 50% / cover no-repeat;
+  background-position: center;
+  background-size: cover;
 
-    &.disabled {
-        background-blend-mode: luminosity;
-    }
+  &.disabled {
+    background-blend-mode: luminosity;
+  }
 }
 
 .gradient-loading-box {
-    background: linear-gradient(90deg, #FFF 35.33%, rgba(255, 255, 255, 0.00) 89.34%), lightgray 50% / cover no-repeat;
-    background-position: center;
-    background-size: cover;
+  background:
+    linear-gradient(90deg, #fff 35.33%, rgba(255, 255, 255, 0) 89.34%),
+    lightgray 50% / cover no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .two-fa-card {
-    background: url(/media/images/banner/auth-bg.jpg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+  background: url(/media/images/banner/auth-bg.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
 
-    .card-body {
-        backdrop-filter: grayscale(1);
-
-        .title {
-            font-size: 2rem;
-        }
-
-        .info {
-            max-width: 824px;
-        }
-    }
+  .card-body {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: inherit;
+    border: 1px solid var(--bs-border-color);
+  }
 }
 
 .card-linear-background {
-    background-image: var(--background);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-blend-mode: multiply, normal;
+  background-image: var(--background);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: multiply, normal;
+}
+
+.background-image {
+  background-image: var(--background);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+[data-bs-theme='dark'] {
+  .bg-white {
+    background-color: $gray-900 !important;
+  }
+
+  @each $name, $color in $theme-text-colors {
+    // Base
+    .dark-bg-#{$name} {
+      background-color: $color !important;
+    }
+
+    // Hover
+    .dark-bg-hover-#{$name} {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color !important;
+      }
+    }
+
+    // Active
+    .dark-bg-active-#{$name} {
+      &.active {
+        background-color: $color !important;
+      }
+    }
+
+    // Light
+    .dark-bg-light-#{$name} {
+      background-color: darken($color: $color, $amount: 10);
+    }
+  }
+
+  .two-fa-card {
+    .card-body {
+      background-color: rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  .gradient-image-box {
+    background:
+      linear-gradient(90deg, #000 35.33%, rgba(255, 255, 255, 0) 89.34%),
+      var(--background),
+      lightgray 50% / cover no-repeat;
+  }
+
+  .application-card {
+    .card-body {
+      background-color: rgba(0, 0, 0, 0.8);
+      .info-action-box {
+        .main-info {
+          .info {
+            .name {
+              color: #fff;
+            }
+          }
+        }
+      }
+
+      .infos {
+        .item {
+          .value {
+            color: #fff;
+          }
+          .title {
+            color: $gray-600;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      box-shadow: 0px 38px 30px -39px $gray-800;
+      .card-body {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+    }
+  }
 }

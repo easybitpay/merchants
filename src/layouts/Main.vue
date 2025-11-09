@@ -67,7 +67,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <MainLoading v-if="loading" />
+  
   <div
     :class="[
       { 'main-container': true },
@@ -79,7 +79,8 @@ onMounted(async () => {
     <Sidebar @changeSidebarStatus="changeSidebarStatus" :collapsed="!sidebarStatus" />
 
     <main id="main">
-      <RouterView v-if="!loading" :key="$route.params.id" />
+      <MainLoading v-if="loading" />
+      <RouterView v-else :key="$route.params.id" />
     </main>
   </div>
 

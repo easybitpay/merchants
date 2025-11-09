@@ -206,7 +206,7 @@ onMounted(() => {
                   {{ selectedPartner.first_name }} {{ selectedPartner.last_name }}
                 </h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">
                   Some info may be visible to other people using Google services.
                 </p>
               </div>
@@ -215,7 +215,7 @@ onMounted(() => {
 
             <!-- begin::Content -->
             <!-- begin::Info -->
-            <div class="border-bottom border-gray-200 pb-8 mb-8">
+            <div class="border-bottom  pb-8 mb-8">
               <p class="mb-6 ls-base">
                 By signing up, you confirm that you’ve readand accepted our User Notice and
                 <span class="text-primary">Privacy Policy.</span>
@@ -307,7 +307,7 @@ onMounted(() => {
         <div class="d-flex gap-4">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
             >
               <inline-svg :src="`media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"></inline-svg>
             </div>
@@ -317,7 +317,7 @@ onMounted(() => {
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+              <p class="offcanvas-action-text">
                 {{ form.email }} as {{ $filters.capitalize(form.type) }}
               </p>
 

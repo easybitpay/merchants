@@ -109,16 +109,16 @@ onMounted(() => {
               </div>
 
               <div class="mb-10">
-                <h3 class="mb-0 text-gray-900">Email Verify</h3>
+                <h3 class="mb-0 text-dark">Email Verify</h3>
 
-                <p class="fs-7 mb-0 text-gray-800 ls-base">Email verify authentication</p>
+                <p class="fs-7 mb-0 text-gray-800 dark-text-gray-600 ls-base">Email verify authentication</p>
               </div>
             </div>
             <!-- end::Header -->
 
             <!-- begin::Content -->
             <div>
-              <p class="text-gray-900 ls-base mb-10">
+              <p class="text-dark ls-base mb-10">
                 A 6-digit confirmation code has been sent to {{ currentUser?.merchant?.email }} via Email.
                 <span class="text-primary">
                   <Countdown :showText="false" :emidiate="false" @isRestarted="sendEmail" />
@@ -151,7 +151,7 @@ onMounted(() => {
         <div class="d-flex gap-4">
           <div class="d-none d-md-flex">
             <div
-              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-3 bg-white"
+              class="w-56px h-56px d-flex align-items-center justify-content-center rounded-1 bg-white"
             >
               <inline-svg
                 :src="`/media/icons/shapes/${$filters.shapeStatus('documentation')}.svg`"
@@ -162,7 +162,7 @@ onMounted(() => {
             <div
               class="card-body px-4 py-3 d-flex flex-wrap align-items-center justify-content-between gap-4"
             >
-              <p class="fs-7 mb-0 ls-base text-gray-800 lh-32px">
+              <p class="offcanvas-action-text">
                 Latest clicks/conversions. Are you sure?
               </p>
 
@@ -170,7 +170,7 @@ onMounted(() => {
               <div class="d-flex gap-4 w-100 w-sm-initial">
                 <button
                   type="button"
-                  class="btn btn-sm bg-gray-500 text-white w-100 w-sm-104px h-24px ls-base fw-normal"
+                  class="btn btn-sm btn-light w-100 w-sm-104px h-24px ls-base fw-normal"
                   data-bs-dismiss="offcanvas"
                   aria-label="Close"
                 >

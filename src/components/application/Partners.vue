@@ -90,11 +90,11 @@ watch(partnerListKey, () => {
 </script>
 
 <template>
-  <div class="card border-gray-200 rounded-4 mt-6">
+  <div class="card  rounded-4 mt-6">
     <div class="card-body pb-4">
       <!-- begin::Header -->
       <div class="pb-12 d-flex align-items-center justify-content-between flex-wrap gap-4">
-        <h4 class="roboto-mono mb-0 text-gray-900 d-flex gap-5 fw-normal">
+        <h4 class="roboto-mono mb-0 text-dark d-flex gap-5 fw-normal">
           <inline-svg :src="`/media/icons/shapes/${$filters.shapeStatus('chess-2')}.svg`" height="24" width="15"></inline-svg>
 
           {{ selectedApp.name }} Team

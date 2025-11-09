@@ -1,33 +1,44 @@
-<script setup></script>
+<script setup>
+// Store
+import { useThemeStore } from '@/stores/theme'
+
+// Components
+import PageHeader from '../../../components/globals/PageHeader.vue'
+
+// ----- START ----- //
+
+// Generals
+const themeStore = useThemeStore()
+</script>
 
 <template>
-  <!-- begin::Theme -->
   <div>
-    <!-- begin::Title -->
-    <h4 class="mb-2 lh-1 text-gray-900">Theme</h4>
+    <PageHeader title="Theme" description="Choose your preferred theme" />
 
-    <div class="d-flex align-items-center justify-content-between flex-wrap gap-6">
-      <p class="text-gray-800 mb-0">
-        Choose language - Changes will be applied after restarting the app
-      </p>
-
-      <div class="dropdown">
-        <button
-          class="btn btn-sm dropdown-toggle w-250px justify-content-between border border-gray-200"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          data-bs-offset="0,0"
-        >
-          Dark mode
-        </button>
-        <ul class="dropdown-menu sm-triangle w-100">
-          <li><a class="dropdown-item">Dark mode</a></li>
-          <li><a class="dropdown-item">Light mode</a></li>
-        </ul>
-      </div>
+    <!-- begin::Theme -->
+    <div class="dropdown w-100 mw-400px">
+      <button
+        class="btn dropdown-toggle w-100"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        data-bs-offset="0,0"
+      >
+        {{ $filters.capitalize(themeStore.theme) }} mode
+      </button>
+      <ul class="dropdown-menu triangle w-100">
+        <li @click="themeStore.isDark = true">
+          <a :class="[{ 'dropdown-item': true }, { active: themeStore.theme === 'dark' }]">
+            Dark mode
+          </a>
+        </li>
+        <li @click="themeStore.isDark = false">
+          <a :class="[{ 'dropdown-item': true }, { active: themeStore.theme === 'light' }]">
+            Light mode
+          </a>
+        </li>
+      </ul>
     </div>
-    <!-- end::Title -->
+    <!-- end::Theme -->
   </div>
-  <!-- end::Theme -->
 </template>

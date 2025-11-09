@@ -111,7 +111,7 @@ const openDropdown = () => {
 
     const bsDropdown = Dropdown.getOrCreateInstance(dropdownToggle)
     bsDropdown.toggle()
-  }, 50) 
+  }, 50)
 }
 
 /**
@@ -238,46 +238,21 @@ watch(
 </script>
 
 <template>
-  <div class="card border-cyan-500 mb-6">
-    <div class="card-body">
+  <div class="card mb-6">
+    <div class="card-body p-0">
       <div class="row gy-5">
         <!-- begin::Form Box -->
-        <div class="col-xl-5 d-flex flex-column">
-          <!-- begin::Header -->
-          <div class="d-flex gap-2">
-            <div>
-              <div class="svg-holder">
-                <inline-svg
-                  :src="`/media/icons/shapes/${$filters.shapeStatus('invoice')}.svg`"
-                  height="34"
-                ></inline-svg>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <h3 class="mb-0 text-gray-900">Withdraw Wallet</h3>
-
-              <p class="fs-7 mb-0 text-gray-800 ls-base">
-                Some info may be visible to other people
-              </p>
-            </div>
-          </div>
-          <!-- end::Header -->
-
+        <div class="col-xl-5 order-1 order-xl-0 d-flex">
           <!-- begin::Form -->
           <form
             @submit.prevent="withdraw"
-            class="d-flex flex-column justify-content-between flex-root"
+            class="d-flex flex-column justify-content-between flex-root p-6 pe-lg-0"
           >
             <div>
               <!-- begin::Send -->
-              <div
-                class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center row-gap-2 column-gap-4 mb-8"
-              >
+              <div class="d-flex flex-column align-items-start gap-2">
                 <!-- begin::Label -->
-                <div>
-                  <label for="amount" class="w-100 w-sm-104px text-gray-900"> Amount </label>
-                </div>
+                <label for="amount" class="fs-7 fw-medium label"> Amount </label>
                 <!-- end::Label -->
 
                 <!-- begin::Input Box -->
@@ -285,15 +260,15 @@ watch(
                   <input
                     id="amount"
                     type="number"
-                    class="form-control px-9 cursor-pointer"
-                    placeholder="Amount"
+                    class="form-control form-control-lg fs-1 fw-medium"
+                    placeholder="0.00"
                     v-model="form.amount"
                     readonly
                     @click="openDropdown()"
                   />
 
                   <div
-                    class="invalid-feedback form-control"
+                    class="invalid-feedback form-control form-control-lg"
                     v-if="v$.amount.$errors.length || v$.withdrawTokenId.$errors.length"
                   >
                     <span>
@@ -301,40 +276,41 @@ watch(
                     </span>
                   </div>
 
-                  <!-- begin::Icon -->
-                  <inline-svg
-                    src="media/icons/icons/wireless.svg"
-                    class="position-absolute start-8px"
-                  ></inline-svg>
-                  <!-- end::Icon -->
+                  <div class="position-absolute end-18px d-flex align-items-center gap-3">
+                    <h5 class="m-0 pb-1">
+                      {{ withdrawToken.symbol }}
+                    </h5>
 
-                  <div class="position-absolute end-8px">
-                    <Skeletor size="24px" circle v-if="mainLoading" />
+                    <div>
+                      <Skeletor size="24px" circle v-if="mainLoading" />
 
-                    <CoinDropdown
-                      v-if="!mainLoading && balances.length"
-                      showImage
-                      showCoinNetwork
-                      showBalance
-                      check="id"
-                      :items="balances"
-                      :selected="withdrawToken"
-                      @change="toggleWithdrawToken"
-                    />
+                      <CoinDropdown
+                        v-if="!mainLoading && balances.length"
+                        showImage
+                        showCoinNetwork
+                        showBalance
+                        check="id"
+                        :items="balances"
+                        :selected="withdrawToken"
+                        @change="toggleWithdrawToken"
+                      />
+                    </div>
                   </div>
                 </div>
                 <!-- end::Input Box -->
+
+                <!-- begin::Badge -->
+                <span class="badge badge-primary" v-if="withdrawToken.symbol">
+                  Network: {{ withdrawToken?.network?.name }}
+                </span>
+                <!-- end::Badge -->
               </div>
               <!-- end::Send -->
 
               <!-- begin::Receive Address -->
-              <div
-                class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center row-gap-2 column-gap-4 mb-8"
-              >
+              <div class="d-flex flex-column align-items-start gap-2 mt-6">
                 <!-- begin::Label -->
-                <div>
-                  <label for="address" class="w-100 w-sm-104px text-gray-900"> Address </label>
-                </div>
+                <label for="address" class="fs-7 fw-medium label"> Address </label>
                 <!-- end::Label -->
 
                 <!-- begin::Input Box -->
@@ -342,8 +318,8 @@ watch(
                   <input
                     id="address"
                     type="text"
-                    class="form-control ps-9"
-                    placeholder="Recipient’s address"
+                    class="form-control roboto-mono"
+                    placeholder="Enter recipient's wallet address"
                     v-model="form.receiveAddress"
                     @change="validateAddress"
                   />
@@ -354,13 +330,6 @@ watch(
                   >
                     <span> {{ receiveAddressError }}</span>
                   </div>
-
-                  <!-- begin::Icon -->
-                  <inline-svg
-                    src="media/icons/icons/splite.svg"
-                    class="position-absolute start-8px"
-                  ></inline-svg>
-                  <!-- end::Icon -->
                 </div>
                 <!-- end::Input Box -->
               </div>
@@ -368,7 +337,11 @@ watch(
             </div>
 
             <!-- begin::Submit -->
-            <button type="submit" class="btn btn-primary w-100" :disabled="disableConfirm">
+            <button
+              type="submit"
+              class="btn btn-primary w-100 animation h-45px mt-10"
+              :disabled="disableConfirm"
+            >
               {{ loading ? 'Loading...' : btnText }}
             </button>
             <!-- end::Submit -->
@@ -379,14 +352,25 @@ watch(
 
         <div class="col-xl-7 min-h-300px min-h-lg-432px">
           <div
-            class="card-linear-background rounded h-100 p-4 d-flex flex-column align-item-start justify-content-end text-white fs-7 lh-24px ls-base"
+            class="card-linear-background rounded-1 h-100 p-6 d-flex flex-column align-item-start text-white"
             style="--background: url(/media/images/banner/auth-bg.jpg)"
           >
-            <p class="mb-0">
+            <div
+              class="w-65px h-65px bg-white rounded-1 shadow d-flex align-items-center justify-content-center mb-6"
+            >
+              <inline-svg
+                :src="`/media/icons/shapes/${$filters.shapeStatus('invoice')}.svg`"
+                height="34"
+              ></inline-svg>
+            </div>
+
+            <h3 class="mb-10">Withdraw Wallet</h3>
+
+            <p class="mb-2 fs-7">
               1, Do not withdraw directty to a crowdfund od ICO address, os your account will niot
               be credited with tokens from such sales.
             </p>
-            <p class="mb-0">
+            <p class="mb-0 fs-7">
               2, when withdrawing to the éinance user's address. the handling fee will be returned
               to the Current Account by default,
             </p>
