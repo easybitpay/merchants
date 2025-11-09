@@ -5,7 +5,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 import useIconImage from '@/composables/useIconImage'
 

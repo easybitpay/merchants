@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
-// Hooks
+// Composabless
 import useConvertDate from '@/composables/useConvertDate.js'
 
 // Components

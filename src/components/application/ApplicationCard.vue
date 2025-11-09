@@ -1,5 +1,5 @@
 <script setup>
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 import useConvertDate from '@/composables/useConvertDate'
 import useActionShareAllowed from '@/composables/useActionShareAllowed.js'

@@ -5,7 +5,7 @@ import { computed } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hook
+// Composables
 import useActionShareAllowed from '@/composables/useActionShareAllowed.js'
 
 // Component

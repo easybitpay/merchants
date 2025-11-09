@@ -8,7 +8,7 @@ import { useAppStore } from '@/stores/app'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // ----- START ----- //

@@ -2,7 +2,7 @@
 // Vue
 import { onMounted } from 'vue'
 
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // Store

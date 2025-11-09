@@ -5,7 +5,7 @@ import { onMounted, ref } from 'vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
-// Hooks
+// Composabless
 import useIconImage from '@/composables/useIconImage'
 
 // Components

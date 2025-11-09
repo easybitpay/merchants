@@ -11,7 +11,7 @@ import { useRoute, useRouter } from 'vue-router'
 // Bootstrap
 import { Tooltip } from 'bootstrap'
 
-// Hook
+// Composables
 import useSortTable from '@/composables/useSortTable'
 
 // Component

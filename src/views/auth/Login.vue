@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 
 // Vuelidate

@@ -5,7 +5,7 @@ import { computed } from 'vue'
 // Store
 import { useAuthStore } from '@/stores/auth'
 
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // Components

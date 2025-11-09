@@ -8,7 +8,7 @@ import { useAppStore } from '@/stores/app'
 // Bootstrap
 import { Tooltip } from 'bootstrap'
 
-// Hook
+// Composables
 import useSortTable from '@/composables/useSortTable'
 
 // Components

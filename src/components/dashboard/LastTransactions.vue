@@ -5,7 +5,7 @@ import { onMounted, ref, watch } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hook
+// Composables
 import useSortTable from '@/composables/useSortTable'
 import useConvertDate from '@/composables/useConvertDate'
 

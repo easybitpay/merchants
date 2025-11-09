@@ -8,7 +8,7 @@ import { useConnectWalletStore } from '@/stores/connectWallet'
 // Alert
 import { appendAlert } from '@/assets/js/Alerts'
 
-// Hooks
+// Composabless
 import useForm from '@/composables/useForm.js'
 import useConvertDate from '@/composables/useConvertDate.js'
 import useCallContract from '@/composables/useCallContract.js'

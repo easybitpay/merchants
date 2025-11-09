@@ -5,7 +5,7 @@ import { computed, onMounted, ref } from 'vue'
 // Store
 import { useAppStore } from '@/stores/app'
 
-// Hooks
+// Composabless
 import useIconImage from '@/composables/useIconImage'
 
 // Bootstrap

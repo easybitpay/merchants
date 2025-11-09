@@ -1,5 +1,5 @@
 <script setup>
-// Hook
+// Composables
 import useIconImage from '@/composables/useIconImage'
 
 // Props
